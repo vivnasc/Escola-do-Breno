@@ -9,13 +9,13 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'A Escola do Breno',
-        short_name: 'Escola Breno',
-        description: 'Educacao integral para autonomia',
+        name: 'PITCH - A Escola do Breno',
+        short_name: 'PITCH',
+        description: 'Play. Interact. Think. Challenge. Hone.',
         start_url: '/',
         display: 'standalone',
         orientation: 'portrait',
-        theme_color: '#5B9BD5',
+        theme_color: '#2E7D32',
         background_color: '#FAFAFA',
         icons: [
           {
