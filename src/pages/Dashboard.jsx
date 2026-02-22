@@ -59,7 +59,7 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
     const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
     const campoMeta = [
       { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
-      { id: 'campo2', name: 'Matematica', icon: '🔢' },
+      { id: 'campo2', name: 'Matemática', icon: '🔢' },
       { id: 'campo3', name: 'Descoberta', icon: '🌍' },
       { id: 'campo4', name: 'Autonomia', icon: '🤝' },
     ]
@@ -437,7 +437,7 @@ Gerado automaticamente por PITCH
             const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
             const campoMeta = [
               { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
-              { id: 'campo2', name: 'Matematica', icon: '🔢' },
+              { id: 'campo2', name: 'Matemática', icon: '🔢' },
               { id: 'campo3', name: 'Descoberta', icon: '🌍' },
               { id: 'campo4', name: 'Autonomia', icon: '🤝' },
             ]
