@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { AVATARS } from '../hooks/useProfile'
 import { UNIVERSES } from '../data/universes'
 import { TEAMS, PLAYERS } from '../data/vocabulary'
+import { DIAGNOSTIC_QUESTIONS, calculateStartingLevels, MASTERY_LEVELS, levelToId } from '../data/competencies'
 
 const LEARNING_AREAS = [
   { id: 'reading', emoji: '📖', label: 'Leitura' },
@@ -70,7 +71,24 @@ export default function Intake({ onComplete }) {
   const [prefersSimpleLanguage, setPrefersSimpleLanguage] = useState(false)
   const [needsAudioInstructions, setNeedsAudioInstructions] = useState(true)
 
-  const totalSteps = 9
+  // Diagnostic placement test
+  const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-3 for the 4 campos
+  const [diagnosticQ, setDiagnosticQ] = useState(0)          // 0-2 for 3 questions per campo
+  const [diagnosticResults, setDiagnosticResults] = useState({
+    campo1: [null, null, null],
+    campo2: [null, null, null],
+    campo3: [null, null, null],
+    campo4: [null, null, null],
+  })
+  const [diagnosticDone, setDiagnosticDone] = useState(false)
+
+  // Calculate levels from diagnostic results
+  const detectedLevels = useMemo(() => {
+    if (!diagnosticDone) return null
+    return calculateStartingLevels(diagnosticResults, { age, readingLevel, supportLevel })
+  }, [diagnosticDone, diagnosticResults, age, readingLevel, supportLevel])
+
+  const totalSteps = 10
 
   const handleNext = () => step < totalSteps - 1 && setStep(step + 1)
   const handleBack = () => step > 0 && setStep(step - 1)
@@ -80,6 +98,7 @@ export default function Intake({ onComplete }) {
   }
 
   const handleFinish = () => {
+    const competencyLevels = detectedLevels || { campo1: 1, campo2: 1, campo3: 1, campo4: 1 }
     onComplete({
       name: name.trim() || 'Jogador',
       age,
@@ -100,6 +119,7 @@ export default function Intake({ onComplete }) {
         frustrationSensitivity,
       },
       goals,
+      competencyLevels,
       communication: {
         usesVisualSupports,
         prefersSimpleLanguage,
@@ -111,6 +131,7 @@ export default function Intake({ onComplete }) {
   const canAdvance = () => {
     if (step === 0) return !!filledBy
     if (step === 1) return !!name.trim()
+    if (step === 8) return diagnosticDone
     return true
   }
 
@@ -471,8 +492,39 @@ export default function Intake({ onComplete }) {
           </div>
         )}
 
-        {/* STEP 8: Avatar + Ready */}
+        {/* STEP 8: Diagnostic placement test */}
         {step === 8 && (
+          <DiagnosticStep
+            filledBy={filledBy}
+            diagnosticCampo={diagnosticCampo}
+            diagnosticQ={diagnosticQ}
+            diagnosticResults={diagnosticResults}
+            diagnosticDone={diagnosticDone}
+            detectedLevels={detectedLevels}
+            onAnswer={(campoId, qIdx, correct) => {
+              setDiagnosticResults((prev) => {
+                const copy = { ...prev }
+                copy[campoId] = [...copy[campoId]]
+                copy[campoId][qIdx] = correct
+                return copy
+              })
+              // Advance to next question or next campo
+              const campoIds = ['campo1', 'campo2', 'campo3', 'campo4']
+              if (qIdx < 2) {
+                setDiagnosticQ(qIdx + 1)
+              } else if (diagnosticCampo < 3) {
+                setDiagnosticCampo(diagnosticCampo + 1)
+                setDiagnosticQ(0)
+              } else {
+                setDiagnosticDone(true)
+              }
+            }}
+            onSkipAll={() => setDiagnosticDone(true)}
+          />
+        )}
+
+        {/* STEP 9: Avatar + Ready */}
+        {step === 9 && (
           <div style={styles.stepContent}>
             <h1 style={styles.title}>Escolhe o teu avatar</h1>
             <div style={styles.avatarGrid}>
@@ -557,6 +609,247 @@ function CheckItem({ checked, onChange, label }) {
       <span>{label}</span>
     </button>
   )
+}
+
+const CAMPO_LABELS = [
+  { id: 'campo1', name: 'Linguagem', icon: '🗣️', color: '#1565C0' },
+  { id: 'campo2', name: 'Matematica', icon: '🔢', color: '#E65100' },
+  { id: 'campo3', name: 'Descoberta', icon: '🌍', color: '#2E7D32' },
+  { id: 'campo4', name: 'Autonomia', icon: '🤝', color: '#6A1B9A' },
+]
+
+function DiagnosticStep({
+  filledBy,
+  diagnosticCampo,
+  diagnosticQ,
+  diagnosticResults,
+  diagnosticDone,
+  detectedLevels,
+  onAnswer,
+  onSkipAll,
+}) {
+  const campoIds = ['campo1', 'campo2', 'campo3', 'campo4']
+
+  if (diagnosticDone && detectedLevels) {
+    return (
+      <div style={styles.stepContent}>
+        <span style={styles.bigEmoji}>🎯</span>
+        <h1 style={styles.title}>Niveis detectados!</h1>
+        <p style={styles.desc}>
+          Com base nas respostas, detectamos o nivel inicial para cada area.
+          Isto pode ser ajustado a qualquer momento nas definicoes.
+        </p>
+        <div style={dStyles.resultsGrid}>
+          {CAMPO_LABELS.map((campo) => {
+            const level = detectedLevels[campo.id] || 1
+            const ml = MASTERY_LEVELS[level - 1]
+            return (
+              <div key={campo.id} style={dStyles.resultCard}>
+                <div style={dStyles.resultHeader}>
+                  <span>{campo.icon} {campo.name}</span>
+                  <span style={{ ...dStyles.resultLevel, backgroundColor: campo.color }}>
+                    {ml.emoji} Nv. {level}
+                  </span>
+                </div>
+                <div style={dStyles.resultBar}>
+                  <div style={{
+                    ...dStyles.resultFill,
+                    width: `${(level / 10) * 100}%`,
+                    backgroundColor: campo.color,
+                  }} />
+                </div>
+                <span style={dStyles.resultLabel}>{ml.label} — {ml.description}</span>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    )
+  }
+
+  const campoId = campoIds[diagnosticCampo]
+  const campo = CAMPO_LABELS[diagnosticCampo]
+  const questions = DIAGNOSTIC_QUESTIONS[campoId]
+  const current = questions[diagnosticQ]
+  const totalAnswered = diagnosticCampo * 3 + diagnosticQ
+  const totalQuestions = 12
+
+  return (
+    <div style={styles.stepContent}>
+      <span style={styles.bigEmoji}>🧪</span>
+      <h1 style={styles.title}>Mini-avaliacao</h1>
+      <p style={styles.desc}>
+        {filledBy === 'self'
+          ? 'Responde a estas perguntas rapidas para sabermos por onde comecar. Nao te preocupes se nao souberes!'
+          : 'Perguntas rapidas para detectar o nivel inicial. Pode responder "Nao sei" sem problema.'}
+      </p>
+
+      <div style={dStyles.progressRow}>
+        <span style={dStyles.progressLabel}>
+          {campo.icon} {campo.name}
+        </span>
+        <span style={dStyles.progressCount}>
+          {totalAnswered + 1} / {totalQuestions}
+        </span>
+      </div>
+      <div style={dStyles.progressBar}>
+        <div style={{
+          ...dStyles.progressFill,
+          width: `${((totalAnswered + 1) / totalQuestions) * 100}%`,
+          backgroundColor: campo.color,
+        }} />
+      </div>
+
+      <div style={{ ...dStyles.questionCard, borderColor: campo.color }}>
+        <span style={dStyles.questionEmoji}>{current.emoji}</span>
+        <p style={dStyles.questionText}>{current.question}</p>
+        {current.hint && <p style={dStyles.questionHint}>{current.hint}</p>}
+      </div>
+
+      <div style={dStyles.optionsList}>
+        {current.options.map((opt, i) => (
+          <button
+            key={i}
+            style={{
+              ...dStyles.optionBtn,
+              ...(opt.skip ? dStyles.optionSkip : {}),
+            }}
+            onClick={() => onAnswer(campoId, diagnosticQ, opt.correct)}
+          >
+            {opt.text}
+          </button>
+        ))}
+      </div>
+
+      <button style={dStyles.skipAllBtn} onClick={onSkipAll}>
+        Saltar avaliacao (comecar no nivel 1)
+      </button>
+    </div>
+  )
+}
+
+// Diagnostic-specific styles
+const dStyles = {
+  progressRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  progressLabel: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  progressCount: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  progressBar: {
+    height: '4px',
+    backgroundColor: 'var(--color-border)',
+    borderRadius: '2px',
+    overflow: 'hidden',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: '2px',
+    transition: 'width 0.3s ease',
+  },
+  questionCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-lg)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-lg)',
+    border: '2px solid',
+  },
+  questionEmoji: { fontSize: '3rem' },
+  questionText: {
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: 700,
+    textAlign: 'center',
+  },
+  questionHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    fontStyle: 'italic',
+  },
+  optionsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  optionBtn: {
+    width: '100%',
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-surface)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 600,
+    cursor: 'pointer',
+    textAlign: 'left',
+    fontFamily: 'inherit',
+  },
+  optionSkip: {
+    backgroundColor: 'var(--color-bg)',
+    borderStyle: 'dashed',
+    color: 'var(--color-text-secondary)',
+  },
+  skipAllBtn: {
+    padding: 'var(--space-sm)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: 'var(--color-text-secondary)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    textDecoration: 'underline',
+    alignSelf: 'center',
+  },
+  resultsGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-md)',
+  },
+  resultCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+  },
+  resultHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  resultLevel: {
+    padding: '2px 10px',
+    borderRadius: 'var(--radius-sm)',
+    color: 'white',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+  },
+  resultBar: {
+    height: '6px',
+    backgroundColor: 'var(--color-border)',
+    borderRadius: '3px',
+    overflow: 'hidden',
+  },
+  resultFill: {
+    height: '100%',
+    borderRadius: '3px',
+    transition: 'width 0.6s ease',
+  },
+  resultLabel: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
 }
 
 const styles = {

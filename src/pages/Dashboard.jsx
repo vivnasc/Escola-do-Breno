@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../data/vocabulary'
 import { WORKSHEETS } from '../data/worksheets'
-import { COMPETENCY_AREAS, MASTERY_LEVELS, getCompetencySummary } from '../data/competencies'
+import { COMPETENCY_AREAS, MASTERY_LEVELS, getCompetencySummary, idToLevel } from '../data/competencies'
 
 /**
  * Parent/Therapist Dashboard — real progress monitoring and worksheet review.
@@ -407,37 +407,83 @@ Gerado automaticamente por PITCH
         <div style={styles.section} className="animate-fade-in">
           <h3 style={styles.subTitle}>Mapa de Competencias</h3>
           <p style={styles.sectionDesc}>
-            Progressao por mestria — a crianca avanca quando domina, nao por idade.
+            10 niveis progressivos — a crianca avanca quando domina, nao por idade.
           </p>
-          {Object.entries(getCompetencySummary(progress)).map(([campoId, competencies]) => {
+
+          {/* Starting levels from intake */}
+          {profile?.competencyLevels && (
+            <div style={styles.compStarting}>
+              <p style={styles.compStartingLabel}>Niveis iniciais (detectados no intake):</p>
+              <div style={styles.compStartingGrid}>
+                {[
+                  { id: 'campo1', name: 'Linguagem', icon: '🗣️', color: '#1565C0' },
+                  { id: 'campo2', name: 'Matematica', icon: '🔢', color: '#E65100' },
+                  { id: 'campo3', name: 'Descoberta', icon: '🌍', color: '#2E7D32' },
+                  { id: 'campo4', name: 'Autonomia', icon: '🤝', color: '#6A1B9A' },
+                ].map((c) => {
+                  const lv = profile.competencyLevels[c.id] || 1
+                  const ml = MASTERY_LEVELS[lv - 1]
+                  return (
+                    <div key={c.id} style={styles.compStartingItem}>
+                      <span>{c.icon}</span>
+                      <span style={{ ...styles.compStartingBadge, backgroundColor: c.color }}>
+                        {ml.emoji} {lv}
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+
+          {Object.entries(getCompetencySummary(progress, profile?.competencyLevels)).map(([campoId, competencies]) => {
             const campo = COMPETENCY_AREAS[campoId]
             return (
               <div key={campoId} style={styles.compCampo}>
                 <h4 style={styles.compCampoTitle}>{campo.icon} {campo.name}</h4>
                 {competencies.map((comp) => {
-                  const level = MASTERY_LEVELS.find((l) => l.id === comp.mastery)
+                  const numLevel = comp.numericLevel
+                  const level = MASTERY_LEVELS[numLevel - 1]
                   return (
                     <div key={comp.id} style={styles.compCard}>
                       <div style={styles.compHeader}>
                         <span style={styles.compName}>{comp.name}</span>
-                        <span style={styles.compLevel}>{level.emoji} {level.label}</span>
+                        <span style={styles.compLevel}>{level.emoji} Nv. {numLevel} — {level.label}</span>
                       </div>
                       <p style={styles.compDesc}>{comp.description}</p>
-                      <div style={styles.compMilestones}>
-                        {MASTERY_LEVELS.map((ml) => (
-                          <div
-                            key={ml.id}
-                            style={{
-                              ...styles.compMilestone,
-                              opacity: ml.order <= level.order ? 1 : 0.3,
-                              fontWeight: ml.id === comp.mastery ? 700 : 400,
-                            }}
-                          >
-                            <span>{ml.emoji}</span>
-                            <span style={styles.compMilestoneText}>{comp.milestones[ml.id]}</span>
-                          </div>
-                        ))}
+
+                      {/* 10-level progress bar */}
+                      <div style={styles.compProgressTrack}>
+                        <div style={{
+                          ...styles.compProgressFill,
+                          width: `${(numLevel / 10) * 100}%`,
+                        }} />
+                        <div style={styles.compProgressMarkers}>
+                          {Array.from({ length: 10 }, (_, i) => (
+                            <div
+                              key={i}
+                              style={{
+                                ...styles.compProgressDot,
+                                backgroundColor: i < numLevel ? 'var(--color-primary)' : 'var(--color-border)',
+                              }}
+                            />
+                          ))}
+                        </div>
                       </div>
+
+                      {/* Current & next milestone */}
+                      <div style={styles.compCurrentMilestone}>
+                        <span>{level.emoji}</span>
+                        <span style={styles.compMilestoneText}>{comp.milestones[level.id]}</span>
+                      </div>
+                      {numLevel < 10 && (
+                        <div style={{ ...styles.compCurrentMilestone, opacity: 0.5 }}>
+                          <span>{MASTERY_LEVELS[numLevel].emoji}</span>
+                          <span style={styles.compMilestoneText}>
+                            Proximo: {comp.milestones[MASTERY_LEVELS[numLevel].id]}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )
                 })}
@@ -800,6 +846,36 @@ const styles = {
     transition: 'width 0.6s ease',
   },
   // Competencies
+  compStarting: {
+    padding: 'var(--space-md)',
+    backgroundColor: '#F3E5F5',
+    borderRadius: 'var(--radius-md)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  compStartingLabel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: 'var(--color-text-secondary)',
+  },
+  compStartingGrid: {
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+  compStartingItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+  },
+  compStartingBadge: {
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-sm)',
+    color: 'white',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+  },
   compCampo: {
     display: 'flex',
     flexDirection: 'column',
@@ -825,6 +901,8 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '4px',
   },
   compName: {
     fontWeight: 700,
@@ -841,17 +919,46 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
   },
-  compMilestones: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '4px',
+  compProgressTrack: {
+    position: 'relative',
+    height: '8px',
+    backgroundColor: 'var(--color-border)',
+    borderRadius: '4px',
+    overflow: 'hidden',
     marginTop: 'var(--space-xs)',
   },
-  compMilestone: {
+  compProgressFill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    backgroundColor: 'var(--color-primary)',
+    borderRadius: '4px',
+    transition: 'width 0.6s ease',
+  },
+  compProgressMarkers: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '0 1px',
+  },
+  compProgressDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%',
+    transition: 'background-color 0.3s',
+  },
+  compCurrentMilestone: {
     display: 'flex',
     gap: 'var(--space-xs)',
     alignItems: 'flex-start',
     fontSize: 'var(--font-size-sm)',
+    marginTop: '2px',
   },
   compMilestoneText: {
     lineHeight: 1.3,
