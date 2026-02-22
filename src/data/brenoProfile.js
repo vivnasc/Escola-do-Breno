@@ -7,7 +7,7 @@
 const BRENO_PROFILE = {
   // Identity
   name: 'Breno',
-  age: 8,
+  age: 12,
   avatar: 'lion',
   onboardingComplete: true,
   createdAt: new Date().toISOString(),
@@ -53,6 +53,15 @@ const BRENO_PROFILE = {
     'writing',
   ],
 
+  // Per-campo competency levels (1-10), starting at level 1
+  // Will be adjusted by the intake diagnostic if re-taken
+  competencyLevels: {
+    campo1: 1,
+    campo2: 1,
+    campo3: 1,
+    campo4: 1,
+  },
+
   communication: {
     usesVisualSupports: false,
     prefersSimpleLanguage: true,
@@ -67,6 +76,11 @@ const BRENO_PROFILE = {
   encouragements: [],
   weeklyProgress: {},
   lastWeekReset: null,
+
+  // Worksheets & rewards
+  worksheetSubmissions: [],
+  realRewards: [],
+  claimedRewards: [],
 }
 
 export { BRENO_PROFILE }
