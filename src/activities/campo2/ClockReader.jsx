@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 function generateClockProblem() {
   const hours = Math.floor(Math.random() * 12) + 1
@@ -61,6 +62,7 @@ export default function ClockReader({
   updateCampoProgress,
   adaptive,
 }) {
+  const { speak } = useTTS()
   const choiceCount = adaptive?.choiceCount || 4
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
@@ -68,6 +70,12 @@ export default function ClockReader({
 
   const problem = useMemo(() => generateClockProblem(), [round])
   const isComplete = round >= TOTAL
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(problem.context)
+    }
+  }, [round])
 
   const options = useMemo(() => {
     const correct = problem.display

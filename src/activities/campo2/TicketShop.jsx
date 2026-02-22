@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 function generateProblem(items) {
   const item = items[Math.floor(Math.random() * items.length)]
@@ -23,11 +24,18 @@ export default function TicketShop({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const choiceCount = adaptive?.choiceCount || 4
+  const { speak } = useTTS()
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
   const problem = useMemo(() => generateProblem(content.shop.items), [round, content.shop.items])
+
+  useEffect(() => {
+    if (round < TOTAL) {
+      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto e o troco?`)
+    }
+  }, [round])
 
   const options = useMemo(() => {
     const opts = new Set([problem.change])

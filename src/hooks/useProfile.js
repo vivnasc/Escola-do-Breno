@@ -68,6 +68,8 @@ const DEFAULT_PROFILE = {
   weeklyProgress: {},
   lastWeekReset: null,
   worksheetSubmissions: [],
+  realRewards: [],
+  claimedRewards: [],
 }
 
 function generateId() {
@@ -320,6 +322,77 @@ export function useProfile() {
     [activeId]
   )
 
+  const addRealReward = useCallback(
+    (name, starCost, icon) => {
+      const reward = {
+        id: generateId(),
+        name,
+        starCost: parseInt(starCost, 10) || 5,
+        icon: icon || '🎁',
+        createdAt: new Date().toISOString(),
+      }
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          return { ...p, realRewards: [...(p.realRewards || []), reward] }
+        })
+      )
+      return reward.id
+    },
+    [activeId]
+  )
+
+  const removeRealReward = useCallback(
+    (rewardId) => {
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          return {
+            ...p,
+            realRewards: (p.realRewards || []).filter((r) => r.id !== rewardId),
+          }
+        })
+      )
+    },
+    [activeId]
+  )
+
+  const claimRealReward = useCallback(
+    (rewardId) => {
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          const reward = (p.realRewards || []).find((r) => r.id === rewardId)
+          if (!reward) return p
+          return {
+            ...p,
+            claimedRewards: [
+              ...(p.claimedRewards || []),
+              { ...reward, claimedAt: new Date().toISOString(), confirmed: false },
+            ],
+          }
+        })
+      )
+    },
+    [activeId]
+  )
+
+  const confirmRewardClaim = useCallback(
+    (claimIndex) => {
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          const claims = [...(p.claimedRewards || [])]
+          if (claims[claimIndex]) {
+            claims[claimIndex] = { ...claims[claimIndex], confirmed: true, confirmedAt: new Date().toISOString() }
+          }
+          return { ...p, claimedRewards: claims }
+        })
+      )
+    },
+    [activeId]
+  )
+
   const resetAll = useCallback(() => {
     if (activeId) {
       setProfiles((prev) => prev.filter((p) => p.id !== activeId))
@@ -353,5 +426,9 @@ export function useProfile() {
     resetEverything,
     submitWorksheet,
     reviewWorksheet,
+    addRealReward,
+    removeRealReward,
+    claimRealReward,
+    confirmRewardClaim,
   }
 }

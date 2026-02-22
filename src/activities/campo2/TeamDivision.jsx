@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -28,6 +29,7 @@ export default function TeamDivision({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const choiceCount = adaptive?.choiceCount || 4
+  const { speak } = useTTS()
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -35,6 +37,12 @@ export default function TeamDivision({
   const scenarios = useMemo(() => shuffle(content.division), [content.division])
   const problem = useMemo(() => generateProblem(scenarios), [round, scenarios])
   const answer = problem.total / problem.groups
+
+  useEffect(() => {
+    if (round < TOTAL) {
+      speak(`${problem.context} ${problem.total} a dividir por ${problem.groups}. Quantos ficam em cada grupo?`)
+    }
+  }, [round])
 
   const options = useMemo(() => {
     const opts = new Set([answer])

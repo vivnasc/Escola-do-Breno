@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const FACTS = [
   {
@@ -61,6 +62,7 @@ export default function WorldExplorer({
   updateCampoProgress,
   adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -68,6 +70,12 @@ export default function WorldExplorer({
 
   const current = FACTS[idx]
   const isComplete = idx >= FACTS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.question)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (ans) => {
@@ -77,6 +85,7 @@ export default function WorldExplorer({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowFact(true)
+        speak(current.fact)
       } else {
         registerError()
         setFeedback('tryAgain')

@@ -15,7 +15,10 @@ export default function Layout({ profile }) {
 
   return (
     <div style={styles.container}>
-      <main style={styles.main}>
+      <a href="#main-content" className="skip-link">
+        Saltar para o conteudo
+      </a>
+      <main id="main-content" style={styles.main} role="main">
         <Outlet />
       </main>
       {!isActivity && (
@@ -30,7 +33,7 @@ export default function Layout({ profile }) {
               })}
               end={item.path === '/'}
             >
-              <span style={styles.navIcon}>{item.icon}</span>
+              <span style={styles.navIcon} aria-hidden="true">{item.icon}</span>
               <span style={styles.navLabel}>{item.label}</span>
             </NavLink>
           ))}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../data/vocabulary'
 import { WORKSHEETS } from '../data/worksheets'
@@ -37,6 +37,78 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
     { id: 'campo3', name: 'Descoberta', color: '#2E7D32', icon: '🌍' },
     { id: 'campo4', name: 'Autonomia', color: '#6A1B9A', icon: '🤝' },
   ]
+
+  const handleExportReport = useCallback(() => {
+    const name = profile?.name || 'Aluno'
+    const date = new Date().toLocaleDateString('pt-PT')
+    const areas = (profile?.learningNeeds?.areas || []).join(', ') || 'Nenhuma'
+    const goals = (profile?.goals || []).join(', ') || 'Nenhum'
+
+    const campoLines = campos.map((c) => {
+      const cp = progress?.campoProgress?.[c.id] || { completed: 0, total: 20 }
+      const pct = Math.min(100, Math.round((cp.completed / cp.total) * 100))
+      return `  ${c.icon} ${c.name}: ${pct}% (${cp.completed}/${cp.total})`
+    }).join('\n')
+
+    const vocabLines = wordsByCategory.map((cat) => {
+      return `  ${cat.icon} ${cat.label}: ${cat.learned}/${cat.total}`
+    }).join('\n')
+
+    const report = `
+========================================
+PITCH - Relatorio de Progresso
+========================================
+Aluno: ${name}
+Idade: ${profile?.age || '?'} anos
+Data do relatorio: ${date}
+Universo: ${profile?.universe || 'football'}
+Preenchido por: ${profile?.filledBy || 'pai/mae'}
+
+--- Resumo ---
+Estrelas: ${totalStars}
+Actividades completadas: ${totalActivities}/16
+Palavras aprendidas: ${wordsLearned.length}/${VOCABULARY_WORDS.length}
+Dias consecutivos: ${progress?.streakDays || 0}
+Trofeus: ${progress?.trophies?.length || 0}
+
+--- Progresso por Area ---
+${campoLines}
+
+--- Vocabulario por Categoria ---
+${vocabLines}
+
+--- Perfil de Aprendizagem ---
+Areas de apoio: ${areas}
+Nivel de leitura: ${profile?.learningNeeds?.readingLevel || '?'}
+Nivel de apoio: ${profile?.learningNeeds?.supportLevel || '?'}
+Objectivos: ${goals}
+
+--- Sessoes ---
+Duracao: ${profile?.attention?.sessionLength || 15} minutos
+Sensibilidade a frustracao: ${profile?.attention?.frustrationSensitivity || 'moderada'}
+Lembrete de pausa: ${profile?.attention?.breakReminder ? 'Sim' : 'Nao'}
+
+--- Fichas ---
+Submetidas: ${submissions.length}
+Pendentes: ${pendingSubmissions.length}
+Avaliadas: ${reviewedSubmissions.length}
+${reviewedSubmissions.length > 0 ? 'Media estrelas: ' + (reviewedSubmissions.reduce((s, r) => s + (r.stars || 0), 0) / reviewedSubmissions.length).toFixed(1) : ''}
+
+========================================
+Gerado automaticamente por PITCH
+========================================
+`.trim()
+
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `PITCH_Relatorio_${name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, [profile, progress, totalStars, totalActivities, wordsLearned, submissions, pendingSubmissions, reviewedSubmissions, wordsByCategory, campos])
 
   const handleSubmitReview = () => {
     if (!reviewingSubmission) return
@@ -120,9 +192,18 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
         <button style={styles.backBtn} onClick={() => navigate('/definicoes')}>
           ← Voltar
         </button>
-        <div>
-          <h1 style={styles.pageTitle}>Painel do Educador</h1>
-          <p style={styles.pageDesc}>Progresso do {profile?.name || 'aluno'}</p>
+        <div style={styles.headerRow}>
+          <div>
+            <h1 style={styles.pageTitle}>Painel do Educador</h1>
+            <p style={styles.pageDesc}>Progresso do {profile?.name || 'aluno'}</p>
+          </div>
+          <button
+            style={styles.exportBtn}
+            onClick={handleExportReport}
+            aria-label="Exportar relatorio"
+          >
+            📄 Exportar
+          </button>
         </div>
       </header>
 
@@ -334,6 +415,23 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     gap: 'var(--space-sm)',
+  },
+  headerRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  exportBtn: {
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    color: '#1565C0',
+    border: '1px solid #90CAF9',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    whiteSpace: 'nowrap',
   },
   backBtn: {
     alignSelf: 'flex-start',

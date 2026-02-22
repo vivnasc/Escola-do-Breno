@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const CHALLENGES = [
   {
@@ -79,6 +80,7 @@ export default function RealWorld({
   updateCampoProgress,
   adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -86,6 +88,12 @@ export default function RealWorld({
 
   const current = CHALLENGES[idx]
   const isComplete = idx >= CHALLENGES.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.situation)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (option) => {
@@ -95,6 +103,7 @@ export default function RealWorld({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowTip(true)
+        speak(current.tip)
       } else {
         registerError()
         setFeedback('tryAgain')

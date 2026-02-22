@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 function generateProblem(round, difficulty, mathContent) {
   const ops = difficulty === 1
@@ -72,13 +73,21 @@ export default function GoalMath({
   const difficulty = adaptive?.difficulty || 2
   const content = getContent(adaptive?.universe?.id)
   const mathContent = content.math
+  const { speak } = useTTS()
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
   const problem = useMemo(() => generateProblem(round, difficulty, mathContent), [round, difficulty, mathContent])
+
   const options = useMemo(() => generateOptions(problem.answer, choiceCount), [problem, choiceCount])
   const isComplete = round >= TOTAL_PROBLEMS
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`${problem.a} ${problem.op === '×' ? 'vezes' : problem.op === '+' ? 'mais' : 'menos'} ${problem.b}. ${problem.context}`)
+    }
+  }, [round])
 
   const handleAnswer = useCallback(
     (ans) => {

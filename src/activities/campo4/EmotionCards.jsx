@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -23,6 +24,7 @@ export default function EmotionCards({
   const content = getContent(adaptive?.universe?.id)
   const SITUATIONS = useMemo(() => shuffle(content.emotions), [content.emotions])
 
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showStrategy, setShowStrategy] = useState(false)
@@ -30,6 +32,12 @@ export default function EmotionCards({
 
   const current = SITUATIONS[idx]
   const isComplete = idx >= SITUATIONS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`${current.situation} Que emocao sentes?`)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (emotion) => {
@@ -39,6 +47,7 @@ export default function EmotionCards({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowStrategy(true)
+        speak(current.strategy)
       } else {
         registerError()
         setFeedback('tryAgain')

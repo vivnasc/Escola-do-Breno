@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useTTS } from '../hooks/useTTS'
 import { useEffect } from 'react'
+import VisualTimer from './VisualTimer'
 
 export default function ActivityShell({
   title,
@@ -11,6 +12,9 @@ export default function ActivityShell({
   score,
   total,
   textLevel,
+  timerSeconds,
+  onTimeUp,
+  showTimer = true,
 }) {
   const navigate = useNavigate()
   const { speak } = useTTS()
@@ -34,11 +38,21 @@ export default function ActivityShell({
         >
           ← Voltar
         </button>
-        {score !== undefined && (
-          <span style={styles.score}>
-            {score}/{total}
-          </span>
-        )}
+        <div style={styles.headerRight}>
+          {timerSeconds && showTimer && (
+            <VisualTimer
+              durationSeconds={timerSeconds}
+              onTimeUp={onTimeUp}
+              color={color}
+              size={40}
+            />
+          )}
+          {score !== undefined && (
+            <span style={styles.score}>
+              {score}/{total}
+            </span>
+          )}
+        </div>
       </header>
 
       <h2 style={{ ...styles.title, color }}>{title}</h2>
@@ -72,6 +86,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerRight: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
   },
   backBtn: {
     padding: 'var(--space-sm) var(--space-md)',

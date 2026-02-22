@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 function shuffle(arr) {
   const a = [...arr]
@@ -23,6 +24,7 @@ export default function FairPlay({
   const content = getContent(adaptive?.universe?.id)
   const SCENARIOS = useMemo(() => shuffle(content.fairPlay), [content.fairPlay])
 
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -30,6 +32,12 @@ export default function FairPlay({
 
   const current = SCENARIOS[idx]
   const isComplete = idx >= SCENARIOS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.situation)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (option) => {
@@ -39,6 +47,7 @@ export default function FairPlay({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowLesson(true)
+        speak(current.lesson)
       } else {
         registerError()
         setFeedback('tryAgain')

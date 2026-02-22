@@ -7,10 +7,16 @@ import { UNIVERSES } from '../data/universes'
  * Settings page — edit profile, needs, or reset.
  * Accessible from bottom nav so the parent/therapist can adjust anytime.
  */
-export default function Definicoes({ profile, profiles, updateProfile, resetProfile, deleteProfile }) {
+export default function Definicoes({
+  profile, profiles, updateProfile, resetProfile, deleteProfile,
+  addRealReward, removeRealReward,
+}) {
   const navigate = useNavigate()
   const [showReset, setShowReset] = useState(false)
   const [editSection, setEditSection] = useState(null)
+  const [newRewardName, setNewRewardName] = useState('')
+  const [newRewardStars, setNewRewardStars] = useState('10')
+  const [newRewardIcon, setNewRewardIcon] = useState('🎁')
 
   const universe = UNIVERSES.find((u) => u.id === profile?.universe)
 
@@ -213,6 +219,93 @@ export default function Definicoes({ profile, profiles, updateProfile, resetProf
           </button>
         </section>
       )}
+
+      {/* Real-World Rewards */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>Recompensas Reais</h2>
+        <p style={styles.rewardHint}>
+          Defina premios reais que a crianca pode trocar por estrelas.
+        </p>
+
+        {(profile?.realRewards || []).length > 0 && (
+          <div style={styles.rewardList}>
+            {(profile?.realRewards || []).map((r) => (
+              <div key={r.id} style={styles.rewardItem}>
+                <span style={styles.rewardIcon}>{r.icon}</span>
+                <div style={styles.rewardInfo}>
+                  <span style={styles.rewardName}>{r.name}</span>
+                  <span style={styles.rewardCost}>{r.starCost} estrelas</span>
+                </div>
+                <button
+                  style={styles.rewardRemoveBtn}
+                  onClick={() => removeRealReward?.(r.id)}
+                  aria-label={`Remover ${r.name}`}
+                >
+                  ✕
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <div style={styles.rewardForm}>
+          <div style={styles.rewardFormRow}>
+            <div style={styles.rewardIconPicker}>
+              {['🎁', '🎮', '🍦', '🎬', '🏊', '⚽', '📖', '🎨'].map((icon) => (
+                <button
+                  key={icon}
+                  style={{
+                    ...styles.iconBtn,
+                    ...(newRewardIcon === icon ? styles.iconBtnActive : {}),
+                  }}
+                  onClick={() => setNewRewardIcon(icon)}
+                >
+                  {icon}
+                </button>
+              ))}
+            </div>
+          </div>
+          <input
+            style={styles.rewardInput}
+            type="text"
+            value={newRewardName}
+            onChange={(e) => setNewRewardName(e.target.value)}
+            placeholder="Nome do premio (ex: Ida ao parque)"
+            maxLength={50}
+          />
+          <div style={styles.rewardFormRow}>
+            <span style={styles.needLabel}>Custo em estrelas:</span>
+            <div style={styles.sizeButtons}>
+              {['5', '10', '15', '20', '30'].map((n) => (
+                <button
+                  key={n}
+                  style={{
+                    ...styles.sizeBtn,
+                    ...(newRewardStars === n ? styles.sizeBtnActive : {}),
+                  }}
+                  onClick={() => setNewRewardStars(n)}
+                >
+                  {n}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button
+            style={{
+              ...styles.addRewardBtn,
+              ...(!newRewardName.trim() ? { opacity: 0.4 } : {}),
+            }}
+            onClick={() => {
+              if (!newRewardName.trim()) return
+              addRealReward?.(newRewardName.trim(), newRewardStars, newRewardIcon)
+              setNewRewardName('')
+            }}
+            disabled={!newRewardName.trim()}
+          >
+            + Adicionar premio
+          </button>
+        </div>
+      </section>
 
       {/* Dashboard */}
       <section style={styles.section}>
@@ -548,5 +641,113 @@ const styles = {
     fontFamily: 'inherit',
     backgroundColor: '#C62828',
     color: 'white',
+  },
+  // Real rewards
+  rewardHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.3,
+  },
+  rewardList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  rewardItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: '#FFF8E1',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid #FFD54F',
+  },
+  rewardIcon: {
+    fontSize: '1.5rem',
+    flexShrink: 0,
+  },
+  rewardInfo: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  rewardName: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-sm)',
+  },
+  rewardCost: {
+    fontSize: '0.7rem',
+    color: '#F57F17',
+    fontWeight: 600,
+  },
+  rewardRemoveBtn: {
+    width: '28px',
+    height: '28px',
+    borderRadius: '50%',
+    border: '1px solid #C62828',
+    backgroundColor: 'transparent',
+    color: '#C62828',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontSize: '0.8rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  },
+  rewardForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+  },
+  rewardFormRow: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 'var(--space-sm)',
+    flexWrap: 'wrap',
+  },
+  rewardIconPicker: {
+    display: 'flex',
+    gap: '4px',
+    flexWrap: 'wrap',
+  },
+  iconBtn: {
+    width: '36px',
+    height: '36px',
+    borderRadius: 'var(--radius-sm)',
+    border: '1px solid var(--color-border)',
+    backgroundColor: 'white',
+    cursor: 'pointer',
+    fontSize: '1.2rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  iconBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  rewardInput: {
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    outline: 'none',
+  },
+  addRewardBtn: {
+    padding: 'var(--space-sm)',
+    backgroundColor: '#F57F17',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
   },
 }

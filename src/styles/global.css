@@ -63,6 +63,58 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-full);
 }
 
+/* Accessible focus styles for all interactive elements */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Skip to content link (screen readers + keyboard) */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: 8px 16px;
+  z-index: 10000;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode improvements */
+@media (forced-colors: active) {
+  button {
+    border: 1px solid ButtonText;
+  }
+}
+
+/* Minimum touch target size (44x44px for WCAG 2.5.5) */
+button,
+[role="button"],
+a {
+  min-height: 44px;
+  min-width: 44px;
+}
+
 /* Selection */
 ::selection {
   background: var(--color-primary-light);

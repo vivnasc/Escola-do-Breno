@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const SCENARIOS = [
   {
@@ -73,12 +74,19 @@ export default function WeatherMatch({
   updateCampoProgress,
   adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
   const scenario = SCENARIOS[idx]
   const isComplete = idx >= SCENARIOS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`Vai haver jogo em ${scenario.city}. A temperatura e ${scenario.temp} graus. ${scenario.weather}. Como te deves vestir?`)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (optId) => {

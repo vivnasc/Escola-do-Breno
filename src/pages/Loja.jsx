@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SHOP_CATEGORIES, SHOP_ITEMS } from '../data/shop'
 
-export default function Loja({ profile, progress, purchaseItem, equipItem }) {
+export default function Loja({ profile, progress, purchaseItem, equipItem, claimRealReward }) {
   const [selectedCategory, setSelectedCategory] = useState('celebrations')
   const [purchaseConfirm, setPurchaseConfirm] = useState(null)
   const [justPurchased, setJustPurchased] = useState(null)
@@ -127,6 +127,45 @@ export default function Loja({ profile, progress, purchaseItem, equipItem }) {
           )
         })}
       </div>
+
+      {/* Real-world rewards from parents */}
+      {(profile?.realRewards || []).length > 0 && (
+        <div style={styles.realRewardsSection}>
+          <h2 style={styles.realRewardsTitle}>Premios Reais</h2>
+          <p style={styles.realRewardsDesc}>
+            Troca as tuas estrelas por premios de verdade!
+          </p>
+          <div style={styles.realRewardGrid}>
+            {(profile?.realRewards || []).map((reward) => {
+              const canClaim = currentStars >= reward.starCost
+              const alreadyClaimed = (profile?.claimedRewards || []).some(
+                (c) => c.id === reward.id && !c.confirmed
+              )
+              return (
+                <div key={reward.id} style={styles.realRewardCard}>
+                  <span style={styles.realRewardIcon}>{reward.icon}</span>
+                  <span style={styles.realRewardName}>{reward.name}</span>
+                  <span style={styles.realRewardCost}>⭐ {reward.starCost}</span>
+                  {alreadyClaimed ? (
+                    <span style={styles.realRewardPending}>A espera...</span>
+                  ) : (
+                    <button
+                      style={{
+                        ...styles.realRewardBtn,
+                        ...(!canClaim ? styles.buyBtnDisabled : {}),
+                      }}
+                      onClick={() => canClaim && claimRealReward?.(reward.id)}
+                      disabled={!canClaim}
+                    >
+                      Pedir!
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Purchase confirmation modal */}
       {purchaseConfirm && (
@@ -371,5 +410,70 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-base)',
+  },
+  // Real-world rewards
+  realRewardsSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#FFF8E1',
+    borderRadius: 'var(--radius-md)',
+    border: '2px solid #FFD54F',
+  },
+  realRewardsTitle: {
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: 700,
+    color: '#F57F17',
+  },
+  realRewardsDesc: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  realRewardGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  realRewardCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: 'white',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid #FFD54F',
+  },
+  realRewardIcon: {
+    fontSize: '2rem',
+    flexShrink: 0,
+  },
+  realRewardName: {
+    flex: 1,
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  realRewardCost: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-sm)',
+    color: '#F57F17',
+    marginRight: 'var(--space-sm)',
+  },
+  realRewardBtn: {
+    padding: 'var(--space-xs) var(--space-md)',
+    backgroundColor: '#F57F17',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-sm)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  realRewardPending: {
+    fontSize: 'var(--font-size-sm)',
+    color: '#F57F17',
+    fontWeight: 600,
+    fontStyle: 'italic',
   },
 }

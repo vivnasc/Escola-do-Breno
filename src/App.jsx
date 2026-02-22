@@ -192,6 +192,7 @@ export default function App() {
               progress={progressData.progress}
               purchaseItem={profileData.purchaseItem}
               equipItem={profileData.equipItem}
+              claimRealReward={profileData.claimRealReward}
             />
           } />
           <Route path="/desafios" element={
@@ -207,6 +208,8 @@ export default function App() {
               updateProfile={profileData.updateProfile}
               resetProfile={handleResetProfile}
               deleteProfile={profileData.deleteProfile}
+              addRealReward={profileData.addRealReward}
+              removeRealReward={profileData.removeRealReward}
             />
           } />
 

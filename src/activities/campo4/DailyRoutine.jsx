@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 const ROUTINE_STEPS = [
   { id: 1, text: 'Acordar as 7h', emoji: '⏰', time: '07:00' },
@@ -42,12 +43,19 @@ export default function DailyRoutine({
     s.id === 8 ? { ...s, text: routineContent.step8.text, emoji: routineContent.step8.emoji } : s
   ), [routineContent])
 
+  const { speak } = useTTS()
   const [ordered, setOrdered] = useState([])
   const [remaining, setRemaining] = useState(() => shuffle(STEPS))
   const [feedback, setFeedback] = useState(null)
 
   const nextExpected = STEPS[ordered.length]
   const isComplete = ordered.length === STEPS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`Passo ${ordered.length + 1}. O que vem a seguir?`)
+    }
+  }, [ordered.length])
 
   const handleSelect = useCallback(
     (step) => {
