@@ -4,9 +4,11 @@
  * When Supabase is configured, shows login/register for cloud sync.
  */
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
 export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile, auth }) {
+  const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
   const [email, setEmail] = useState('')
@@ -176,6 +178,21 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
           </div>
         )}
 
+        {/* Public page links */}
+        <div style={styles.publicLinks}>
+          <button style={styles.publicLink} onClick={() => navigate('/landing')}>
+            Sobre o PITCH
+          </button>
+          <span style={styles.publicLinkSep}>|</span>
+          <button style={styles.publicLink} onClick={() => navigate('/faq')}>
+            FAQ
+          </button>
+          <span style={styles.publicLinkSep}>|</span>
+          <button style={styles.publicLink} onClick={() => navigate('/suporte')}>
+            Suporte
+          </button>
+        </div>
+
         <p style={styles.footer}>
           Plataforma de aprendizagem inclusiva para criancas neurodivergentes
         </p>
@@ -328,10 +345,29 @@ const styles = {
     color: 'var(--color-text-secondary)',
     marginTop: '2px',
   },
+  publicLinks: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    marginTop: 'var(--space-md)',
+  },
+  publicLink: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: 'var(--color-primary)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    padding: '4px',
+    textDecoration: 'underline',
+  },
+  publicLinkSep: {
+    color: 'var(--color-border)',
+    fontSize: 'var(--font-size-sm)',
+  },
   footer: {
     fontSize: '0.7rem',
     color: 'var(--color-text-secondary)',
-    marginTop: 'var(--space-lg)',
+    marginTop: 'var(--space-sm)',
     lineHeight: 1.4,
   },
   // Auth styles

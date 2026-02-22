@@ -1,8 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { useState, useCallback, useEffect } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Welcome from './pages/Welcome'
+import Landing from './pages/Landing'
+import FAQ from './pages/FAQ'
+import Suporte from './pages/Suporte'
 import Campo1Bancada from './pages/Campo1Bancada'
 import Campo2Marcador from './pages/Campo2Marcador'
 import Campo3Mundo from './pages/Campo3Mundo'
@@ -48,7 +51,11 @@ import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
-export default function App() {
+// Public routes accessible without a profile
+const PUBLIC_PATHS = ['/landing', '/faq', '/suporte']
+
+function AppContent() {
+  const location = useLocation()
   const [showCalma, setShowCalma] = useState(false)
   const [showIntake, setShowIntake] = useState(false)
   const progressData = useProgress()
@@ -72,6 +79,8 @@ export default function App() {
     const name = profileData.profile?.name
     if (name) {
       document.title = `PITCH - A Escola do ${name}`
+    } else {
+      document.title = 'PITCH - Aprendizagem Inclusiva'
     }
   }, [profileData.profile?.name])
 
@@ -112,7 +121,6 @@ export default function App() {
     if (type === 'intake') {
       setShowIntake(true)
     } else if (type === 'switch') {
-      // Switch profile — go back to welcome
       profileData.switchProfile(null)
     } else {
       profileData.resetAll()
@@ -138,6 +146,18 @@ export default function App() {
     soundEnabled,
   }
 
+  // Public routes: always accessible without a profile
+  const isPublicRoute = PUBLIC_PATHS.includes(location.pathname)
+  if (isPublicRoute) {
+    return (
+      <Routes>
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/suporte" element={<Suporte />} />
+      </Routes>
+    )
+  }
+
   // Show Welcome screen if no active profile
   if (!profileData.profile && !showIntake) {
     return (
@@ -157,7 +177,7 @@ export default function App() {
   }
 
   return (
-    <BrowserRouter>
+    <>
       {showCalma && <BancoDaCalma onClose={handleCloseCalma} />}
       {adaptive.showBreakReminder && (
         <BreakReminder
@@ -167,6 +187,11 @@ export default function App() {
         />
       )}
       <Routes>
+        {/* Public routes also accessible from within the app */}
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/suporte" element={<Suporte />} />
+
         <Route element={<Layout profile={profileData.profile} adaptive={adaptive} />}>
           <Route index element={
             <Home
@@ -277,6 +302,14 @@ export default function App() {
           <Route path="/campo/4/problem-solving" element={<ProblemSolving {...activityProps} />} />
         </Route>
       </Routes>
+    </>
+  )
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   )
 }
