@@ -68,3 +68,22 @@ h1, h2, h3, h4 {
   background: var(--color-primary-light);
   color: white;
 }
+
+/* Print styles for worksheets */
+@media print {
+  .no-print,
+  nav,
+  .no-print * {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  #printable-area {
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+}

@@ -1,18 +1,27 @@
 import { useNavigate } from 'react-router-dom'
 import { CAMPO_INFO } from '../data/activities'
+import { getCurrentChallenges, getDaysUntilReset } from '../data/challenges'
+import { AVATARS } from '../hooks/useProfile'
 import ProgressBar from '../components/ProgressBar'
 
-export default function Home({ progress }) {
+export default function Home({ progress, profile }) {
   const navigate = useNavigate()
   const totalWords = progress.wordsLearned.length
   const totalStars = progress.totalStars
+  const playerName = profile?.name || 'Jogador'
+  const avatarEmoji = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
+  const challenges = getCurrentChallenges()
+  const daysLeft = getDaysUntilReset()
 
   return (
     <div style={styles.container} className="animate-fade-in">
       <header style={styles.header}>
-        <div>
-          <h1 style={styles.title}>PITCH</h1>
-          <p style={styles.subtitle}>Play. Interact. Think. Challenge. Hone.</p>
+        <div style={styles.headerLeft}>
+          <div style={styles.avatarCircle}>{avatarEmoji}</div>
+          <div>
+            <h1 style={styles.greeting}>Ola, {playerName}!</h1>
+            <p style={styles.subtitle}>Pronto para jogar?</p>
+          </div>
         </div>
         <button
           style={styles.streakBadge}
@@ -37,8 +46,53 @@ export default function Home({ progress }) {
           <span style={styles.statValue}>{progress.trophies.length}</span>
           <span style={styles.statLabel}>trofeus</span>
         </div>
+        <div style={styles.stat}>
+          <span style={styles.statValue}>
+            {Object.keys(progress.activitiesCompleted).length}
+          </span>
+          <span style={styles.statLabel}>feitas</span>
+        </div>
       </div>
 
+      {/* Quick Actions */}
+      <section style={styles.quickActions}>
+        <button style={styles.quickBtn} onClick={() => navigate('/fichas')}>
+          <span style={styles.quickIcon}>✏️</span>
+          <span style={styles.quickLabel}>Fichas</span>
+        </button>
+        <button style={styles.quickBtn} onClick={() => navigate('/noticias')}>
+          <span style={styles.quickIcon}>📰</span>
+          <span style={styles.quickLabel}>Noticias</span>
+        </button>
+        <button style={styles.quickBtn} onClick={() => navigate('/comunidade')}>
+          <span style={styles.quickIcon}>🏟️</span>
+          <span style={styles.quickLabel}>Comunidade</span>
+        </button>
+        <button style={styles.quickBtn} onClick={() => navigate('/progresso')}>
+          <span style={styles.quickIcon}>📊</span>
+          <span style={styles.quickLabel}>Progresso</span>
+        </button>
+      </section>
+
+      {/* Weekly Challenge Preview */}
+      <section style={styles.challengePreview}>
+        <div style={styles.challengeHeader}>
+          <h2 style={styles.challengeTitle}>Desafio da Semana</h2>
+          <span style={styles.challengeTimer}>{daysLeft} dias</span>
+        </div>
+        {challenges.slice(0, 2).map((c) => (
+          <div key={c.id} style={styles.challengeRow}>
+            <span style={styles.challengeIcon}>{c.icon}</span>
+            <span style={styles.challengeName}>{c.name}</span>
+            <span style={styles.challengeReward}>+{c.reward} ⭐</span>
+          </div>
+        ))}
+        <button style={styles.challengeMoreBtn} onClick={() => navigate('/desafios')}>
+          Ver todos os desafios →
+        </button>
+      </section>
+
+      {/* 4 Campos */}
       <section style={styles.campos}>
         <h2 style={styles.sectionTitle}>Os 4 Campos</h2>
         <div style={styles.campoGrid}>
@@ -83,24 +137,38 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 'var(--space-xl)',
+    gap: 'var(--space-lg)',
   },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
+    alignItems: 'center',
   },
-  title: {
-    fontSize: 'var(--font-size-3xl)',
+  headerLeft: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+  },
+  avatarCircle: {
+    width: '48px',
+    height: '48px',
+    borderRadius: '50%',
+    backgroundColor: '#E8F5E9',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '1.8rem',
+    border: '2px solid var(--color-primary)',
+  },
+  greeting: {
+    fontSize: 'var(--font-size-xl)',
     fontWeight: 700,
     color: 'var(--color-primary-dark)',
-    letterSpacing: '2px',
   },
   subtitle: {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     fontWeight: 500,
-    marginTop: '2px',
   },
   streakBadge: {
     display: 'flex',
@@ -137,14 +205,102 @@ const styles = {
     alignItems: 'center',
   },
   statValue: {
-    fontSize: 'var(--font-size-xl)',
+    fontSize: 'var(--font-size-lg)',
     fontWeight: 700,
     color: 'var(--color-primary)',
   },
   statLabel: {
-    fontSize: 'var(--font-size-sm)',
+    fontSize: '0.65rem',
     color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
   },
+  // Quick Actions
+  quickActions: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: 'var(--space-sm)',
+  },
+  quickBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+    padding: 'var(--space-sm)',
+    backgroundColor: 'var(--color-surface)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  quickIcon: {
+    fontSize: '1.5rem',
+  },
+  quickLabel: {
+    fontSize: '0.6rem',
+    fontWeight: 600,
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+  },
+  // Challenge Preview
+  challengePreview: {
+    padding: 'var(--space-md)',
+    backgroundColor: '#FFF8E1',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid #FFD54F',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  challengeHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  challengeTitle: {
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: '#F57F17',
+  },
+  challengeTimer: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: '#C62828',
+    backgroundColor: '#FFEBEE',
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-sm)',
+  },
+  challengeRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+  },
+  challengeIcon: {
+    fontSize: '1.2rem',
+  },
+  challengeName: {
+    flex: 1,
+    fontWeight: 500,
+    fontSize: 'var(--font-size-sm)',
+  },
+  challengeReward: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: '#F57F17',
+  },
+  challengeMoreBtn: {
+    alignSelf: 'center',
+    padding: 'var(--space-xs) var(--space-md)',
+    backgroundColor: '#F57F17',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-sm)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    marginTop: 'var(--space-xs)',
+  },
+  // Campos
   campos: {
     display: 'flex',
     flexDirection: 'column',
@@ -173,6 +329,7 @@ const styles = {
     flexDirection: 'column',
     gap: 'var(--space-sm)',
     transition: 'box-shadow var(--transition-speed)',
+    fontFamily: 'inherit',
   },
   campoHeader: {
     display: 'flex',

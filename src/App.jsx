@@ -7,6 +7,12 @@ import Campo2Marcador from './pages/Campo2Marcador'
 import Campo3Mundo from './pages/Campo3Mundo'
 import Campo4Vida from './pages/Campo4Vida'
 import Progress from './pages/Progress'
+import Intake from './pages/Intake'
+import Fichas from './pages/Fichas'
+import Noticias from './pages/Noticias'
+import Comunidade from './pages/Comunidade'
+import Loja from './pages/Loja'
+import Desafios from './pages/Desafios'
 import BancoDaCalma from './components/BancoDaCalma'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
 import DressThePlayer from './activities/campo1/DressThePlayer'
@@ -25,11 +31,13 @@ import FairPlay from './activities/campo4/FairPlay'
 import EmotionCards from './activities/campo4/EmotionCards'
 import RealWorld from './activities/campo4/RealWorld'
 import { useProgress } from './hooks/useProgress'
+import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
 
 export default function App() {
   const [showCalma, setShowCalma] = useState(false)
   const progressData = useProgress()
+  const profileData = useProfile()
 
   const handleFrustration = useCallback(() => {
     setShowCalma(true)
@@ -43,6 +51,10 @@ export default function App() {
     calmDown()
   }, [calmDown])
 
+  const handleOnboardingComplete = useCallback((data) => {
+    profileData.completeOnboarding(data)
+  }, [profileData])
+
   const activityProps = {
     ...progressData,
     registerClick,
@@ -50,17 +62,64 @@ export default function App() {
     registerSuccess,
   }
 
+  // Show onboarding if not completed
+  if (!profileData.profile.onboardingComplete) {
+    return <Intake onComplete={handleOnboardingComplete} />
+  }
+
   return (
     <BrowserRouter>
       {showCalma && <BancoDaCalma onClose={handleCloseCalma} />}
       <Routes>
-        <Route element={<Layout />}>
-          <Route index element={<Home progress={progressData.progress} />} />
+        <Route element={<Layout profile={profileData.profile} />}>
+          <Route index element={
+            <Home
+              progress={progressData.progress}
+              profile={profileData.profile}
+            />
+          } />
           <Route path="/campo/1" element={<Campo1Bancada {...activityProps} />} />
           <Route path="/campo/2" element={<Campo2Marcador {...activityProps} />} />
           <Route path="/campo/3" element={<Campo3Mundo {...activityProps} />} />
           <Route path="/campo/4" element={<Campo4Vida {...activityProps} />} />
-          <Route path="/progresso" element={<Progress progress={progressData.progress} />} />
+          <Route path="/progresso" element={
+            <Progress
+              progress={progressData.progress}
+              profile={profileData.profile}
+            />
+          } />
+          <Route path="/fichas" element={
+            <Fichas
+              profile={profileData.profile}
+              progress={progressData.progress}
+              completeActivity={progressData.completeActivity}
+              addTrophy={progressData.addTrophy}
+            />
+          } />
+          <Route path="/noticias" element={
+            <Noticias profile={profileData.profile} />
+          } />
+          <Route path="/comunidade" element={
+            <Comunidade
+              profile={profileData.profile}
+              progress={progressData.progress}
+              addEncouragement={profileData.addEncouragement}
+            />
+          } />
+          <Route path="/loja" element={
+            <Loja
+              profile={profileData.profile}
+              progress={progressData.progress}
+              purchaseItem={profileData.purchaseItem}
+              equipItem={profileData.equipItem}
+            />
+          } />
+          <Route path="/desafios" element={
+            <Desafios
+              profile={profileData.profile}
+              progress={progressData.progress}
+            />
+          } />
 
           {/* Campo 1 activities */}
           <Route path="/campo/1/vocab-match" element={<VocabularyMatch {...activityProps} />} />

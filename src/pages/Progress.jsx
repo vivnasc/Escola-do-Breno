@@ -1,14 +1,107 @@
+import { useCallback } from 'react'
 import { CAMPO_INFO } from '../data/activities'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../data/vocabulary'
 import ProgressBar from '../components/ProgressBar'
 
-export default function Progress({ progress }) {
+export default function Progress({ progress, profile }) {
   const learnedSet = new Set(progress.wordsLearned)
+  const playerName = profile?.name || 'Jogador'
+
+  const generateReport = useCallback(() => {
+    const date = new Date().toLocaleDateString('pt-PT')
+    const totalActivities = Object.keys(progress.activitiesCompleted).length
+    const totalWords = progress.wordsLearned.length
+
+    const campoDetails = CAMPO_INFO.map((campo) => {
+      const cp = progress.campoProgress[campo.id]
+      const pct = cp.total > 0 ? Math.round((cp.completed / cp.total) * 100) : 0
+      return `  ${campo.icon} ${campo.name} (${campo.subtitle}): ${pct}% completo (${cp.completed}/${cp.total})`
+    }).join('\n')
+
+    const vocabDetails = VOCABULARY_CATEGORIES.map((cat) => {
+      const words = VOCABULARY_WORDS.filter((w) => w.category === cat.id)
+      const learned = words.filter((w) => learnedSet.has(w.id))
+      const learnedWords = learned.map((w) => w.en).join(', ') || 'nenhuma'
+      return `  ${cat.icon} ${cat.labelPt}: ${learned.length}/${words.length} - ${learnedWords}`
+    }).join('\n')
+
+    const trophyList = progress.trophies.length > 0
+      ? progress.trophies.map((t) => `  🏆 ${t.name}`).join('\n')
+      : '  Nenhum trofeu ainda'
+
+    const report = `
+╔══════════════════════════════════════════╗
+║     RELATORIO DE PROGRESSO - PITCH       ║
+║     A Escola do ${playerName.padEnd(24)}║
+╚══════════════════════════════════════════╝
+
+Data: ${date}
+Jogador: ${playerName}
+${profile?.age ? `Idade: ${profile.age} anos` : ''}
+${profile?.favoriteTeam ? `Equipa favorita: ${profile.favoriteTeam}` : ''}
+
+━━━ RESUMO GERAL ━━━
+  📝 Palavras aprendidas: ${totalWords}
+  ⭐ Estrelas ganhas: ${progress.totalStars}
+  🔥 Dias seguidos: ${progress.streakDays}
+  ✅ Actividades completadas: ${totalActivities}/16
+
+━━━ PROGRESSO POR CAMPO ━━━
+${campoDetails}
+
+━━━ VOCABULARIO INGLES ━━━
+${vocabDetails}
+
+━━━ TROFEUS ━━━
+${trophyList}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Gerado por PITCH - Play. Interact. Think. Challenge. Hone.
+${date}
+`.trim()
+
+    // Create and download the report
+    const blob = new Blob([report], { type: 'text/plain;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `PITCH-Relatorio-${playerName}-${new Date().toISOString().split('T')[0]}.txt`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, [progress, profile, playerName, learnedSet])
+
+  const handlePrint = useCallback(() => {
+    window.print()
+  }, [])
 
   return (
     <div style={styles.container} className="animate-fade-in">
-      <h1 style={styles.title}>Progresso</h1>
-      <p style={styles.subtitle}>Ecra para pais e terapeutas</p>
+      <header style={styles.headerRow}>
+        <div>
+          <h1 style={styles.title}>Progresso</h1>
+          <p style={styles.subtitle}>Ecra para pais e terapeutas</p>
+        </div>
+        <div style={styles.exportBtns} className="no-print">
+          <button style={styles.exportBtn} onClick={generateReport}>
+            📥 Exportar
+          </button>
+          <button style={styles.printBtn} onClick={handlePrint}>
+            🖨️ Imprimir
+          </button>
+        </div>
+      </header>
+
+      {profile?.name && (
+        <div style={styles.profileCard}>
+          <span style={styles.profileName}>Jogador: {playerName}</span>
+          {profile.age && <span style={styles.profileDetail}>Idade: {profile.age} anos</span>}
+          {profile.favoriteTeam && (
+            <span style={styles.profileDetail}>Equipa: {profile.favoriteTeam}</span>
+          )}
+        </div>
+      )}
 
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>Resumo</h2>
@@ -111,6 +204,11 @@ const styles = {
     flexDirection: 'column',
     gap: 'var(--space-xl)',
   },
+  headerRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
   title: {
     fontSize: 'var(--font-size-2xl)',
     fontWeight: 700,
@@ -119,7 +217,49 @@ const styles = {
   subtitle: {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
-    marginTop: '-12px',
+    marginTop: '-4px',
+  },
+  exportBtns: {
+    display: 'flex',
+    gap: 'var(--space-xs)',
+  },
+  exportBtn: {
+    padding: 'var(--space-xs) var(--space-sm)',
+    backgroundColor: 'var(--color-primary)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-sm)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  printBtn: {
+    padding: 'var(--space-xs) var(--space-sm)',
+    backgroundColor: 'var(--color-bg)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  profileCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 'var(--radius-md)',
+    borderLeft: '4px solid #1565C0',
+  },
+  profileName: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  profileDetail: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
   },
   section: {
     display: 'flex',

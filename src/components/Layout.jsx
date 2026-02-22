@@ -1,17 +1,18 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { AVATARS } from '../hooks/useProfile'
 
 const navItems = [
   { path: '/', label: 'Inicio', icon: '🏟️' },
-  { path: '/campo/1', label: 'Bancada', icon: '🗣️' },
-  { path: '/campo/2', label: 'Marcador', icon: '🔢' },
-  { path: '/campo/3', label: 'Mundo', icon: '🌍' },
-  { path: '/campo/4', label: 'Vida', icon: '🤝' },
-  { path: '/progresso', label: 'Progresso', icon: '📊' },
+  { path: '/fichas', label: 'Fichas', icon: '✏️' },
+  { path: '/noticias', label: 'Noticias', icon: '📰' },
+  { path: '/desafios', label: 'Desafios', icon: '🎯' },
+  { path: '/loja', label: 'Loja', icon: '🛒' },
 ]
 
-export default function Layout() {
+export default function Layout({ profile }) {
   const location = useLocation()
   const isActivity = location.pathname.split('/').length > 3
+  const avatarEmoji = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
 
   return (
     <div style={styles.container}>
