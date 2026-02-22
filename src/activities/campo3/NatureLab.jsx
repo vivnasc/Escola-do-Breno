@@ -92,6 +92,94 @@ const EXPERIMENTS = [
     ],
     fact: 'A Terra roda como um piao. Quando o nosso lado fica virado para o Sol e dia. Quando fica ao contrario e noite. Uma volta completa demora 24 horas!',
   },
+  {
+    title: 'Gravidade',
+    question: 'Porque e que as coisas caem para o chao?',
+    emoji: '🍎',
+    options: [
+      { text: 'Porque a Terra puxa tudo para si (gravidade)', emoji: '🌍', correct: true },
+      { text: 'Porque o ar empurra para baixo', emoji: '💨', correct: false },
+      { text: 'Porque as coisas querem cair', emoji: '⬇️', correct: false },
+    ],
+    fact: 'A gravidade e a forca que puxa tudo para o centro da Terra. Na Lua, a gravidade e 6 vezes mais fraca — podes saltar muito mais alto!',
+  },
+  {
+    title: 'Fosseis',
+    question: 'O que e um fossil?',
+    emoji: '🦴',
+    options: [
+      { text: 'Restos de seres vivos que viveram ha muito tempo', emoji: '🦕', correct: true },
+      { text: 'Uma pedra bonita', emoji: '💎', correct: false },
+      { text: 'Um tipo de planta', emoji: '🌿', correct: false },
+    ],
+    fact: 'Os fosseis formam-se quando restos de animais ou plantas ficam presos em rochas durante milhoes de anos. E assim que sabemos que os dinossauros existiram!',
+  },
+  {
+    title: 'Vulcoes',
+    question: 'O que sai de um vulcao quando entra em erupcao?',
+    emoji: '🌋',
+    options: [
+      { text: 'Lava, cinzas e gases quentes', emoji: '🔥', correct: true },
+      { text: 'Agua e gelo', emoji: '🧊', correct: false },
+      { text: 'Areia e pedras frias', emoji: '🪨', correct: false },
+    ],
+    fact: 'A lava e rocha derretida que vem do interior da Terra. Pode atingir 1.200 graus! Existem cerca de 1.500 vulcoes activos no mundo.',
+  },
+  {
+    title: 'Insectos',
+    question: 'Quantas patas tem um insecto?',
+    emoji: '🐛',
+    options: [
+      { text: '6 patas', emoji: '🐜', correct: true },
+      { text: '4 patas', emoji: '🐕', correct: false },
+      { text: '8 patas', emoji: '🕷️', correct: false },
+    ],
+    fact: 'Todos os insectos tem 6 patas. As aranhas tem 8 patas e NAO sao insectos — sao aracnideos! As formigas conseguem carregar 50 vezes o seu peso.',
+  },
+  {
+    title: 'Reciclagem',
+    question: 'Porque e importante reciclar?',
+    emoji: '♻️',
+    options: [
+      { text: 'Para proteger a natureza e reutilizar materiais', emoji: '🌍', correct: true },
+      { text: 'Porque o lixo e bonito', emoji: '✨', correct: false },
+      { text: 'Nao e importante', emoji: '❌', correct: false },
+    ],
+    fact: 'Reciclar uma lata de aluminio poupa energia suficiente para alimentar uma TV durante 3 horas! Cada pessoa pode fazer a diferenca.',
+  },
+  {
+    title: 'Estacoes do Ano',
+    question: 'Porque existem estacoes do ano?',
+    emoji: '🍂',
+    options: [
+      { text: 'Porque a Terra e inclinada enquanto roda a volta do Sol', emoji: '🌍', correct: true },
+      { text: 'Porque o Sol muda de tamanho', emoji: '☀️', correct: false },
+      { text: 'Porque a Terra se afasta do Sol', emoji: '🚀', correct: false },
+    ],
+    fact: 'O eixo da Terra e inclinado 23.5 graus. Quando o teu hemisferio esta inclinado para o Sol, e verao. Quando esta inclinado para o outro lado, e inverno!',
+  },
+  {
+    title: 'Magnetismo',
+    question: 'O que e que um iman atrai?',
+    emoji: '🧲',
+    options: [
+      { text: 'Objectos de ferro e aco', emoji: '🔩', correct: true },
+      { text: 'Tudo o que existe', emoji: '🌍', correct: false },
+      { text: 'Apenas papel e madeira', emoji: '📄', correct: false },
+    ],
+    fact: 'Os imans atraem metais como ferro e aco. A Terra tambem e um iman gigante — e por isso que a bussola aponta para o norte!',
+  },
+  {
+    title: 'Electricidade',
+    question: 'O que faz uma lampada acender?',
+    emoji: '💡',
+    options: [
+      { text: 'Electricidade a passar pelo filamento', emoji: '⚡', correct: true },
+      { text: 'O ar dentro da lampada', emoji: '💨', correct: false },
+      { text: 'O vidro da lampada', emoji: '🔮', correct: false },
+    ],
+    fact: 'A electricidade e o movimento de particulas minusculas chamadas electroes. Viajam a velocidades incriveis nos fios electricos!',
+  },
 ]
 
 export default function NatureLab({
@@ -141,7 +229,7 @@ export default function NatureLab({
     setIdx(next)
     updateCampoProgress('campo3', next + 20)
     if (next >= EXPERIMENTS.length) {
-      completeActivity('nature-lab', score >= 7 ? 3 : score >= 5 ? 2 : 1)
+      completeActivity('nature-lab', score >= 13 ? 3 : score >= 9 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

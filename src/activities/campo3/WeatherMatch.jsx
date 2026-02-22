@@ -64,6 +64,66 @@ const SCENARIOS = [
       { id: 'normal', label: 'Roupa normal', emoji: '👔' },
     ],
   },
+  {
+    city: 'Toquio',
+    temp: 15,
+    weather: 'Fresco e nublado',
+    weatherEmoji: '🌥️',
+    correctKit: 'normal',
+    options: [
+      { id: 'normal', label: 'Camisola manga comprida e calcas', emoji: '👔👖' },
+      { id: 'pesado', label: 'Casaco de inverno e gorro', emoji: '🧥🧢' },
+      { id: 'leve', label: 'T-shirt e calcoes', emoji: '👕🩳' },
+    ],
+  },
+  {
+    city: 'Cairo',
+    temp: 38,
+    weather: 'Quente e seco',
+    weatherEmoji: '🌞',
+    correctKit: 'deserto',
+    options: [
+      { id: 'deserto', label: 'Roupa leve, chapeu e muita agua', emoji: '👕🧢💧' },
+      { id: 'chuva', label: 'Casaco impermeavel', emoji: '🧥' },
+      { id: 'pesado', label: 'Casaco grosso', emoji: '🧥🧣' },
+    ],
+  },
+  {
+    city: 'Maputo',
+    temp: 28,
+    weather: 'Quente e humido',
+    weatherEmoji: '🌤️',
+    correctKit: 'tropical',
+    options: [
+      { id: 'tropical', label: 'Roupa leve de algodao e agua', emoji: '👕💧' },
+      { id: 'neve', label: 'Roupa para neve', emoji: '⛷️' },
+      { id: 'pesado', label: 'Casaco comprido', emoji: '🧥' },
+    ],
+  },
+  {
+    city: 'Reiquiavique',
+    temp: 2,
+    weather: 'Frio e vento',
+    weatherEmoji: '🌬️',
+    correctKit: 'vento',
+    options: [
+      { id: 'vento', label: 'Casaco corta-vento, gorro e luvas', emoji: '🧥🧤🧢' },
+      { id: 'leve', label: 'T-shirt e chinelos', emoji: '👕🩴' },
+      { id: 'normal', label: 'Camisa manga curta', emoji: '👔' },
+    ],
+  },
+  {
+    city: 'Mumbai',
+    temp: 30,
+    weather: 'Chuva de moncao',
+    weatherEmoji: '⛈️',
+    correctKit: 'moncao',
+    options: [
+      { id: 'moncao', label: 'Impermeavel e sandalia resistente a agua', emoji: '🧥🩴' },
+      { id: 'neve', label: 'Roupa para neve', emoji: '⛷️' },
+      { id: 'seco', label: 'Roupa de algodao normal', emoji: '👕' },
+    ],
+  },
 ]
 
 export default function WeatherMatch({
@@ -109,7 +169,7 @@ export default function WeatherMatch({
     setIdx(next)
     updateCampoProgress('campo3', next + 14)
     if (next >= SCENARIOS.length) {
-      completeActivity('weather-match', score >= 4 ? 3 : score >= 2 ? 2 : 1)
+      completeActivity('weather-match', score >= 8 ? 3 : score >= 5 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

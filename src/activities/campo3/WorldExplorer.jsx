@@ -52,6 +52,48 @@ const FACTS = [
     correct: 'Argentina',
     fact: 'Buenos Aires e a capital da Argentina, terra de Maradona e Messi!',
   },
+  {
+    question: 'Qual e o deserto mais quente do mundo?',
+    options: ['Sahara', 'Gobi', 'Atacama', 'Kalahari'],
+    correct: 'Sahara',
+    fact: 'O Sahara fica em Africa e e quase tao grande como a China! Temperaturas chegam a 58 graus.',
+  },
+  {
+    question: 'Que lingua se fala em Mocambique?',
+    options: ['Portugues', 'Espanhol', 'Frances', 'Ingles'],
+    correct: 'Portugues',
+    fact: 'Mocambique fala portugues e e banhado pelo Oceano Indico. Maputo e a capital!',
+  },
+  {
+    question: 'Qual e a montanha mais alta do mundo?',
+    options: ['Evereste', 'Kilimanjaro', 'Aconcagua', 'Mont Blanc'],
+    correct: 'Evereste',
+    fact: 'O Monte Evereste tem 8.849 metros e fica entre o Nepal e a China!',
+  },
+  {
+    question: 'Que pais tem a forma de uma bota?',
+    options: ['Italia', 'Portugal', 'Grecia', 'Croacia'],
+    correct: 'Italia',
+    fact: 'A Italia tem forma de bota e e famosa por pizza, pasta e futebol! Roma e a capital.',
+  },
+  {
+    question: 'Em que continente vivem os pinguins selvagens?',
+    options: ['Antartida', 'Europa', 'Asia', 'America do Norte'],
+    correct: 'Antartida',
+    fact: 'A Antartida e o continente mais frio. Ninguem vive la permanentemente, so cientistas!',
+  },
+  {
+    question: 'Qual e o rio mais comprido do mundo?',
+    options: ['Nilo', 'Amazonas', 'Yangtze', 'Mississippi'],
+    correct: 'Nilo',
+    fact: 'O Nilo tem cerca de 6.650 km e atravessa 11 paises de Africa!',
+  },
+  {
+    question: 'Em que pais fica a Grande Muralha?',
+    options: ['China', 'India', 'Japao', 'Russia'],
+    correct: 'China',
+    fact: 'A Grande Muralha da China tem mais de 21.000 km! Foi construida ao longo de 2.000 anos.',
+  },
 ]
 
 export default function WorldExplorer({
@@ -101,7 +143,7 @@ export default function WorldExplorer({
     setIdx(next)
     updateCampoProgress('campo3', next + 10)
     if (next >= FACTS.length) {
-      completeActivity('world-explorer', score >= 6 ? 3 : score >= 4 ? 2 : 1)
+      completeActivity('world-explorer', score >= 13 ? 3 : score >= 9 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

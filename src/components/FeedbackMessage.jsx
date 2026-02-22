@@ -1,13 +1,15 @@
 import { useEffect, useMemo } from 'react'
 import { useTTS } from '../hooks/useTTS'
+import { useSoundEffects } from '../hooks/useSoundEffects'
 
 const DEFAULT_MESSAGES = {
   success: ['Muito bem!', 'Excelente!', 'Fantastico!'],
   tryAgain: ['Quase! Tenta de novo.', 'Boa tentativa! Tenta outra vez.', 'Quase la! Experimenta de novo.'],
 }
 
-export default function FeedbackMessage({ type, visible, onDismiss, universe }) {
+export default function FeedbackMessage({ type, visible, onDismiss, universe, soundEnabled = true }) {
   const { speak } = useTTS()
+  const sfx = useSoundEffects(soundEnabled)
 
   const messages = useMemo(() => {
     if (!type) return DEFAULT_MESSAGES.tryAgain
@@ -26,13 +28,19 @@ export default function FeedbackMessage({ type, visible, onDismiss, universe }) 
 
   useEffect(() => {
     if (visible) {
+      // Play sound effect BEFORE TTS
+      if (isSuccess) {
+        sfx.success()
+      } else {
+        sfx.error()
+      }
       speak(message)
       if (isSuccess) {
         const timer = setTimeout(() => onDismiss?.(), 1500)
         return () => clearTimeout(timer)
       }
     }
-  }, [visible, message, speak, isSuccess, onDismiss])
+  }, [visible, message, speak, isSuccess, onDismiss, sfx])
 
   if (!visible) return null
 
