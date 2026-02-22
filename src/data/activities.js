@@ -79,6 +79,14 @@ export const CAMPO1_ACTIVITIES = [
     type: 'read-score',
     difficulty: 2,
   },
+  {
+    id: 'phonics',
+    name: 'Sons e Letras',
+    description: 'Associa letras a sons e descobre palavras.',
+    icon: '🔤',
+    type: 'phonics',
+    difficulty: 1,
+  },
 ]
 
 export const CAMPO2_ACTIVITIES = [
@@ -113,6 +121,14 @@ export const CAMPO2_ACTIVITIES = [
     icon: '🎫',
     type: 'ticket-shop',
     difficulty: 3,
+  },
+  {
+    id: 'patterns',
+    name: 'Padroes e Sequencias',
+    description: 'Descobre o padrao e continua a sequencia.',
+    icon: '🧩',
+    type: 'patterns',
+    difficulty: 1,
   },
 ]
 
@@ -149,6 +165,14 @@ export const CAMPO3_ACTIVITIES = [
     type: 'weather-match',
     difficulty: 1,
   },
+  {
+    id: 'nature-lab',
+    name: 'Laboratorio Natural',
+    description: 'Descobre como funciona a natureza e a ciencia.',
+    icon: '🔬',
+    type: 'nature-lab',
+    difficulty: 2,
+  },
 ]
 
 export const CAMPO4_ACTIVITIES = [
@@ -182,6 +206,14 @@ export const CAMPO4_ACTIVITIES = [
     description: 'Pratica habilidades para o dia-a-dia.',
     icon: '🏙️',
     type: 'real-world',
+    difficulty: 2,
+  },
+  {
+    id: 'problem-solving',
+    name: 'Resolver Problemas',
+    description: 'Pensa criticamente e resolve situacoes da vida.',
+    icon: '🧠',
+    type: 'problem-solving',
     difficulty: 2,
   },
 ]

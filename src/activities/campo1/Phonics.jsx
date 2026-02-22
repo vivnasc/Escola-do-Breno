@@ -1,0 +1,277 @@
+import { useState, useCallback, useMemo, useEffect } from 'react'
+import ActivityShell from '../../components/ActivityShell'
+import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
+
+const LETTERS = [
+  { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maca', 'formiga'], emoji: '🍎' },
+  { letter: 'B', sound: 'buh', words: ['ball', 'bird'], wordsPt: ['bola', 'passaro'], emoji: '⚽' },
+  { letter: 'C', sound: 'kuh', words: ['cat', 'car'], wordsPt: ['gato', 'carro'], emoji: '🐱' },
+  { letter: 'D', sound: 'duh', words: ['dog', 'door'], wordsPt: ['cao', 'porta'], emoji: '🐕' },
+  { letter: 'E', sound: 'eh', words: ['egg', 'elephant'], wordsPt: ['ovo', 'elefante'], emoji: '🥚' },
+  { letter: 'F', sound: 'fuh', words: ['fish', 'flower'], wordsPt: ['peixe', 'flor'], emoji: '🐟' },
+  { letter: 'G', sound: 'guh', words: ['goat', 'green'], wordsPt: ['cabra', 'verde'], emoji: '🐐' },
+  { letter: 'H', sound: 'huh', words: ['hat', 'house'], wordsPt: ['chapeu', 'casa'], emoji: '🏠' },
+  { letter: 'L', sound: 'luh', words: ['lion', 'leaf'], wordsPt: ['leao', 'folha'], emoji: '🦁' },
+  { letter: 'M', sound: 'muh', words: ['moon', 'mouse'], wordsPt: ['lua', 'rato'], emoji: '🌙' },
+  { letter: 'S', sound: 'sss', words: ['sun', 'star'], wordsPt: ['sol', 'estrela'], emoji: '☀️' },
+  { letter: 'T', sound: 'tuh', words: ['tree', 'train'], wordsPt: ['arvore', 'comboio'], emoji: '🌳' },
+]
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+export default function Phonics({
+  registerClick,
+  registerError,
+  registerSuccess,
+  completeActivity,
+  updateCampoProgress,
+  adaptive,
+}) {
+  const { speak, speakEn } = useTTS()
+  const choiceCount = adaptive?.choiceCount || 3
+  const rounds = adaptive?.difficulty === 1 ? 6 : adaptive?.difficulty === 3 ? 12 : 8
+  const items = useMemo(() => shuffle(LETTERS).slice(0, rounds), [rounds])
+  const [idx, setIdx] = useState(0)
+  const [score, setScore] = useState(0)
+  const [feedback, setFeedback] = useState(null)
+  const [phase, setPhase] = useState('sound') // 'sound' | 'word'
+
+  const current = items[idx]
+  const isComplete = idx >= items.length
+
+  useEffect(() => {
+    if (!isComplete && current) {
+      if (phase === 'sound') {
+        speak(`Que letra faz o som "${current.sound}"?`)
+        setTimeout(() => speakEn(current.sound), 1200)
+      } else {
+        speakEn(`${current.words[0]}`)
+        speak(`Que palavra comeca com ${current.letter}?`)
+      }
+    }
+  }, [idx, phase])
+
+  const soundOptions = useMemo(() => {
+    if (!current || phase !== 'sound') return []
+    const others = LETTERS.filter((l) => l.letter !== current.letter)
+    const distractors = shuffle(others).slice(0, choiceCount - 1)
+    return shuffle([current, ...distractors])
+  }, [current, phase, choiceCount])
+
+  const wordOptions = useMemo(() => {
+    if (!current || phase !== 'word') return []
+    const others = LETTERS.filter((l) => l.letter !== current.letter)
+    const distractors = shuffle(others)
+      .slice(0, choiceCount - 1)
+      .map((l) => ({ word: l.words[0], wordPt: l.wordsPt[0], emoji: l.emoji, letter: l.letter }))
+    return shuffle([
+      { word: current.words[0], wordPt: current.wordsPt[0], emoji: current.emoji, letter: current.letter },
+      ...distractors,
+    ])
+  }, [current, phase, choiceCount])
+
+  const handleSoundAnswer = useCallback(
+    (letter) => {
+      registerClick()
+      if (letter.letter === current.letter) {
+        registerSuccess()
+        setFeedback('success')
+        speak(`Muito bem! ${current.letter} faz "${current.sound}"`)
+      } else {
+        registerError()
+        setFeedback('tryAgain')
+      }
+    },
+    [current, registerClick, registerSuccess, registerError, speak]
+  )
+
+  const handleWordAnswer = useCallback(
+    (opt) => {
+      registerClick()
+      if (opt.letter === current.letter) {
+        registerSuccess()
+        setScore((s) => s + 1)
+        setFeedback('success')
+        speakEn(opt.word)
+      } else {
+        registerError()
+        setFeedback('tryAgain')
+      }
+    },
+    [current, registerClick, registerSuccess, registerError, speakEn]
+  )
+
+  const handleNext = useCallback(() => {
+    setFeedback(null)
+    if (phase === 'sound') {
+      setPhase('word')
+    } else {
+      setPhase('sound')
+      const next = idx + 1
+      setIdx(next)
+      updateCampoProgress('campo1', next + 20)
+      if (next >= items.length) {
+        completeActivity('phonics', score >= items.length * 0.8 ? 3 : score >= items.length * 0.5 ? 2 : 1)
+      }
+    }
+  }, [idx, phase, score, items.length, completeActivity, updateCampoProgress])
+
+  if (isComplete) {
+    return (
+      <ActivityShell title="Sons e Letras" backPath="/campo/1" color="var(--color-campo1)">
+        <div style={styles.complete}>
+          <span style={styles.completeEmoji}>🔤</span>
+          <p style={styles.completeText}>Aprendeste {score} sons!</p>
+        </div>
+      </ActivityShell>
+    )
+  }
+
+  return (
+    <ActivityShell
+      title="Sons e Letras"
+      instruction={phase === 'sound' ? `Que letra faz "${current.sound}"?` : `Que palavra comeca com ${current.letter}?`}
+      backPath="/campo/1"
+      color="var(--color-campo1)"
+      score={score}
+      total={items.length}
+      textLevel={adaptive?.textLevel}
+    >
+      {phase === 'sound' ? (
+        <>
+          <div style={styles.soundCard}>
+            <button style={styles.soundBtn} onClick={() => speakEn(current.sound)}>
+              🔊 "{current.sound}"
+            </button>
+          </div>
+          <div style={styles.optionsGrid}>
+            {soundOptions.map((opt) => (
+              <button
+                key={opt.letter}
+                style={styles.letterBtn}
+                onClick={() => handleSoundAnswer(opt)}
+                disabled={feedback !== null}
+              >
+                {opt.letter}
+              </button>
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <div style={styles.letterDisplay}>
+            <span style={styles.bigLetter}>{current.letter}</span>
+          </div>
+          <div style={styles.optionsList}>
+            {wordOptions.map((opt) => (
+              <button
+                key={opt.word}
+                style={styles.wordBtn}
+                onClick={() => handleWordAnswer(opt)}
+                disabled={feedback !== null}
+              >
+                <span style={styles.wordEmoji}>{opt.emoji}</span>
+                <span>{opt.word}</span>
+                <span style={styles.wordPt}>({opt.wordPt})</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <FeedbackMessage
+        type={feedback}
+        visible={feedback !== null}
+        onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
+      />
+    </ActivityShell>
+  )
+}
+
+const styles = {
+  soundCard: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 'var(--space-xl)',
+  },
+  soundBtn: {
+    padding: 'var(--space-lg) var(--space-2xl)',
+    fontSize: 'var(--font-size-2xl)',
+    fontWeight: 700,
+    backgroundColor: '#E3F2FD',
+    border: '3px solid var(--color-campo1)',
+    borderRadius: 'var(--radius-lg)',
+    cursor: 'pointer',
+  },
+  optionsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
+    gap: 'var(--space-md)',
+  },
+  letterBtn: {
+    padding: 'var(--space-xl)',
+    fontSize: '2.5rem',
+    fontWeight: 700,
+    backgroundColor: 'var(--color-surface)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    textAlign: 'center',
+  },
+  letterDisplay: {
+    display: 'flex',
+    justifyContent: 'center',
+    padding: 'var(--space-lg)',
+  },
+  bigLetter: {
+    fontSize: '5rem',
+    fontWeight: 700,
+    color: 'var(--color-campo1)',
+  },
+  optionsList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  wordBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-md)',
+    padding: 'var(--space-md) var(--space-lg)',
+    backgroundColor: 'var(--color-surface)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: 600,
+    cursor: 'pointer',
+    textAlign: 'left',
+  },
+  wordEmoji: { fontSize: '1.8rem' },
+  wordPt: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    marginLeft: 'auto',
+  },
+  complete: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'var(--space-lg)',
+    padding: 'var(--space-2xl)',
+  },
+  completeEmoji: { fontSize: '4rem' },
+  completeText: {
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: 700,
+    color: 'var(--color-primary)',
+  },
+}

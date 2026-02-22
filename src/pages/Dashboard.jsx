@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../data/vocabulary'
 import { WORKSHEETS } from '../data/worksheets'
+import { COMPETENCY_AREAS, MASTERY_LEVELS, getCompetencySummary } from '../data/competencies'
 
 /**
  * Parent/Therapist Dashboard — real progress monitoring and worksheet review.
@@ -212,6 +213,7 @@ Gerado automaticamente por PITCH
           { id: 'resumo', label: 'Resumo', icon: '📊' },
           { id: 'fichas', label: `Fichas (${pendingSubmissions.length})`, icon: '📬' },
           { id: 'palavras', label: 'Vocabulario', icon: '🗣️' },
+          { id: 'competencias', label: 'Competencias', icon: '🌱' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -399,6 +401,49 @@ Gerado automaticamente por PITCH
               )
             })}
           </div>
+        </div>
+      )}
+      {activeTab === 'competencias' && (
+        <div style={styles.section} className="animate-fade-in">
+          <h3 style={styles.subTitle}>Mapa de Competencias</h3>
+          <p style={styles.sectionDesc}>
+            Progressao por mestria — a crianca avanca quando domina, nao por idade.
+          </p>
+          {Object.entries(getCompetencySummary(progress)).map(([campoId, competencies]) => {
+            const campo = COMPETENCY_AREAS[campoId]
+            return (
+              <div key={campoId} style={styles.compCampo}>
+                <h4 style={styles.compCampoTitle}>{campo.icon} {campo.name}</h4>
+                {competencies.map((comp) => {
+                  const level = MASTERY_LEVELS.find((l) => l.id === comp.mastery)
+                  return (
+                    <div key={comp.id} style={styles.compCard}>
+                      <div style={styles.compHeader}>
+                        <span style={styles.compName}>{comp.name}</span>
+                        <span style={styles.compLevel}>{level.emoji} {level.label}</span>
+                      </div>
+                      <p style={styles.compDesc}>{comp.description}</p>
+                      <div style={styles.compMilestones}>
+                        {MASTERY_LEVELS.map((ml) => (
+                          <div
+                            key={ml.id}
+                            style={{
+                              ...styles.compMilestone,
+                              opacity: ml.order <= level.order ? 1 : 0.3,
+                              fontWeight: ml.id === comp.mastery ? 700 : 400,
+                            }}
+                          >
+                            <span>{ml.emoji}</span>
+                            <span style={styles.compMilestoneText}>{comp.milestones[ml.id]}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
@@ -753,5 +798,62 @@ const styles = {
     height: '100%',
     borderRadius: '3px',
     transition: 'width 0.6s ease',
+  },
+  // Competencies
+  compCampo: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    marginBottom: 'var(--space-md)',
+  },
+  compCampoTitle: {
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: 'var(--color-text)',
+    borderBottom: '2px solid var(--color-border)',
+    paddingBottom: 'var(--space-xs)',
+  },
+  compCard: {
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  compHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  compName: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  compLevel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    padding: '2px 8px',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-sm)',
+  },
+  compDesc: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  compMilestones: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    marginTop: 'var(--space-xs)',
+  },
+  compMilestone: {
+    display: 'flex',
+    gap: 'var(--space-xs)',
+    alignItems: 'flex-start',
+    fontSize: 'var(--font-size-sm)',
+  },
+  compMilestoneText: {
+    lineHeight: 1.3,
   },
 }
