@@ -15,7 +15,7 @@ const CONTENT = {
       title: 'Golos e Contas',
       icon: '⚽',
       addContext: (a, b) =>
-        `O ${pick(['Costa do Sol', 'Ferroviario', 'Black Bulls', 'Benfica', 'Barcelona'])} marcou ${a} golos na primeira parte e ${b} na segunda.`,
+        `O ${pick(['Barcelona', 'Liverpool', 'Real Madrid', 'Bayern', 'Brasil'])} marcou ${a} golos na primeira parte e ${b} na segunda.`,
       subContext: (a, b) =>
         `A equipa tinha ${a} pontos e perdeu ${b}. Quantos ficaram?`,
       mulContext: (a, b) =>
@@ -268,14 +268,14 @@ const CONTENT = {
       completeText: 'Pintaste todos os equipamentos!',
       instruction: (name, colors) => `Pinta o equipamento do ${name}. Escolhe as cores: ${colors}.`,
       items: [
-        { name: 'Costa do Sol', detail: 'Mocambique', colors: ['red', 'white'] },
-        { name: 'Ferroviario', detail: 'Mocambique', colors: ['green', 'white'] },
-        { name: 'Black Bulls', detail: 'Mocambique', colors: ['black', 'red'] },
-        { name: 'Mocambique', detail: 'Seleccao', colors: ['red', 'green', 'yellow'] },
-        { name: 'Liverpool', detail: 'England', colors: ['red'] },
-        { name: 'Real Madrid', detail: 'Spain', colors: ['white'] },
-        { name: 'Barcelona', detail: 'Spain', colors: ['red', 'blue'] },
-        { name: 'Brasil', detail: 'Brazil', colors: ['yellow', 'green'] },
+        { name: 'Barcelona', detail: 'Espanha', colors: ['red', 'blue'] },
+        { name: 'Liverpool', detail: 'Inglaterra', colors: ['red'] },
+        { name: 'Real Madrid', detail: 'Espanha', colors: ['white'] },
+        { name: 'Bayern Munich', detail: 'Alemanha', colors: ['red', 'white'] },
+        { name: 'Brasil', detail: 'Seleccao', colors: ['yellow', 'green'] },
+        { name: 'Argentina', detail: 'Seleccao', colors: ['white', 'blue'] },
+        { name: 'Juventus', detail: 'Italia', colors: ['black', 'white'] },
+        { name: 'PSG', detail: 'Franca', colors: ['blue', 'red'] },
       ],
     },
 
@@ -284,12 +284,12 @@ const CONTENT = {
       completeText: 'Leste todos os resultados!',
       boardColor: '#1B5E20',
       items: [
-        { home: 'Mocambique', away: 'Tanzania', homeScore: 3, awayScore: 1 },
-        { home: 'Brazil', away: 'Germany', homeScore: 2, awayScore: 2 },
-        { home: 'England', away: 'Spain', homeScore: 0, awayScore: 1 },
-        { home: 'Argentina', away: 'Italy', homeScore: 4, awayScore: 0 },
-        { home: 'Costa do Sol', away: 'Ferroviario', homeScore: 2, awayScore: 1 },
-        { home: 'Black Bulls', away: 'Costa do Sol', homeScore: 1, awayScore: 3 },
+        { home: 'Brazil', away: 'Argentina', homeScore: 3, awayScore: 1 },
+        { home: 'Spain', away: 'Germany', homeScore: 2, awayScore: 2 },
+        { home: 'England', away: 'France', homeScore: 0, awayScore: 1 },
+        { home: 'Italy', away: 'Japan', homeScore: 4, awayScore: 0 },
+        { home: 'Barcelona', away: 'Liverpool', homeScore: 2, awayScore: 1 },
+        { home: 'Real Madrid', away: 'Bayern', homeScore: 1, awayScore: 3 },
       ],
     },
 

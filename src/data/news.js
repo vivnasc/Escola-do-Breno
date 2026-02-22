@@ -70,7 +70,7 @@ export const NEWS_TEMPLATES = [
     icon: '🔢',
     headline: 'Bilhetes para o jogo do {team} esgotados!',
     body: 'O estadio tem 50.000 lugares e todos os bilhetes foram vendidos! {name}, sabes calcular o dinheiro dos bilhetes?',
-    fact: 'Se cada bilhete custa 500 MT e venderam 50.000 bilhetes, o total e 25.000.000 MT!',
+    fact: 'Se cada bilhete custa 10 e venderam 50.000 bilhetes, o total e 500.000! Os numeros grandes sao incriveis!',
     question: 'Quanto e 10 vezes 5?',
     english: 'ticket',
     englishPt: 'bilhete',

@@ -53,7 +53,7 @@ export const WORKSHEETS = [
       { guide: 'A B C D E', context: 'A de Aguia, B de Bola, C de Campeao' },
       { guide: 'F G H I J', context: 'F de Futebol, G de Golo' },
       { guide: 'K L M N O', context: 'L de Leao, M de Messi' },
-      { guide: 'P Q R S T', context: 'R de Reinildo, S de Sol' },
+      { guide: 'P Q R S T', context: 'R de Ronaldo, S de Sol' },
       { guide: 'U V W X Y Z', context: 'V de Vitoria' },
     ],
   },
@@ -79,11 +79,11 @@ export const WORKSHEETS = [
     subtitle: 'Escreve o nome das grandes equipas',
     difficulty: 2,
     lines: [
-      { guide: 'COSTA DO SOL', context: 'A equipa de Maputo' },
-      { guide: 'FERROVIARIO', context: 'O orgulho de Mocambique' },
-      { guide: 'BLACK BULLS', context: 'A forca do touro' },
+      { guide: 'BARCELONA', context: 'A grande equipa de Espanha' },
+      { guide: 'LIVERPOOL', context: 'O orgulho de Inglaterra' },
+      { guide: 'REAL MADRID', context: 'Os reis do futebol europeu' },
       { guide: 'BRASIL', context: 'O pais do futebol' },
-      { guide: 'MOCAMBIQUE', context: 'A nossa seleccao' },
+      { guide: 'ARGENTINA', context: 'A terra de Messi' },
     ],
   },
   {
@@ -136,9 +136,9 @@ export const WORKSHEETS = [
     subtitle: 'Write the team colours in English',
     difficulty: 1,
     lines: [
-      { guide: 'RED', context: 'Costa do Sol, Liverpool - vermelho' },
-      { guide: 'BLUE', context: 'Chelsea - azul' },
-      { guide: 'GREEN', context: 'Ferroviario - verde' },
+      { guide: 'RED', context: 'Liverpool, Bayern - vermelho' },
+      { guide: 'BLUE', context: 'Chelsea, Inter - azul' },
+      { guide: 'GREEN', context: 'Sporting, campo - verde' },
       { guide: 'YELLOW', context: 'Brasil - amarelo' },
       { guide: 'WHITE', context: 'Real Madrid - branco' },
     ],
@@ -176,9 +176,9 @@ export const WORKSHEETS = [
     subtitle: 'Escreve resultados de jogos',
     difficulty: 2,
     lines: [
-      { guide: 'Costa do Sol 3 - 1 Ferroviario', context: 'O Costa do Sol ganhou por 3 a 1' },
-      { guide: 'Mocambique 2 - 0 Tanzania', context: 'Mocambique ganhou por 2 a 0' },
-      { guide: 'Black Bulls 1 - 1 Liverpool', context: 'Empataram 1 a 1' },
+      { guide: 'Barcelona 3 - 1 Liverpool', context: 'O Barcelona ganhou por 3 a 1' },
+      { guide: 'Brasil 2 - 0 Argentina', context: 'O Brasil ganhou por 2 a 0' },
+      { guide: 'Real Madrid 1 - 1 Bayern', context: 'Empataram 1 a 1' },
     ],
   },
   // Sentences
@@ -190,8 +190,8 @@ export const WORKSHEETS = [
     difficulty: 2,
     lines: [
       { guide: 'EU GOSTO DE FUTEBOL', context: 'Diz o que sentes' },
-      { guide: 'O EUSEBIO E UMA LENDA', context: 'O maior jogador de Mocambique' },
-      { guide: 'MOCAMBIQUE VAI GANHAR', context: 'Torce pela seleccao' },
+      { guide: 'O MESSI E INCRIVEL', context: 'O teu jogador favorito' },
+      { guide: 'ADORO A MINHA EQUIPA', context: 'Orgulho no futebol' },
     ],
   },
   {
