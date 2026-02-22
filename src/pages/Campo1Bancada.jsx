@@ -1,14 +1,21 @@
+import { useState } from 'react'
 import { CAMPO1_ACTIVITIES } from '../data/activities'
 import { VOCABULARY_CATEGORIES, VOCABULARY_WORDS } from '../data/vocabulary'
 import ActivityCard from '../components/ActivityCard'
 import ProgressBar from '../components/ProgressBar'
+import UpgradePrompt from '../components/UpgradePrompt'
 
-export default function Campo1Bancada({ progress }) {
+export default function Campo1Bancada({ progress, subscription }) {
+  const [showUpgrade, setShowUpgrade] = useState(false)
   const learnedCount = progress.wordsLearned.length
   const totalWords = VOCABULARY_WORDS.length
 
   return (
     <div style={styles.container} className="animate-fade-in">
+      {showUpgrade && (
+        <UpgradePrompt onClose={() => setShowUpgrade(false)} feature="activity" />
+      )}
+
       <header style={styles.header}>
         <span style={styles.icon}>🗣️</span>
         <div>
@@ -36,6 +43,8 @@ export default function Campo1Bancada({ progress }) {
               activity={a}
               basePath="/campo/1"
               completed={progress.activitiesCompleted[a.id]}
+              locked={subscription?.isActivityLocked(a.id, 'campo1')}
+              onLockedClick={() => setShowUpgrade(true)}
             />
           ))}
         </div>

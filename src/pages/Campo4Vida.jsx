@@ -1,12 +1,19 @@
+import { useState } from 'react'
 import { CAMPO4_ACTIVITIES } from '../data/activities'
 import ActivityCard from '../components/ActivityCard'
 import ProgressBar from '../components/ProgressBar'
+import UpgradePrompt from '../components/UpgradePrompt'
 
-export default function Campo4Vida({ progress }) {
+export default function Campo4Vida({ progress, subscription }) {
+  const [showUpgrade, setShowUpgrade] = useState(false)
   const cp = progress.campoProgress.campo4
 
   return (
     <div style={styles.container} className="animate-fade-in">
+      {showUpgrade && (
+        <UpgradePrompt onClose={() => setShowUpgrade(false)} feature="activity" />
+      )}
+
       <header style={styles.header}>
         <span style={styles.icon}>🤝</span>
         <div>
@@ -39,6 +46,8 @@ export default function Campo4Vida({ progress }) {
               activity={a}
               basePath="/campo/4"
               completed={progress.activitiesCompleted[a.id]}
+              locked={subscription?.isActivityLocked(a.id, 'campo4')}
+              onLockedClick={() => setShowUpgrade(true)}
             />
           ))}
         </div>

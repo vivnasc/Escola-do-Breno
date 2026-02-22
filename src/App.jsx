@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, useParams } from 'react-router-dom'
 import { useState, useCallback, useEffect } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -42,6 +42,8 @@ import Phonics from './activities/campo1/Phonics'
 import Patterns from './activities/campo2/Patterns'
 import NatureLab from './activities/campo3/NatureLab'
 import ProblemSolving from './activities/campo4/ProblemSolving'
+import Planos from './pages/Planos'
+import SharedProfile from './pages/SharedProfile'
 import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
@@ -49,10 +51,23 @@ import { useAdaptive } from './hooks/useAdaptive'
 import { usePlanner } from './hooks/usePlanner'
 import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
+import { useSubscription } from './hooks/useSubscription'
+import { useProfileSharing } from './hooks/useProfileSharing'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
-const PUBLIC_PATHS = ['/landing', '/faq', '/suporte']
+const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
+
+function SharedProfileRoute({ sharing }) {
+  const { shareId } = useParams()
+  const share = sharing?.sharedWithMe?.find(s => s.id === shareId) || null
+  return (
+    <SharedProfile
+      share={share}
+      onRefresh={() => sharing?.refreshSharedProfiles?.()}
+    />
+  )
+}
 
 function AppContent() {
   const location = useLocation()
@@ -68,6 +83,12 @@ function AppContent() {
     profileData.activeId,
   )
   const adaptive = useAdaptive(profileData.profile)
+  const subscription = useSubscription(profileData.profile)
+  const sharing = useProfileSharing(
+    auth.user,
+    profileData.profiles,
+    progressData.progress,
+  )
   const plannerData = usePlanner(
     profileData.profile?.id,
     adaptive.prioritisedCampos,
@@ -136,6 +157,15 @@ function AppContent() {
 
   const soundEnabled = profileData.profile?.sensory?.soundEnabled !== false
 
+  // Handle PayPal subscription activation
+  const handleSubscribed = useCallback((data) => {
+    profileData.updateProfile({
+      subscriptionTier: data.tierId,
+      paypalSubscriptionId: data.subscriptionId,
+      subscriptionActivatedAt: data.activatedAt,
+    })
+  }, [profileData])
+
   const activityProps = {
     ...progressData,
     completeActivity: handleCompleteActivity,
@@ -144,6 +174,19 @@ function AppContent() {
     registerSuccess,
     adaptive,
     soundEnabled,
+    subscription,
+  }
+
+  // Shared profile route — accessible with or without active profile
+  const isSharedRoute = location.pathname.startsWith('/shared/')
+  if (isSharedRoute) {
+    return (
+      <Routes>
+        <Route path="/shared/:shareId" element={
+          <SharedProfileRoute sharing={sharing} />
+        } />
+      </Routes>
+    )
   }
 
   // Public routes: always accessible without a profile
@@ -154,6 +197,7 @@ function AppContent() {
         <Route path="/landing" element={<Landing />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/suporte" element={<Suporte />} />
+        <Route path="/planos" element={<Planos currentTier={profileData.profile?.subscriptionTier} onSubscribed={handleSubscribed} />} />
       </Routes>
     )
   }
@@ -167,6 +211,7 @@ function AppContent() {
         profiles={profileData.profiles}
         onSwitchProfile={handleSwitchProfile}
         auth={auth}
+        sharing={sharing}
       />
     )
   }
@@ -252,7 +297,13 @@ function AppContent() {
               deleteProfile={profileData.deleteProfile}
               addRealReward={profileData.addRealReward}
               removeRealReward={profileData.removeRealReward}
+              subscription={subscription}
+              sharing={sharing}
             />
+          } />
+
+          <Route path="/planos" element={
+            <Planos currentTier={subscription.tierId} onSubscribed={handleSubscribed} />
           } />
 
           <Route path="/planner" element={

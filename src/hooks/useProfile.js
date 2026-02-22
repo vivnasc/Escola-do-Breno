@@ -62,6 +62,9 @@ const DEFAULT_PROFILE = {
     campo4: 1,
   },
 
+  // Subscription tier: 'free', 'family', or 'therapist'
+  subscriptionTier: 'free',
+
   communication: {
     usesVisualSupports: false,
     prefersSimpleLanguage: false,

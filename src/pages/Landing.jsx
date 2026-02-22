@@ -116,7 +116,7 @@ export default function Landing() {
             </button>
           </div>
           <p style={styles.heroNote}>
-            Gratuito. Sem publicidade. Sem dados vendidos. Funciona offline.
+            Plano gratis disponivel. Sem publicidade. Sem dados vendidos. Funciona offline.
           </p>
         </div>
       </section>
@@ -345,7 +345,7 @@ export default function Landing() {
         <div style={styles.sectionInner}>
           <h2 style={styles.ctaTitle}>Cada crianca merece uma escola que a entenda.</h2>
           <p style={styles.ctaDesc}>
-            Construido por pais, para pais. Gratuito, sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho esta pronta.
+            Construido por pais, para pais. Plano gratis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho esta pronta.
           </p>
           <button style={styles.ctaBtn} onClick={() => navigate('/')}>
             Criar a Escola do Meu Filho
@@ -373,6 +373,7 @@ export default function Landing() {
             Play. Interact. Think. Challenge. Hone.
           </p>
           <div style={styles.footerLinks}>
+            <button style={styles.footerLink} onClick={() => navigate('/planos')}>Planos</button>
             <button style={styles.footerLink} onClick={() => navigate('/faq')}>FAQ</button>
             <button style={styles.footerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.footerLink} onClick={() => navigate('/landing')}>Sobre</button>

@@ -6,7 +6,7 @@ Construida originalmente para o Breno (12 anos, espectro autista, homeschooling)
 ## Visao Geral
 
 - **Stack**: React 18 + React Router 6 + Vite + Workbox PWA
-- **Dependencias externas**: Apenas react, react-dom, react-router-dom (producao)
+- **Dependencias externas**: react, react-dom, react-router-dom, @paypal/react-paypal-js (producao)
 - **Persistencia**: localStorage (multi-perfil)
 - **Audio**: Web Speech API nativa (TTS)
 - **Styling**: CSS Variables + inline styles React (sem framework CSS)
@@ -23,15 +23,18 @@ src/
     FeedbackMessage.jsx       # Feedback visual de acerto/erro
     BancoDaCalma.jsx          # Exercicio de respiracao (trigger por frustracao)
     VisualTimer.jsx           # Timer visual adaptativo
+    UpgradePrompt.jsx         # Modal gentil para upgrade de plano
   hooks/
     useProfile.js             # Multi-perfil, localStorage, deep merge
     useProgress.js            # Stars, streaks, trofeus, actividades completadas
     useAdaptive.js            # Motor de personalizacao (30+ configs)
+    useSubscription.js        # Gestao de tier (free/family/therapist)
     useTTS.js                 # Text-to-Speech (Web Speech API)
     useFrustration.js         # Deteccao de frustracao (clicks rapidos, erros consecutivos)
     usePlanner.js             # Planeador diario (3 actividades/dia)
   data/
     activities.js             # Registo das 20 actividades (5 por campo)
+    tiers.js                  # 3 planos de subscricao (Semente, Flor, Floresta)
     competencies.js           # Framework de 10 niveis + 4 fases + diagnostico
     vocabulary.js             # 299 palavras ingles Cambridge Pre-A1 (19 categorias inc. sentimentos e social)
     universes.js              # 5 universos tematicos
@@ -41,7 +44,7 @@ src/
     news.js                   # Feed de noticias
     shop.js                   # 18 items cosmeticos (celebracoes, badges, stickers)
     worksheets.js             # Fichas para impressao
-  pages/                      # 16 paginas (Home, Welcome, Intake, 4 Campos, etc.)
+  pages/                      # 17 paginas (Home, Welcome, Intake, 4 Campos, Planos, etc.)
   activities/
     campo1/                   # 5 actividades de Linguagem
     campo2/                   # 5 actividades de Matematica
@@ -98,6 +101,61 @@ O mesmo curriculo, re-contextualizado por universo.
 O wizard de onboarding inclui 12 perguntas diagnosticas (3 por campo, nos tiers low/mid/high).
 Cada campo recebe um nivel inicial independente (ex: nivel 7 em linguagem, nivel 3 em matematica).
 Factores de ajuste: idade, nivel de leitura, nivel de apoio.
+
+## Subscricao e Tiers
+
+### 3 Planos
+
+| Tier | Nome | Emoji | Preco | Perfis | Universos | Actividades |
+|------|------|-------|-------|--------|-----------|-------------|
+| free | Semente | 🌱 | Gratis | 1 | 1 (Futebol) | 4 (1/campo) |
+| family | Flor | 🌸 | 5,99/mes | 5 | 5 (todos) | 20 (todas) |
+| therapist | Floresta | 🌲 | 14,99/mes | 20 | 5 (todos) | 20 (todas) |
+
+### Actividades Gratis (1 por campo)
+- Campo 1: vocab-match
+- Campo 2: goal-math
+- Campo 3: flag-match
+- Campo 4: daily-routine
+
+### Principios de Monetizacao
+- **Gratis funciona de verdade** — nao e demo, e 4 actividades com 10 niveis completos
+- **Acessibilidade nunca e premium** — TTS, alto contraste, deteccao de frustracao, Banco da Calma
+- **Zero publicidade** — publico vulneravel, sem ads
+- **Zero dados vendidos**
+- **Breno tem sempre acesso completo** (`subscriptionTier: 'family'` hardcoded)
+
+### Pagamento: PayPal Subscriptions
+- **Dependencia**: `@paypal/react-paypal-js` v8.9.2
+- **Moeda**: EUR (Portugal e Mocambique suportados)
+- **Componente**: `src/components/PayPalSubscribeButton.jsx`
+- **Fluxo**: Escolher plano → botao PayPal → login PayPal → aprovar → tier activado
+- **Env vars**:
+  - `VITE_PAYPAL_CLIENT_ID` — Client ID da REST App no PayPal Developer
+  - `VITE_PAYPAL_PLAN_FAMILY` — Plan ID do plano Flor (5,99€/mes)
+  - `VITE_PAYPAL_PLAN_THERAPIST` — Plan ID do plano Floresta (14,99€/mes)
+- **Setup PayPal Dashboard**: Products → Subscriptions → criar 2 plans
+- **Activacao**: `onApprove` actualiza `profile.subscriptionTier` + `paypalSubscriptionId`
+- **Sem env vars**: mostra placeholder "Pagamentos PayPal em breve"
+
+### Ficheiros
+- `src/data/tiers.js` — definicao dos tiers, limites, helpers
+- `src/hooks/useSubscription.js` — hook que le o tier do perfil
+- `src/components/UpgradePrompt.jsx` — modal gentil para upgrade
+- `src/components/PayPalSubscribeButton.jsx` — botao PayPal para subscricoes
+- `src/pages/Planos.jsx` — pagina de pricing com FAQ e PayPal
+
+### Gating
+- `ActivityCard` recebe `locked` e `onLockedClick`
+- Cada pagina de campo verifica `subscription.isActivityLocked(activityId, campoId)`
+- Universos verificados via `subscription.isUniverseLocked(universeId)`
+- Features: `subscription.hasFichas`, `subscription.hasDesafios`, `subscription.hasLoja`
+
+### Futuro (nao implementado)
+- Webhooks PayPal no Supabase Edge Functions (validacao server-side)
+- Trial period
+- Codigos de desconto
+- Cancelamento/downgrade automatico via webhook
 
 ## Motor Adaptativo (useAdaptive.js)
 
@@ -167,6 +225,7 @@ Traduz o perfil da crianca em adaptacoes concretas de UI/UX:
 - **STT requer internet**: Speech Recognition e cloud-processed pelo browser
 
 ### Futuras
+- **PayPal client-side only**: Subscricoes PayPal integradas mas sem webhooks server-side (validacao local)
 - **Sem multiplayer/colaboracao**: Cada crianca aprende sozinha
 - **Sem notificacoes push**: PWA suporta mas nao implementado
 - **Sem analytics**: Sem tracking de uso (tempo em cada actividade, taxas de abandono)
@@ -177,7 +236,7 @@ Traduz o perfil da crianca em adaptacoes concretas de UI/UX:
 ```javascript
 {
   name: 'Breno',
-  age: 12,               // no 6.o ano, conteudo misto de anos 1-6
+  age: 11,               // born 1 Oct 2014, conteudo misto de anos 1-6
   universe: 'football',
   learningNeeds: {
     areas: ['reading', 'math', 'attention'],
