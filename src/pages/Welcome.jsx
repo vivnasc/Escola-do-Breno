@@ -1,11 +1,46 @@
 /**
  * Welcome screen — shown when no active profile.
  * Shows existing profiles for switching, plus Breno quick-start and new profile.
+ * When Supabase is configured, shows login/register for cloud sync.
  */
+import { useState } from 'react'
 import { AVATARS } from '../hooks/useProfile'
 
-export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile }) {
+export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile, auth }) {
   const hasProfiles = profiles && profiles.length > 0
+  const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [authMsg, setAuthMsg] = useState(null)
+  const [authLoading, setAuthLoading] = useState(false)
+
+  const handleAuth = async () => {
+    if (!email.trim()) return
+    setAuthLoading(true)
+    setAuthMsg(null)
+
+    let result
+    if (authMode === 'register') {
+      result = await auth.signUp(email.trim(), password)
+      if (!result.error) {
+        setAuthMsg('Conta criada! Verifica o email para confirmar.')
+      }
+    } else {
+      if (password) {
+        result = await auth.signIn(email.trim(), password)
+      } else {
+        result = await auth.signInWithMagicLink(email.trim())
+        if (!result.error) {
+          setAuthMsg('Link enviado! Verifica o email.')
+        }
+      }
+    }
+
+    if (result?.error) {
+      setAuthMsg(result.error)
+    }
+    setAuthLoading(false)
+  }
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -78,6 +113,68 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
             </div>
           </button>
         </div>
+
+        {/* Cloud sync auth — only when Supabase is configured */}
+        {auth?.configured && !auth?.user && (
+          <div style={styles.authSection}>
+            {!authMode ? (
+              <>
+                <p style={styles.authHint}>Sincronizar entre dispositivos?</p>
+                <div style={styles.authBtns}>
+                  <button style={styles.authLoginBtn} onClick={() => setAuthMode('login')}>
+                    Entrar
+                  </button>
+                  <button style={styles.authRegBtn} onClick={() => setAuthMode('register')}>
+                    Criar conta
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div style={styles.authForm}>
+                <p style={styles.authFormTitle}>
+                  {authMode === 'register' ? 'Criar conta' : 'Entrar'}
+                </p>
+                <input
+                  style={styles.authInput}
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  autoComplete="email"
+                />
+                <input
+                  style={styles.authInput}
+                  type="password"
+                  placeholder={authMode === 'login' ? 'Password (ou vazio para magic link)' : 'Password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+                />
+                {authMsg && <p style={styles.authMsg}>{authMsg}</p>}
+                <button
+                  style={styles.authSubmitBtn}
+                  onClick={handleAuth}
+                  disabled={authLoading || !email.trim()}
+                >
+                  {authLoading ? 'A processar...' : authMode === 'register' ? 'Registar' : 'Entrar'}
+                </button>
+                <button
+                  style={styles.authBackBtn}
+                  onClick={() => { setAuthMode(null); setAuthMsg(null) }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {auth?.configured && auth?.user && (
+          <div style={styles.authSynced}>
+            <span>☁️ Sincronizado como {auth.user.email}</span>
+            <button style={styles.authSignOutBtn} onClick={auth.signOut}>Sair</button>
+          </div>
+        )}
 
         <p style={styles.footer}>
           Plataforma de aprendizagem inclusiva para criancas neurodivergentes
@@ -236,5 +333,111 @@ const styles = {
     color: 'var(--color-text-secondary)',
     marginTop: 'var(--space-lg)',
     lineHeight: 1.4,
+  },
+  // Auth styles
+  authSection: {
+    width: '100%',
+    borderTop: '1px solid var(--color-border)',
+    paddingTop: 'var(--space-md)',
+  },
+  authHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    marginBottom: 'var(--space-sm)',
+  },
+  authBtns: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+  },
+  authLoginBtn: {
+    flex: 1,
+    padding: 'var(--space-sm)',
+    backgroundColor: 'var(--color-bg)',
+    border: '1px solid var(--color-primary)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-primary)',
+  },
+  authRegBtn: {
+    flex: 1,
+    padding: 'var(--space-sm)',
+    backgroundColor: 'var(--color-primary)',
+    border: '1px solid var(--color-primary)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: 'white',
+  },
+  authForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  authFormTitle: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  authInput: {
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    outline: 'none',
+  },
+  authMsg: {
+    fontSize: 'var(--font-size-sm)',
+    color: '#E65100',
+    fontWeight: 600,
+    textAlign: 'center',
+  },
+  authSubmitBtn: {
+    padding: 'var(--space-sm)',
+    backgroundColor: 'var(--color-primary)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+  },
+  authBackBtn: {
+    padding: 'var(--space-xs)',
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: 'var(--color-text-secondary)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    textDecoration: 'underline',
+  },
+  authSynced: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 'var(--space-sm)',
+    width: '100%',
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-md)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: 'var(--color-primary-dark)',
+  },
+  authSignOutBtn: {
+    padding: '2px 8px',
+    backgroundColor: 'transparent',
+    border: '1px solid var(--color-text-secondary)',
+    borderRadius: 'var(--radius-sm)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
   },
 }

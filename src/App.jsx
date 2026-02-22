@@ -44,6 +44,8 @@ import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
 import { useAdaptive } from './hooks/useAdaptive'
 import { usePlanner } from './hooks/usePlanner'
+import { useAuth } from './hooks/useAuth'
+import { useSync } from './hooks/useSync'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
 export default function App() {
@@ -51,6 +53,13 @@ export default function App() {
   const [showIntake, setShowIntake] = useState(false)
   const progressData = useProgress()
   const profileData = useProfile()
+  const auth = useAuth()
+  const sync = useSync(
+    auth.user,
+    profileData.profiles,
+    progressData.progress,
+    profileData.activeId,
+  )
   const adaptive = useAdaptive(profileData.profile)
   const plannerData = usePlanner(
     profileData.profile?.id,
@@ -137,6 +146,7 @@ export default function App() {
         onNewProfile={handleNewProfile}
         profiles={profileData.profiles}
         onSwitchProfile={handleSwitchProfile}
+        auth={auth}
       />
     )
   }
