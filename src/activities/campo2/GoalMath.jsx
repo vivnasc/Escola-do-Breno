@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -114,15 +115,19 @@ export default function GoalMath({
     }
   }, [round, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 8 ? 3 : score >= 5 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title={mathContent.title} backPath="/campo/2" color="var(--color-campo2)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>{mathContent.icon}</span>
-          <p style={styles.completeText}>
-            Marcaste {score} de {TOTAL_PROBLEMS}!
-          </p>
-        </div>
+        <CompletionCelebration
+          emoji={mathContent.icon}
+          title={`Marcaste ${score} de ${TOTAL_PROBLEMS}!`}
+          score={score}
+          total={TOTAL_PROBLEMS}
+          stars={finalStars}
+          color="var(--color-campo2)"
+        />
       </ActivityShell>
     )
   }
@@ -147,6 +152,7 @@ export default function GoalMath({
         {options.map((opt) => (
           <button
             key={opt}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

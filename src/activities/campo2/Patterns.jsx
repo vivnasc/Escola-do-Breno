@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const PATTERN_SETS = [
@@ -88,13 +89,19 @@ export default function Patterns({
     }
   }, [idx, score, items.length, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 7 ? 3 : score >= 5 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Padroes e Sequencias" backPath="/campo/2" color="var(--color-campo2)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🧩</span>
-          <p style={styles.completeText}>Descobriste {score} padroes!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🧩"
+          title={`Descobriste ${score} padroes!`}
+          score={score}
+          total={items.length}
+          stars={finalStars}
+          color="var(--color-campo2)"
+        />
       </ActivityShell>
     )
   }
@@ -122,6 +129,7 @@ export default function Patterns({
         {current.options.map((opt) => (
           <button
             key={opt}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

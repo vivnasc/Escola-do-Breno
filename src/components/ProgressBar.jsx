@@ -6,7 +6,7 @@ export default function ProgressBar({ value, max, color = 'var(--color-primary)'
       style={{
         width: '100%',
         height: `${height}px`,
-        backgroundColor: 'var(--color-border)',
+        backgroundColor: '#ECEFF1',
         borderRadius: 'var(--radius-full)',
         overflow: 'hidden',
       }}
@@ -23,6 +23,7 @@ export default function ProgressBar({ value, max, color = 'var(--color-primary)'
           borderRadius: 'var(--radius-full)',
           transition: 'width var(--transition-slow) ease-out',
         }}
+        className={pct > 0 ? 'progress-animated' : undefined}
       />
     </div>
   )

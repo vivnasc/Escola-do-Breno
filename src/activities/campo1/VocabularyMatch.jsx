@@ -1,6 +1,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES, getWordContext } from '../../data/vocabulary'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -76,13 +77,19 @@ export default function VocabularyMatch({
     }
   }, [questionIdx, categoryIdx, words.length, score, completeActivity])
 
+  const finalStars = Math.min(3, Math.ceil(score / 3))
+
   if (!currentWord) {
     return (
       <ActivityShell title="Liga a Palavra" backPath="/campo/1" color="var(--color-campo1)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🏆</span>
-          <p style={styles.completeText}>Completaste todas as categorias!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🏆"
+          title="Completaste todas as categorias!"
+          score={score}
+          total={VOCABULARY_WORDS.length}
+          stars={finalStars}
+          color="var(--color-campo1)"
+        />
       </ActivityShell>
     )
   }
@@ -116,6 +123,7 @@ export default function VocabularyMatch({
         {options.map((opt) => (
           <button
             key={opt.id}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

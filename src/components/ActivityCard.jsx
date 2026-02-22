@@ -7,6 +7,7 @@ export default function ActivityCard({ activity, basePath, completed }) {
   return (
     <button
       style={styles.card}
+      className="interactive-card"
       onClick={() => navigate(`${basePath}/${activity.id}`)}
       aria-label={`${activity.name}: ${activity.description}`}
     >
@@ -17,7 +18,12 @@ export default function ActivityCard({ activity, basePath, completed }) {
       </div>
       <div style={styles.stars}>
         {[1, 2, 3].map((s) => (
-          <span key={s} style={{ opacity: s <= stars ? 1 : 0.2, fontSize: '1rem' }}>
+          <span key={s} style={{
+            opacity: s <= stars ? 1 : 0.15,
+            fontSize: '1rem',
+            transition: 'opacity 0.3s ease, transform 0.3s ease',
+            transform: s <= stars ? 'scale(1)' : 'scale(0.85)',
+          }}>
             ⭐
           </span>
         ))}
@@ -36,9 +42,9 @@ const styles = {
     backgroundColor: 'var(--color-surface)',
     border: '1px solid var(--color-border)',
     borderRadius: 'var(--radius-md)',
+    boxShadow: 'var(--shadow-sm)',
     textAlign: 'left',
     cursor: 'pointer',
-    transition: 'all var(--transition-speed)',
   },
   icon: {
     fontSize: '2rem',

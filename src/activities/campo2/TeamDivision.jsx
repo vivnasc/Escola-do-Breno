@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -84,13 +85,19 @@ export default function TeamDivision({
     }
   }, [round, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 6 ? 3 : score >= 4 ? 2 : 1
+
   if (round >= TOTAL) {
     return (
       <ActivityShell title="Divide a Equipa" backPath="/campo/2" color="var(--color-campo2)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>👥</span>
-          <p style={styles.completeText}>Dividiste {score} de {TOTAL} correctamente!</p>
-        </div>
+        <CompletionCelebration
+          emoji="👥"
+          title={`Dividiste ${score} de ${TOTAL} correctamente!`}
+          score={score}
+          total={TOTAL}
+          stars={finalStars}
+          color="var(--color-campo2)"
+        />
       </ActivityShell>
     )
   }
@@ -119,6 +126,7 @@ export default function TeamDivision({
         {options.map((opt) => (
           <button
             key={opt}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

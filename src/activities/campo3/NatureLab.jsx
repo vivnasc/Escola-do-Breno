@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const EXPERIMENTS = [
@@ -321,13 +322,19 @@ export default function NatureLab({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Laboratorio Natural" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🔬</span>
-          <p style={styles.completeText}>Descobriste {score} factos cientificos!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🔬"
+          title="Descobriste factos cientificos!"
+          score={score}
+          total={EXPERIMENTS.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -352,6 +359,7 @@ export default function NatureLab({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
@@ -99,13 +100,19 @@ export default function FlagMatch({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 24 ? 3 : score >= 16 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Bandeiras do Mundo" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🌍</span>
-          <p style={styles.completeText}>Conheces {score} bandeiras!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🌍"
+          title="Conheces as bandeiras do mundo!"
+          score={score}
+          total={COUNTRIES.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -129,6 +136,7 @@ export default function FlagMatch({
         {options.map((opt) => (
           <button
             key={opt.name}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

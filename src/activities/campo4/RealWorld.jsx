@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const CHALLENGES = [
@@ -277,14 +278,19 @@ export default function RealWorld({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 16 ? 3 : score >= 10 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="No Mundo Real" backPath="/campo/4" color="var(--color-campo4)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🏙️</span>
-          <p style={styles.completeText}>Estas pronto para o mundo real!</p>
-          <p style={styles.completeScore}>{score}/{CHALLENGES.length} desafios superados</p>
-        </div>
+        <CompletionCelebration
+          emoji="🏙️"
+          title="Estas pronto para o mundo real!"
+          score={score}
+          total={CHALLENGES.length}
+          stars={finalStars}
+          color="var(--color-campo4)"
+        />
       </ActivityShell>
     )
   }
@@ -309,6 +315,7 @@ export default function RealWorld({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

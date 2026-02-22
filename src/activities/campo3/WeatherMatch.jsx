@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const SCENARIOS = [
@@ -245,13 +246,19 @@ export default function WeatherMatch({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 13 ? 3 : score >= 8 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Tempo no Estadio" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🌤️</span>
-          <p style={styles.completeText}>Acertaste {score} de {SCENARIOS.length}!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🌤️"
+          title="Sabes vestir-te para o tempo!"
+          score={score}
+          total={SCENARIOS.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -290,6 +297,7 @@ export default function WeatherMatch({
         {scenario.options.map((opt) => (
           <button
             key={opt.id}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt.id)}
             disabled={feedback !== null}

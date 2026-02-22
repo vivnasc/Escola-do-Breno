@@ -50,14 +50,20 @@ export default function FeedbackMessage({ type, visible, onDismiss, universe, so
         ...styles.container,
         backgroundColor: isSuccess ? '#E8F5E9' : '#FFF3E0',
         borderColor: isSuccess ? 'var(--color-success)' : 'var(--color-warning)',
+        boxShadow: isSuccess
+          ? '0 4px 16px rgba(46, 125, 50, 0.15)'
+          : '0 4px 16px rgba(249, 168, 37, 0.15)',
       }}
       className="animate-scale-in"
       role="alert"
     >
       <span style={styles.emoji}>{icon}</span>
-      <span style={styles.text}>{message}</span>
+      <span style={{
+        ...styles.text,
+        color: isSuccess ? 'var(--color-primary-dark)' : 'var(--color-text)',
+      }}>{message}</span>
       {!isSuccess && (
-        <button style={styles.btn} onClick={onDismiss}>
+        <button style={styles.btn} className="btn-press" onClick={onDismiss}>
           Tentar de novo
         </button>
       )}

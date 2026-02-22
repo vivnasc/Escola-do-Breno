@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const SCENARIOS = [
@@ -321,13 +322,19 @@ export default function ProblemSolving({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Resolver Problemas" backPath="/campo/4" color="var(--color-campo4)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🧠</span>
-          <p style={styles.completeText}>Resolveste {score} problemas!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🧠"
+          title="Resolveste problemas como um campeao!"
+          score={score}
+          total={SCENARIOS.length}
+          stars={finalStars}
+          color="var(--color-campo4)"
+        />
       </ActivityShell>
     )
   }
@@ -352,6 +359,7 @@ export default function ProblemSolving({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

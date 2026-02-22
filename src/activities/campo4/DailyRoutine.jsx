@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -76,22 +77,19 @@ export default function DailyRoutine({
     [nextExpected, ordered.length, registerClick, registerSuccess, registerError, completeActivity, updateCampoProgress]
   )
 
+  const finalStars = 3
+
   if (isComplete) {
     return (
       <ActivityShell title={routineContent.title} backPath="/campo/4" color="var(--color-campo4)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🏆</span>
-          <p style={styles.completeText}>A tua rotina esta completa!</p>
-          <div style={styles.routineList}>
-            {STEPS.map((s) => (
-              <div key={s.id} style={styles.routineItem}>
-                <span>{s.emoji}</span>
-                <span style={styles.routineTime}>{s.time}</span>
-                <span>{s.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
+        <CompletionCelebration
+          emoji="🏆"
+          title="A tua rotina esta completa!"
+          score={ordered.length}
+          total={STEPS.length}
+          stars={finalStars}
+          color="var(--color-campo4)"
+        />
       </ActivityShell>
     )
   }
@@ -127,6 +125,7 @@ export default function DailyRoutine({
         {remaining.slice(0, adaptive?.choiceCount || 4).map((step) => (
           <button
             key={step.id}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleSelect(step)}
             disabled={feedback !== null}

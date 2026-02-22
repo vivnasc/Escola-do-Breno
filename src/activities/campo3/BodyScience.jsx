@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const QUESTIONS = [
@@ -229,13 +230,19 @@ export default function BodyScience({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 16 ? 3 : score >= 12 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Ciencia do Corpo" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🫀</span>
-          <p style={styles.completeText}>Aprendeste {score} factos sobre o corpo!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🫀"
+          title="Aprendeste sobre o corpo humano!"
+          score={score}
+          total={QUESTIONS.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -259,6 +266,7 @@ export default function BodyScience({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(i)}
             disabled={feedback !== null}

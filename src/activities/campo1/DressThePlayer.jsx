@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 import { getContent } from '../../data/universeContent'
 
@@ -66,18 +67,19 @@ export default function DressThePlayer({
     }
   }, [currentItem, completeActivity])
 
+  const finalStars = 3
+
   if (isComplete) {
     return (
       <ActivityShell title={dressContent.title} backPath="/campo/1" color="var(--color-campo1)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>{dressContent.completeEmoji}</span>
-          <p style={styles.completeText}>{dressContent.completeText}</p>
-          <div style={styles.dressedRow}>
-            {CLOTHING_ITEMS.map((c) => (
-              <span key={c.id} style={styles.dressedItem}>{c.emoji}</span>
-            ))}
-          </div>
-        </div>
+        <CompletionCelebration
+          emoji={dressContent.completeEmoji}
+          title={dressContent.completeText}
+          score={CLOTHING_ITEMS.length}
+          total={CLOTHING_ITEMS.length}
+          stars={finalStars}
+          color="var(--color-campo1)"
+        />
       </ActivityShell>
     )
   }
@@ -121,6 +123,7 @@ export default function DressThePlayer({
           {BODY_ZONES.map((zone) => (
             <button
               key={zone.id}
+              className="btn-press"
               style={styles.zoneBtn}
               onClick={() => handleZoneClick(zone.id)}
               disabled={feedback !== null}

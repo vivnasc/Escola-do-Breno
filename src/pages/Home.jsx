@@ -168,19 +168,19 @@ export default function Home({ progress, profile, adaptive, planner }) {
 
       {/* Quick Actions */}
       <section style={styles.quickActions}>
-        <button style={styles.quickBtn} onClick={() => navigate('/fichas')}>
+        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/fichas')}>
           <span style={styles.quickIcon}>✏️</span>
           <span style={styles.quickLabel}>Fichas</span>
         </button>
-        <button style={styles.quickBtn} onClick={() => navigate('/noticias')}>
+        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/noticias')}>
           <span style={styles.quickIcon}>📰</span>
           <span style={styles.quickLabel}>Noticias</span>
         </button>
-        <button style={styles.quickBtn} onClick={() => navigate('/comunidade')}>
+        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/comunidade')}>
           <span style={styles.quickIcon}>🏟️</span>
           <span style={styles.quickLabel}>Comunidade</span>
         </button>
-        <button style={styles.quickBtn} onClick={() => navigate('/progresso')}>
+        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/progresso')}>
           <span style={styles.quickIcon}>📊</span>
           <span style={styles.quickLabel}>Progresso</span>
         </button>
@@ -220,6 +220,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
                   borderLeftColor: campo.color,
                   ...(campo.isPriority && hasGoals ? styles.campoPriority : {}),
                 }}
+                className="interactive-card"
                 onClick={() => navigate(campo.path)}
                 aria-label={`${campo.name}: ${campo.subtitle}`}
               >
@@ -339,8 +340,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-around',
     padding: 'var(--space-md)',
-    backgroundColor: 'var(--color-bg)',
+    backgroundColor: 'var(--color-surface)',
     borderRadius: 'var(--radius-md)',
+    boxShadow: 'var(--shadow-sm)',
   },
   stat: {
     display: 'flex',
@@ -468,12 +470,12 @@ const styles = {
     border: '1px solid var(--color-border)',
     borderLeft: '4px solid',
     borderRadius: 'var(--radius-md)',
+    boxShadow: 'var(--shadow-sm)',
     textAlign: 'left',
     cursor: 'pointer',
     display: 'flex',
     flexDirection: 'column',
     gap: 'var(--space-sm)',
-    transition: 'box-shadow var(--transition-speed)',
     fontFamily: 'inherit',
     position: 'relative',
   },

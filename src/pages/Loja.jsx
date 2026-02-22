@@ -80,6 +80,7 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
           return (
             <div
               key={item.id}
+              className="card-elevated"
               style={{
                 ...styles.itemCard,
                 ...(wasJustPurchased ? styles.itemCardPurchased : {}),
@@ -117,6 +118,7 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
                     ...styles.buyBtn,
                     ...(!canAfford ? styles.buyBtnDisabled : {}),
                   }}
+                  className="btn-press"
                   onClick={() => handlePurchase(item)}
                   disabled={!canAfford}
                 >
@@ -224,6 +226,7 @@ const styles = {
     backgroundColor: '#FFF8E1',
     borderRadius: 'var(--radius-md)',
     border: '2px solid #FFD54F',
+    boxShadow: '0 2px 8px rgba(245, 127, 23, 0.15)',
   },
   starIcon: {
     fontSize: '1.5rem',
@@ -360,6 +363,7 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     gap: 'var(--space-md)',
+    boxShadow: 'var(--shadow-lg)',
   },
   modalIcon: {
     fontSize: '3rem',
