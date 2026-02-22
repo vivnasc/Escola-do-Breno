@@ -38,7 +38,18 @@ export default function Progress({ progress, profile }) {
 Data: ${date}
 Jogador: ${playerName}
 ${profile?.age ? `Idade: ${profile.age} anos` : ''}
+${profile?.universe ? `Universo tematico: ${profile.universe}` : ''}
 ${profile?.favoriteTeam ? `Equipa favorita: ${profile.favoriteTeam}` : ''}
+
+━━━ PERFIL DE NECESSIDADES ━━━
+  Nivel de leitura: ${profile?.learningNeeds?.readingLevel || 'nao definido'}
+  Nivel de apoio: ${profile?.learningNeeds?.supportLevel || 'nao definido'}
+  Areas de dificuldade: ${(profile?.learningNeeds?.areas || []).join(', ') || 'nenhuma indicada'}
+  Objectivos: ${(profile?.goals || []).join(', ') || 'nenhum indicado'}
+  Sessao: ${profile?.attention?.sessionLength || 15} minutos
+  Sensibilidade a frustracao: ${profile?.attention?.frustrationSensitivity || 'moderada'}
+  Tamanho do texto: ${profile?.sensory?.fontSize || 'normal'}
+  Contraste: ${profile?.sensory?.visualContrast || 'normal'}
 
 ━━━ RESUMO GERAL ━━━
   📝 Palavras aprendidas: ${totalWords}
@@ -97,10 +108,74 @@ ${date}
         <div style={styles.profileCard}>
           <span style={styles.profileName}>Jogador: {playerName}</span>
           {profile.age && <span style={styles.profileDetail}>Idade: {profile.age} anos</span>}
+          {profile.universe && (
+            <span style={styles.profileDetail}>Universo: {profile.universe}</span>
+          )}
           {profile.favoriteTeam && (
             <span style={styles.profileDetail}>Equipa: {profile.favoriteTeam}</span>
           )}
         </div>
+      )}
+
+      {(profile?.learningNeeds?.areas?.length > 0 || profile?.goals?.length > 0) && (
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>Perfil de Necessidades</h2>
+          <div style={styles.needsGrid}>
+            {profile.learningNeeds?.readingLevel && (
+              <div style={styles.needsItem}>
+                <span style={styles.needsLabel}>Leitura</span>
+                <span style={styles.needsValue}>{
+                  profile.learningNeeds.readingLevel === 'pre-reader' ? 'Pre-leitor' :
+                  profile.learningNeeds.readingLevel === 'beginning' ? 'A comecar' : 'Fluente'
+                }</span>
+              </div>
+            )}
+            {profile.learningNeeds?.supportLevel && (
+              <div style={styles.needsItem}>
+                <span style={styles.needsLabel}>Apoio</span>
+                <span style={styles.needsValue}>{
+                  profile.learningNeeds.supportLevel === 'independent' ? 'Independente' :
+                  profile.learningNeeds.supportLevel === 'full' ? 'Apoio total' : 'Algum apoio'
+                }</span>
+              </div>
+            )}
+            {profile.attention?.sessionLength && (
+              <div style={styles.needsItem}>
+                <span style={styles.needsLabel}>Sessao</span>
+                <span style={styles.needsValue}>{profile.attention.sessionLength} min</span>
+              </div>
+            )}
+            {profile.attention?.frustrationSensitivity && (
+              <div style={styles.needsItem}>
+                <span style={styles.needsLabel}>Frustracao</span>
+                <span style={styles.needsValue}>{
+                  profile.attention.frustrationSensitivity === 'sensitive' ? 'Muito sensivel' :
+                  profile.attention.frustrationSensitivity === 'resilient' ? 'Resiliente' : 'Moderado'
+                }</span>
+              </div>
+            )}
+          </div>
+          {profile.learningNeeds?.areas?.length > 0 && (
+            <div style={styles.needsTags}>
+              <span style={styles.needsTagLabel}>Areas de apoio:</span>
+              <div style={styles.tagRow}>
+                {profile.learningNeeds.areas.map((a) => (
+                  <span key={a} style={styles.needsTag}>{a}</span>
+                ))}
+              </div>
+            </div>
+          )}
+          {profile.goals?.length > 0 && (
+            <div style={styles.needsTags}>
+              <span style={styles.needsTagLabel}>Objectivos:</span>
+              <div style={styles.tagRow}>
+                {profile.goals.map((g) => (
+                  <span key={g} style={styles.goalTag}>{g}</span>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
       )}
 
       <section style={styles.section}>
@@ -358,5 +433,62 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     fontWeight: 600,
     textAlign: 'center',
+  },
+  // Needs profile
+  needsGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 'var(--space-sm)',
+  },
+  needsItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+    padding: 'var(--space-sm)',
+    backgroundColor: '#FFF8E1',
+    borderRadius: 'var(--radius-sm)',
+  },
+  needsLabel: {
+    fontSize: '0.65rem',
+    fontWeight: 600,
+    color: '#F57F17',
+    textTransform: 'uppercase',
+  },
+  needsValue: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  needsTags: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  needsTagLabel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: 'var(--color-text)',
+  },
+  tagRow: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 'var(--space-xs)',
+  },
+  needsTag: {
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 500,
+    backgroundColor: '#FFEBEE',
+    color: '#C62828',
+    border: '1px solid #EF9A9A',
+  },
+  goalTag: {
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 500,
+    backgroundColor: '#E8F5E9',
+    color: '#2E7D32',
+    border: '1px solid #A5D6A7',
   },
 }

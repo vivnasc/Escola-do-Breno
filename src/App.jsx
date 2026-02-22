@@ -14,6 +14,7 @@ import Comunidade from './pages/Comunidade'
 import Loja from './pages/Loja'
 import Desafios from './pages/Desafios'
 import BancoDaCalma from './components/BancoDaCalma'
+import BreakReminder from './components/BreakReminder'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
 import DressThePlayer from './activities/campo1/DressThePlayer'
 import ColorKit from './activities/campo1/ColorKit'
@@ -33,11 +34,13 @@ import RealWorld from './activities/campo4/RealWorld'
 import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
+import { useAdaptive } from './hooks/useAdaptive'
 
 export default function App() {
   const [showCalma, setShowCalma] = useState(false)
   const progressData = useProgress()
   const profileData = useProfile()
+  const adaptive = useAdaptive(profileData.profile)
 
   const handleFrustration = useCallback(() => {
     setShowCalma(true)
@@ -60,6 +63,7 @@ export default function App() {
     registerClick,
     registerError,
     registerSuccess,
+    adaptive,
   }
 
   // Show onboarding if not completed
@@ -70,12 +74,20 @@ export default function App() {
   return (
     <BrowserRouter>
       {showCalma && <BancoDaCalma onClose={handleCloseCalma} />}
+      {adaptive.showBreakReminder && (
+        <BreakReminder
+          name={profileData.profile.name}
+          onDismiss={adaptive.dismissBreak}
+          onEnd={adaptive.dismissBreak}
+        />
+      )}
       <Routes>
-        <Route element={<Layout profile={profileData.profile} />}>
+        <Route element={<Layout profile={profileData.profile} adaptive={adaptive} />}>
           <Route index element={
             <Home
               progress={progressData.progress}
               profile={profileData.profile}
+              adaptive={adaptive}
             />
           } />
           <Route path="/campo/1" element={<Campo1Bancada {...activityProps} />} />

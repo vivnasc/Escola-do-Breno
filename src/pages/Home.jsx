@@ -4,7 +4,7 @@ import { getCurrentChallenges, getDaysUntilReset } from '../data/challenges'
 import { AVATARS } from '../hooks/useProfile'
 import ProgressBar from '../components/ProgressBar'
 
-export default function Home({ progress, profile }) {
+export default function Home({ progress, profile, adaptive }) {
   const navigate = useNavigate()
   const totalWords = progress.wordsLearned.length
   const totalStars = progress.totalStars
@@ -13,14 +13,45 @@ export default function Home({ progress, profile }) {
   const challenges = getCurrentChallenges()
   const daysLeft = getDaysUntilReset()
 
+  const universe = adaptive?.universe
+  const prioritised = adaptive?.prioritisedCampos || ['campo1', 'campo2', 'campo3', 'campo4']
+
+  // Merge campo info with universe-specific naming
+  const campos = CAMPO_INFO.map((campo) => {
+    const uCampo = universe?.campos?.[campo.id]
+    return {
+      ...campo,
+      name: uCampo?.name || campo.name,
+      subtitle: uCampo?.subtitle || campo.subtitle,
+      isPriority: prioritised.includes(campo.id),
+    }
+  })
+
+  // Sort: prioritised goals first
+  const sortedCampos = [
+    ...campos.filter((c) => c.isPriority),
+    ...campos.filter((c) => !c.isPriority),
+  ]
+
+  // Show needs summary if goals are set
+  const hasGoals = (profile?.goals || []).length > 0
+  const needsAreas = profile?.learningNeeds?.areas || []
+
   return (
     <div style={styles.container} className="animate-fade-in">
       <header style={styles.header}>
         <div style={styles.headerLeft}>
-          <div style={styles.avatarCircle}>{avatarEmoji}</div>
+          <div style={{
+            ...styles.avatarCircle,
+            borderColor: universe?.color || 'var(--color-primary)',
+          }}>
+            {avatarEmoji}
+          </div>
           <div>
             <h1 style={styles.greeting}>Ola, {playerName}!</h1>
-            <p style={styles.subtitle}>Pronto para jogar?</p>
+            <p style={styles.subtitle}>
+              {universe?.icon} Mundo: {universe?.name || 'Futebol'}
+            </p>
           </div>
         </div>
         <button
@@ -53,6 +84,20 @@ export default function Home({ progress, profile }) {
           <span style={styles.statLabel}>feitas</span>
         </div>
       </div>
+
+      {/* Personalised recommendations based on needs */}
+      {hasGoals && (
+        <div style={styles.goalsCard}>
+          <span style={styles.goalsIcon}>🎯</span>
+          <div>
+            <p style={styles.goalsTitle}>Os teus objectivos</p>
+            <p style={styles.goalsText}>
+              Actividades recomendadas com base no teu perfil de aprendizagem.
+              {needsAreas.length > 0 && ` Foco: ${needsAreas.length} areas de apoio.`}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Quick Actions */}
       <section style={styles.quickActions}>
@@ -92,29 +137,37 @@ export default function Home({ progress, profile }) {
         </button>
       </section>
 
-      {/* 4 Campos */}
+      {/* 4 Campos — sorted by priority */}
       <section style={styles.campos}>
-        <h2 style={styles.sectionTitle}>Os 4 Campos</h2>
+        <h2 style={styles.sectionTitle}>
+          {hasGoals ? 'Recomendado para ti' : 'Os 4 Campos'}
+        </h2>
         <div style={styles.campoGrid}>
-          {CAMPO_INFO.map((campo, idx) => {
+          {sortedCampos.map((campo, idx) => {
             const cp = progress.campoProgress[campo.id]
             return (
               <button
                 key={campo.id}
-                style={{ ...styles.campoCard, borderLeftColor: campo.color }}
+                style={{
+                  ...styles.campoCard,
+                  borderLeftColor: campo.color,
+                  ...(campo.isPriority && hasGoals ? styles.campoPriority : {}),
+                }}
                 onClick={() => navigate(campo.path)}
                 aria-label={`${campo.name}: ${campo.subtitle}`}
               >
+                {campo.isPriority && hasGoals && (
+                  <span style={styles.priorityTag}>Recomendado</span>
+                )}
                 <div style={styles.campoHeader}>
                   <span style={styles.campoIcon}>{campo.icon}</span>
                   <div>
                     <span style={{ ...styles.campoName, color: campo.color }}>
-                      Campo {idx + 1}
+                      {campo.name}
                     </span>
-                    <span style={styles.campoTitle}>{campo.name}</span>
+                    <span style={styles.campoTitle}>{campo.subtitle}</span>
                   </div>
                 </div>
-                <p style={styles.campoDesc}>{campo.subtitle}</p>
                 <ProgressBar
                   value={cp.completed}
                   max={cp.total}
@@ -158,7 +211,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     fontSize: '1.8rem',
-    border: '2px solid var(--color-primary)',
+    border: '2px solid',
   },
   greeting: {
     fontSize: 'var(--font-size-xl)',
@@ -214,6 +267,19 @@ const styles = {
     color: 'var(--color-text-secondary)',
     textTransform: 'uppercase',
   },
+  // Goals recommendation card
+  goalsCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 'var(--radius-md)',
+    borderLeft: '4px solid #1565C0',
+  },
+  goalsIcon: { fontSize: '1.5rem', flexShrink: 0 },
+  goalsTitle: { fontWeight: 700, fontSize: 'var(--font-size-sm)', color: '#1565C0' },
+  goalsText: { fontSize: 'var(--font-size-sm)', color: 'var(--color-text)', lineHeight: 1.3, marginTop: '2px' },
   // Quick Actions
   quickActions: {
     display: 'grid',
@@ -231,10 +297,9 @@ const styles = {
     borderRadius: 'var(--radius-md)',
     cursor: 'pointer',
     transition: 'all 0.2s',
+    fontFamily: 'inherit',
   },
-  quickIcon: {
-    fontSize: '1.5rem',
-  },
+  quickIcon: { fontSize: '1.5rem' },
   quickLabel: {
     fontSize: '0.6rem',
     fontWeight: 600,
@@ -274,19 +339,9 @@ const styles = {
     alignItems: 'center',
     gap: 'var(--space-sm)',
   },
-  challengeIcon: {
-    fontSize: '1.2rem',
-  },
-  challengeName: {
-    flex: 1,
-    fontWeight: 500,
-    fontSize: 'var(--font-size-sm)',
-  },
-  challengeReward: {
-    fontSize: 'var(--font-size-sm)',
-    fontWeight: 700,
-    color: '#F57F17',
-  },
+  challengeIcon: { fontSize: '1.2rem' },
+  challengeName: { flex: 1, fontWeight: 500, fontSize: 'var(--font-size-sm)' },
+  challengeReward: { fontSize: 'var(--font-size-sm)', fontWeight: 700, color: '#F57F17' },
   challengeMoreBtn: {
     alignSelf: 'center',
     padding: 'var(--space-xs) var(--space-md)',
@@ -330,15 +385,32 @@ const styles = {
     gap: 'var(--space-sm)',
     transition: 'box-shadow var(--transition-speed)',
     fontFamily: 'inherit',
+    position: 'relative',
+  },
+  campoPriority: {
+    backgroundColor: '#F1F8E9',
+    borderWidth: '1px',
+    borderColor: 'var(--color-primary)',
+  },
+  priorityTag: {
+    position: 'absolute',
+    top: '-8px',
+    right: 'var(--space-sm)',
+    padding: '2px 8px',
+    backgroundColor: 'var(--color-primary)',
+    color: 'white',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: '0.6rem',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
   },
   campoHeader: {
     display: 'flex',
     alignItems: 'center',
     gap: 'var(--space-sm)',
   },
-  campoIcon: {
-    fontSize: '2rem',
-  },
+  campoIcon: { fontSize: '2rem' },
   campoName: {
     fontSize: 'var(--font-size-sm)',
     fontWeight: 700,
@@ -347,14 +419,10 @@ const styles = {
     display: 'block',
   },
   campoTitle: {
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 600,
     color: 'var(--color-text)',
     display: 'block',
-  },
-  campoDesc: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
   },
   campoProgress: {
     fontSize: 'var(--font-size-sm)',

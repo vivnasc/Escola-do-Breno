@@ -1,37 +1,82 @@
 import { useState } from 'react'
 import { AVATARS } from '../hooks/useProfile'
+import { UNIVERSES } from '../data/universes'
 import { TEAMS, PLAYERS } from '../data/vocabulary'
 
-const INTERESTS = [
-  { id: 'dinosaurs', emoji: '🦕', label: 'Dinossauros' },
-  { id: 'space', emoji: '🚀', label: 'Espaco' },
-  { id: 'music', emoji: '🎵', label: 'Musica' },
-  { id: 'animals', emoji: '🐾', label: 'Animais' },
-  { id: 'cars', emoji: '🏎️', label: 'Carros' },
-  { id: 'cooking', emoji: '🍳', label: 'Cozinhar' },
-  { id: 'art', emoji: '🎨', label: 'Arte' },
-  { id: 'games', emoji: '🎮', label: 'Jogos' },
+const LEARNING_AREAS = [
+  { id: 'reading', emoji: '📖', label: 'Leitura' },
+  { id: 'writing', emoji: '✏️', label: 'Escrita' },
+  { id: 'math', emoji: '🔢', label: 'Matematica' },
+  { id: 'attention', emoji: '🎯', label: 'Atencao / Concentracao' },
+  { id: 'social', emoji: '🤝', label: 'Competencias sociais' },
+  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulacao emocional' },
+  { id: 'speech', emoji: '💬', label: 'Fala / Linguagem' },
+  { id: 'comprehension', emoji: '🧠', label: 'Compreensao' },
+  { id: 'motor-fine', emoji: '✍️', label: 'Motricidade fina' },
+  { id: 'motor-gross', emoji: '🏃', label: 'Motricidade grossa' },
+]
+
+const GOALS = [
+  { id: 'language-pt', emoji: '🇵🇹', label: 'Portugues (leitura e escrita)' },
+  { id: 'language-en', emoji: '🇬🇧', label: 'Ingles (vocabulario)' },
+  { id: 'math', emoji: '🔢', label: 'Matematica' },
+  { id: 'social-skills', emoji: '🤝', label: 'Competencias sociais' },
+  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulacao emocional' },
+  { id: 'daily-living', emoji: '🏠', label: 'Autonomia / Vida diaria' },
+  { id: 'reading', emoji: '📖', label: 'Leitura' },
+  { id: 'writing', emoji: '✏️', label: 'Escrita' },
+  { id: 'attention-focus', emoji: '🎯', label: 'Atencao e foco' },
+  { id: 'communication', emoji: '💬', label: 'Comunicacao' },
 ]
 
 export default function Intake({ onComplete }) {
   const [step, setStep] = useState(0)
+
+  // Identity
+  const [filledBy, setFilledBy] = useState(null)
   const [name, setName] = useState('')
   const [age, setAge] = useState(null)
   const [avatar, setAvatar] = useState('star')
+
+  // Universe (not just football!)
+  const [universe, setUniverse] = useState(null)
   const [team, setTeam] = useState(null)
   const [player, setPlayer] = useState(null)
-  const [interests, setInterests] = useState([])
+
+  // Learning needs
+  const [areas, setAreas] = useState([])
+  const [readingLevel, setReadingLevel] = useState('beginning')
+  const [supportLevel, setSupportLevel] = useState('some')
+
+  // Sensory needs
   const [soundEnabled, setSoundEnabled] = useState(true)
+  const [soundVolume, setSoundVolume] = useState('normal')
   const [animationLevel, setAnimationLevel] = useState('normal')
+  const [visualContrast, setVisualContrast] = useState('normal')
+  const [fontSize, setFontSize] = useState('normal')
+  const [reducedClutter, setReducedClutter] = useState(false)
+  const [timePressure, setTimePressure] = useState(true)
 
-  const totalSteps = 6
+  // Attention & session
+  const [sessionLength, setSessionLength] = useState(15)
+  const [breakReminder, setBreakReminder] = useState(true)
+  const [frustrationSensitivity, setFrustrationSensitivity] = useState('moderate')
 
-  const handleNext = () => {
-    if (step < totalSteps - 1) setStep(step + 1)
-  }
+  // Goals
+  const [goals, setGoals] = useState([])
 
-  const handleBack = () => {
-    if (step > 0) setStep(step - 1)
+  // Communication
+  const [usesVisualSupports, setUsesVisualSupports] = useState(false)
+  const [prefersSimpleLanguage, setPrefersSimpleLanguage] = useState(false)
+  const [needsAudioInstructions, setNeedsAudioInstructions] = useState(true)
+
+  const totalSteps = 9
+
+  const handleNext = () => step < totalSteps - 1 && setStep(step + 1)
+  const handleBack = () => step > 0 && setStep(step - 1)
+
+  const toggleList = (list, setList, id) => {
+    setList(list.includes(id) ? list.filter((i) => i !== id) : [...list, id])
   }
 
   const handleFinish = () => {
@@ -39,18 +84,34 @@ export default function Intake({ onComplete }) {
       name: name.trim() || 'Jogador',
       age,
       avatar,
-      favoriteTeam: team || 'Benfica',
-      favoritePlayer: player || 'Ronaldo',
-      interests,
-      soundEnabled,
-      animationLevel,
+      filledBy: filledBy || 'parent',
+      universe: universe || 'football',
+      favoriteTeam: universe === 'football' ? team : null,
+      favoritePlayer: universe === 'football' ? player : null,
+      learningNeeds: { areas, readingLevel, supportLevel },
+      sensory: {
+        soundEnabled, soundVolume, animationLevel, visualContrast,
+        fontSize, reducedClutter, timePressure,
+      },
+      attention: {
+        sessionLength,
+        breakReminder,
+        breakInterval: Math.max(5, sessionLength - 5),
+        frustrationSensitivity,
+      },
+      goals,
+      communication: {
+        usesVisualSupports,
+        prefersSimpleLanguage,
+        needsAudioInstructions,
+      },
     })
   }
 
-  const toggleInterest = (id) => {
-    setInterests((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    )
+  const canAdvance = () => {
+    if (step === 0) return !!filledBy
+    if (step === 1) return !!name.trim()
+    return true
   }
 
   return (
@@ -58,39 +119,63 @@ export default function Intake({ onComplete }) {
       <div style={styles.progressBar}>
         <div style={{ ...styles.progressFill, width: `${((step + 1) / totalSteps) * 100}%` }} />
       </div>
+      <div style={styles.stepIndicator}>
+        {step + 1} / {totalSteps}
+      </div>
 
       <div style={styles.content} className="animate-fade-in" key={step}>
+
+        {/* STEP 0: Who is filling this in? */}
         {step === 0 && (
           <div style={styles.stepContent}>
-            <span style={styles.bigEmoji}>⚽</span>
+            <span style={styles.bigEmoji}>👋</span>
             <h1 style={styles.title}>Bem-vindo ao PITCH!</h1>
             <p style={styles.desc}>
-              Vamos criar o teu perfil de jogador. Como te chamas?
+              Antes de comecar, queremos conhecer melhor a crianca para adaptar a experiencia.
             </p>
+            <p style={styles.label}>Quem esta a preencher?</p>
+            <div style={styles.grid2}>
+              {[
+                { id: 'parent', icon: '👨‍👩‍👦', label: 'Mae / Pai' },
+                { id: 'therapist', icon: '🧑‍⚕️', label: 'Terapeuta' },
+                { id: 'teacher', icon: '🧑‍🏫', label: 'Professor(a)' },
+                { id: 'self', icon: '🧒', label: 'Eu proprio!' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  style={{ ...styles.optionBtn, ...(filledBy === opt.id ? styles.optionBtnActive : {}) }}
+                  onClick={() => setFilledBy(opt.id)}
+                >
+                  <span style={styles.optionEmoji}>{opt.icon}</span>
+                  <span style={styles.optionLabel}>{opt.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 1: Name & Age */}
+        {step === 1 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>🌟</span>
+            <h1 style={styles.title}>
+              {filledBy === 'self' ? 'Como te chamas?' : 'Como se chama a crianca?'}
+            </h1>
             <input
               style={styles.input}
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="O teu nome..."
+              placeholder={filledBy === 'self' ? 'O teu nome...' : 'Nome da crianca...'}
               autoFocus
               maxLength={30}
             />
-          </div>
-        )}
-
-        {step === 1 && (
-          <div style={styles.stepContent}>
-            <span style={styles.bigEmoji}>🎂</span>
-            <h1 style={styles.title}>Quantos anos tens, {name || 'jogador'}?</h1>
+            <p style={styles.label}>Idade</p>
             <div style={styles.ageGrid}>
               {[6, 7, 8, 9, 10, 11, 12, 13, 14].map((a) => (
                 <button
                   key={a}
-                  style={{
-                    ...styles.ageBtn,
-                    ...(age === a ? styles.ageBtnActive : {}),
-                  }}
+                  style={{ ...styles.ageBtn, ...(age === a ? styles.ageBtnActive : {}) }}
                   onClick={() => setAge(a)}
                 >
                   {a}
@@ -100,18 +185,301 @@ export default function Intake({ onComplete }) {
           </div>
         )}
 
+        {/* STEP 2: Universe — the theme that makes them WANT to learn */}
         {step === 2 && (
           <div style={styles.stepContent}>
+            <h1 style={styles.title}>
+              O que {filledBy === 'self' ? 'te' : ''} fascina mais?
+            </h1>
+            <p style={styles.desc}>
+              Toda a experiencia vai ser construida a volta deste mundo.
+              {filledBy !== 'self' && ' Escolha o interesse mais intenso da crianca.'}
+            </p>
+            <div style={styles.universeGrid}>
+              {UNIVERSES.map((u) => (
+                <button
+                  key={u.id}
+                  style={{
+                    ...styles.universeBtn,
+                    ...(universe === u.id ? { ...styles.universeBtnActive, borderColor: u.color } : {}),
+                  }}
+                  onClick={() => setUniverse(u.id)}
+                >
+                  <span style={styles.universeIcon}>{u.icon}</span>
+                  <span style={styles.universeName}>{u.name}</span>
+                  <span style={styles.universeDesc}>{u.description}</span>
+                </button>
+              ))}
+            </div>
+            {universe === 'football' && (
+              <>
+                <p style={styles.label}>Equipa favorita</p>
+                <div style={styles.teamGrid}>
+                  {TEAMS.map((t) => (
+                    <button
+                      key={t.name}
+                      style={{ ...styles.smallBtn, ...(team === t.name ? styles.smallBtnActive : {}) }}
+                      onClick={() => setTeam(t.name)}
+                    >
+                      {t.name}
+                    </button>
+                  ))}
+                </div>
+                <p style={styles.label}>Jogador favorito</p>
+                <div style={styles.teamGrid}>
+                  {PLAYERS.map((p) => (
+                    <button
+                      key={p.name}
+                      style={{ ...styles.smallBtn, ...(player === p.name ? styles.smallBtnActive : {}) }}
+                      onClick={() => setPlayer(p.name)}
+                    >
+                      {p.number} {p.name}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* STEP 3: Learning Needs — where does the child need support? */}
+        {step === 3 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>💪</span>
+            <h1 style={styles.title}>Areas onde precisa de apoio</h1>
+            <p style={styles.desc}>
+              {filledBy === 'self'
+                ? 'O que achas mais dificil? (podes escolher varios)'
+                : 'Seleccione as areas onde a crianca tem mais dificuldade. Isto adapta o nivel de todas as actividades.'}
+            </p>
+            <div style={styles.needsGrid}>
+              {LEARNING_AREAS.map((area) => (
+                <button
+                  key={area.id}
+                  style={{
+                    ...styles.needBtn,
+                    ...(areas.includes(area.id) ? styles.needBtnActive : {}),
+                  }}
+                  onClick={() => toggleList(areas, setAreas, area.id)}
+                >
+                  <span style={styles.needEmoji}>{area.emoji}</span>
+                  <span style={styles.needLabel}>{area.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 4: Reading level & support needs */}
+        {step === 4 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>📖</span>
+            <h1 style={styles.title}>Nivel de leitura e apoio</h1>
+
+            <p style={styles.label}>Nivel de leitura</p>
+            <div style={styles.grid3}>
+              {[
+                { id: 'pre-reader', label: 'Pre-leitor', desc: 'Ainda nao le; usa imagens' },
+                { id: 'beginning', label: 'A comecar', desc: 'Le palavras simples' },
+                { id: 'fluent', label: 'Leitor fluente', desc: 'Le frases e textos' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  style={{ ...styles.levelBtn, ...(readingLevel === opt.id ? styles.levelBtnActive : {}) }}
+                  onClick={() => setReadingLevel(opt.id)}
+                >
+                  <span style={styles.levelLabel}>{opt.label}</span>
+                  <span style={styles.levelDesc}>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+
+            <p style={styles.label}>Nivel de apoio necessario</p>
+            <div style={styles.grid3}>
+              {[
+                { id: 'independent', label: 'Independente', desc: 'Faz sozinho(a)' },
+                { id: 'some', label: 'Algum apoio', desc: 'Precisa de pistas' },
+                { id: 'full', label: 'Apoio total', desc: 'Precisa de ajuda constante' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  style={{ ...styles.levelBtn, ...(supportLevel === opt.id ? styles.levelBtnActive : {}) }}
+                  onClick={() => setSupportLevel(opt.id)}
+                >
+                  <span style={styles.levelLabel}>{opt.label}</span>
+                  <span style={styles.levelDesc}>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+
+            <p style={styles.label}>Comunicacao</p>
+            <div style={styles.checkList}>
+              <CheckItem
+                checked={usesVisualSupports}
+                onChange={setUsesVisualSupports}
+                label="Usa suportes visuais (mais imagens, menos texto)"
+              />
+              <CheckItem
+                checked={prefersSimpleLanguage}
+                onChange={setPrefersSimpleLanguage}
+                label="Prefere linguagem simples e directa"
+              />
+              <CheckItem
+                checked={needsAudioInstructions}
+                onChange={setNeedsAudioInstructions}
+                label="Precisa de instrucoes em audio"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* STEP 5: Sensory needs */}
+        {step === 5 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>🎨</span>
+            <h1 style={styles.title}>Necessidades sensoriais</h1>
+            <p style={styles.desc}>
+              {filledBy === 'self'
+                ? 'Como preferes que o ecra seja?'
+                : 'Adapte a experiencia sensorial ao perfil da crianca.'}
+            </p>
+
+            <SensoryRow label="Som">
+              <ToggleBtn active={soundEnabled} onClick={() => setSoundEnabled(true)} text="🔊 Com som" />
+              <ToggleBtn active={!soundEnabled} onClick={() => setSoundEnabled(false)} text="🔇 Sem som" />
+            </SensoryRow>
+
+            {soundEnabled && (
+              <SensoryRow label="Volume">
+                <ToggleBtn active={soundVolume === 'quiet'} onClick={() => setSoundVolume('quiet')} text="🤫 Baixo" />
+                <ToggleBtn active={soundVolume === 'normal'} onClick={() => setSoundVolume('normal')} text="🔊 Normal" />
+              </SensoryRow>
+            )}
+
+            <SensoryRow label="Animacoes">
+              <ToggleBtn active={animationLevel === 'minimal'} onClick={() => setAnimationLevel('minimal')} text="🧘 Minimas" />
+              <ToggleBtn active={animationLevel === 'normal'} onClick={() => setAnimationLevel('normal')} text="✨ Normal" />
+            </SensoryRow>
+
+            <SensoryRow label="Contraste visual">
+              <ToggleBtn active={visualContrast === 'normal'} onClick={() => setVisualContrast('normal')} text="Normal" />
+              <ToggleBtn active={visualContrast === 'high'} onClick={() => setVisualContrast('high')} text="Alto contraste" />
+            </SensoryRow>
+
+            <SensoryRow label="Tamanho do texto">
+              <ToggleBtn active={fontSize === 'normal'} onClick={() => setFontSize('normal')} text="Aa" />
+              <ToggleBtn active={fontSize === 'large'} onClick={() => setFontSize('large')} text="Aa+" />
+              <ToggleBtn active={fontSize === 'extra-large'} onClick={() => setFontSize('extra-large')} text="Aa++" />
+            </SensoryRow>
+
+            <div style={styles.checkList}>
+              <CheckItem
+                checked={reducedClutter}
+                onChange={setReducedClutter}
+                label="Ecra simplificado (menos opcoes por vez)"
+              />
+              <CheckItem
+                checked={!timePressure}
+                onChange={(v) => setTimePressure(!v)}
+                label="Sem pressao de tempo (sem cronometros)"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* STEP 6: Attention & session management */}
+        {step === 6 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>⏱️</span>
+            <h1 style={styles.title}>Atencao e sessoes</h1>
+            <p style={styles.desc}>
+              {filledBy === 'self'
+                ? 'Quanto tempo gostas de jogar de cada vez?'
+                : 'Configure o tempo de sessao e pausas para evitar fadiga.'}
+            </p>
+
+            <p style={styles.label}>Duracao da sessao</p>
+            <div style={styles.sessionGrid}>
+              {[5, 10, 15, 20, 30].map((m) => (
+                <button
+                  key={m}
+                  style={{ ...styles.sessionBtn, ...(sessionLength === m ? styles.sessionBtnActive : {}) }}
+                  onClick={() => setSessionLength(m)}
+                >
+                  <span style={styles.sessionNum}>{m}</span>
+                  <span style={styles.sessionUnit}>min</span>
+                </button>
+              ))}
+            </div>
+
+            <div style={styles.checkList}>
+              <CheckItem
+                checked={breakReminder}
+                onChange={setBreakReminder}
+                label="Lembrete para fazer pausa"
+              />
+            </div>
+
+            <p style={styles.label}>Sensibilidade a frustracao</p>
+            <p style={styles.smallDesc}>
+              Quando detectamos sinais de frustracao, abrimos o "Banco da Calma" para ajudar.
+            </p>
+            <div style={styles.grid3}>
+              {[
+                { id: 'sensitive', label: 'Muito sensivel', desc: 'Activa rapidamente' },
+                { id: 'moderate', label: 'Moderado', desc: 'Equilibrado' },
+                { id: 'resilient', label: 'Resiliente', desc: 'So em situacoes extremas' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  style={{ ...styles.levelBtn, ...(frustrationSensitivity === opt.id ? styles.levelBtnActive : {}) }}
+                  onClick={() => setFrustrationSensitivity(opt.id)}
+                >
+                  <span style={styles.levelLabel}>{opt.label}</span>
+                  <span style={styles.levelDesc}>{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 7: Therapeutic / learning goals */}
+        {step === 7 && (
+          <div style={styles.stepContent}>
+            <span style={styles.bigEmoji}>🎯</span>
+            <h1 style={styles.title}>Objectivos de aprendizagem</h1>
+            <p style={styles.desc}>
+              {filledBy === 'self'
+                ? 'O que queres aprender mais?'
+                : 'Que areas quer priorizar? As actividades recomendadas vao reflectir estas escolhas.'}
+            </p>
+            <div style={styles.needsGrid}>
+              {GOALS.map((goal) => (
+                <button
+                  key={goal.id}
+                  style={{
+                    ...styles.needBtn,
+                    ...(goals.includes(goal.id) ? styles.needBtnActive : {}),
+                  }}
+                  onClick={() => toggleList(goals, setGoals, goal.id)}
+                >
+                  <span style={styles.needEmoji}>{goal.emoji}</span>
+                  <span style={styles.needLabel}>{goal.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* STEP 8: Avatar + Ready */}
+        {step === 8 && (
+          <div style={styles.stepContent}>
             <h1 style={styles.title}>Escolhe o teu avatar</h1>
-            <p style={styles.desc}>Este sera o teu simbolo no PITCH</p>
             <div style={styles.avatarGrid}>
               {AVATARS.map((a) => (
                 <button
                   key={a.id}
-                  style={{
-                    ...styles.avatarBtn,
-                    ...(avatar === a.id ? styles.avatarBtnActive : {}),
-                  }}
+                  style={{ ...styles.avatarBtn, ...(avatar === a.id ? styles.avatarBtnActive : {}) }}
                   onClick={() => setAvatar(a.id)}
                 >
                   <span style={styles.avatarEmoji}>{a.emoji}</span>
@@ -119,127 +487,16 @@ export default function Intake({ onComplete }) {
                 </button>
               ))}
             </div>
-          </div>
-        )}
-
-        {step === 3 && (
-          <div style={styles.stepContent}>
-            <span style={styles.bigEmoji}>🏟️</span>
-            <h1 style={styles.title}>Qual e a tua equipa?</h1>
-            <div style={styles.teamGrid}>
-              {TEAMS.map((t) => (
-                <button
-                  key={t.name}
-                  style={{
-                    ...styles.teamBtn,
-                    ...(team === t.name ? styles.teamBtnActive : {}),
-                  }}
-                  onClick={() => setTeam(t.name)}
-                >
-                  <span style={styles.teamName}>{t.name}</span>
-                  <span style={styles.teamCountry}>{t.country}</span>
-                </button>
-              ))}
-            </div>
-            <h2 style={styles.subtitle}>E o teu jogador favorito?</h2>
-            <div style={styles.playerGrid}>
-              {PLAYERS.map((p) => (
-                <button
-                  key={p.name}
-                  style={{
-                    ...styles.playerBtn,
-                    ...(player === p.name ? styles.playerBtnActive : {}),
-                  }}
-                  onClick={() => setPlayer(p.name)}
-                >
-                  <span style={styles.playerNumber}>{p.number}</span>
-                  <span style={styles.playerName}>{p.name}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 4 && (
-          <div style={styles.stepContent}>
-            <span style={styles.bigEmoji}>💡</span>
-            <h1 style={styles.title}>O que mais gostas?</h1>
-            <p style={styles.desc}>Escolhe os teus interesses (podes escolher varios)</p>
-            <div style={styles.interestGrid}>
-              {INTERESTS.map((i) => (
-                <button
-                  key={i.id}
-                  style={{
-                    ...styles.interestBtn,
-                    ...(interests.includes(i.id) ? styles.interestBtnActive : {}),
-                  }}
-                  onClick={() => toggleInterest(i.id)}
-                >
-                  <span style={styles.interestEmoji}>{i.emoji}</span>
-                  <span style={styles.interestLabel}>{i.label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {step === 5 && (
-          <div style={styles.stepContent}>
-            <span style={styles.bigEmoji}>🎮</span>
-            <h1 style={styles.title}>Como preferes jogar?</h1>
-
-            <div style={styles.prefSection}>
-              <p style={styles.prefLabel}>Sons</p>
-              <div style={styles.prefRow}>
-                <button
-                  style={{
-                    ...styles.prefBtn,
-                    ...(soundEnabled ? styles.prefBtnActive : {}),
-                  }}
-                  onClick={() => setSoundEnabled(true)}
-                >
-                  🔊 Com som
-                </button>
-                <button
-                  style={{
-                    ...styles.prefBtn,
-                    ...(!soundEnabled ? styles.prefBtnActive : {}),
-                  }}
-                  onClick={() => setSoundEnabled(false)}
-                >
-                  🔇 Sem som
-                </button>
-              </div>
-            </div>
-
-            <div style={styles.prefSection}>
-              <p style={styles.prefLabel}>Animacoes</p>
-              <div style={styles.prefRow}>
-                <button
-                  style={{
-                    ...styles.prefBtn,
-                    ...(animationLevel === 'normal' ? styles.prefBtnActive : {}),
-                  }}
-                  onClick={() => setAnimationLevel('normal')}
-                >
-                  ✨ Normal
-                </button>
-                <button
-                  style={{
-                    ...styles.prefBtn,
-                    ...(animationLevel === 'minimal' ? styles.prefBtnActive : {}),
-                  }}
-                  onClick={() => setAnimationLevel('minimal')}
-                >
-                  🧘 Calmo
-                </button>
-              </div>
-            </div>
 
             <div style={styles.readyBox}>
-              <span style={styles.readyEmoji}>🏆</span>
+              <span style={styles.readyEmoji}>
+                {UNIVERSES.find(u => u.id === universe)?.icon || '🌟'}
+              </span>
               <p style={styles.readyText}>
-                Tudo pronto, {name || 'jogador'}! Vamos comecar a jogar?
+                Tudo pronto, {name || 'jogador'}!
+              </p>
+              <p style={styles.readySubtext}>
+                A experiencia esta adaptada as tuas necessidades. Podes sempre ajustar nas definicoes.
               </p>
             </div>
           </div>
@@ -248,29 +505,57 @@ export default function Intake({ onComplete }) {
 
       <div style={styles.footer}>
         {step > 0 && (
-          <button style={styles.backBtn} onClick={handleBack}>
-            ← Voltar
-          </button>
+          <button style={styles.backBtn} onClick={handleBack}>← Voltar</button>
         )}
         <div style={{ flex: 1 }} />
         {step < totalSteps - 1 ? (
           <button
-            style={{
-              ...styles.nextBtn,
-              ...(step === 0 && !name.trim() ? styles.nextBtnDisabled : {}),
-            }}
+            style={{ ...styles.nextBtn, ...(!canAdvance() ? styles.nextBtnDisabled : {}) }}
             onClick={handleNext}
-            disabled={step === 0 && !name.trim()}
+            disabled={!canAdvance()}
           >
             Seguinte →
           </button>
         ) : (
           <button style={styles.startBtn} onClick={handleFinish}>
-            Comecar a Jogar!
+            Comecar!
           </button>
         )}
       </div>
     </div>
+  )
+}
+
+// Reusable components for the intake form
+function SensoryRow({ label, children }) {
+  return (
+    <div style={styles.sensoryRow}>
+      <p style={styles.sensoryLabel}>{label}</p>
+      <div style={styles.sensoryOptions}>{children}</div>
+    </div>
+  )
+}
+
+function ToggleBtn({ active, onClick, text }) {
+  return (
+    <button
+      style={{ ...styles.toggleBtn, ...(active ? styles.toggleBtnActive : {}) }}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  )
+}
+
+function CheckItem({ checked, onChange, label }) {
+  return (
+    <button
+      style={{ ...styles.checkItem, ...(checked ? styles.checkItemActive : {}) }}
+      onClick={() => onChange(!checked)}
+    >
+      <span style={styles.checkBox}>{checked ? '✓' : ''}</span>
+      <span>{label}</span>
+    </button>
   )
 }
 
@@ -286,50 +571,56 @@ const styles = {
   progressBar: {
     height: '4px',
     backgroundColor: 'var(--color-border)',
-    borderRadius: '2px',
   },
   progressFill: {
     height: '100%',
     backgroundColor: 'var(--color-primary)',
-    borderRadius: '2px',
     transition: 'width 0.4s ease',
+  },
+  stepIndicator: {
+    textAlign: 'center',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    padding: 'var(--space-xs)',
   },
   content: {
     flex: 1,
-    padding: 'var(--space-lg)',
+    padding: 'var(--space-md) var(--space-lg)',
     overflowY: 'auto',
+    paddingBottom: '80px',
   },
   stepContent: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    gap: 'var(--space-lg)',
+    gap: 'var(--space-md)',
   },
-  bigEmoji: {
-    fontSize: '4rem',
-    lineHeight: 1,
-  },
+  bigEmoji: { fontSize: '3rem', lineHeight: 1, textAlign: 'center' },
   title: {
     fontSize: 'var(--font-size-xl)',
     fontWeight: 700,
     color: 'var(--color-text)',
     textAlign: 'center',
   },
-  subtitle: {
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 700,
-    color: 'var(--color-text)',
-    textAlign: 'center',
-    marginTop: 'var(--space-md)',
-  },
   desc: {
-    fontSize: 'var(--font-size-base)',
+    fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     textAlign: 'center',
+    lineHeight: 1.5,
+  },
+  smallDesc: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.4,
+    marginTop: '-8px',
+  },
+  label: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    color: 'var(--color-text)',
+    marginTop: 'var(--space-sm)',
   },
   input: {
     width: '100%',
-    maxWidth: '300px',
     padding: 'var(--space-md)',
     fontSize: 'var(--font-size-lg)',
     fontFamily: 'inherit',
@@ -337,35 +628,246 @@ const styles = {
     borderRadius: 'var(--radius-md)',
     textAlign: 'center',
     outline: 'none',
-    transition: 'border-color 0.3s',
+  },
+  // Grids
+  grid2: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 'var(--space-sm)',
+  },
+  grid3: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
   },
   ageGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: 'var(--space-sm)',
-    width: '100%',
-    maxWidth: '280px',
+    gap: 'var(--space-xs)',
+    maxWidth: '260px',
+    alignSelf: 'center',
   },
   ageBtn: {
-    padding: 'var(--space-md)',
-    fontSize: 'var(--font-size-xl)',
+    padding: 'var(--space-sm)',
+    fontSize: 'var(--font-size-lg)',
     fontWeight: 700,
     border: '2px solid var(--color-border)',
     borderRadius: 'var(--radius-md)',
     backgroundColor: 'var(--color-bg)',
     cursor: 'pointer',
-    transition: 'all 0.2s',
   },
   ageBtnActive: {
     borderColor: 'var(--color-primary)',
     backgroundColor: '#E8F5E9',
     color: 'var(--color-primary)',
   },
+  // Options (who is filling in)
+  optionBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+    padding: 'var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+  },
+  optionBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  optionEmoji: { fontSize: '2rem' },
+  optionLabel: { fontWeight: 600, fontSize: 'var(--font-size-sm)' },
+  // Universe
+  universeGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 1fr)',
+    gap: 'var(--space-sm)',
+  },
+  universeBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+    padding: 'var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'center',
+  },
+  universeBtnActive: {
+    backgroundColor: '#E8F5E9',
+  },
+  universeIcon: { fontSize: '2.5rem' },
+  universeName: { fontWeight: 700, fontSize: 'var(--font-size-base)' },
+  universeDesc: { fontSize: '0.7rem', color: 'var(--color-text-secondary)' },
+  // Teams (compact)
+  teamGrid: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    gap: 'var(--space-xs)',
+  },
+  smallBtn: {
+    padding: 'var(--space-xs) var(--space-sm)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontWeight: 500,
+    fontSize: 'var(--font-size-sm)',
+    fontFamily: 'inherit',
+  },
+  smallBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+    color: 'var(--color-primary)',
+    fontWeight: 700,
+  },
+  // Learning needs
+  needsGrid: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  needBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+    width: '100%',
+  },
+  needBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  needEmoji: { fontSize: '1.5rem', flexShrink: 0 },
+  needLabel: { fontWeight: 600, fontSize: 'var(--font-size-sm)' },
+  // Level buttons
+  levelBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2px',
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+  },
+  levelBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  levelLabel: { fontWeight: 700, fontSize: 'var(--font-size-base)' },
+  levelDesc: { fontSize: 'var(--font-size-sm)', color: 'var(--color-text-secondary)' },
+  // Sensory
+  sensoryRow: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  sensoryLabel: {
+    fontWeight: 600,
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text)',
+  },
+  sensoryOptions: {
+    display: 'flex',
+    gap: 'var(--space-xs)',
+  },
+  toggleBtn: {
+    flex: 1,
+    padding: 'var(--space-sm)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontSize: 'var(--font-size-sm)',
+    fontFamily: 'inherit',
+  },
+  toggleBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+    color: 'var(--color-primary)',
+  },
+  // Checkboxes
+  checkList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  checkItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-sm)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 500,
+    textAlign: 'left',
+    width: '100%',
+  },
+  checkItemActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  checkBox: {
+    width: '20px',
+    height: '20px',
+    borderRadius: '4px',
+    border: '2px solid var(--color-primary)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: 700,
+    fontSize: '0.7rem',
+    color: 'var(--color-primary)',
+    flexShrink: 0,
+  },
+  // Session
+  sessionGrid: {
+    display: 'flex',
+    gap: 'var(--space-xs)',
+    justifyContent: 'center',
+  },
+  sessionBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'var(--color-bg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+  },
+  sessionBtnActive: {
+    borderColor: 'var(--color-primary)',
+    backgroundColor: '#E8F5E9',
+  },
+  sessionNum: { fontSize: 'var(--font-size-xl)', fontWeight: 700, color: 'var(--color-primary)' },
+  sessionUnit: { fontSize: '0.6rem', color: 'var(--color-text-secondary)', fontWeight: 600 },
+  // Avatar
   avatarGrid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
     gap: 'var(--space-sm)',
-    width: '100%',
   },
   avatarBtn: {
     display: 'flex',
@@ -377,165 +879,49 @@ const styles = {
     borderRadius: 'var(--radius-md)',
     backgroundColor: 'var(--color-bg)',
     cursor: 'pointer',
-    transition: 'all 0.2s',
   },
   avatarBtnActive: {
     borderColor: 'var(--color-primary)',
     backgroundColor: '#E8F5E9',
   },
-  avatarEmoji: {
-    fontSize: '2rem',
-  },
-  avatarLabel: {
-    fontSize: '0.65rem',
-    fontWeight: 600,
-    color: 'var(--color-text-secondary)',
-  },
-  teamGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: 'var(--space-sm)',
-    width: '100%',
-  },
-  teamBtn: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '2px',
-    padding: 'var(--space-sm) var(--space-xs)',
-    border: '2px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--color-bg)',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-  },
-  teamBtnActive: {
-    borderColor: 'var(--color-primary)',
-    backgroundColor: '#E8F5E9',
-  },
-  teamName: {
-    fontWeight: 700,
-    fontSize: 'var(--font-size-base)',
-  },
-  teamCountry: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-  },
-  playerGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: 'var(--space-sm)',
-    width: '100%',
-  },
-  playerBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'var(--space-sm)',
-    padding: 'var(--space-sm) var(--space-md)',
-    border: '2px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--color-bg)',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-  },
-  playerBtnActive: {
-    borderColor: 'var(--color-primary)',
-    backgroundColor: '#E8F5E9',
-  },
-  playerNumber: {
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 700,
-    color: 'var(--color-primary)',
-    minWidth: '32px',
-    textAlign: 'center',
-  },
-  playerName: {
-    fontWeight: 600,
-  },
-  interestGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: 'var(--space-sm)',
-    width: '100%',
-  },
-  interestBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'var(--space-sm)',
-    padding: 'var(--space-md)',
-    border: '2px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--color-bg)',
-    cursor: 'pointer',
-    transition: 'all 0.2s',
-  },
-  interestBtnActive: {
-    borderColor: 'var(--color-primary)',
-    backgroundColor: '#E8F5E9',
-  },
-  interestEmoji: {
-    fontSize: '1.5rem',
-  },
-  interestLabel: {
-    fontWeight: 600,
-  },
-  prefSection: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 'var(--space-sm)',
-  },
-  prefLabel: {
-    fontWeight: 700,
-    fontSize: 'var(--font-size-base)',
-    color: 'var(--color-text)',
-  },
-  prefRow: {
-    display: 'flex',
-    gap: 'var(--space-sm)',
-  },
-  prefBtn: {
-    flex: 1,
-    padding: 'var(--space-md)',
-    border: '2px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    backgroundColor: 'var(--color-bg)',
-    cursor: 'pointer',
-    fontWeight: 600,
-    fontSize: 'var(--font-size-base)',
-    fontFamily: 'inherit',
-    transition: 'all 0.2s',
-  },
-  prefBtnActive: {
-    borderColor: 'var(--color-primary)',
-    backgroundColor: '#E8F5E9',
-    color: 'var(--color-primary)',
-  },
+  avatarEmoji: { fontSize: '2rem' },
+  avatarLabel: { fontSize: '0.65rem', fontWeight: 600, color: 'var(--color-text-secondary)' },
+  // Ready
   readyBox: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    gap: 'var(--space-md)',
+    gap: 'var(--space-sm)',
     padding: 'var(--space-xl)',
     backgroundColor: '#E8F5E9',
     borderRadius: 'var(--radius-lg)',
     border: '2px solid var(--color-primary)',
-    marginTop: 'var(--space-md)',
-    width: '100%',
   },
-  readyEmoji: {
-    fontSize: '3rem',
-  },
+  readyEmoji: { fontSize: '3rem' },
   readyText: {
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 600,
-    textAlign: 'center',
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: 700,
     color: 'var(--color-primary-dark)',
+    textAlign: 'center',
   },
+  readySubtext: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
+  // Footer
   footer: {
+    position: 'fixed',
+    bottom: 0,
+    left: '50%',
+    transform: 'translateX(-50%)',
+    width: '100%',
+    maxWidth: '480px',
     display: 'flex',
     padding: 'var(--space-md)',
     borderTop: '1px solid var(--color-border)',
+    backgroundColor: 'var(--color-surface)',
     gap: 'var(--space-sm)',
   },
   backBtn: {
@@ -559,7 +945,6 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-base)',
-    transition: 'opacity 0.2s',
   },
   nextBtnDisabled: {
     opacity: 0.4,
@@ -575,6 +960,5 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-lg)',
-    transition: 'transform 0.2s',
   },
 }

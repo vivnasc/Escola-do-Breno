@@ -14,25 +14,76 @@ const AVATARS = [
 ]
 
 const DEFAULT_PROFILE = {
+  // Identity
   name: '',
   age: null,
   avatar: 'star',
-  favoriteTeam: null,
-  favoritePlayer: null,
-  interests: [],
-  soundEnabled: true,
-  animationLevel: 'normal', // 'minimal', 'normal'
   onboardingComplete: false,
   createdAt: null,
-  // Purchased items from the shop
+
+  // Theme — NOT just football
+  universe: 'football', // football, dinosaurs, space, animals, music
+  favoriteTeam: null,
+  favoritePlayer: null,
+
+  // === NEEDS (the core of real personalisation) ===
+
+  // Who is filling this in?
+  filledBy: 'parent', // 'parent', 'therapist', 'teacher', 'self'
+
+  // Learning profile
+  learningNeeds: {
+    // Areas of difficulty (multi-select)
+    areas: [],
+    // 'reading', 'writing', 'math', 'attention', 'social',
+    // 'emotional-regulation', 'motor-fine', 'motor-gross',
+    // 'speech', 'comprehension'
+
+    // Reading level affects text complexity
+    readingLevel: 'beginning', // 'pre-reader', 'beginning', 'fluent'
+
+    // Support level affects UI complexity & scaffolding
+    supportLevel: 'some', // 'independent', 'some', 'full'
+  },
+
+  // Sensory needs
+  sensory: {
+    soundEnabled: true,
+    soundVolume: 'normal', // 'quiet', 'normal'
+    animationLevel: 'normal', // 'minimal', 'normal'
+    visualContrast: 'normal', // 'normal', 'high'
+    fontSize: 'normal', // 'normal', 'large', 'extra-large'
+    reducedClutter: false, // fewer items per screen
+    timePressure: true, // false = no timers, no countdowns
+  },
+
+  // Attention & session management
+  attention: {
+    sessionLength: 15, // minutes: 5, 10, 15, 20, 30
+    breakReminder: true,
+    breakInterval: 10, // minutes between break reminders
+    frustrationSensitivity: 'moderate', // 'sensitive', 'moderate', 'resilient'
+  },
+
+  // Therapeutic/learning goals (what to prioritise)
+  goals: [],
+  // 'language-pt', 'language-en', 'math', 'social-skills',
+  // 'emotional-regulation', 'daily-living', 'reading', 'writing',
+  // 'attention-focus', 'communication'
+
+  // Communication preferences
+  communication: {
+    usesVisualSupports: false, // show more images, fewer words
+    prefersSimpleLanguage: false,
+    needsAudioInstructions: true,
+  },
+
+  // Cosmetic / engagement
   purchasedItems: [],
-  // Equipped items
   equippedCelebration: 'confetti',
   equippedBadge: null,
-  // Community
   sharedAchievements: [],
   encouragements: [],
-  // Weekly challenge tracking
   weeklyProgress: {},
   lastWeekReset: null,
 }
@@ -40,7 +91,17 @@ const DEFAULT_PROFILE = {
 function loadProfile() {
   try {
     const saved = localStorage.getItem(STORAGE_KEY)
-    return saved ? { ...DEFAULT_PROFILE, ...JSON.parse(saved) } : DEFAULT_PROFILE
+    if (!saved) return DEFAULT_PROFILE
+    const parsed = JSON.parse(saved)
+    // Deep merge to preserve nested defaults for new fields
+    return {
+      ...DEFAULT_PROFILE,
+      ...parsed,
+      learningNeeds: { ...DEFAULT_PROFILE.learningNeeds, ...parsed.learningNeeds },
+      sensory: { ...DEFAULT_PROFILE.sensory, ...parsed.sensory },
+      attention: { ...DEFAULT_PROFILE.attention, ...parsed.attention },
+      communication: { ...DEFAULT_PROFILE.communication, ...parsed.communication },
+    }
   } catch {
     return DEFAULT_PROFILE
   }
