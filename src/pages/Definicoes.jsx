@@ -11,7 +11,7 @@ import { exportAllData, importData } from '../hooks/useStorage'
  */
 export default function Definicoes({
   profile, profiles, updateProfile, resetProfile, deleteProfile,
-  addRealReward, removeRealReward, subscription,
+  addRealReward, removeRealReward, subscription, sharing,
 }) {
   const navigate = useNavigate()
   const [showReset, setShowReset] = useState(false)
@@ -20,6 +20,9 @@ export default function Definicoes({
   const [newRewardStars, setNewRewardStars] = useState('10')
   const [newRewardIcon, setNewRewardIcon] = useState('🎁')
   const [backupMsg, setBackupMsg] = useState(null)
+  const [shareLoading, setShareLoading] = useState(false)
+  const [shareCode, setShareCode] = useState(null)
+  const [shareMsg, setShareMsg] = useState(null)
   const fileInputRef = useRef(null)
 
   const universe = UNIVERSES.find((u) => u.id === profile?.universe)
@@ -253,6 +256,106 @@ export default function Definicoes({
           >
             Trocar de perfil
           </button>
+        </section>
+      )}
+
+      {/* Profile Sharing */}
+      {sharing?.configured && (
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>Partilhar Perfil</h2>
+          <p style={styles.rewardHint}>
+            Partilhe o perfil desta crianca com um terapeuta ou educador.
+            Eles poderao ver o progresso e acompanhar a evolucao.
+          </p>
+          {(() => {
+            const existingShare = sharing.getShareForProfile?.(profile?.id)
+            if (existingShare) {
+              return (
+                <div style={styles.shareCard}>
+                  <div style={styles.shareCodeDisplay}>
+                    <span style={styles.shareCodeLabel}>Codigo de partilha:</span>
+                    <span style={styles.shareCodeValue}>{existingShare.share_code}</span>
+                  </div>
+                  <div style={styles.shareStatus}>
+                    {existingShare.status === 'accepted' ? (
+                      <span style={styles.shareAccepted}>Aceite — perfil partilhado</span>
+                    ) : (
+                      <span style={styles.sharePending}>A aguardar — envie o codigo ao terapeuta</span>
+                    )}
+                  </div>
+                  <div style={styles.shareActions}>
+                    <button
+                      style={styles.shareCopyBtn}
+                      onClick={() => {
+                        navigator.clipboard?.writeText(existingShare.share_code)
+                        setShareMsg('Codigo copiado!')
+                        setTimeout(() => setShareMsg(null), 2000)
+                      }}
+                    >
+                      Copiar codigo
+                    </button>
+                    <button
+                      style={styles.shareRevokeBtn}
+                      onClick={() => {
+                        sharing.revokeShare(existingShare.id)
+                        setShareCode(null)
+                        setShareMsg('Partilha revogada.')
+                        setTimeout(() => setShareMsg(null), 3000)
+                      }}
+                    >
+                      Revogar acesso
+                    </button>
+                  </div>
+                  {shareMsg && <p style={styles.shareMsg}>{shareMsg}</p>}
+                </div>
+              )
+            }
+
+            return (
+              <div style={styles.shareCard}>
+                {shareCode ? (
+                  <>
+                    <div style={styles.shareCodeDisplay}>
+                      <span style={styles.shareCodeLabel}>Codigo criado:</span>
+                      <span style={styles.shareCodeValue}>{shareCode}</span>
+                    </div>
+                    <p style={styles.shareHint}>
+                      Envie este codigo ao terapeuta. Ele insere-o na pagina inicial para aceder ao perfil.
+                    </p>
+                    <button
+                      style={styles.shareCopyBtn}
+                      onClick={() => {
+                        navigator.clipboard?.writeText(shareCode)
+                        setShareMsg('Codigo copiado!')
+                        setTimeout(() => setShareMsg(null), 2000)
+                      }}
+                    >
+                      Copiar codigo
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    style={styles.shareBtn}
+                    onClick={async () => {
+                      setShareLoading(true)
+                      setShareMsg(null)
+                      const code = await sharing.shareProfile(profile?.id)
+                      if (code) {
+                        setShareCode(code)
+                      } else {
+                        setShareMsg(sharing.error || 'Erro ao criar codigo.')
+                      }
+                      setShareLoading(false)
+                    }}
+                    disabled={shareLoading}
+                  >
+                    {shareLoading ? 'A gerar codigo...' : 'Gerar codigo de partilha'}
+                  </button>
+                )}
+                {shareMsg && <p style={styles.shareMsg}>{shareMsg}</p>}
+              </div>
+            )
+          })()}
         </section>
       )}
 
@@ -885,6 +988,100 @@ const styles = {
     padding: 'var(--space-sm)',
     backgroundColor: '#E8F5E9',
     borderRadius: 'var(--radius-sm)',
+  },
+  // Sharing
+  shareCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#F3E5F5',
+    borderRadius: 'var(--radius-md)',
+    border: '2px solid #6A1B9A',
+  },
+  shareCodeDisplay: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+  },
+  shareCodeLabel: {
+    fontSize: 'var(--font-size-sm)',
+    color: '#6A1B9A',
+    fontWeight: 600,
+  },
+  shareCodeValue: {
+    fontSize: '1.8rem',
+    fontWeight: 800,
+    color: '#4A148C',
+    letterSpacing: '4px',
+    fontFamily: 'monospace',
+    textAlign: 'center',
+  },
+  shareStatus: {
+    textAlign: 'center',
+  },
+  shareAccepted: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: '#2E7D32',
+  },
+  sharePending: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: '#E65100',
+  },
+  shareHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
+  shareActions: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+  },
+  shareBtn: {
+    width: '100%',
+    padding: 'var(--space-md)',
+    backgroundColor: '#6A1B9A',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+  },
+  shareCopyBtn: {
+    flex: 1,
+    padding: 'var(--space-sm)',
+    backgroundColor: '#6A1B9A',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  shareRevokeBtn: {
+    flex: 1,
+    padding: 'var(--space-sm)',
+    backgroundColor: 'transparent',
+    color: '#C62828',
+    border: '1px solid #C62828',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  shareMsg: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: '#6A1B9A',
+    textAlign: 'center',
   },
   // Plan card
   planCard: {

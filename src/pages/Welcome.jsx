@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
-export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile, auth }) {
+export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile, auth, sharing }) {
   const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
@@ -15,6 +15,10 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
   const [password, setPassword] = useState('')
   const [authMsg, setAuthMsg] = useState(null)
   const [authLoading, setAuthLoading] = useState(false)
+  const [showShareCode, setShowShareCode] = useState(false)
+  const [shareCodeInput, setShareCodeInput] = useState('')
+  const [shareMsg, setShareMsg] = useState(null)
+  const [shareLoading, setShareLoading] = useState(false)
 
   const handleAuth = async () => {
     if (!email.trim()) return
@@ -89,6 +93,34 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
           </div>
         )}
 
+        {/* Shared profiles (from therapists/families who shared with me) */}
+        {sharing?.sharedWithMe?.length > 0 && (
+          <div style={styles.profilesSection}>
+            <p style={styles.profilesTitle}>Perfis partilhados comigo:</p>
+            <div style={styles.profilesList}>
+              {sharing.sharedWithMe.map((share) => {
+                const p = share.profile_data
+                const avatar = AVATARS.find((a) => a.id === p?.avatar)
+                return (
+                  <button
+                    key={share.id}
+                    style={styles.sharedProfileBtn}
+                    className="interactive-card"
+                    onClick={() => navigate('/shared/' + share.id)}
+                  >
+                    <span style={styles.profileAvatar}>{avatar?.emoji || '⭐'}</span>
+                    <div style={{ flex: 1 }}>
+                      <span style={styles.profileName}>A Escola do {p?.name || '?'}</span>
+                      <span style={styles.profileAge}>{p?.age} anos</span>
+                    </div>
+                    <span style={styles.sharedBadge}>partilhado</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+        )}
+
         <div style={styles.actions}>
           {!hasProfiles && (
             <button
@@ -117,6 +149,73 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
               <span style={styles.newBtnSub}>Personalizar para {hasProfiles ? 'outra' : 'uma'} crianca</span>
             </div>
           </button>
+
+          {/* Accept share code — only when authenticated */}
+          {auth?.configured && auth?.user && (
+            <>
+              {!showShareCode ? (
+                <button
+                  style={styles.shareCodeBtn}
+                  onClick={() => setShowShareCode(true)}
+                >
+                  <span style={styles.shareCodeBtnIcon}>🔗</span>
+                  <div>
+                    <span style={styles.shareCodeBtnTitle}>Tenho um codigo de partilha</span>
+                    <span style={styles.newBtnSub}>Aceder a um perfil partilhado por uma familia</span>
+                  </div>
+                </button>
+              ) : (
+                <div style={styles.shareCodeForm}>
+                  <p style={styles.shareCodeFormTitle}>Codigo de partilha</p>
+                  <p style={styles.shareCodeFormHint}>
+                    Insira o codigo de 6 caracteres que a familia lhe deu.
+                  </p>
+                  <input
+                    style={styles.shareCodeInput}
+                    type="text"
+                    value={shareCodeInput}
+                    onChange={(e) => setShareCodeInput(e.target.value.toUpperCase().slice(0, 6))}
+                    placeholder="Ex: A3K7N2"
+                    maxLength={6}
+                    autoComplete="off"
+                  />
+                  {shareMsg && <p style={styles.shareCodeMsg}>{shareMsg}</p>}
+                  <button
+                    style={{
+                      ...styles.shareCodeSubmitBtn,
+                      ...(shareCodeInput.length !== 6 || shareLoading ? { opacity: 0.5 } : {}),
+                    }}
+                    onClick={async () => {
+                      if (shareCodeInput.length !== 6 || shareLoading) return
+                      setShareLoading(true)
+                      setShareMsg(null)
+                      const result = await sharing.acceptShareCode(shareCodeInput)
+                      if (result) {
+                        setShareMsg('Perfil partilhado aceite!')
+                        setShareCodeInput('')
+                        setTimeout(() => {
+                          setShowShareCode(false)
+                          setShareMsg(null)
+                        }, 2000)
+                      } else {
+                        setShareMsg(sharing.error || 'Codigo invalido.')
+                      }
+                      setShareLoading(false)
+                    }}
+                    disabled={shareCodeInput.length !== 6 || shareLoading}
+                  >
+                    {shareLoading ? 'A verificar...' : 'Aceitar'}
+                  </button>
+                  <button
+                    style={styles.authBackBtn}
+                    onClick={() => { setShowShareCode(false); setShareMsg(null); setShareCodeInput('') }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {/* Cloud sync auth — only when Supabase is configured */}
@@ -372,6 +471,102 @@ const styles = {
     color: 'var(--color-text-secondary)',
     marginTop: 'var(--space-sm)',
     lineHeight: 1.4,
+  },
+  // Shared profile styles
+  sharedProfileBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-md)',
+    padding: 'var(--space-md) var(--space-lg)',
+    backgroundColor: '#F3E5F5',
+    border: '2px solid #6A1B9A',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+  },
+  sharedBadge: {
+    padding: '2px 8px',
+    backgroundColor: '#6A1B9A',
+    color: 'white',
+    borderRadius: 'var(--radius-sm)',
+    fontSize: '0.6rem',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    flexShrink: 0,
+  },
+  shareCodeBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-md)',
+    padding: 'var(--space-md) var(--space-lg)',
+    backgroundColor: '#F3E5F5',
+    border: '2px solid #6A1B9A',
+    borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+  },
+  shareCodeBtnIcon: {
+    fontSize: '2rem',
+    flexShrink: 0,
+  },
+  shareCodeBtnTitle: {
+    display: 'block',
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: '#4A148C',
+  },
+  shareCodeForm: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-lg)',
+    backgroundColor: '#F3E5F5',
+    borderRadius: 'var(--radius-lg)',
+    border: '2px solid #6A1B9A',
+  },
+  shareCodeFormTitle: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    color: '#4A148C',
+  },
+  shareCodeFormHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.4,
+  },
+  shareCodeInput: {
+    padding: 'var(--space-md)',
+    border: '2px solid #6A1B9A',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'monospace',
+    fontSize: '1.5rem',
+    fontWeight: 800,
+    textAlign: 'center',
+    letterSpacing: '4px',
+    outline: 'none',
+    textTransform: 'uppercase',
+  },
+  shareCodeMsg: {
+    fontSize: 'var(--font-size-sm)',
+    color: '#6A1B9A',
+    fontWeight: 600,
+    textAlign: 'center',
+  },
+  shareCodeSubmitBtn: {
+    padding: 'var(--space-sm)',
+    backgroundColor: '#6A1B9A',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
   },
   // Auth styles
   authSection: {
