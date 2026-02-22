@@ -19,6 +19,12 @@
  *   8  Fruto      (Fruit)      — producing results
  *   9  Arvore     (Tree)       — strong and independent
  *  10  Floresta   (Forest)     — mastery, can teach others
+ *
+ * Phases (communication layer for therapists/parents):
+ *   Germinar    (1-3)  — Exploracao, tentativa, curiosidade
+ *   Estruturar  (4-6)  — Competencia a formar-se, menos apoio
+ *   Florescer   (7-8)  — Autonomia emergente
+ *   Sustentar   (9-10) — Autonomia consolidada, pode ajudar outros
  */
 
 export const MASTERY_LEVELS = [
@@ -48,6 +54,57 @@ export function levelToId(num) {
 export function idToLevel(id) {
   const found = MASTERY_LEVELS.find((l) => l.id === id)
   return found ? found.order : 1
+}
+
+/**
+ * Phases — narrative communication layer over the 10 levels.
+ * Designed for therapist reports and parent communication.
+ */
+export const PHASES = [
+  {
+    id: 'germinar',
+    label: 'Germinar',
+    emoji: '🌱',
+    range: [1, 3],
+    description: 'Exploracao, tentativa, curiosidade',
+    reportText: 'em fase de Germinar',
+    color: '#81C784',
+  },
+  {
+    id: 'estruturar',
+    label: 'Estruturar',
+    emoji: '🌿',
+    range: [4, 6],
+    description: 'Competencia a formar-se, menos apoio necessario',
+    reportText: 'em fase de Estruturar',
+    color: '#4CAF50',
+  },
+  {
+    id: 'florescer',
+    label: 'Florescer',
+    emoji: '🌸',
+    range: [7, 8],
+    description: 'Autonomia emergente',
+    reportText: 'em fase de Florescer',
+    color: '#E91E63',
+  },
+  {
+    id: 'sustentar',
+    label: 'Sustentar',
+    emoji: '🌳',
+    range: [9, 10],
+    description: 'Autonomia consolidada, pode ajudar outros',
+    reportText: 'em fase de Sustentar',
+    color: '#2E7D32',
+  },
+]
+
+/**
+ * Get the phase for a numeric level (1-10).
+ */
+export function getPhase(level) {
+  const num = typeof level === 'string' ? idToLevel(level) : level
+  return PHASES.find((p) => num >= p.range[0] && num <= p.range[1]) || PHASES[0]
 }
 
 export const COMPETENCY_AREAS = {
@@ -509,11 +566,33 @@ export function calculateMastery(competencyId, progress, competencyLevels) {
 export function getCompetencySummary(progress, competencyLevels) {
   const summary = {}
   for (const [campoId, campo] of Object.entries(COMPETENCY_AREAS)) {
-    summary[campoId] = campo.competencies.map((comp) => ({
-      ...comp,
-      mastery: calculateMastery(comp.id, progress, competencyLevels),
-      numericLevel: idToLevel(calculateMastery(comp.id, progress, competencyLevels)),
-    }))
+    summary[campoId] = campo.competencies.map((comp) => {
+      const mastery = calculateMastery(comp.id, progress, competencyLevels)
+      const numericLevel = idToLevel(mastery)
+      return {
+        ...comp,
+        mastery,
+        numericLevel,
+        phase: getPhase(numericLevel),
+      }
+    })
   }
   return summary
+}
+
+/**
+ * Get a per-campo phase summary (for reports and therapist communication).
+ * Returns the dominant phase per campo based on average competency level.
+ */
+export function getCampoPhases(progress, competencyLevels) {
+  const summary = getCompetencySummary(progress, competencyLevels)
+  const result = {}
+  for (const [campoId, comps] of Object.entries(summary)) {
+    const avg = comps.reduce((s, c) => s + c.numericLevel, 0) / comps.length
+    result[campoId] = {
+      averageLevel: Math.round(avg * 10) / 10,
+      phase: getPhase(Math.round(avg)),
+    }
+  }
+  return result
 }
