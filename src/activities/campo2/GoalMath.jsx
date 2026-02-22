@@ -1,21 +1,28 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
-function generateProblem(round) {
-  const ops = round < 5 ? ['+'] : round < 10 ? ['+', '-'] : ['+', '-', '×']
+function generateProblem(round, difficulty, mathContent) {
+  const ops = difficulty === 1
+    ? ['+']
+    : difficulty === 3
+    ? (round < 3 ? ['+'] : round < 7 ? ['+', '-'] : ['+', '-', '×'])
+    : (round < 5 ? ['+'] : ['+', '-'])
   const op = ops[Math.floor(Math.random() * ops.length)]
+  const maxNum = difficulty === 1 ? 5 : difficulty === 3 ? 12 : 8
 
   let a, b, answer
   switch (op) {
     case '+':
-      a = Math.floor(Math.random() * 8) + 1
-      b = Math.floor(Math.random() * 8) + 1
+      a = Math.floor(Math.random() * maxNum) + 1
+      b = Math.floor(Math.random() * maxNum) + 1
       answer = a + b
       break
     case '-':
-      answer = Math.floor(Math.random() * 6) + 1
-      b = Math.floor(Math.random() * 5) + 1
+      answer = Math.floor(Math.random() * (maxNum - 2)) + 1
+      b = Math.floor(Math.random() * (maxNum - 2)) + 1
       a = answer + b
       break
     case '×':
@@ -28,17 +35,17 @@ function generateProblem(round) {
   }
 
   const context = op === '+'
-    ? `O ${['Benfica', 'Porto', 'Sporting'][Math.floor(Math.random() * 3)]} marcou ${a} golos na primeira parte e ${b} na segunda.`
+    ? mathContent.addContext(a, b)
     : op === '-'
-    ? `A equipa tinha ${a} pontos e perdeu ${b}. Quantos ficaram?`
-    : `Sao ${a} jogos e cada jogo vale ${b} pontos.`
+    ? mathContent.subContext(a, b)
+    : mathContent.mulContext(a, b)
 
   return { a, b, op, answer, context }
 }
 
-function generateOptions(answer) {
+function generateOptions(answer, count = 4) {
   const options = new Set([answer])
-  while (options.size < 4) {
+  while (options.size < count) {
     const offset = Math.floor(Math.random() * 5) - 2
     const opt = answer + offset
     if (opt >= 0 && opt !== answer) options.add(opt)
@@ -60,14 +67,27 @@ export default function GoalMath({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const choiceCount = adaptive?.choiceCount || 4
+  const difficulty = adaptive?.difficulty || 2
+  const content = getContent(adaptive?.universe?.id)
+  const mathContent = content.math
+  const { speak } = useTTS()
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateProblem(round), [round])
-  const options = useMemo(() => generateOptions(problem.answer), [problem])
+  const problem = useMemo(() => generateProblem(round, difficulty, mathContent), [round, difficulty, mathContent])
+
+  const options = useMemo(() => generateOptions(problem.answer, choiceCount), [problem, choiceCount])
   const isComplete = round >= TOTAL_PROBLEMS
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`${problem.a} ${problem.op === '×' ? 'vezes' : problem.op === '+' ? 'mais' : 'menos'} ${problem.b}. ${problem.context}`)
+    }
+  }, [round])
 
   const handleAnswer = useCallback(
     (ans) => {
@@ -96,9 +116,9 @@ export default function GoalMath({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Golos e Contas" backPath="/campo/2" color="var(--color-campo2)">
+      <ActivityShell title={mathContent.title} backPath="/campo/2" color="var(--color-campo2)">
         <div style={styles.complete}>
-          <span style={styles.completeEmoji}>⚽</span>
+          <span style={styles.completeEmoji}>{mathContent.icon}</span>
           <p style={styles.completeText}>
             Marcaste {score} de {TOTAL_PROBLEMS}!
           </p>
@@ -109,12 +129,13 @@ export default function GoalMath({
 
   return (
     <ActivityShell
-      title="Golos e Contas"
+      title={mathContent.title}
       instruction={problem.context}
       backPath="/campo/2"
       color="var(--color-campo2)"
       score={score}
       total={TOTAL_PROBLEMS}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.problemCard}>
         <span style={styles.problemText}>
@@ -130,7 +151,7 @@ export default function GoalMath({
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
           >
-            <span style={styles.optionBall}>⚽</span>
+            <span style={styles.optionBall}>{mathContent.icon}</span>
             <span style={styles.optionNumber}>{opt}</span>
           </button>
         ))}
@@ -140,6 +161,7 @@ export default function GoalMath({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

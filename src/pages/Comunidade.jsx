@@ -1,64 +1,30 @@
 import { useState } from 'react'
 import { AVATARS } from '../hooks/useProfile'
 
-// Simulated community members (since this is a local-first app)
-const SIMULATED_MEMBERS = [
-  { name: 'Sofia', avatar: 'crown', stars: 45, badge: 'Goleadora' },
-  { name: 'Miguel', avatar: 'lightning', stars: 38, badge: 'Explorador' },
-  { name: 'Ana', avatar: 'fire', stars: 52, badge: 'Linguista' },
-  { name: 'Tiago', avatar: 'rocket', stars: 29, badge: 'Matematico' },
-  { name: 'Ines', avatar: 'eagle', stars: 61, badge: 'Lenda' },
-]
-
-const ENCOURAGEMENT_TEMPLATES = [
-  'Continua assim, es incrivel!',
-  'Cada dia melhor! Grande jogador!',
-  'O teu esforco esta a dar frutos!',
-  'Brilhas como uma estrela!',
-  'Um verdadeiro campeao!',
-]
-
+/**
+ * Family Board — replaces simulated community with real family communication.
+ * Parent/therapist can leave messages, child sees real achievements.
+ */
 export default function Comunidade({ profile, progress, addEncouragement }) {
   const [activeTab, setActiveTab] = useState('mural')
   const [newMessage, setNewMessage] = useState('')
+  const [senderName, setSenderName] = useState('')
 
   const myAvatar = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
-  const myName = profile?.name || 'Jogador'
+  const myName = profile?.name || 'Crianca'
 
   const handleSendEncouragement = () => {
     if (!newMessage.trim()) return
-    addEncouragement?.(myName, newMessage.trim())
+    const from = senderName.trim() || 'Familia'
+    addEncouragement?.(from, newMessage.trim())
     setNewMessage('')
   }
 
-  // Combine simulated + real encouragements
-  const allEncouragements = [
-    // Simulated encouragements from "other players"
-    ...SIMULATED_MEMBERS.slice(0, 3).map((m, i) => ({
-      id: `sim-${i}`,
-      from: m.name,
-      avatar: AVATARS.find((a) => a.id === m.avatar)?.emoji || '⭐',
-      message: ENCOURAGEMENT_TEMPLATES[i],
-      date: new Date(Date.now() - (i + 1) * 86400000).toISOString(),
-    })),
-    // Real encouragements
-    ...(profile?.encouragements || []).map((e) => ({
-      ...e,
-      avatar: myAvatar,
-    })),
-  ].sort((a, b) => new Date(b.date) - new Date(a.date))
+  // Only real encouragements from family
+  const allMessages = (profile?.encouragements || [])
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
 
-  // Leaderboard: combine player with simulated members
-  const leaderboard = [
-    { name: myName, avatar: myAvatar, stars: progress?.totalStars || 0, isMe: true },
-    ...SIMULATED_MEMBERS.map((m) => ({
-      ...m,
-      avatar: AVATARS.find((a) => a.id === m.avatar)?.emoji || '⭐',
-      isMe: false,
-    })),
-  ].sort((a, b) => b.stars - a.stars)
-
-  // My achievements for the pride wall
+  // Real achievements from progress
   const achievements = [
     progress?.wordsLearned?.length > 0 && {
       icon: '🗣️',
@@ -80,23 +46,43 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
       icon: '🏅',
       text: `Tenho ${progress.trophies.length} trofeus!`,
     },
+    progress?.wordsLearned?.length >= 10 && {
+      icon: '📖',
+      text: 'Ja sei mais de 10 palavras!',
+    },
+    progress?.wordsLearned?.length >= 30 && {
+      icon: '🌟',
+      text: 'Mais de 30 palavras! Poliglota em formacao!',
+    },
+    progress?.totalStars >= 20 && {
+      icon: '💫',
+      text: 'Mais de 20 estrelas! Verdadeiro campeao!',
+    },
   ].filter(Boolean)
+
+  // Milestones
+  const milestones = [
+    { target: 10, label: '10 palavras', current: progress?.wordsLearned?.length || 0, icon: '🗣️' },
+    { target: 30, label: '30 estrelas', current: progress?.totalStars || 0, icon: '⭐' },
+    { target: 16, label: 'Todas as actividades', current: Object.keys(progress?.activitiesCompleted || {}).length, icon: '🏆' },
+    { target: 7, label: '7 dias seguidos', current: progress?.streakDays || 0, icon: '🔥' },
+  ]
 
   return (
     <div style={styles.container} className="animate-fade-in">
       <header style={styles.header}>
         <div>
-          <h1 style={styles.title}>Comunidade</h1>
-          <p style={styles.subtitle}>O nosso balneario virtual!</p>
+          <h1 style={styles.title}>Familia</h1>
+          <p style={styles.subtitle}>Mensagens e conquistas</p>
         </div>
-        <span style={styles.headerEmoji}>🏟️</span>
+        <span style={styles.headerEmoji}>👨‍👩‍👧‍👦</span>
       </header>
 
       <div style={styles.tabs}>
         {[
-          { id: 'mural', label: 'Mural', icon: '📋' },
-          { id: 'ranking', label: 'Ranking', icon: '🏆' },
-          { id: 'orgulho', label: 'Orgulho', icon: '🌟' },
+          { id: 'mural', label: 'Mensagens', icon: '💌' },
+          { id: 'orgulho', label: 'Conquistas', icon: '🌟' },
+          { id: 'metas', label: 'Metas', icon: '🎯' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -113,76 +99,72 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
 
       {activeTab === 'mural' && (
         <div style={styles.section} className="animate-fade-in">
+          <div style={styles.infoBox}>
+            <span style={styles.infoIcon}>💡</span>
+            <p style={styles.infoText}>
+              Pais e terapeutas: deixem mensagens de encorajamento para o {myName}!
+            </p>
+          </div>
+
           <div style={styles.messageInput}>
             <input
-              style={styles.input}
+              style={styles.nameInput}
               type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Escreve uma mensagem de forca..."
-              maxLength={100}
-              onKeyDown={(e) => e.key === 'Enter' && handleSendEncouragement()}
+              value={senderName}
+              onChange={(e) => setSenderName(e.target.value)}
+              placeholder="O teu nome (ex: Mae, Pai, Tera...)"
+              maxLength={30}
             />
-            <button
-              style={styles.sendBtn}
-              onClick={handleSendEncouragement}
-              disabled={!newMessage.trim()}
-            >
-              Enviar
-            </button>
-          </div>
-
-          <div style={styles.messageList}>
-            {allEncouragements.map((msg) => (
-              <div key={msg.id} style={styles.messageCard}>
-                <span style={styles.messageAvatar}>{msg.avatar}</span>
-                <div style={styles.messageContent}>
-                  <span style={styles.messageName}>{msg.from}</span>
-                  <p style={styles.messageText}>{msg.message}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {activeTab === 'ranking' && (
-        <div style={styles.section} className="animate-fade-in">
-          <h2 style={styles.sectionTitle}>Tabela Classificativa</h2>
-          <div style={styles.leaderboard}>
-            {leaderboard.map((player, idx) => (
-              <div
-                key={player.name}
-                style={{
-                  ...styles.leaderRow,
-                  ...(player.isMe ? styles.leaderRowMe : {}),
-                  ...(idx === 0 ? styles.leaderFirst : {}),
-                }}
+            <div style={styles.messageRow}>
+              <input
+                style={styles.input}
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Escreve uma mensagem de forca..."
+                maxLength={200}
+                onKeyDown={(e) => e.key === 'Enter' && handleSendEncouragement()}
+              />
+              <button
+                style={styles.sendBtn}
+                onClick={handleSendEncouragement}
+                disabled={!newMessage.trim()}
               >
-                <span style={styles.leaderPos}>
-                  {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `${idx + 1}.`}
-                </span>
-                <span style={styles.leaderAvatar}>{player.avatar}</span>
-                <div style={styles.leaderInfo}>
-                  <span style={styles.leaderName}>
-                    {player.name}
-                    {player.isMe && ' (Tu!)'}
-                  </span>
-                  {player.badge && (
-                    <span style={styles.leaderBadge}>{player.badge}</span>
-                  )}
-                </div>
-                <span style={styles.leaderStars}>⭐ {player.stars}</span>
-              </div>
-            ))}
+                Enviar
+              </button>
+            </div>
           </div>
+
+          {allMessages.length === 0 ? (
+            <div style={styles.emptyState}>
+              <span style={styles.emptyEmoji}>💌</span>
+              <p style={styles.emptyText}>
+                Ainda nao ha mensagens. Pede a alguem da tua familia para te deixar uma mensagem!
+              </p>
+            </div>
+          ) : (
+            <div style={styles.messageList}>
+              {allMessages.map((msg) => (
+                <div key={msg.id} style={styles.messageCard}>
+                  <span style={styles.messageAvatar}>💝</span>
+                  <div style={styles.messageContent}>
+                    <span style={styles.messageName}>{msg.from}</span>
+                    <p style={styles.messageText}>{msg.message}</p>
+                    <span style={styles.messageDate}>
+                      {new Date(msg.date).toLocaleDateString('pt-PT')}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       )}
 
       {activeTab === 'orgulho' && (
         <div style={styles.section} className="animate-fade-in">
           <h2 style={styles.sectionTitle}>Mural do Orgulho</h2>
-          <p style={styles.sectionDesc}>As tuas conquistas, {myName}!</p>
+          <p style={styles.sectionDesc}>As conquistas reais do {myName}!</p>
 
           {achievements.length === 0 ? (
             <div style={styles.emptyState}>
@@ -201,16 +183,33 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
               ))}
             </div>
           )}
+        </div>
+      )}
 
-          <div style={styles.teamChallenge}>
-            <h3 style={styles.challengeTitle}>Desafio de Equipa</h3>
-            <p style={styles.challengeDesc}>
-              Juntos, a comunidade ja ganhou mais de 200 estrelas! Vamos chegar a 500?
-            </p>
-            <div style={styles.challengeBar}>
-              <div style={{ ...styles.challengeFill, width: '40%' }} />
-            </div>
-            <span style={styles.challengeProgress}>200 / 500 estrelas</span>
+      {activeTab === 'metas' && (
+        <div style={styles.section} className="animate-fade-in">
+          <h2 style={styles.sectionTitle}>Metas</h2>
+          <p style={styles.sectionDesc}>Objectivos para o {myName} alcancar!</p>
+
+          <div style={styles.milestoneList}>
+            {milestones.map((m, i) => {
+              const pct = Math.min(100, Math.round((m.current / m.target) * 100))
+              const done = m.current >= m.target
+              return (
+                <div key={i} style={{ ...styles.milestoneCard, ...(done ? styles.milestoneDone : {}) }}>
+                  <div style={styles.milestoneTop}>
+                    <span style={styles.milestoneIcon}>{m.icon}</span>
+                    <span style={styles.milestoneLabel}>{m.label}</span>
+                    <span style={styles.milestoneProgress}>
+                      {done ? 'Concluido!' : `${m.current}/${m.target}`}
+                    </span>
+                  </div>
+                  <div style={styles.milestoneBar}>
+                    <div style={{ ...styles.milestoneFill, width: `${pct}%` }} />
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
@@ -277,8 +276,38 @@ const styles = {
     color: 'var(--color-text-secondary)',
     marginTop: '-8px',
   },
-  // Message wall
+  infoBox: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid #90CAF9',
+    alignItems: 'flex-start',
+  },
+  infoIcon: {
+    fontSize: '1.2rem',
+    flexShrink: 0,
+  },
+  infoText: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text)',
+    lineHeight: 1.4,
+  },
   messageInput: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  nameInput: {
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    outline: 'none',
+  },
+  messageRow: {
     display: 'flex',
     gap: 'var(--space-sm)',
   },
@@ -330,54 +359,26 @@ const styles = {
     color: 'var(--color-text)',
     marginTop: '2px',
   },
-  // Leaderboard
-  leaderboard: {
+  messageDate: {
+    fontSize: '0.7rem',
+    color: 'var(--color-text-secondary)',
+    marginTop: '4px',
+    display: 'block',
+  },
+  emptyState: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 'var(--space-xs)',
-  },
-  leaderRow: {
-    display: 'flex',
     alignItems: 'center',
-    gap: 'var(--space-sm)',
-    padding: 'var(--space-md)',
-    backgroundColor: 'var(--color-bg)',
-    borderRadius: 'var(--radius-md)',
+    gap: 'var(--space-md)',
+    padding: 'var(--space-xl)',
   },
-  leaderRowMe: {
-    backgroundColor: '#E8F5E9',
-    border: '2px solid var(--color-primary)',
+  emptyEmoji: {
+    fontSize: '3rem',
   },
-  leaderFirst: {
-    backgroundColor: '#FFF8E1',
-  },
-  leaderPos: {
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 700,
-    minWidth: '32px',
+  emptyText: {
     textAlign: 'center',
-  },
-  leaderAvatar: {
-    fontSize: '1.5rem',
-  },
-  leaderInfo: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  leaderName: {
-    fontWeight: 700,
-    fontSize: 'var(--font-size-base)',
-  },
-  leaderBadge: {
-    fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
   },
-  leaderStars: {
-    fontWeight: 700,
-    color: '#F57F17',
-  },
-  // Pride wall
   achievementList: {
     display: 'flex',
     flexDirection: 'column',
@@ -399,54 +400,52 @@ const styles = {
     fontWeight: 600,
     fontSize: 'var(--font-size-base)',
   },
-  emptyState: {
+  milestoneList: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
     gap: 'var(--space-md)',
-    padding: 'var(--space-xl)',
   },
-  emptyEmoji: {
-    fontSize: '3rem',
-  },
-  emptyText: {
-    textAlign: 'center',
-    color: 'var(--color-text-secondary)',
-  },
-  teamChallenge: {
-    padding: 'var(--space-lg)',
-    backgroundColor: '#E8F5E9',
+  milestoneCard: {
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
     borderRadius: 'var(--radius-md)',
-    border: '1px solid var(--color-primary)',
+    border: '1px solid var(--color-border)',
     display: 'flex',
     flexDirection: 'column',
     gap: 'var(--space-sm)',
   },
-  challengeTitle: {
+  milestoneDone: {
+    backgroundColor: '#E8F5E9',
+    borderColor: 'var(--color-primary)',
+  },
+  milestoneTop: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+  },
+  milestoneIcon: {
+    fontSize: '1.5rem',
+  },
+  milestoneLabel: {
+    flex: 1,
     fontWeight: 700,
-    fontSize: 'var(--font-size-lg)',
-    color: 'var(--color-primary-dark)',
+    fontSize: 'var(--font-size-base)',
   },
-  challengeDesc: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text)',
-    lineHeight: 1.4,
-  },
-  challengeBar: {
-    height: '10px',
-    backgroundColor: 'var(--color-border)',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  },
-  challengeFill: {
-    height: '100%',
-    backgroundColor: 'var(--color-primary)',
-    borderRadius: '5px',
-    transition: 'width 0.6s ease',
-  },
-  challengeProgress: {
+  milestoneProgress: {
+    fontWeight: 600,
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
-    textAlign: 'right',
+  },
+  milestoneBar: {
+    height: '8px',
+    backgroundColor: 'var(--color-border)',
+    borderRadius: '4px',
+    overflow: 'hidden',
+  },
+  milestoneFill: {
+    height: '100%',
+    backgroundColor: 'var(--color-primary)',
+    borderRadius: '4px',
+    transition: 'width 0.6s ease',
   },
 }

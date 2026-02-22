@@ -1,69 +1,17 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
-const SITUATIONS = [
-  {
-    situation: 'O arbitro da-te um cartao amarelo injusto.',
-    emoji: '🟨',
-    emotions: [
-      { name: 'Zangado', emoji: '😠', correct: true },
-      { name: 'Feliz', emoji: '😊', correct: false },
-      { name: 'Com sono', emoji: '😴', correct: false },
-    ],
-    strategy: 'Respira fundo 3 vezes. Fala com calma com o treinador. Nao e preciso gritar.',
-  },
-  {
-    situation: 'Marcas o golo da vitoria no ultimo minuto!',
-    emoji: '⚽',
-    emotions: [
-      { name: 'Alegre', emoji: '😄', correct: true },
-      { name: 'Triste', emoji: '😢', correct: false },
-      { name: 'Assustado', emoji: '😨', correct: false },
-    ],
-    strategy: 'Celebra com a equipa! Abraca os teus colegas. Partilha a alegria!',
-  },
-  {
-    situation: 'Falhas um penalti importante.',
-    emoji: '😞',
-    emotions: [
-      { name: 'Triste', emoji: '😢', correct: true },
-      { name: 'Alegre', emoji: '😄', correct: false },
-      { name: 'Surpreso', emoji: '😲', correct: false },
-    ],
-    strategy: 'Todos falham penaltis, ate o Ronaldo! Levanta a cabeca, respira e pensa no proximo.',
-  },
-  {
-    situation: 'Vais jogar no estadio pela primeira vez.',
-    emoji: '🏟️',
-    emotions: [
-      { name: 'Nervoso', emoji: '😰', correct: true },
-      { name: 'Zangado', emoji: '😠', correct: false },
-      { name: 'Aborrecido', emoji: '😐', correct: false },
-    ],
-    strategy: 'E normal sentir nervos! Respira devagar, concentra-te no jogo e diverte-te.',
-  },
-  {
-    situation: 'O teu melhor amigo da equipa vai mudar de clube.',
-    emoji: '👋',
-    emotions: [
-      { name: 'Triste', emoji: '😢', correct: true },
-      { name: 'Com fome', emoji: '🤤', correct: false },
-      { name: 'Divertido', emoji: '🤣', correct: false },
-    ],
-    strategy: 'E normal ficar triste. Podes continuar a ser amigo! Combina encontros e fala com ele.',
-  },
-  {
-    situation: 'Ganhas um trofeu no final do torneio.',
-    emoji: '🏆',
-    emotions: [
-      { name: 'Orgulhoso', emoji: '🥹', correct: true },
-      { name: 'Zangado', emoji: '😠', correct: false },
-      { name: 'Assustado', emoji: '😨', correct: false },
-    ],
-    strategy: 'Sente orgulho do teu trabalho! Agradece ao treinador e aos colegas.',
-  },
-]
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
 
 export default function EmotionCards({
   registerClick,
@@ -71,7 +19,12 @@ export default function EmotionCards({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const SITUATIONS = useMemo(() => shuffle(content.emotions), [content.emotions])
+
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showStrategy, setShowStrategy] = useState(false)
@@ -79,6 +32,12 @@ export default function EmotionCards({
 
   const current = SITUATIONS[idx]
   const isComplete = idx >= SITUATIONS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`${current.situation} Que emocao sentes?`)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (emotion) => {
@@ -88,6 +47,7 @@ export default function EmotionCards({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowStrategy(true)
+        speak(current.strategy)
       } else {
         registerError()
         setFeedback('tryAgain')
@@ -126,6 +86,7 @@ export default function EmotionCards({
       color="var(--color-campo4)"
       score={score}
       total={SITUATIONS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.situationCard}>
         <span style={styles.situationEmoji}>{current.emoji}</span>
@@ -163,6 +124,7 @@ export default function EmotionCards({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

@@ -1,20 +1,13 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
-const ITEMS = [
-  { name: 'Bilhete', emoji: '🎫', price: 50 },
-  { name: 'Cachecol', emoji: '🧣', price: 30 },
-  { name: 'Camisola', emoji: '👕', price: 100 },
-  { name: 'Agua', emoji: '💧', price: 10 },
-  { name: 'Pipocas', emoji: '🍿', price: 20 },
-  { name: 'Chapeu', emoji: '🧢', price: 40 },
-]
-
-function generateProblem() {
-  const item = ITEMS[Math.floor(Math.random() * ITEMS.length)]
+function generateProblem(items) {
+  const item = items[Math.floor(Math.random() * items.length)]
   const paid = [50, 100, 200][Math.floor(Math.random() * 3)]
-  if (paid < item.price) return generateProblem()
+  if (paid < item.price) return generateProblem(items)
   const change = paid - item.price
   return { item, paid, change }
 }
@@ -27,16 +20,26 @@ export default function TicketShop({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const choiceCount = adaptive?.choiceCount || 4
+  const { speak } = useTTS()
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateProblem(), [round])
+  const problem = useMemo(() => generateProblem(content.shop.items), [round, content.shop.items])
+
+  useEffect(() => {
+    if (round < TOTAL) {
+      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto e o troco?`)
+    }
+  }, [round])
 
   const options = useMemo(() => {
     const opts = new Set([problem.change])
-    while (opts.size < 4) {
+    while (opts.size < choiceCount) {
       const offset = (Math.floor(Math.random() * 4) + 1) * 10
       const sign = Math.random() > 0.5 ? 1 : -1
       const o = problem.change + sign * offset
@@ -77,7 +80,7 @@ export default function TicketShop({
 
   if (round >= TOTAL) {
     return (
-      <ActivityShell title="Loja do Clube" backPath="/campo/2" color="var(--color-campo2)">
+      <ActivityShell title={content.shop.title} backPath="/campo/2" color="var(--color-campo2)">
         <div style={styles.complete}>
           <span style={styles.completeEmoji}>🎫</span>
           <p style={styles.completeText}>Fizeste {score} compras correctas!</p>
@@ -88,12 +91,13 @@ export default function TicketShop({
 
   return (
     <ActivityShell
-      title="Loja do Clube"
+      title={content.shop.title}
       instruction={`Queres comprar ${problem.item.name} por ${problem.item.price} MT. Pagas com ${problem.paid} MT. Quanto e o troco?`}
       backPath="/campo/2"
       color="var(--color-campo2)"
       score={score}
       total={TOTAL}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.shopCard}>
         <div style={styles.itemDisplay}>
@@ -124,6 +128,7 @@ export default function TicketShop({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

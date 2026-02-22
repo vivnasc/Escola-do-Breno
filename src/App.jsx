@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useCallback, useEffect } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
+import Welcome from './pages/Welcome'
 import Campo1Bancada from './pages/Campo1Bancada'
 import Campo2Marcador from './pages/Campo2Marcador'
 import Campo3Mundo from './pages/Campo3Mundo'
@@ -13,6 +14,9 @@ import Noticias from './pages/Noticias'
 import Comunidade from './pages/Comunidade'
 import Loja from './pages/Loja'
 import Desafios from './pages/Desafios'
+import Definicoes from './pages/Definicoes'
+import Dashboard from './pages/Dashboard'
+import Planner from './pages/Planner'
 import BancoDaCalma from './components/BancoDaCalma'
 import BreakReminder from './components/BreakReminder'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
@@ -35,20 +39,28 @@ import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
 import { useAdaptive } from './hooks/useAdaptive'
+import { usePlanner } from './hooks/usePlanner'
+import { BRENO_PROFILE } from './data/brenoProfile'
 
 export default function App() {
   const [showCalma, setShowCalma] = useState(false)
+  const [showIntake, setShowIntake] = useState(false)
   const progressData = useProgress()
   const profileData = useProfile()
   const adaptive = useAdaptive(profileData.profile)
+  const plannerData = usePlanner(
+    profileData.profile?.id,
+    adaptive.prioritisedCampos,
+    progressData.progress,
+  )
 
-  // Dynamic title: "A Escola do Breno" / "A Escola da Sofia" etc.
+  // Dynamic title
   useEffect(() => {
-    const name = profileData.profile.name
+    const name = profileData.profile?.name
     if (name) {
       document.title = `PITCH - A Escola do ${name}`
     }
-  }, [profileData.profile.name])
+  }, [profileData.profile?.name])
 
   const handleFrustration = useCallback(() => {
     setShowCalma(true)
@@ -62,20 +74,68 @@ export default function App() {
     calmDown()
   }, [calmDown])
 
+  // Breno quick-start
+  const handleBrenoStart = useCallback(() => {
+    profileData.completeOnboarding(BRENO_PROFILE)
+  }, [profileData])
+
+  // New profile: show intake wizard
+  const handleNewProfile = useCallback(() => {
+    setShowIntake(true)
+  }, [])
+
+  // Switch to existing profile
+  const handleSwitchProfile = useCallback((id) => {
+    profileData.switchProfile(id)
+  }, [profileData])
+
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
+    setShowIntake(false)
   }, [profileData])
+
+  // Reset profile (from settings page)
+  const handleResetProfile = useCallback((type) => {
+    if (type === 'intake') {
+      setShowIntake(true)
+    } else if (type === 'switch') {
+      // Switch profile — go back to welcome
+      profileData.switchProfile(null)
+    } else {
+      profileData.resetAll()
+      progressData.resetAll()
+    }
+  }, [profileData, progressData])
+
+  // Wrap completeActivity to also mark done in planner
+  const handleCompleteActivity = useCallback((activityId, stars) => {
+    progressData.completeActivity(activityId, stars)
+    plannerData.markDone(activityId)
+  }, [progressData, plannerData])
 
   const activityProps = {
     ...progressData,
+    completeActivity: handleCompleteActivity,
     registerClick,
     registerError,
     registerSuccess,
     adaptive,
   }
 
-  // Show onboarding if not completed
-  if (!profileData.profile.onboardingComplete) {
+  // Show Welcome screen if no active profile
+  if (!profileData.profile && !showIntake) {
+    return (
+      <Welcome
+        onBreno={handleBrenoStart}
+        onNewProfile={handleNewProfile}
+        profiles={profileData.profiles}
+        onSwitchProfile={handleSwitchProfile}
+      />
+    )
+  }
+
+  // Show Intake wizard (new profile or redo)
+  if (showIntake) {
     return <Intake onComplete={handleOnboardingComplete} />
   }
 
@@ -96,6 +156,7 @@ export default function App() {
               progress={progressData.progress}
               profile={profileData.profile}
               adaptive={adaptive}
+              planner={plannerData}
             />
           } />
           <Route path="/campo/1" element={<Campo1Bancada {...activityProps} />} />
@@ -112,8 +173,7 @@ export default function App() {
             <Fichas
               profile={profileData.profile}
               progress={progressData.progress}
-              completeActivity={progressData.completeActivity}
-              addTrophy={progressData.addTrophy}
+              submitWorksheet={profileData.submitWorksheet}
             />
           } />
           <Route path="/noticias" element={
@@ -132,12 +192,42 @@ export default function App() {
               progress={progressData.progress}
               purchaseItem={profileData.purchaseItem}
               equipItem={profileData.equipItem}
+              claimRealReward={profileData.claimRealReward}
             />
           } />
           <Route path="/desafios" element={
             <Desafios
               profile={profileData.profile}
               progress={progressData.progress}
+            />
+          } />
+          <Route path="/definicoes" element={
+            <Definicoes
+              profile={profileData.profile}
+              profiles={profileData.profiles}
+              updateProfile={profileData.updateProfile}
+              resetProfile={handleResetProfile}
+              deleteProfile={profileData.deleteProfile}
+              addRealReward={profileData.addRealReward}
+              removeRealReward={profileData.removeRealReward}
+            />
+          } />
+
+          <Route path="/planner" element={
+            <Planner
+              profile={profileData.profile}
+              progress={progressData.progress}
+              planner={plannerData}
+              adaptive={adaptive}
+            />
+          } />
+
+          <Route path="/dashboard" element={
+            <Dashboard
+              profile={profileData.profile}
+              progress={progressData.progress}
+              reviewWorksheet={profileData.reviewWorksheet}
+              addEncouragement={profileData.addEncouragement}
             />
           } />
 

@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
   { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
@@ -30,7 +31,10 @@ export default function FlagMatch({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const { speak } = useTTS()
+  const choiceCount = adaptive?.choiceCount || 4
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -38,10 +42,16 @@ export default function FlagMatch({
   const country = COUNTRIES[idx]
   const isComplete = idx >= COUNTRIES.length
 
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`De que pais e esta bandeira? Pista: fica no continente ${country.continent}.`)
+    }
+  }, [idx])
+
   const options = useMemo(() => {
     if (!country) return []
     const others = COUNTRIES.filter((c) => c.name !== country.name)
-    const distractors = shuffle(others).slice(0, 3)
+    const distractors = shuffle(others).slice(0, choiceCount - 1)
     return shuffle([country, ...distractors])
   }, [country])
 
@@ -89,6 +99,7 @@ export default function FlagMatch({
       color="var(--color-campo3)"
       score={score}
       total={COUNTRIES.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.flagDisplay}>
         <span style={styles.flag}>{country.flag}</span>
@@ -112,6 +123,7 @@ export default function FlagMatch({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

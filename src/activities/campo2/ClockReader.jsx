@@ -1,6 +1,7 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 function generateClockProblem() {
   const hours = Math.floor(Math.random() * 12) + 1
@@ -59,7 +60,10 @@ export default function ClockReader({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const { speak } = useTTS()
+  const choiceCount = adaptive?.choiceCount || 4
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -67,10 +71,16 @@ export default function ClockReader({
   const problem = useMemo(() => generateClockProblem(), [round])
   const isComplete = round >= TOTAL
 
+  useEffect(() => {
+    if (!isComplete) {
+      speak(problem.context)
+    }
+  }, [round])
+
   const options = useMemo(() => {
     const correct = problem.display
     const wrongs = new Set()
-    while (wrongs.size < 3) {
+    while (wrongs.size < choiceCount - 1) {
       const h = Math.floor(Math.random() * 12) + 1
       const m = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
       const d = `${h}:${m.toString().padStart(2, '0')}`
@@ -128,6 +138,7 @@ export default function ClockReader({
       color="var(--color-campo2)"
       score={score}
       total={TOTAL}
+      textLevel={adaptive?.textLevel}
     >
       <ClockFace hours={problem.hours} minutes={problem.minutes} />
 
@@ -148,6 +159,7 @@ export default function ClockReader({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

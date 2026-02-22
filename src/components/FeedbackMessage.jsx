@@ -1,27 +1,28 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useTTS } from '../hooks/useTTS'
 
-const MESSAGES = {
-  success: [
-    'Muito bem!',
-    'Excelente!',
-    'Fantastico!',
-    'Golooo!',
-    'Grande jogada!',
-  ],
-  tryAgain: [
-    'Quase! Tenta de novo.',
-    'Boa tentativa! Tenta outra vez.',
-    'Quase la! Experimenta de novo.',
-  ],
+const DEFAULT_MESSAGES = {
+  success: ['Muito bem!', 'Excelente!', 'Fantastico!'],
+  tryAgain: ['Quase! Tenta de novo.', 'Boa tentativa! Tenta outra vez.', 'Quase la! Experimenta de novo.'],
 }
 
-export default function FeedbackMessage({ type, visible, onDismiss }) {
+export default function FeedbackMessage({ type, visible, onDismiss, universe }) {
   const { speak } = useTTS()
 
-  const messages = MESSAGES[type] || MESSAGES.tryAgain
+  const messages = useMemo(() => {
+    if (!type) return DEFAULT_MESSAGES.tryAgain
+    if (type === 'success' && universe?.feedbackPositive) {
+      return universe.feedbackPositive
+    }
+    if (type === 'tryAgain' && universe?.feedbackTryAgain) {
+      return universe.feedbackTryAgain
+    }
+    return DEFAULT_MESSAGES[type] || DEFAULT_MESSAGES.tryAgain
+  }, [type, universe])
+
   const message = messages[Math.floor(Math.random() * messages.length)]
   const isSuccess = type === 'success'
+  const icon = universe?.icon || (isSuccess ? '⭐' : '💪')
 
   useEffect(() => {
     if (visible) {
@@ -45,7 +46,7 @@ export default function FeedbackMessage({ type, visible, onDismiss }) {
       className="animate-scale-in"
       role="alert"
     >
-      <span style={styles.emoji}>{isSuccess ? '⚽' : '💪'}</span>
+      <span style={styles.emoji}>{icon}</span>
       <span style={styles.text}>{message}</span>
       {!isSuccess && (
         <button style={styles.btn} onClick={onDismiss}>

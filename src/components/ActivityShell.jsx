@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useTTS } from '../hooks/useTTS'
 import { useEffect } from 'react'
+import VisualTimer from './VisualTimer'
 
 export default function ActivityShell({
   title,
@@ -10,16 +11,22 @@ export default function ActivityShell({
   children,
   score,
   total,
+  textLevel,
+  timerSeconds,
+  onTimeUp,
+  showTimer = true,
 }) {
   const navigate = useNavigate()
   const { speak } = useTTS()
 
+  // Auto-read instruction on load (respects textLevel.readAloud)
+  const shouldReadAloud = textLevel ? textLevel.readAloud !== false : true
   useEffect(() => {
-    if (instruction) {
+    if (instruction && shouldReadAloud) {
       const timer = setTimeout(() => speak(instruction), 500)
       return () => clearTimeout(timer)
     }
-  }, [instruction, speak])
+  }, [instruction, speak, shouldReadAloud])
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -31,18 +38,31 @@ export default function ActivityShell({
         >
           ← Voltar
         </button>
-        {score !== undefined && (
-          <span style={styles.score}>
-            {score}/{total}
-          </span>
-        )}
+        <div style={styles.headerRight}>
+          {timerSeconds && showTimer && (
+            <VisualTimer
+              durationSeconds={timerSeconds}
+              onTimeUp={onTimeUp}
+              color={color}
+              size={40}
+            />
+          )}
+          {score !== undefined && (
+            <span style={styles.score}>
+              {score}/{total}
+            </span>
+          )}
+        </div>
       </header>
 
       <h2 style={{ ...styles.title, color }}>{title}</h2>
 
       {instruction && (
         <button
-          style={styles.instruction}
+          style={{
+            ...styles.instruction,
+            ...(textLevel?.useSimpleLanguage ? styles.instructionLarge : {}),
+          }}
           onClick={() => speak(instruction)}
           aria-label={`Ouvir instrucao: ${instruction}`}
         >
@@ -66,6 +86,11 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  headerRight: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
   },
   backBtn: {
     padding: 'var(--space-sm) var(--space-md)',
@@ -101,6 +126,11 @@ const styles = {
     cursor: 'pointer',
     textAlign: 'left',
     lineHeight: 1.4,
+  },
+  instructionLarge: {
+    fontSize: 'var(--font-size-lg)',
+    padding: 'var(--space-md)',
+    lineHeight: 1.6,
   },
   content: {
     flex: 1,

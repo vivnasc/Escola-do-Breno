@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import { useTTS } from '../hooks/useTTS'
 
 const PHASES = ['Inspira...', 'Segura...', 'Expira...']
 const PHASE_DURATIONS = [4000, 2000, 4000]
@@ -6,6 +7,8 @@ const PHASE_DURATIONS = [4000, 2000, 4000]
 export default function BancoDaCalma({ onClose }) {
   const [phase, setPhase] = useState(0)
   const [cycles, setCycles] = useState(0)
+  const { speak, stop } = useTTS()
+  const lastSpoken = useRef(-1)
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -15,6 +18,31 @@ export default function BancoDaCalma({ onClose }) {
     }, PHASE_DURATIONS[phase])
     return () => clearTimeout(timer)
   }, [phase])
+
+  // Voice-guided breathing
+  useEffect(() => {
+    if (phase !== lastSpoken.current) {
+      lastSpoken.current = phase
+      const voiceText = phase === 0
+        ? 'Inspira devagar'
+        : phase === 1
+          ? 'Segura'
+          : 'Expira devagar'
+      speak(voiceText, { rate: 0.7, volume: 0.8 })
+    }
+  }, [phase, speak])
+
+  // Announce readiness
+  useEffect(() => {
+    if (cycles === 2) {
+      speak('Boa! Ja podes continuar quando quiseres.', { rate: 0.8 })
+    }
+  }, [cycles, speak])
+
+  // Cleanup TTS on unmount
+  useEffect(() => {
+    return () => stop()
+  }, [stop])
 
   const scale = phase === 0 ? 1.3 : phase === 1 ? 1.3 : 0.8
 

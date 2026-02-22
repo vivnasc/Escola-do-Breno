@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const CHALLENGES = [
   {
@@ -77,7 +78,9 @@ export default function RealWorld({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -85,6 +88,12 @@ export default function RealWorld({
 
   const current = CHALLENGES[idx]
   const isComplete = idx >= CHALLENGES.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.situation)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (option) => {
@@ -94,6 +103,7 @@ export default function RealWorld({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowTip(true)
+        speak(current.tip)
       } else {
         registerError()
         setFeedback('tryAgain')
@@ -133,6 +143,7 @@ export default function RealWorld({
       color="var(--color-campo4)"
       score={score}
       total={CHALLENGES.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.challengeCard}>
         <span style={styles.challengeEmoji}>{current.emoji}</span>
@@ -168,6 +179,7 @@ export default function RealWorld({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

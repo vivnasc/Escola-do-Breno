@@ -108,6 +108,11 @@ export function useProgress() {
     })
   }, [])
 
+  const resetAll = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY)
+    setProgress(getDefaultProgress())
+  }, [])
+
   return {
     progress,
     markWordLearned,
@@ -115,5 +120,6 @@ export function useProgress() {
     updateCampoProgress,
     addTrophy,
     updateStreak,
+    resetAll,
   }
 }

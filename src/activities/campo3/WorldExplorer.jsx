@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const FACTS = [
   {
@@ -59,7 +60,9 @@ export default function WorldExplorer({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -67,6 +70,12 @@ export default function WorldExplorer({
 
   const current = FACTS[idx]
   const isComplete = idx >= FACTS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.question)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (ans) => {
@@ -76,6 +85,7 @@ export default function WorldExplorer({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowFact(true)
+        speak(current.fact)
       } else {
         registerError()
         setFeedback('tryAgain')
@@ -114,6 +124,7 @@ export default function WorldExplorer({
       color="var(--color-campo3)"
       score={score}
       total={FACTS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>
         <span style={styles.questionIcon}>🌍</span>
@@ -148,6 +159,7 @@ export default function WorldExplorer({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

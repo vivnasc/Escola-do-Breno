@@ -1,6 +1,8 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
+import { useTTS } from '../../hooks/useTTS'
 
 const ROUTINE_STEPS = [
   { id: 1, text: 'Acordar as 7h', emoji: '⏰', time: '07:00' },
@@ -32,13 +34,28 @@ export default function DailyRoutine({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const routineContent = content.routine
+
+  const STEPS = useMemo(() => ROUTINE_STEPS.map(s =>
+    s.id === 8 ? { ...s, text: routineContent.step8.text, emoji: routineContent.step8.emoji } : s
+  ), [routineContent])
+
+  const { speak } = useTTS()
   const [ordered, setOrdered] = useState([])
-  const [remaining, setRemaining] = useState(() => shuffle(ROUTINE_STEPS))
+  const [remaining, setRemaining] = useState(() => shuffle(STEPS))
   const [feedback, setFeedback] = useState(null)
 
-  const nextExpected = ROUTINE_STEPS[ordered.length]
-  const isComplete = ordered.length === ROUTINE_STEPS.length
+  const nextExpected = STEPS[ordered.length]
+  const isComplete = ordered.length === STEPS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(`Passo ${ordered.length + 1}. O que vem a seguir?`)
+    }
+  }, [ordered.length])
 
   const handleSelect = useCallback(
     (step) => {
@@ -47,7 +64,7 @@ export default function DailyRoutine({
         registerSuccess()
         setOrdered((prev) => [...prev, step])
         setRemaining((prev) => prev.filter((s) => s.id !== step.id))
-        if (ordered.length + 1 === ROUTINE_STEPS.length) {
+        if (ordered.length + 1 === STEPS.length) {
           completeActivity('daily-routine', 3)
           updateCampoProgress('campo4', 5)
         }
@@ -61,12 +78,12 @@ export default function DailyRoutine({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Rotina do Campeao" backPath="/campo/4" color="var(--color-campo4)">
+      <ActivityShell title={routineContent.title} backPath="/campo/4" color="var(--color-campo4)">
         <div style={styles.complete}>
           <span style={styles.completeEmoji}>🏆</span>
           <p style={styles.completeText}>A tua rotina esta completa!</p>
           <div style={styles.routineList}>
-            {ROUTINE_STEPS.map((s) => (
+            {STEPS.map((s) => (
               <div key={s.id} style={styles.routineItem}>
                 <span>{s.emoji}</span>
                 <span style={styles.routineTime}>{s.time}</span>
@@ -81,12 +98,13 @@ export default function DailyRoutine({
 
   return (
     <ActivityShell
-      title="Rotina do Campeao"
+      title={routineContent.title}
       instruction="Organiza a rotina diaria pela ordem correcta. O que vem a seguir?"
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={ordered.length}
-      total={ROUTINE_STEPS.length}
+      total={STEPS.length}
+      textLevel={adaptive?.textLevel}
     >
       {ordered.length > 0 && (
         <div style={styles.orderedList}>
@@ -106,7 +124,7 @@ export default function DailyRoutine({
       </p>
 
       <div style={styles.optionsList}>
-        {remaining.slice(0, 4).map((step) => (
+        {remaining.slice(0, adaptive?.choiceCount || 4).map((step) => (
           <button
             key={step.id}
             style={styles.optionBtn}
@@ -123,6 +141,7 @@ export default function DailyRoutine({
         type={feedback}
         visible={feedback !== null}
         onDismiss={() => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

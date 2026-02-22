@@ -1,6 +1,7 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { useTTS } from '../../hooks/useTTS'
 
 const QUESTIONS = [
   {
@@ -67,7 +68,9 @@ export default function BodyScience({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const { speak } = useTTS()
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -75,6 +78,12 @@ export default function BodyScience({
 
   const current = QUESTIONS[idx]
   const isComplete = idx >= QUESTIONS.length
+
+  useEffect(() => {
+    if (!isComplete) {
+      speak(current.question)
+    }
+  }, [idx])
 
   const handleAnswer = useCallback(
     (ansIdx) => {
@@ -84,6 +93,7 @@ export default function BodyScience({
         setScore((s) => s + 1)
         setFeedback('success')
         setShowFact(true)
+        speak(current.fact)
       } else {
         registerError()
         setFeedback('tryAgain')
@@ -122,6 +132,7 @@ export default function BodyScience({
       color="var(--color-campo3)"
       score={score}
       total={QUESTIONS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>
         <span style={styles.questionIcon}>🫀</span>
@@ -156,6 +167,7 @@ export default function BodyScience({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

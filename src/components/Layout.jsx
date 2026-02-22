@@ -3,20 +3,22 @@ import { AVATARS } from '../hooks/useProfile'
 
 const navItems = [
   { path: '/', label: 'Inicio', icon: '🏟️' },
-  { path: '/fichas', label: 'Fichas', icon: '✏️' },
-  { path: '/noticias', label: 'Noticias', icon: '📰' },
+  { path: '/planner', label: 'Plano', icon: '📋' },
   { path: '/desafios', label: 'Desafios', icon: '🎯' },
   { path: '/loja', label: 'Loja', icon: '🛒' },
+  { path: '/definicoes', label: 'Mais', icon: '⚙️' },
 ]
 
 export default function Layout({ profile }) {
   const location = useLocation()
   const isActivity = location.pathname.split('/').length > 3
-  const avatarEmoji = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
 
   return (
     <div style={styles.container}>
-      <main style={styles.main}>
+      <a href="#main-content" className="skip-link">
+        Saltar para o conteudo
+      </a>
+      <main id="main-content" style={styles.main} role="main">
         <Outlet />
       </main>
       {!isActivity && (
@@ -31,7 +33,7 @@ export default function Layout({ profile }) {
               })}
               end={item.path === '/'}
             >
-              <span style={styles.navIcon}>{item.icon}</span>
+              <span style={styles.navIcon} aria-hidden="true">{item.icon}</span>
               <span style={styles.navLabel}>{item.label}</span>
             </NavLink>
           ))}
