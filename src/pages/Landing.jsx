@@ -69,7 +69,7 @@ const TESTIMONIALS = [
   },
 ]
 
-export default function Landing() {
+export default function Landing({ onStart }) {
   const navigate = useNavigate()
 
   return (
@@ -84,7 +84,7 @@ export default function Landing() {
           <nav style={styles.headerNav}>
             <button style={styles.headerLink} onClick={() => navigate('/faq')}>FAQ</button>
             <button style={styles.headerLink} onClick={() => navigate('/suporte')}>Suporte</button>
-            <button style={styles.headerCta} onClick={() => navigate('/')}>
+            <button style={styles.headerCta} onClick={onStart || (() => navigate('/'))}>
               Comecar
             </button>
           </nav>
@@ -106,7 +106,7 @@ export default function Landing() {
             Nasceu de uma necessidade real: o nosso filho precisava de uma escola que se adaptasse a ele, nao o contrario. Nao encontramos. Entao construimos.
           </p>
           <div style={styles.heroBtns}>
-            <button style={styles.heroPrimary} onClick={() => navigate('/')}>
+            <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
               Criar a Escola do Meu Filho
             </button>
             <button style={styles.heroSecondary} onClick={() => {
@@ -347,7 +347,7 @@ export default function Landing() {
           <p style={styles.ctaDesc}>
             Construido por pais, para pais. Plano gratis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho esta pronta.
           </p>
-          <button style={styles.ctaBtn} onClick={() => navigate('/')}>
+          <button style={styles.ctaBtn} onClick={onStart || (() => navigate('/'))}>
             Criar a Escola do Meu Filho
           </button>
           <div style={styles.ctaLinks}>

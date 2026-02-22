@@ -196,8 +196,12 @@ function AppContent() {
     )
   }
 
-  // Show Welcome screen if no active profile
+  // Show Landing for first-time visitors (no profiles), Welcome for returning users
   if (!profileData.profile && !showIntake) {
+    const hasProfiles = profileData.profiles && profileData.profiles.length > 0
+    if (!hasProfiles) {
+      return <Landing onStart={handleNewProfile} />
+    }
     return (
       <Welcome
         onNewProfile={handleNewProfile}
