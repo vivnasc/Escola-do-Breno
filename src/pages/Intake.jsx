@@ -3,6 +3,7 @@ import { AVATARS } from '../hooks/useProfile'
 import { UNIVERSES } from '../data/universes'
 import { TEAMS, PLAYERS } from '../data/vocabulary'
 import { DIAGNOSTIC_QUESTIONS, calculateStartingLevels, MASTERY_LEVELS, levelToId } from '../data/competencies'
+import { BRENO_PROFILE } from '../data/brenoProfile'
 
 const LEARNING_AREAS = [
   { id: 'reading', emoji: '📖', label: 'Leitura' },
@@ -39,6 +40,11 @@ export default function Intake({ onComplete }) {
   const [age, setAge] = useState(null)
   const [avatar, setAvatar] = useState('star')
 
+  // Breno detection — pre-fill his carefully configured profile
+  const [brenoDetected, setBrenoDetected] = useState(false)
+  const [brenoLoaded, setBrenoLoaded] = useState(false)
+  const [subscriptionTier, setSubscriptionTier] = useState('free')
+
   // Universe (not just football!)
   const [universe, setUniverse] = useState(null)
   const [team, setTeam] = useState(null)
@@ -71,6 +77,45 @@ export default function Intake({ onComplete }) {
   const [prefersSimpleLanguage, setPrefersSimpleLanguage] = useState(false)
   const [needsAudioInstructions, setNeedsAudioInstructions] = useState(true)
 
+  const handleNameChange = (newName) => {
+    setName(newName)
+    // Detect Breno by name (case-insensitive) — offer to load his profile
+    if (newName.trim().toLowerCase() === 'breno' && !brenoLoaded) {
+      setBrenoDetected(true)
+    } else {
+      setBrenoDetected(false)
+    }
+  }
+
+  const loadBrenoProfile = () => {
+    const bp = BRENO_PROFILE
+    setAge(bp.age)
+    setAvatar(bp.avatar)
+    setUniverse(bp.universe)
+    setTeam(bp.favoriteTeam)
+    setPlayer(bp.favoritePlayer)
+    setAreas(bp.learningNeeds.areas)
+    setReadingLevel(bp.learningNeeds.readingLevel)
+    setSupportLevel(bp.learningNeeds.supportLevel)
+    setSoundEnabled(bp.sensory.soundEnabled)
+    setSoundVolume(bp.sensory.soundVolume)
+    setAnimationLevel(bp.sensory.animationLevel)
+    setVisualContrast(bp.sensory.visualContrast)
+    setFontSize(bp.sensory.fontSize)
+    setReducedClutter(bp.sensory.reducedClutter)
+    setTimePressure(bp.sensory.timePressure)
+    setSessionLength(bp.attention.sessionLength)
+    setBreakReminder(bp.attention.breakReminder)
+    setFrustrationSensitivity(bp.attention.frustrationSensitivity)
+    setGoals(bp.goals)
+    setUsesVisualSupports(bp.communication.usesVisualSupports)
+    setPrefersSimpleLanguage(bp.communication.prefersSimpleLanguage)
+    setNeedsAudioInstructions(bp.communication.needsAudioInstructions)
+    setSubscriptionTier(bp.subscriptionTier)
+    setBrenoDetected(false)
+    setBrenoLoaded(true)
+  }
+
   // Diagnostic placement test
   const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-3 for the 4 campos
   const [diagnosticQ, setDiagnosticQ] = useState(0)          // 0-2 for 3 questions per campo
@@ -99,7 +144,7 @@ export default function Intake({ onComplete }) {
 
   const handleFinish = () => {
     const competencyLevels = detectedLevels || { campo1: 1, campo2: 1, campo3: 1, campo4: 1 }
-    onComplete({
+    const profileData = {
       name: name.trim() || 'Jogador',
       age,
       avatar,
@@ -125,7 +170,12 @@ export default function Intake({ onComplete }) {
         prefersSimpleLanguage,
         needsAudioInstructions,
       },
-    })
+    }
+    // Breno always has full access — the platform was built for him
+    if (subscriptionTier !== 'free') {
+      profileData.subscriptionTier = subscriptionTier
+    }
+    onComplete(profileData)
   }
 
   const canAdvance = () => {
@@ -186,11 +236,37 @@ export default function Intake({ onComplete }) {
               style={styles.input}
               type="text"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => handleNameChange(e.target.value)}
               placeholder={filledBy === 'self' ? 'O teu nome...' : 'Nome da crianca...'}
               autoFocus
               maxLength={30}
             />
+
+            {brenoDetected && (
+              <div style={styles.brenoDetect}>
+                <p style={styles.brenoDetectText}>
+                  Este e o Breno! Carregar o perfil dele?
+                </p>
+                <p style={styles.brenoDetectSub}>
+                  Todas as definicoes ja configuradas (necessidades, sensorial, objectivos) ficam pre-preenchidas. Podes ajustar tudo nos passos seguintes.
+                </p>
+                <div style={styles.brenoDetectBtns}>
+                  <button style={styles.brenoYes} onClick={loadBrenoProfile}>
+                    Sim, carregar perfil
+                  </button>
+                  <button style={styles.brenoNo} onClick={() => { setBrenoDetected(false); setBrenoLoaded(false) }}>
+                    Nao, comecar do zero
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {brenoLoaded && (
+              <div style={styles.brenoLoaded}>
+                Perfil do Breno carregado — podes rever tudo nos passos seguintes.
+              </div>
+            )}
+
             <p style={styles.label}>Idade</p>
             <div style={styles.ageGrid}>
               {[6, 7, 8, 9, 10, 11, 12, 13, 14].map((a) => (
@@ -1253,5 +1329,62 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-lg)',
+  },
+  // Breno detection
+  brenoDetect: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#FFF8E1',
+    borderRadius: 'var(--radius-md)',
+    border: '2px solid #FFD54F',
+  },
+  brenoDetectText: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    textAlign: 'center',
+  },
+  brenoDetectSub: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
+  brenoDetectBtns: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+    justifyContent: 'center',
+  },
+  brenoYes: {
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: 'var(--color-primary)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  brenoNo: {
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: 'transparent',
+    color: 'var(--color-text-secondary)',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  brenoLoaded: {
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-primary)',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-primary-dark)',
+    textAlign: 'center',
+    fontWeight: 600,
   },
 }
