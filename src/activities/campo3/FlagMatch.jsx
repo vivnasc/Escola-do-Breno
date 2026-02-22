@@ -14,6 +14,16 @@ const COUNTRIES = [
   { name: 'Australia', flag: '🇦🇺', continent: 'Oceania', capital: 'Canberra' },
   { name: 'Mexico', flag: '🇲🇽', continent: 'America do Norte', capital: 'Cidade do Mexico' },
   { name: 'Africa do Sul', flag: '🇿🇦', continent: 'Africa', capital: 'Pretoria' },
+  { name: 'Mocambique', flag: '🇲🇿', continent: 'Africa', capital: 'Maputo' },
+  { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
+  { name: 'Alemanha', flag: '🇩🇪', continent: 'Europa', capital: 'Berlim' },
+  { name: 'Italia', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
+  { name: 'China', flag: '🇨🇳', continent: 'Asia', capital: 'Pequim' },
+  { name: 'India', flag: '🇮🇳', continent: 'Asia', capital: 'Nova Deli' },
+  { name: 'Nigeria', flag: '🇳🇬', continent: 'Africa', capital: 'Abuja' },
+  { name: 'Canada', flag: '🇨🇦', continent: 'America do Norte', capital: 'Otava' },
+  { name: 'Colombia', flag: '🇨🇴', continent: 'America do Sul', capital: 'Bogota' },
+  { name: 'Coreia do Sul', flag: '🇰🇷', continent: 'Asia', capital: 'Seul' },
 ]
 
 function shuffle(arr) {
@@ -76,7 +86,7 @@ export default function FlagMatch({
     setIdx(next)
     updateCampoProgress('campo3', next)
     if (next >= COUNTRIES.length) {
-      completeActivity('flag-match', score >= 8 ? 3 : score >= 5 ? 2 : 1)
+      completeActivity('flag-match', score >= 16 ? 3 : score >= 10 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

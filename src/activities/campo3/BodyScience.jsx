@@ -60,6 +60,50 @@ const QUESTIONS = [
     correct: 0,
     fact: 'Quando a bola roda, o ar move-se mais rapido de um lado, criando o efeito Magnus!',
   },
+  {
+    question: 'Quantos ossos tem o corpo humano adulto?',
+    options: ['Cerca de 206', 'Cerca de 50', 'Cerca de 500'],
+    correct: 0,
+    fact: 'Bebes nascem com cerca de 270 ossos. Alguns fundem-se a medida que crescemos!',
+  },
+  {
+    question: 'Que orgao controla todo o corpo?',
+    options: ['O cerebro', 'O estomago', 'O coracao'],
+    correct: 0,
+    fact: 'O cerebro envia milhoes de sinais electricos por segundo para controlar tudo no corpo!',
+  },
+  {
+    question: 'Porque espiramos?',
+    options: [
+      'Para expulsar particulas irritantes do nariz',
+      'Porque estamos doentes',
+      'Porque respiramos muito rapido',
+    ],
+    correct: 0,
+    fact: 'Um espirro pode atingir 160 km/h! O corpo expulsa particulas como po e bacterias.',
+  },
+  {
+    question: 'Que liquido vermelho circula no nosso corpo?',
+    options: ['Sangue', 'Sumo de tomate', 'Agua vermelha'],
+    correct: 0,
+    fact: 'O sangue transporta oxigenio a todas as celulas. Um adulto tem cerca de 5 litros!',
+  },
+  {
+    question: 'Porque suamos quando fazemos exercicio?',
+    options: [
+      'Para arrefecer o corpo',
+      'Porque bebemos muita agua',
+      'Porque temos medo',
+    ],
+    correct: 0,
+    fact: 'O suor evapora na pele e ajuda a baixar a temperatura do corpo. E um ar condicionado natural!',
+  },
+  {
+    question: 'Que parte do olho muda de tamanho com a luz?',
+    options: ['A pupila', 'A pestana', 'A sobrancelha'],
+    correct: 0,
+    fact: 'A pupila dilata no escuro para captar mais luz e contrai no claro para proteger a retina!',
+  },
 ]
 
 export default function BodyScience({
@@ -109,7 +153,7 @@ export default function BodyScience({
     setIdx(next)
     updateCampoProgress('campo3', next + 18)
     if (next >= QUESTIONS.length) {
-      completeActivity('body-science', score >= 5 ? 3 : score >= 3 ? 2 : 1)
+      completeActivity('body-science', score >= 10 ? 3 : score >= 7 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

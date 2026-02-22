@@ -92,6 +92,94 @@ const SCENARIOS = [
     ],
     lesson: 'Saber separar o que e urgente do que e divertido e uma habilidade para a vida toda. Primeiro o dever, depois o prazer!',
   },
+  {
+    title: 'Aceitar Criticas',
+    situation: 'O professor diz que o teu trabalho precisa de melhorar. Como reages?',
+    emoji: '📝',
+    options: [
+      { text: 'Ouco com atencao, pergunto o que posso melhorar e tento outra vez', correct: true },
+      { text: 'Fico zangado e digo que o trabalho esta perfeito', correct: false },
+      { text: 'Desisto e nao faco mais trabalhos', correct: false },
+    ],
+    lesson: 'As criticas ajudam-nos a crescer. Os maiores campeoes ouvem os treinadores e melhoram todos os dias.',
+  },
+  {
+    title: 'Partilhar Recursos',
+    situation: 'Ha um computador e dois colegas querem usa-lo ao mesmo tempo. O que propoes?',
+    emoji: '💻',
+    options: [
+      { text: 'Dividimos o tempo: 15 minutos cada um', correct: true },
+      { text: 'Digo que sou eu primeiro porque cheguei primeiro', correct: false },
+      { text: 'Nao deixo ninguem usar', correct: false },
+    ],
+    lesson: 'Partilhar de forma justa mostra maturidade. Quando dividimos o tempo, todos ficam satisfeitos.',
+  },
+  {
+    title: 'Lidar com o Tedio',
+    situation: 'Estas em casa, nao tens nada para fazer e sentes-te aborrecido. O que fazes?',
+    emoji: '😐',
+    options: [
+      { text: 'Penso em coisas que posso fazer: ler, desenhar, ajudar em casa', correct: true },
+      { text: 'Fico deitado a queixar-me o dia todo', correct: false },
+      { text: 'Mexo em coisas que nao devo', correct: false },
+    ],
+    lesson: 'O tedio e uma oportunidade para ser criativo! Quando inventamos actividades, descobrimos coisas novas sobre nos.',
+  },
+  {
+    title: 'Esperar a Vez',
+    situation: 'Estas na fila do escorrega e uma crianca tenta passar a frente. O que fazes?',
+    emoji: '🛝',
+    options: [
+      { text: 'Digo com calma que ha uma fila e cada um espera a sua vez', correct: true },
+      { text: 'Empurro-a para tras', correct: false },
+      { text: 'Saio da fila e vou embora', correct: false },
+    ],
+    lesson: 'Respeitar a fila e respeitar os outros. Quando todos esperam, tudo funciona melhor.',
+  },
+  {
+    title: 'Consequencias',
+    situation: 'Queres comer todos os doces que tens de uma so vez. O que pensas antes?',
+    emoji: '🍬',
+    options: [
+      { text: 'Se comer tudo agora, posso ficar com dor de barriga. Melhor comer poucos de cada vez', correct: true },
+      { text: 'Como tudo de uma vez porque sao meus', correct: false },
+      { text: 'Escondo-os para ninguem ver', correct: false },
+    ],
+    lesson: 'Antes de agir, pensa no que pode acontecer a seguir. Isso chama-se pensar nas consequencias!',
+  },
+  {
+    title: 'Pedir Desculpa',
+    situation: 'Sem querer, pisaste o pe de um colega no intervalo. O que fazes?',
+    emoji: '😅',
+    options: [
+      { text: 'Peco desculpa logo e pergunto se esta bem', correct: true },
+      { text: 'Finjo que nao fui eu', correct: false },
+      { text: 'Rio-me e continuo a brincar', correct: false },
+    ],
+    lesson: 'Pedir desculpa mostra que nos importamos com os outros. E simples mas muito poderoso!',
+  },
+  {
+    title: 'Adaptar-se a Mudancas',
+    situation: 'A tua familia vai mudar de casa. Tudo e novo e diferente. Como lidas com isso?',
+    emoji: '🏡',
+    options: [
+      { text: 'Exploro o bairro novo, tento fazer amigos novos, e falo sobre como me sinto', correct: true },
+      { text: 'Recuso-me a sair do quarto', correct: false },
+      { text: 'Fico zangado com toda a gente', correct: false },
+    ],
+    lesson: 'Mudancas podem assustar, mas trazem coisas novas e boas. Falar sobre os nossos sentimentos ajuda muito!',
+  },
+  {
+    title: 'Cuidar das Coisas',
+    situation: 'Pediste emprestado um livro a um amigo. O que tens de fazer?',
+    emoji: '📚',
+    options: [
+      { text: 'Cuido bem do livro e devolvo-o no prazo combinado', correct: true },
+      { text: 'Fico com ele e digo que perdi', correct: false },
+      { text: 'Devolvo-o todo riscado', correct: false },
+    ],
+    lesson: 'Cuidar das coisas dos outros mostra responsabilidade. Quando cuidamos, as pessoas confiam em nos.',
+  },
 ]
 
 export default function ProblemSolving({
@@ -141,7 +229,7 @@ export default function ProblemSolving({
     setIdx(next)
     updateCampoProgress('campo4', next + 20)
     if (next >= SCENARIOS.length) {
-      completeActivity('problem-solving', score >= 7 ? 3 : score >= 5 ? 2 : 1)
+      completeActivity('problem-solving', score >= 13 ? 3 : score >= 9 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

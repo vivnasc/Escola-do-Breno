@@ -33,7 +33,7 @@ src/
   data/
     activities.js             # Registo das 20 actividades (5 por campo)
     competencies.js           # Framework de 10 niveis + 4 fases + diagnostico
-    vocabulary.js             # 70 palavras ingles Cambridge Pre-A1
+    vocabulary.js             # 186 palavras ingles Cambridge Pre-A1 (17 categorias)
     universes.js              # 5 universos tematicos
     universeContent.js        # Conteudo contextualizado por universo
     brenoProfile.js           # Perfil pre-configurado do Breno
@@ -160,7 +160,7 @@ Traduz o perfil da crianca em adaptacoes concretas de UI/UX:
 ### Importantes
 - **Sem testes**: Zero unit tests, zero integration tests
 - **Sem backend**: Tudo client-side, sem API server (dados ficam no dispositivo)
-- **Conteudo limitado**: 70 palavras vocab, 12 letras phonics — insuficiente para uso sustentado
+- **Conteudo expandido mas ainda crescendo**: 186 palavras vocab (17 categorias), 26 letras phonics (alfabeto completo), conteudo suficiente para uso regular
 - **Export texto simples**: Relatorio e .txt, podia ser PDF com graficos
 - **Sem i18n**: Tudo hardcoded em portugues, sem framework de traducao
 - **TTS qualidade variavel**: Web Speech API depende do dispositivo/browser

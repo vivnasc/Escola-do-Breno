@@ -70,6 +70,72 @@ const CHALLENGES = [
     ],
     tip: 'Na loja: escolhe o que queres, vai a caixa, paga e confere o troco!',
   },
+  {
+    title: 'No Hospital',
+    situation: 'Dói-te muito a barriga e tens de ir ao medico. Como te preparas?',
+    emoji: '🏥',
+    options: [
+      { text: 'Digo ao medico onde doi, ha quanto tempo e o que comi', correct: true },
+      { text: 'Nao digo nada e espero que ele adivinhe', correct: false },
+      { text: 'Recuso-me a ir ao medico', correct: false },
+    ],
+    tip: 'No medico: explica o que sentes, onde doi, e ha quanto tempo. O medico precisa dessas informacoes para te ajudar!',
+  },
+  {
+    title: 'Atravessar a Rua',
+    situation: 'Precisas de atravessar uma rua movimentada. O que fazes?',
+    emoji: '🚶',
+    options: [
+      { text: 'Procuro a passadeira, olho para os dois lados e espero que os carros parem', correct: true },
+      { text: 'Corro a atravessar sem olhar', correct: false },
+      { text: 'Fico parado para sempre', correct: false },
+    ],
+    tip: 'Na rua: usa sempre a passadeira, olha para a esquerda, depois para a direita, e so atravessa quando os carros pararem.',
+  },
+  {
+    title: 'Fazer uma Chamada',
+    situation: 'Precisas de ligar para a tua mae para ela te vir buscar. O que fazes?',
+    emoji: '📱',
+    options: [
+      { text: 'Marco o numero da mae, espero que atenda, digo quem sou e onde estou', correct: true },
+      { text: 'Envio uma mensagem sem dizer onde estou', correct: false },
+      { text: 'Espero sem ligar a ninguem', correct: false },
+    ],
+    tip: 'Ao telefone: diz quem es, onde estas e o que precisas. Sabe de cor o numero dos teus pais!',
+  },
+  {
+    title: 'Visita a Casa de um Amigo',
+    situation: 'Vais a casa de um amigo pela primeira vez. Como te comportas?',
+    emoji: '🏠',
+    options: [
+      { text: 'Cumprimento os pais dele, tiro os sapatos se pedirem, e sigo as regras da casa', correct: true },
+      { text: 'Entro sem cumprimentar ninguem e abro o frigorifico', correct: false },
+      { text: 'Recuso-me a ir porque nao conhesso a casa', correct: false },
+    ],
+    tip: 'Em casa alheia: cumprimentar, seguir as regras da casa e agradecer ao sair sao sinais de boa educacao.',
+  },
+  {
+    title: 'Pedir Direccoes',
+    situation: 'Estas numa cidade nova e nao sabes onde fica a biblioteca. O que fazes?',
+    emoji: '🗺️',
+    options: [
+      { text: 'Pergunto a alguem de confianca (policia, empregado de loja) onde fica', correct: true },
+      { text: 'Ando sem rumo ate encontrar', correct: false },
+      { text: 'Desisto e volto para casa', correct: false },
+    ],
+    tip: 'Se nao sabes o caminho: pede ajuda a um adulto de confianca (policia, empregado). Sabe o nome do lugar que procuras!',
+  },
+  {
+    title: 'Usar Dinheiro',
+    situation: 'A tua mae da-te 100 para o dia. Tens de almossar (60) e comprar o bilhete de autocarro (25). Quanto sobra?',
+    emoji: '💵',
+    options: [
+      { text: '15. Almoco 60, autocarro 25, total 85, sobram 15', correct: true },
+      { text: 'Nao sei contar, gasto tudo no almoco', correct: false },
+      { text: 'Compro doces com todo o dinheiro', correct: false },
+    ],
+    tip: 'Gerir dinheiro: primeiro paga o que precisas (comida, transporte), depois ve o que sobra para extras.',
+  },
 ]
 
 export default function RealWorld({
@@ -119,7 +185,7 @@ export default function RealWorld({
     setIdx(next)
     updateCampoProgress('campo4', next + 17)
     if (next >= CHALLENGES.length) {
-      completeActivity('real-world', score >= 5 ? 3 : score >= 3 ? 2 : 1)
+      completeActivity('real-world', score >= 10 ? 3 : score >= 7 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
