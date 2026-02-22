@@ -2,6 +2,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 import { UNIVERSES } from '../data/universes'
+import { TIERS } from '../data/tiers'
 import { exportAllData, importData } from '../hooks/useStorage'
 
 /**
@@ -10,7 +11,7 @@ import { exportAllData, importData } from '../hooks/useStorage'
  */
 export default function Definicoes({
   profile, profiles, updateProfile, resetProfile, deleteProfile,
-  addRealReward, removeRealReward,
+  addRealReward, removeRealReward, subscription,
 }) {
   const navigate = useNavigate()
   const [showReset, setShowReset] = useState(false)
@@ -63,6 +64,38 @@ export default function Definicoes({
           )}
         </div>
       </section>
+
+      {/* Subscription Plan */}
+      {subscription && (
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>Plano</h2>
+          <div style={{
+            ...styles.planCard,
+            borderColor: subscription.tier.color,
+          }}>
+            <div style={styles.planRow}>
+              <span style={styles.planEmoji}>{subscription.tier.emoji}</span>
+              <div style={styles.planInfo}>
+                <span style={{ ...styles.planName, color: subscription.tier.color }}>
+                  Plano {subscription.tier.name}
+                </span>
+                <span style={styles.planPrice}>{subscription.tier.priceLabel}</span>
+              </div>
+              <button
+                style={{ ...styles.planBtn, borderColor: subscription.tier.color, color: subscription.tier.color }}
+                onClick={() => navigate('/planos')}
+              >
+                {subscription.isFree ? 'Melhorar' : 'Ver planos'}
+              </button>
+            </div>
+            {subscription.isFree && (
+              <p style={styles.planHint}>
+                Desbloqueie todos os universos e actividades com o plano Flor.
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       {/* Learning Needs */}
       <section style={styles.section}>
@@ -852,5 +885,54 @@ const styles = {
     padding: 'var(--space-sm)',
     backgroundColor: '#E8F5E9',
     borderRadius: 'var(--radius-sm)',
+  },
+  // Plan card
+  planCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+    border: '2px solid',
+  },
+  planRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+  },
+  planEmoji: {
+    fontSize: '2rem',
+    flexShrink: 0,
+  },
+  planInfo: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  planName: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  planPrice: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    fontWeight: 500,
+  },
+  planBtn: {
+    padding: 'var(--space-xs) var(--space-md)',
+    border: '2px solid',
+    borderRadius: 'var(--radius-md)',
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    flexShrink: 0,
+  },
+  planHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.4,
   },
 }

@@ -42,6 +42,7 @@ import Phonics from './activities/campo1/Phonics'
 import Patterns from './activities/campo2/Patterns'
 import NatureLab from './activities/campo3/NatureLab'
 import ProblemSolving from './activities/campo4/ProblemSolving'
+import Planos from './pages/Planos'
 import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
@@ -49,10 +50,11 @@ import { useAdaptive } from './hooks/useAdaptive'
 import { usePlanner } from './hooks/usePlanner'
 import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
+import { useSubscription } from './hooks/useSubscription'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
-const PUBLIC_PATHS = ['/landing', '/faq', '/suporte']
+const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
 
 function AppContent() {
   const location = useLocation()
@@ -68,6 +70,7 @@ function AppContent() {
     profileData.activeId,
   )
   const adaptive = useAdaptive(profileData.profile)
+  const subscription = useSubscription(profileData.profile)
   const plannerData = usePlanner(
     profileData.profile?.id,
     adaptive.prioritisedCampos,
@@ -144,6 +147,7 @@ function AppContent() {
     registerSuccess,
     adaptive,
     soundEnabled,
+    subscription,
   }
 
   // Public routes: always accessible without a profile
@@ -154,6 +158,7 @@ function AppContent() {
         <Route path="/landing" element={<Landing />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/suporte" element={<Suporte />} />
+        <Route path="/planos" element={<Planos currentTier={profileData.profile?.subscriptionTier} />} />
       </Routes>
     )
   }
@@ -252,7 +257,12 @@ function AppContent() {
               deleteProfile={profileData.deleteProfile}
               addRealReward={profileData.addRealReward}
               removeRealReward={profileData.removeRealReward}
+              subscription={subscription}
             />
+          } />
+
+          <Route path="/planos" element={
+            <Planos currentTier={subscription.tierId} />
           } />
 
           <Route path="/planner" element={

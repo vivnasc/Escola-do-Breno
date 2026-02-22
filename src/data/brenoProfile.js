@@ -12,6 +12,9 @@ const BRENO_PROFILE = {
   onboardingComplete: true,
   createdAt: new Date().toISOString(),
 
+  // Breno always has full access — built for him
+  subscriptionTier: 'family',
+
   // Theme — Breno loves football
   universe: 'football',
   favoriteTeam: 'Benfica',
