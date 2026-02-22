@@ -75,7 +75,7 @@ export default function FairPlay({
       <ActivityShell title="Fair Play" backPath="/campo/4" color="var(--color-campo4)">
         <CompletionCelebration
           emoji="🤝"
-          title="Es um campeao de fair play!"
+          title="És um campeão de fair play!"
           score={score}
           total={SCENARIOS.length}
           stars={finalStars}
@@ -119,7 +119,7 @@ export default function FairPlay({
           <span>💡</span>
           <p style={styles.lessonText}>{current.lesson}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo →
+            Próximo →
           </button>
         </div>
       )}

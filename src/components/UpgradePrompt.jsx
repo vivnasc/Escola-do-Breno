@@ -12,9 +12,9 @@ export default function UpgradePrompt({ onClose, feature }) {
   const featureLabels = {
     activity: 'Esta actividade',
     universe: 'Este universo',
-    fichas: 'As fichas para impressao',
+    fichas: 'As fichas para impressão',
     desafios: 'Os desafios semanais',
-    loja: 'A loja de cosmeticos',
+    loja: 'A loja de cosméticos',
     dashboard: 'O painel do educador',
   }
 
@@ -32,7 +32,7 @@ export default function UpgradePrompt({ onClose, feature }) {
         <h2 style={styles.title}>{label} faz parte do plano {familyTier.name}</h2>
 
         <p style={styles.desc}>
-          O plano Semente e gratuito e inclui 4 actividades com progressao completa.
+          O plano Semente é gratuito e inclui 4 actividades com progressão completa.
           Para desbloquear tudo, experimenta o plano {familyTier.name}.
         </p>
 
@@ -56,7 +56,7 @@ export default function UpgradePrompt({ onClose, feature }) {
         </button>
 
         <button style={styles.laterBtn} onClick={onClose}>
-          Agora nao
+          Agora não
         </button>
       </div>
     </div>

@@ -57,7 +57,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
             {avatarEmoji}
           </div>
           <div>
-            <p style={styles.greeting}>Ola, {playerName}!</p>
+            <p style={styles.greeting}>Olá, {playerName}!</p>
           </div>
         </div>
         <button
@@ -81,7 +81,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </div>
         <div style={styles.stat}>
           <span style={styles.statValue}>{progress.trophies.length}</span>
-          <span style={styles.statLabel}>trofeus</span>
+          <span style={styles.statLabel}>troféus</span>
         </div>
         <div style={styles.stat}>
           <span style={styles.statValue}>
@@ -99,7 +99,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
             <p style={styles.goalsTitle}>Os teus objectivos</p>
             <p style={styles.goalsText}>
               Actividades recomendadas com base no teu perfil de aprendizagem.
-              {needsAreas.length > 0 && ` Foco: ${needsAreas.length} areas de apoio.`}
+              {needsAreas.length > 0 && ` Foco: ${needsAreas.length} áreas de apoio.`}
             </p>
           </div>
         </div>
@@ -174,7 +174,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </button>
         <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/noticias')}>
           <span style={styles.quickIcon}>📰</span>
-          <span style={styles.quickLabel}>Noticias</span>
+          <span style={styles.quickLabel}>Notícias</span>
         </button>
         <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/comunidade')}>
           <span style={styles.quickIcon}>🏟️</span>

@@ -21,7 +21,7 @@ export default function ActivityCard({ activity, basePath, completed, locked, on
       className={locked ? '' : 'interactive-card'}
       onClick={handleClick}
       aria-label={locked
-        ? `${activity.name}: disponivel no plano Flor`
+        ? `${activity.name}: disponível no plano Flor`
         : `${activity.name}: ${activity.description}`
       }
     >
@@ -33,7 +33,7 @@ export default function ActivityCard({ activity, basePath, completed, locked, on
           {activity.name}
         </span>
         <span style={styles.desc}>
-          {locked ? 'Disponivel no plano Flor' : activity.description}
+          {locked ? 'Disponível no plano Flor' : activity.description}
         </span>
       </div>
       {!locked && (

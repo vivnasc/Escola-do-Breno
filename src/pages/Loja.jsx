@@ -44,7 +44,7 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
     <div style={styles.container} className="animate-fade-in">
       <header style={styles.header}>
         <div>
-          <h1 style={styles.title}>Loja de Premios</h1>
+          <h1 style={styles.title}>Loja de Prémios</h1>
           <p style={styles.subtitle}>Gasta as tuas estrelas!</p>
         </div>
         <div style={styles.starBalance}>
@@ -109,7 +109,7 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
                     </button>
                   )}
                   {item.category === 'stickers' || item.category === 'stadium' ? (
-                    <span style={styles.ownedLabel}>✓ Na coleccao</span>
+                    <span style={styles.ownedLabel}>✓ Na colecção</span>
                   ) : null}
                 </div>
               ) : (
@@ -133,9 +133,9 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
       {/* Real-world rewards from parents */}
       {(profile?.realRewards || []).length > 0 && (
         <div style={styles.realRewardsSection}>
-          <h2 style={styles.realRewardsTitle}>Premios Reais</h2>
+          <h2 style={styles.realRewardsTitle}>Prémios Reais</h2>
           <p style={styles.realRewardsDesc}>
-            Troca as tuas estrelas por premios de verdade!
+            Troca as tuas estrelas por prémios de verdade!
           </p>
           <div style={styles.realRewardGrid}>
             {(profile?.realRewards || []).map((reward) => {

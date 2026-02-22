@@ -7,18 +7,18 @@ import { useSTT } from '../../hooks/useSTT'
 import { useSoundEffects } from '../../hooks/useSoundEffects'
 
 const LETTERS = [
-  { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maca', 'formiga'], emoji: '🍎' },
-  { letter: 'B', sound: 'buh', words: ['ball', 'bird'], wordsPt: ['bola', 'passaro'], emoji: '⚽' },
+  { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maçã', 'formiga'], emoji: '🍎' },
+  { letter: 'B', sound: 'buh', words: ['ball', 'bird'], wordsPt: ['bola', 'pássaro'], emoji: '⚽' },
   { letter: 'C', sound: 'kuh', words: ['cat', 'car'], wordsPt: ['gato', 'carro'], emoji: '🐱' },
-  { letter: 'D', sound: 'duh', words: ['dog', 'door'], wordsPt: ['cao', 'porta'], emoji: '🐕' },
+  { letter: 'D', sound: 'duh', words: ['dog', 'door'], wordsPt: ['cão', 'porta'], emoji: '🐕' },
   { letter: 'E', sound: 'eh', words: ['egg', 'elephant'], wordsPt: ['ovo', 'elefante'], emoji: '🥚' },
   { letter: 'F', sound: 'fuh', words: ['fish', 'flower'], wordsPt: ['peixe', 'flor'], emoji: '🐟' },
   { letter: 'G', sound: 'guh', words: ['goat', 'green'], wordsPt: ['cabra', 'verde'], emoji: '🐐' },
-  { letter: 'H', sound: 'huh', words: ['hat', 'house'], wordsPt: ['chapeu', 'casa'], emoji: '🏠' },
-  { letter: 'I', sound: 'ih', words: ['ice', 'insect'], wordsPt: ['gelo', 'insecto'], emoji: '🧊' },
+  { letter: 'H', sound: 'huh', words: ['hat', 'house'], wordsPt: ['chapéu', 'casa'], emoji: '🏠' },
+  { letter: 'I', sound: 'ih', words: ['ice', 'insect'], wordsPt: ['gelo', 'inseto'], emoji: '🧊' },
   { letter: 'J', sound: 'juh', words: ['jump', 'juice'], wordsPt: ['saltar', 'sumo'], emoji: '🦘' },
   { letter: 'K', sound: 'kuh', words: ['king', 'kite'], wordsPt: ['rei', 'papagaio'], emoji: '👑' },
-  { letter: 'L', sound: 'luh', words: ['lion', 'leaf'], wordsPt: ['leao', 'folha'], emoji: '🦁' },
+  { letter: 'L', sound: 'luh', words: ['lion', 'leaf'], wordsPt: ['leão', 'folha'], emoji: '🦁' },
   { letter: 'M', sound: 'muh', words: ['moon', 'mouse'], wordsPt: ['lua', 'rato'], emoji: '🌙' },
   { letter: 'N', sound: 'nuh', words: ['nose', 'nest'], wordsPt: ['nariz', 'ninho'], emoji: '👃' },
   { letter: 'O', sound: 'oh', words: ['orange', 'octopus'], wordsPt: ['laranja', 'polvo'], emoji: '🍊' },
@@ -26,10 +26,10 @@ const LETTERS = [
   { letter: 'Q', sound: 'kwuh', words: ['queen', 'question'], wordsPt: ['rainha', 'pergunta'], emoji: '👸' },
   { letter: 'R', sound: 'ruh', words: ['rain', 'rabbit'], wordsPt: ['chuva', 'coelho'], emoji: '🌧️' },
   { letter: 'S', sound: 'sss', words: ['sun', 'star'], wordsPt: ['sol', 'estrela'], emoji: '☀️' },
-  { letter: 'T', sound: 'tuh', words: ['tree', 'train'], wordsPt: ['arvore', 'comboio'], emoji: '🌳' },
+  { letter: 'T', sound: 'tuh', words: ['tree', 'train'], wordsPt: ['árvore', 'comboio'], emoji: '🌳' },
   { letter: 'U', sound: 'uh', words: ['umbrella', 'under'], wordsPt: ['guarda-chuva', 'debaixo'], emoji: '☂️' },
   { letter: 'V', sound: 'vuh', words: ['van', 'violin'], wordsPt: ['carrinha', 'violino'], emoji: '🎻' },
-  { letter: 'W', sound: 'wuh', words: ['water', 'window'], wordsPt: ['agua', 'janela'], emoji: '💧' },
+  { letter: 'W', sound: 'wuh', words: ['water', 'window'], wordsPt: ['água', 'janela'], emoji: '💧' },
   { letter: 'X', sound: 'ks', words: ['box', 'fox'], wordsPt: ['caixa', 'raposa'], emoji: '📦' },
   { letter: 'Y', sound: 'yuh', words: ['yellow', 'yogurt'], wordsPt: ['amarelo', 'iogurte'], emoji: '🟡' },
   { letter: 'Z', sound: 'zzz', words: ['zoo', 'zebra'], wordsPt: ['zoo', 'zebra'], emoji: '🦓' },
@@ -75,7 +75,7 @@ export default function Phonics({
         setTimeout(() => speakEn(current.sound), 1200)
       } else {
         speakEn(`${current.words[0]}`)
-        speak(`Que palavra comeca com ${current.letter}?`)
+        speak(`Que palavra começa com ${current.letter}?`)
       }
     }
   }, [idx, phase])
@@ -147,7 +147,7 @@ export default function Phonics({
     } else if (result.heard) {
       speak(`Ouvimos "${result.heard}". Tenta dizer "${current.words[0]}"`)
     } else {
-      speak('Nao ouvimos nada. Tenta de novo!')
+      speak('Não ouvimos nada. Tenta de novo!')
     }
   }, [stt, current, sfx, speak])
 
@@ -188,7 +188,7 @@ export default function Phonics({
   return (
     <ActivityShell
       title="Sons e Letras"
-      instruction={phase === 'sound' ? `Que letra faz "${current.sound}"?` : `Que palavra comeca com ${current.letter}?`}
+      instruction={phase === 'sound' ? `Que letra faz "${current.sound}"?` : `Que palavra começa com ${current.letter}?`}
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={score}
@@ -259,7 +259,7 @@ export default function Phonics({
                 ? `Disseste "${sttResult.heard}" — Correcto!`
                 : sttResult.heard
                   ? `Ouvimos "${sttResult.heard}" — Tenta de novo`
-                  : 'Nao ouvimos nada'}
+                  : 'Não ouvimos nada'}
             </div>
           )}
         </>

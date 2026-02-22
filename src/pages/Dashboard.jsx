@@ -34,7 +34,7 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
   // Campo progress
   const campos = [
     { id: 'campo1', name: 'Linguagem', color: '#1565C0', icon: '🗣️' },
-    { id: 'campo2', name: 'Matematica', color: '#E65100', icon: '🔢' },
+    { id: 'campo2', name: 'Matemática', color: '#E65100', icon: '🔢' },
     { id: 'campo3', name: 'Descoberta', color: '#2E7D32', icon: '🌍' },
     { id: 'campo4', name: 'Autonomia', color: '#6A1B9A', icon: '🤝' },
   ]
@@ -59,7 +59,7 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
     const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
     const campoMeta = [
       { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
-      { id: 'campo2', name: 'Matematica', icon: '🔢' },
+      { id: 'campo2', name: 'Matemática', icon: '🔢' },
       { id: 'campo3', name: 'Descoberta', icon: '🌍' },
       { id: 'campo4', name: 'Autonomia', icon: '🤝' },
     ]
@@ -70,11 +70,11 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
 
     const report = `
 ========================================
-PITCH - Relatorio de Progresso
+PITCH - Relatório de Progresso
 ========================================
 Aluno: ${name}
 Idade: ${profile?.age || '?'} anos
-Data do relatorio: ${date}
+Data do relatório: ${date}
 Universo: ${profile?.universe || 'football'}
 Preenchido por: ${profile?.filledBy || 'pai/mae'}
 
@@ -85,37 +85,37 @@ Palavras aprendidas: ${wordsLearned.length}/${VOCABULARY_WORDS.length}
 Dias consecutivos: ${progress?.streakDays || 0}
 Trofeus: ${progress?.trophies?.length || 0}
 
---- Fases de Competencia ---
+--- Fases de Competência ---
 ${phaseLines}
 
   Legenda:
-  🌱 Germinar (1-3) — Exploracao, tentativa, curiosidade
-  🌿 Estruturar (4-6) — Competencia a formar-se
+  🌱 Germinar (1-3) — Exploração, tentativa, curiosidade
+  🌿 Estruturar (4-6) — Competência a formar-se
   🌸 Florescer (7-8) — Autonomia emergente
   🌳 Sustentar (9-10) — Autonomia consolidada
 
---- Progresso por Area ---
+--- Progresso por Área ---
 ${campoLines}
 
---- Vocabulario por Categoria ---
+--- Vocabulário por Categoria ---
 ${vocabLines}
 
 --- Perfil de Aprendizagem ---
-Areas de apoio: ${areas}
-Nivel de leitura: ${profile?.learningNeeds?.readingLevel || '?'}
-Nivel de apoio: ${profile?.learningNeeds?.supportLevel || '?'}
+Áreas de apoio: ${areas}
+Nível de leitura: ${profile?.learningNeeds?.readingLevel || '?'}
+Nível de apoio: ${profile?.learningNeeds?.supportLevel || '?'}
 Objectivos: ${goals}
 
---- Sessoes ---
-Duracao: ${profile?.attention?.sessionLength || 15} minutos
-Sensibilidade a frustracao: ${profile?.attention?.frustrationSensitivity || 'moderada'}
-Lembrete de pausa: ${profile?.attention?.breakReminder ? 'Sim' : 'Nao'}
+--- Sessões ---
+Duração: ${profile?.attention?.sessionLength || 15} minutos
+Sensibilidade à frustração: ${profile?.attention?.frustrationSensitivity || 'moderada'}
+Lembrete de pausa: ${profile?.attention?.breakReminder ? 'Sim' : 'Não'}
 
 --- Fichas ---
 Submetidas: ${submissions.length}
 Pendentes: ${pendingSubmissions.length}
 Avaliadas: ${reviewedSubmissions.length}
-${reviewedSubmissions.length > 0 ? 'Media estrelas: ' + (reviewedSubmissions.reduce((s, r) => s + (r.stars || 0), 0) / reviewedSubmissions.length).toFixed(1) : ''}
+${reviewedSubmissions.length > 0 ? 'Média estrelas: ' + (reviewedSubmissions.reduce((s, r) => s + (r.stars || 0), 0) / reviewedSubmissions.length).toFixed(1) : ''}
 
 ========================================
 Gerado automaticamente por PITCH
@@ -126,7 +126,7 @@ Gerado automaticamente por PITCH
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `PITCH_Relatorio_${name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.txt`
+    a.download = `PITCH_Relatório_${name.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.txt`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -170,7 +170,7 @@ Gerado automaticamente por PITCH
         )}
 
         <div style={styles.ratingSection}>
-          <p style={styles.ratingLabel}>Avaliacao:</p>
+          <p style={styles.ratingLabel}>Avaliação:</p>
           <div style={styles.starsRow}>
             {[1, 2, 3].map((s) => (
               <button
@@ -203,7 +203,7 @@ Gerado automaticamente por PITCH
         </div>
 
         <button style={styles.submitReviewBtn} onClick={handleSubmitReview}>
-          Enviar Avaliacao
+          Enviar Avaliação
         </button>
       </div>
     )
@@ -223,7 +223,7 @@ Gerado automaticamente por PITCH
           <button
             style={styles.exportBtn}
             onClick={handleExportReport}
-            aria-label="Exportar relatorio"
+            aria-label="Exportar relatório"
           >
             📄 Exportar
           </button>
@@ -234,8 +234,8 @@ Gerado automaticamente por PITCH
         {[
           { id: 'resumo', label: 'Resumo', icon: '📊' },
           { id: 'fichas', label: `Fichas (${pendingSubmissions.length})`, icon: '📬' },
-          { id: 'palavras', label: 'Vocabulario', icon: '🗣️' },
-          { id: 'competencias', label: 'Competencias', icon: '🌱' },
+          { id: 'palavras', label: 'Vocabulário', icon: '🗣️' },
+          { id: 'competencias', label: 'Competências', icon: '🌱' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -277,7 +277,7 @@ Gerado automaticamente por PITCH
           </div>
 
           {/* Campo progress */}
-          <h3 style={styles.subTitle}>Progresso por Area</h3>
+          <h3 style={styles.subTitle}>Progresso por Área</h3>
           <div style={styles.campoList}>
             {campos.map((campo) => {
               const cp = progress?.campoProgress?.[campo.id] || { completed: 0, total: 20 }
@@ -297,18 +297,18 @@ Gerado automaticamente por PITCH
           </div>
 
           {/* Strengths and areas for improvement */}
-          <h3 style={styles.subTitle}>Observacoes</h3>
+          <h3 style={styles.subTitle}>Observações</h3>
           <div style={styles.observationsList}>
             {wordsLearned.length >= 20 && (
               <div style={styles.obsCard}>
                 <span style={styles.obsIcon}>💪</span>
-                <p style={styles.obsText}>Forte em vocabulario — {wordsLearned.length} palavras aprendidas!</p>
+                <p style={styles.obsText}>Forte em vocabulário — {wordsLearned.length} palavras aprendidas!</p>
               </div>
             )}
             {totalActivities > 0 && totalStars / totalActivities >= 2.5 && (
               <div style={styles.obsCard}>
                 <span style={styles.obsIcon}>🌟</span>
-                <p style={styles.obsText}>Media alta de estrelas ({(totalStars / totalActivities).toFixed(1)} por actividade)</p>
+                <p style={styles.obsText}>Média alta de estrelas ({(totalStars / totalActivities).toFixed(1)} por actividade)</p>
               </div>
             )}
             {totalActivities > 0 && totalStars / totalActivities < 2 && (
@@ -320,19 +320,19 @@ Gerado automaticamente por PITCH
             {(progress?.streakDays || 0) === 0 && (
               <div style={styles.obsCard}>
                 <span style={styles.obsIcon}>📅</span>
-                <p style={styles.obsText}>Encorajar uso diario para criar rotina</p>
+                <p style={styles.obsText}>Encorajar uso diário para criar rotina</p>
               </div>
             )}
             {pendingSubmissions.length > 0 && (
               <div style={{ ...styles.obsCard, backgroundColor: '#FFF3E0', borderColor: '#FFB74D' }}>
                 <span style={styles.obsIcon}>📬</span>
-                <p style={styles.obsText}>{pendingSubmissions.length} ficha(s) a aguardar avaliacao</p>
+                <p style={styles.obsText}>{pendingSubmissions.length} ficha(s) a aguardar avaliação</p>
               </div>
             )}
             {totalActivities === 0 && (
               <div style={styles.obsCard}>
                 <span style={styles.obsIcon}>🌱</span>
-                <p style={styles.obsText}>Ainda nao completou actividades. O inicio da jornada!</p>
+                <p style={styles.obsText}>Ainda não completou actividades. O início da jornada!</p>
               </div>
             )}
           </div>
@@ -345,7 +345,7 @@ Gerado automaticamente por PITCH
           {pendingSubmissions.length === 0 ? (
             <div style={styles.emptyState}>
               <span style={styles.emptyEmoji}>✅</span>
-              <p style={styles.emptyText}>Nao ha fichas pendentes de avaliacao.</p>
+              <p style={styles.emptyText}>Não há fichas pendentes de avaliação.</p>
             </div>
           ) : (
             <div style={styles.submissionList}>
@@ -372,7 +372,7 @@ Gerado automaticamente por PITCH
 
           {reviewedSubmissions.length > 0 && (
             <>
-              <h3 style={{ ...styles.subTitle, marginTop: 'var(--space-lg)' }}>Historico</h3>
+              <h3 style={{ ...styles.subTitle, marginTop: 'var(--space-lg)' }}>Histórico</h3>
               <div style={styles.submissionList}>
                 {reviewedSubmissions
                   .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))
@@ -403,7 +403,7 @@ Gerado automaticamente por PITCH
 
       {activeTab === 'palavras' && (
         <div style={styles.section} className="animate-fade-in">
-          <h3 style={styles.subTitle}>Vocabulario por Categoria</h3>
+          <h3 style={styles.subTitle}>Vocabulário por Categoria</h3>
           <p style={styles.sectionDesc}>
             {wordsLearned.length} de {VOCABULARY_WORDS.length} palavras aprendidas
           </p>
@@ -427,9 +427,9 @@ Gerado automaticamente por PITCH
       )}
       {activeTab === 'competencias' && (
         <div style={styles.section} className="animate-fade-in">
-          <h3 style={styles.subTitle}>Mapa de Competencias</h3>
+          <h3 style={styles.subTitle}>Mapa de Competências</h3>
           <p style={styles.sectionDesc}>
-            10 niveis progressivos — a crianca avanca quando domina, nao por idade.
+            10 níveis progressivos — a criança avança quando domina, não por idade.
           </p>
 
           {/* Phase overview — the therapist/parent communication layer */}
@@ -437,13 +437,13 @@ Gerado automaticamente por PITCH
             const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
             const campoMeta = [
               { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
-              { id: 'campo2', name: 'Matematica', icon: '🔢' },
+              { id: 'campo2', name: 'Matemática', icon: '🔢' },
               { id: 'campo3', name: 'Descoberta', icon: '🌍' },
               { id: 'campo4', name: 'Autonomia', icon: '🤝' },
             ]
             return (
               <div style={styles.phaseOverview}>
-                <p style={styles.phaseOverviewTitle}>Fases por area</p>
+                <p style={styles.phaseOverviewTitle}>Fases por área</p>
                 <div style={styles.phaseGrid}>
                   {campoMeta.map((c) => {
                     const cp = campoPhases[c.id]
@@ -529,7 +529,7 @@ Gerado automaticamente por PITCH
                         <div style={{ ...styles.compCurrentMilestone, opacity: 0.5 }}>
                           <span>{MASTERY_LEVELS[numLevel].emoji}</span>
                           <span style={styles.compMilestoneText}>
-                            Proximo: {comp.milestones[MASTERY_LEVELS[numLevel].id]}
+                            Próximo: {comp.milestones[MASTERY_LEVELS[numLevel].id]}
                           </span>
                         </div>
                       )}

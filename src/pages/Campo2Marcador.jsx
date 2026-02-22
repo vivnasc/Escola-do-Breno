@@ -18,13 +18,13 @@ export default function Campo2Marcador({ progress, subscription }) {
         <span style={styles.icon}>🔢</span>
         <div>
           <h1 style={styles.title}>O Marcador</h1>
-          <p style={styles.subtitle}>Matematica e Logica</p>
+          <p style={styles.subtitle}>Matemática e Lógica</p>
         </div>
       </header>
 
       <p style={styles.description}>
-        O marcador e onde os numeros contam a historia do jogo. Resultados,
-        estatisticas, tempo, dinheiro — tudo e matematica.
+        O marcador é onde os números contam a história do jogo. Resultados,
+        estatísticas, tempo, dinheiro — tudo é matemática.
       </p>
 
       <div style={styles.progressSection}>

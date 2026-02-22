@@ -21,7 +21,7 @@ const PATTERN_SETS = [
   { sequence: ['5', '10', '15', '20'], answer: '25', options: ['25', '30', '22', '21'], level: 3 },
   { sequence: ['1', '3', '5', '7'], answer: '9', options: ['9', '8', '10', '11'], level: 3 },
   // Level 3: Growing patterns
-  { sequence: ['🌱', '🌿', '🌸', '🍎'], answer: '🌱', options: ['🌱', '🍎', '🌸', '🌿'], level: 3, note: 'O ciclo recomeca!' },
+  { sequence: ['🌱', '🌿', '🌸', '🍎'], answer: '🌱', options: ['🌱', '🍎', '🌸', '🌿'], level: 3, note: 'O ciclo recomeça!' },
 ]
 
 function shuffle(arr) {
@@ -59,7 +59,7 @@ export default function Patterns({
 
   useEffect(() => {
     if (!isComplete && current) {
-      speak('Observa o padrao. O que vem a seguir?')
+      speak('Observa o padrão. O que vem a seguir?')
     }
   }, [idx])
 
@@ -70,7 +70,7 @@ export default function Patterns({
         registerSuccess()
         setScore((s) => s + 1)
         setFeedback('success')
-        speak(current.note || 'Muito bem! Encontraste o padrao!')
+        speak(current.note || 'Muito bem! Encontraste o padrão!')
       } else {
         registerError()
         setFeedback('tryAgain')
@@ -93,10 +93,10 @@ export default function Patterns({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Padroes e Sequencias" backPath="/campo/2" color="var(--color-campo2)">
+      <ActivityShell title="Padrões e Sequências" backPath="/campo/2" color="var(--color-campo2)">
         <CompletionCelebration
           emoji="🧩"
-          title={`Descobriste ${score} padroes!`}
+          title={`Descobriste ${score} padrões!`}
           score={score}
           total={items.length}
           stars={finalStars}
@@ -108,8 +108,8 @@ export default function Patterns({
 
   return (
     <ActivityShell
-      title="Padroes e Sequencias"
-      instruction="Observa o padrao. O que vem a seguir?"
+      title="Padrões e Sequências"
+      instruction="Observa o padrão. O que vem a seguir?"
       backPath="/campo/2"
       color="var(--color-campo2)"
       score={score}

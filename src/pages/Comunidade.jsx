@@ -11,11 +11,11 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
   const [senderName, setSenderName] = useState('')
 
   const myAvatar = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
-  const myName = profile?.name || 'Crianca'
+  const myName = profile?.name || 'Criança'
 
   const handleSendEncouragement = () => {
     if (!newMessage.trim()) return
-    const from = senderName.trim() || 'Familia'
+    const from = senderName.trim() || 'Família'
     addEncouragement?.(from, newMessage.trim())
     setNewMessage('')
   }
@@ -28,11 +28,11 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
   const achievements = [
     progress?.wordsLearned?.length > 0 && {
       icon: '🗣️',
-      text: `Aprendi ${progress.wordsLearned.length} palavras em ingles!`,
+      text: `Aprendi ${progress.wordsLearned.length} palavras em inglês!`,
     },
     progress?.totalStars > 0 && {
       icon: '⭐',
-      text: `Ja ganhei ${progress.totalStars} estrelas!`,
+      text: `Já ganhei ${progress.totalStars} estrelas!`,
     },
     progress?.streakDays > 1 && {
       icon: '🔥',
@@ -44,19 +44,19 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
     },
     progress?.trophies?.length > 0 && {
       icon: '🏅',
-      text: `Tenho ${progress.trophies.length} trofeus!`,
+      text: `Tenho ${progress.trophies.length} troféus!`,
     },
     progress?.wordsLearned?.length >= 10 && {
       icon: '📖',
-      text: 'Ja sei mais de 10 palavras!',
+      text: 'Já sei mais de 10 palavras!',
     },
     progress?.wordsLearned?.length >= 30 && {
       icon: '🌟',
-      text: 'Mais de 30 palavras! Poliglota em formacao!',
+      text: 'Mais de 30 palavras! Poliglota em formação!',
     },
     progress?.totalStars >= 20 && {
       icon: '💫',
-      text: 'Mais de 20 estrelas! Verdadeiro campeao!',
+      text: 'Mais de 20 estrelas! Verdadeiro campeão!',
     },
   ].filter(Boolean)
 
@@ -72,7 +72,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
     <div style={styles.container} className="animate-fade-in">
       <header style={styles.header}>
         <div>
-          <h1 style={styles.title}>Familia</h1>
+          <h1 style={styles.title}>Família</h1>
           <p style={styles.subtitle}>Mensagens e conquistas</p>
         </div>
         <span style={styles.headerEmoji}>👨‍👩‍👧‍👦</span>
@@ -112,7 +112,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
               type="text"
               value={senderName}
               onChange={(e) => setSenderName(e.target.value)}
-              placeholder="O teu nome (ex: Mae, Pai, Tera...)"
+              placeholder="O teu nome (ex: Mãe, Pai, Tera...)"
               maxLength={30}
             />
             <div style={styles.messageRow}>
@@ -121,7 +121,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
-                placeholder="Escreve uma mensagem de forca..."
+                placeholder="Escreve uma mensagem de força..."
                 maxLength={200}
                 onKeyDown={(e) => e.key === 'Enter' && handleSendEncouragement()}
               />
@@ -139,7 +139,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
             <div style={styles.emptyState}>
               <span style={styles.emptyEmoji}>💌</span>
               <p style={styles.emptyText}>
-                Ainda nao ha mensagens. Pede a alguem da tua familia para te deixar uma mensagem!
+                Ainda não há mensagens. Pede a alguém da tua família para te deixar uma mensagem!
               </p>
             </div>
           ) : (
@@ -170,7 +170,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
             <div style={styles.emptyState}>
               <span style={styles.emptyEmoji}>🌱</span>
               <p style={styles.emptyText}>
-                Comeca a jogar para desbloqueares conquistas!
+                Começa a jogar para desbloqueares conquistas!
               </p>
             </div>
           ) : (
@@ -189,7 +189,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
       {activeTab === 'metas' && (
         <div style={styles.section} className="animate-fade-in">
           <h2 style={styles.sectionTitle}>Metas</h2>
-          <p style={styles.sectionDesc}>Objectivos para o {myName} alcancar!</p>
+          <p style={styles.sectionDesc}>Objectivos para o {myName} alcançar!</p>
 
           <div style={styles.milestoneList}>
             {milestones.map((m, i) => {
@@ -201,7 +201,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
                     <span style={styles.milestoneIcon}>{m.icon}</span>
                     <span style={styles.milestoneLabel}>{m.label}</span>
                     <span style={styles.milestoneProgress}>
-                      {done ? 'Concluido!' : `${m.current}/${m.target}`}
+                      {done ? 'Concluído!' : `${m.current}/${m.target}`}
                     </span>
                   </div>
                   <div style={styles.milestoneBar}>

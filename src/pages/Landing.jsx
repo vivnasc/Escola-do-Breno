@@ -8,62 +8,62 @@ const FEATURES = [
   {
     icon: '🌍',
     title: 'Universal',
-    desc: 'Uma plataforma para qualquer crianca, em qualquer pais. Conteudo global, sem centrismo cultural. Do Maputo a Lisboa, de Lagos a Sao Paulo.',
+    desc: 'Uma plataforma para qualquer criança, em qualquer país. Conteúdo global, sem centrismo cultural. Do Maputo a Lisboa, de Lagos a São Paulo.',
   },
   {
     icon: '🧩',
     title: 'Individual',
-    desc: 'Cada crianca tem a SUA escola. Perfil unico, niveis independentes por campo, dificuldade adaptada, universo tematico escolhido.',
+    desc: 'Cada criança tem a SUA escola. Perfil único, níveis independentes por campo, dificuldade adaptada, universo temático escolhido.',
   },
   {
     icon: '💚',
     title: 'Gentil',
-    desc: 'Deteccao de frustracao, pausas guiadas com respiracao, animacoes suaves. Zero pressao, zero punicao. O erro e parte de aprender.',
+    desc: 'Detecção de frustração, pausas guiadas com respiração, animações suaves. Zero pressão, zero punição. O erro é parte de aprender.',
   },
   {
     icon: '📊',
-    title: 'Competencia, nao idade',
-    desc: 'Avanca quando domina. Sem comparacoes, sem anos escolares. 10 niveis de crescimento, do Semente a Floresta.',
+    title: 'Competência, não idade',
+    desc: 'Avança quando domina. Sem comparações, sem anos escolares. 10 níveis de crescimento, do Semente à Floresta.',
   },
   {
     icon: '🔊',
-    title: 'Voz e Audio',
-    desc: 'Instrucoes por voz, efeitos sonoros sintetizados, reconhecimento de fala. Tudo funciona offline, sem ficheiros externos.',
+    title: 'Voz e Áudio',
+    desc: 'Instruções por voz, efeitos sonoros sintetizados, reconhecimento de fala. Tudo funciona offline, sem ficheiros externos.',
   },
   {
     icon: '📴',
     title: 'Offline-first',
-    desc: 'Funciona sem internet. PWA instalavel no telemovel. Dados ficam no dispositivo com backup cloud opcional.',
+    desc: 'Funciona sem internet. PWA instalável no telemóvel. Dados ficam no dispositivo com backup cloud opcional.',
   },
 ]
 
 const CAMPOS = [
-  { icon: '📚', name: 'Linguagem', color: '#1565C0', desc: 'Vocabulario, fonetica, leitura, cores' },
-  { icon: '🔢', name: 'Matematica', color: '#E65100', desc: 'Calculo, relogio, padroes, logica' },
+  { icon: '📚', name: 'Linguagem', color: '#1565C0', desc: 'Vocabulário, fonética, leitura, cores' },
+  { icon: '🔢', name: 'Matemática', color: '#E65100', desc: 'Cálculo, relógio, padrões, lógica' },
   { icon: '🌎', name: 'Descoberta', color: '#2E7D32', desc: 'Bandeiras, corpo, clima, natureza' },
-  { icon: '🏠', name: 'Autonomia', color: '#6A1B9A', desc: 'Rotinas, emocoes, resolucao de problemas' },
+  { icon: '🏠', name: 'Autonomia', color: '#6A1B9A', desc: 'Rotinas, emoções, resolução de problemas' },
 ]
 
 const PHASES = [
-  { emoji: '🌱', name: 'Germinar', levels: '1-3', desc: 'Exploracao e curiosidade' },
-  { emoji: '🌿', name: 'Estruturar', levels: '4-6', desc: 'Competencia a formar-se' },
+  { emoji: '🌱', name: 'Germinar', levels: '1-3', desc: 'Exploração e curiosidade' },
+  { emoji: '🌿', name: 'Estruturar', levels: '4-6', desc: 'Competência a formar-se' },
   { emoji: '🌸', name: 'Florescer', levels: '7-8', desc: 'Autonomia emergente' },
   { emoji: '🌳', name: 'Sustentar', levels: '9-10', desc: 'Autonomia consolidada' },
 ]
 
 const TESTIMONIALS = [
   {
-    quote: 'Construimos o PITCH porque nenhuma ferramenta existente funcionava para o nosso filho. Agora ele pede para estudar.',
-    author: 'Fundadores do PITCH, pais do Breno',
+    quote: 'Construímos o PITCH porque nenhuma ferramenta existente funcionava para o nosso filho. Agora ele pede para estudar.',
+    author: 'Fundadores do PITCH',
     avatar: '👨‍👩‍👦',
   },
   {
     quote: 'O meu filho tem TDAH e sempre se frustrava com apps educativas. Com o PITCH, ele finalmente termina as actividades com orgulho.',
-    author: 'Mae, crianca de 9 anos',
+    author: 'Mãe, criança de 9 anos',
     avatar: '👩',
   },
   {
-    quote: 'Cada aluno tem o seu proprio ritmo e perfil. O PITCH e a primeira ferramenta que realmente respeita isso na pratica.',
+    quote: 'Cada aluno tem o seu próprio ritmo e perfil. O PITCH é a primeira ferramenta que realmente respeita isso na prática.',
     author: 'Terapeuta Educacional',
     avatar: '🧑‍⚕️',
   },
@@ -85,7 +85,7 @@ export default function Landing({ onStart }) {
             <button style={styles.headerLink} onClick={() => navigate('/faq')}>FAQ</button>
             <button style={styles.headerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.headerCta} onClick={onStart || (() => navigate('/'))}>
-              Comecar
+              Começar
             </button>
           </nav>
         </div>
@@ -97,13 +97,13 @@ export default function Landing({ onStart }) {
           <img src="/logos/pitch-robo.png" alt="PITCH mascot" style={styles.heroMascot} />
           <p style={styles.heroBadge}>De pais para pais</p>
           <h1 style={styles.heroTitle}>
-            Uma plataforma universal que trata cada crianca como unica.
+            Uma plataforma universal que trata cada criança como única.
           </h1>
           <p style={styles.heroSubtitle}>
             <strong>P</strong>lay. <strong>I</strong>nteract. <strong>T</strong>hink. <strong>C</strong>hallenge. <strong>H</strong>one.
           </p>
           <p style={styles.heroDesc}>
-            Nasceu de uma necessidade real: o nosso filho precisava de uma escola que se adaptasse a ele, nao o contrario. Nao encontramos. Entao construimos.
+            Nasceu de uma necessidade real: o nosso filho precisava de uma escola que se adaptasse a ele, não o contrário. Não encontrámos. Então construímos.
           </p>
           <div style={styles.heroBtns}>
             <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
@@ -112,11 +112,11 @@ export default function Landing({ onStart }) {
             <button style={styles.heroSecondary} onClick={() => {
               document.getElementById('nossa-historia')?.scrollIntoView({ behavior: 'smooth' })
             }}>
-              A Nossa Historia
+              A Nossa História
             </button>
           </div>
           <p style={styles.heroNote}>
-            Plano gratis disponivel. Sem publicidade. Sem dados vendidos. Funciona offline.
+            Plano grátis disponível. Sem publicidade. Sem dados vendidos. Funciona offline.
           </p>
         </div>
       </section>
@@ -126,13 +126,13 @@ export default function Landing({ onStart }) {
         <div style={styles.storyInner}>
           <div style={styles.storyQuote}>
             <p style={styles.storyText}>
-              O Breno tem 12 anos, esta no espectro autista, e faz homeschooling. Tentamos dezenas de aplicacoes educativas. Nenhuma respeitava o ritmo dele. Nenhuma entendia que ele pode estar no nivel 7 em linguagem e no nivel 3 em matematica — ao mesmo tempo. Nenhuma detectava que ele estava frustrado e precisava de uma pausa.
+              O nosso filho está no espectro autista. Tentámos dezenas de aplicações educativas. Nenhuma respeitava o ritmo dele. Nenhuma entendia que ele pode estar no nível 7 em linguagem e no nível 3 em matemática — ao mesmo tempo. Nenhuma detectava que ele estava frustrado e precisava de uma pausa.
             </p>
             <p style={styles.storyText}>
-              Entao decidimos: se a escola que o nosso filho precisa nao existe, vamos construi-la. Nao so para ele — para todas as criancas que aprendem de forma diferente, em qualquer parte do mundo.
+              Então decidimos: se a escola que o nosso filho precisa não existe, vamos construí-la. Não só para ele — para todas as crianças que aprendem de forma diferente, em qualquer parte do mundo.
             </p>
             <p style={styles.storySignature}>
-              — Os pais do Breno, fundadores do PITCH
+              — Fundadores do PITCH
             </p>
           </div>
         </div>
@@ -158,7 +158,7 @@ export default function Landing({ onStart }) {
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
             <span style={styles.socialNumber}>10</span>
-            <span style={styles.socialLabel}>Niveis</span>
+            <span style={styles.socialLabel}>Níveis</span>
           </div>
         </div>
       </section>
@@ -168,7 +168,7 @@ export default function Landing({ onStart }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.sectionTitle}>Como Funciona</h2>
           <p style={styles.sectionSubtitle}>
-            Tres passos para comecar a aprender ao seu ritmo.
+            Três passos para começar a aprender ao seu ritmo.
           </p>
           <div style={styles.stepsGrid}>
             <div style={styles.step}>
@@ -177,16 +177,16 @@ export default function Landing({ onStart }) {
               </div>
               <h3 style={styles.stepTitle}>Cria a Escola</h3>
               <p style={styles.stepDesc}>
-                Nome, idade, interesses, necessidades especificas. Cada perfil e unico.
+                Nome, idade, interesses, necessidades específicas. Cada perfil é único.
               </p>
             </div>
             <div style={styles.step}>
               <div style={{ ...styles.stepCircle, backgroundColor: '#E3F2FD', borderColor: '#1565C0' }}>
                 <span style={styles.stepNumber}>2</span>
               </div>
-              <h3 style={styles.stepTitle}>Avaliacao Inicial</h3>
+              <h3 style={styles.stepTitle}>Avaliação Inicial</h3>
               <p style={styles.stepDesc}>
-                12 perguntas diagnosticas. A plataforma detecta o nivel em cada campo.
+                12 perguntas diagnósticas. A plataforma detecta o nível em cada campo.
               </p>
             </div>
             <div style={styles.step}>
@@ -195,7 +195,7 @@ export default function Landing({ onStart }) {
               </div>
               <h3 style={styles.stepTitle}>Aprende e Evolui</h3>
               <p style={styles.stepDesc}>
-                Actividades adaptadas, progresso visivel, sem pressao. Cada vitoria conta.
+                Actividades adaptadas, progresso visível, sem pressão. Cada vitória conta.
               </p>
             </div>
           </div>
@@ -207,7 +207,7 @@ export default function Landing({ onStart }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.sectionTitle}>4 Campos de Aprendizagem</h2>
           <p style={styles.sectionSubtitle}>
-            Curriculo completo organizado por areas de competencia, nao por disciplinas.
+            Currículo completo organizado por áreas de competência, não por disciplinas.
           </p>
           <div style={styles.campoGrid}>
             {CAMPOS.map((campo) => (
@@ -228,7 +228,7 @@ export default function Landing({ onStart }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.sectionTitle}>Universal e Individual</h2>
           <p style={styles.sectionSubtitle}>
-            Uma plataforma para qualquer crianca, que trata cada uma como unica.
+            Uma plataforma para qualquer criança, que trata cada uma como única.
           </p>
           <div style={styles.featGrid}>
             {FEATURES.map((feat) => (
@@ -247,7 +247,7 @@ export default function Landing({ onStart }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.sectionTitle}>Crescimento por Fases</h2>
           <p style={styles.sectionSubtitle}>
-            Comunicacao elegante com pais e terapeutas. Cada crianca esta numa fase — sem rotulos, com narrativa.
+            Comunicação elegante com pais e terapeutas. Cada criança está numa fase — sem rótulos, com narrativa.
           </p>
           <div style={styles.phaseTimeline}>
             {PHASES.map((phase, i) => (
@@ -255,7 +255,7 @@ export default function Landing({ onStart }) {
                 <div style={styles.phaseEmoji}>{phase.emoji}</div>
                 <div style={styles.phaseInfo}>
                   <h3 style={styles.phaseName}>{phase.name}</h3>
-                  <span style={styles.phaseLevels}>Niveis {phase.levels}</span>
+                  <span style={styles.phaseLevels}>Níveis {phase.levels}</span>
                   <p style={styles.phaseDesc}>{phase.desc}</p>
                 </div>
                 {i < PHASES.length - 1 && <div style={styles.phaseConnector} />}
@@ -268,17 +268,17 @@ export default function Landing({ onStart }) {
       {/* Universes */}
       <section style={styles.section}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.sectionTitle}>5 Universos Tematicos</h2>
+          <h2 style={styles.sectionTitle}>5 Universos Temáticos</h2>
           <p style={styles.sectionSubtitle}>
-            O mesmo curriculo, contextualizado pelo interesse da crianca.
+            O mesmo currículo, contextualizado pelo interesse da criança.
           </p>
           <div style={styles.universeRow}>
             {[
               { emoji: '⚽', name: 'Futebol' },
               { emoji: '🦕', name: 'Dinossauros' },
-              { emoji: '🚀', name: 'Espaco' },
+              { emoji: '🚀', name: 'Espaço' },
               { emoji: '🐾', name: 'Animais' },
-              { emoji: '🎵', name: 'Musica' },
+              { emoji: '🎵', name: 'Música' },
             ].map((u) => (
               <div key={u.name} style={styles.universeCard}>
                 <span style={styles.universeEmoji}>{u.emoji}</span>
@@ -322,7 +322,7 @@ export default function Landing({ onStart }) {
             </div>
             <div style={styles.a11yItem}>
               <span style={styles.a11yIcon}>🎭</span>
-              <span style={styles.a11yText}>Animacoes reduzidas (prefers-reduced-motion)</span>
+              <span style={styles.a11yText}>Animações reduzidas (prefers-reduced-motion)</span>
             </div>
             <div style={styles.a11yItem}>
               <span style={styles.a11yIcon}>🌗</span>
@@ -334,7 +334,7 @@ export default function Landing({ onStart }) {
             </div>
             <div style={styles.a11yItem}>
               <span style={styles.a11yIcon}>🔇</span>
-              <span style={styles.a11yText}>Perfil sensorial configuravel</span>
+              <span style={styles.a11yText}>Perfil sensorial configurável</span>
             </div>
           </div>
         </div>
@@ -343,9 +343,9 @@ export default function Landing({ onStart }) {
       {/* Final CTA */}
       <section style={styles.ctaSection}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.ctaTitle}>Cada crianca merece uma escola que a entenda.</h2>
+          <h2 style={styles.ctaTitle}>Cada criança merece uma escola que a entenda.</h2>
           <p style={styles.ctaDesc}>
-            Construido por pais, para pais. Plano gratis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho esta pronta.
+            Construído por pais, para pais. Plano grátis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho está pronta.
           </p>
           <button style={styles.ctaBtn} onClick={onStart || (() => navigate('/'))}>
             Criar a Escola do Meu Filho
@@ -379,7 +379,7 @@ export default function Landing({ onStart }) {
             <button style={styles.footerLink} onClick={() => navigate('/landing')}>Sobre</button>
           </div>
           <p style={styles.footerCopy}>
-            PITCH — Plataforma de aprendizagem inclusiva para criancas neurodivergentes.
+            PITCH — Plataforma de aprendizagem inclusiva para crianças neurodivergentes.
           </p>
         </div>
       </footer>
@@ -472,8 +472,8 @@ const styles = {
     gap: '16px',
   },
   heroMascot: {
-    width: '100px',
-    height: '100px',
+    width: '140px',
+    height: '140px',
     objectFit: 'contain',
     filter: 'drop-shadow(0 4px 12px rgba(0,0,0,0.1))',
   },

@@ -18,12 +18,12 @@ export default function Campo4Vida({ progress, subscription }) {
         <span style={styles.icon}>🤝</span>
         <div>
           <h1 style={styles.title}>A Vida</h1>
-          <p style={styles.subtitle}>Autonomia e Competencias Sociais</p>
+          <p style={styles.subtitle}>Autonomia e Competências Sociais</p>
         </div>
       </header>
 
       <p style={styles.description}>
-        O jogador mais tecnico do mundo nao ganha sozinho. Saber viver e o
+        O jogador mais técnico do mundo não ganha sozinho. Saber viver é o
         jogo mais importante.
       </p>
 

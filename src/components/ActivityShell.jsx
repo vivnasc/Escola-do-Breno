@@ -64,7 +64,7 @@ export default function ActivityShell({
             ...(textLevel?.useSimpleLanguage ? styles.instructionLarge : {}),
           }}
           onClick={() => speak(instruction)}
-          aria-label={`Ouvir instrucao: ${instruction}`}
+          aria-label={`Ouvir instrução: ${instruction}`}
         >
           🔊 {instruction}
         </button>

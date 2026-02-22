@@ -2,7 +2,7 @@ import { Outlet, NavLink, useLocation } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
 const navItems = [
-  { path: '/', label: 'Inicio', icon: '🏟️' },
+  { path: '/', label: 'Início', icon: '🏟️' },
   { path: '/planner', label: 'Plano', icon: '📋' },
   { path: '/desafios', label: 'Desafios', icon: '🎯' },
   { path: '/loja', label: 'Loja', icon: '🛒' },
@@ -16,13 +16,13 @@ export default function Layout({ profile }) {
   return (
     <div style={styles.container}>
       <a href="#main-content" className="skip-link">
-        Saltar para o conteudo
+        Saltar para o conteúdo
       </a>
       <main id="main-content" style={styles.main} role="main">
         <Outlet />
       </main>
       {!isActivity && (
-        <nav style={styles.nav} className="safe-area-bottom" aria-label="Navegacao principal">
+        <nav style={styles.nav} className="safe-area-bottom" aria-label="Navegação principal">
           {navItems.map((item) => (
             <NavLink
               key={item.path}

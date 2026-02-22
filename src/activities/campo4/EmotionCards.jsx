@@ -36,7 +36,7 @@ export default function EmotionCards({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`${current.situation} Que emocao sentes?`)
+      speak(`${current.situation} Que emoção sentes?`)
     }
   }, [idx])
 
@@ -72,10 +72,10 @@ export default function EmotionCards({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Cartoes das Emocoes" backPath="/campo/4" color="var(--color-campo4)">
+      <ActivityShell title="Cartões das Emoções" backPath="/campo/4" color="var(--color-campo4)">
         <CompletionCelebration
           emoji="🟨"
-          title="Sabes gerir as tuas emocoes!"
+          title="Sabes gerir as tuas emoções!"
           score={score}
           total={SITUATIONS.length}
           stars={finalStars}
@@ -87,8 +87,8 @@ export default function EmotionCards({
 
   return (
     <ActivityShell
-      title="Cartoes das Emocoes"
-      instruction={`Como te sentes nesta situacao?`}
+      title="Cartões das Emoções"
+      instruction={`Como te sentes nesta situação?`}
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={score}
@@ -100,7 +100,7 @@ export default function EmotionCards({
         <p style={styles.situationText}>{current.situation}</p>
       </div>
 
-      <p style={styles.prompt}>Que emocao sentes?</p>
+      <p style={styles.prompt}>Que emoção sentes?</p>
 
       <div style={styles.emotionsGrid}>
         {current.emotions.map((emotion) => (
@@ -122,7 +122,7 @@ export default function EmotionCards({
           <h3 style={styles.strategyTitle}>O que podes fazer:</h3>
           <p style={styles.strategyText}>{current.strategy}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo →
+            Próximo →
           </button>
         </div>
       )}

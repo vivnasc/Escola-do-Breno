@@ -94,7 +94,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           )}
           {latestReview && (
             <div style={styles.reviewBox}>
-              <p style={styles.reviewLabel}>Ultima avaliacao:</p>
+              <p style={styles.reviewLabel}>Última avaliação:</p>
               <div style={styles.starsRow}>
                 {[1, 2, 3].map((s) => (
                   <span key={s} style={{
@@ -143,7 +143,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
                 <img src={photoPreview} alt="A tua ficha" style={styles.photoPreview} />
               )}
               <button style={styles.submitBtn} onClick={handleSubmit}>
-                Enviar para avaliacao
+                Enviar para avaliação
               </button>
               <button style={styles.retakeBtn} onClick={() => { setPhotoTaken(false); setPhotoPreview(null) }}>
                 Tirar outra foto
@@ -202,7 +202,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           ))}
 
           <div style={styles.wsFooter}>
-            PITCH — A Escola do {profile?.name || 'Breno'}
+            PITCH — A Escola do {profile?.name || 'Aluno'}
           </div>
         </div>
 
@@ -214,13 +214,13 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
             style={styles.photoBtn}
             onClick={() => setPhotoMode(true)}
           >
-            📸 Ja completei! Enviar para avaliacao
+            📸 Já completei! Enviar para avaliação
           </button>
         </div>
 
         {hasReview && (
           <div style={styles.pastReviews} className="no-print">
-            <p style={styles.pastReviewsTitle}>Avaliacoes anteriores:</p>
+            <p style={styles.pastReviewsTitle}>Avaliações anteriores:</p>
             {wsSubmissions
               .filter((s) => s.status === 'reviewed')
               .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))
@@ -250,7 +250,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
       <header style={styles.headerRow}>
         <div>
           <h1 style={styles.pageTitle}>Fichas de Escrita</h1>
-          <p style={styles.pageDesc}>Imprime, escreve e envia para avaliacao!</p>
+          <p style={styles.pageDesc}>Imprime, escreve e envia para avaliação!</p>
         </div>
         <span style={styles.headerEmoji}>✏️</span>
       </header>

@@ -10,10 +10,10 @@ export default function BreakReminder({ onDismiss, onEnd, name }) {
         <span style={styles.emoji}>🧘</span>
         <h2 style={styles.title}>Hora de uma pausa!</h2>
         <p style={styles.text}>
-          {name || 'Campeao'}, ja jogaste bastante. Que tal levantar, beber agua, ou simplesmente descansar os olhos?
+          {name || 'Campeão'}, já jogaste bastante. Que tal levantar, beber água, ou simplesmente descansar os olhos?
         </p>
         <div style={styles.tips}>
-          <div style={styles.tip}>💧 Bebe um copo de agua</div>
+          <div style={styles.tip}>💧 Bebe um copo de água</div>
           <div style={styles.tip}>🚶 Levanta e estica o corpo</div>
           <div style={styles.tip}>👁️ Olha pela janela 20 segundos</div>
         </div>

@@ -97,7 +97,7 @@ export default function VocabularyMatch({
   return (
     <ActivityShell
       title="Liga a Palavra"
-      instruction={`Qual e a imagem para "${currentWord.en}"?`}
+      instruction={`Qual é a imagem para "${currentWord.en}"?`}
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={score}

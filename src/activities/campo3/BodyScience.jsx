@@ -6,98 +6,98 @@ import { useTTS } from '../../hooks/useTTS'
 
 const QUESTIONS = [
   {
-    question: 'Quando corremos, o coracao bate mais rapido. Porquê?',
+    question: 'Quando corremos, o coração bate mais rápido. Porquê?',
     options: [
-      'Para enviar mais sangue e oxigenio aos musculos',
-      'Porque o coracao tem medo',
-      'Porque esta a chover',
+      'Para enviar mais sangue e oxigénio aos músculos',
+      'Porque o coração tem medo',
+      'Porque está a chover',
     ],
     correct: 0,
-    fact: 'O coracao de um jogador de futebol pode bater ate 180 vezes por minuto durante um jogo!',
+    fact: 'O coração de um jogador de futebol pode bater até 180 vezes por minuto durante um jogo!',
   },
   {
-    question: 'Que nutriente da energia rapida antes de um jogo?',
-    options: ['Hidratos de carbono (massa, arroz)', 'Sal', 'Agua'],
+    question: 'Que nutriente dá energia rápida antes de um jogo?',
+    options: ['Hidratos de carbono (massa, arroz)', 'Sal', 'Água'],
     correct: 0,
     fact: 'Os jogadores comem massa ou arroz 3 horas antes do jogo para ter energia!',
   },
   {
-    question: 'Porque e que os jogadores bebem agua durante o jogo?',
+    question: 'Porque é que os jogadores bebem água durante o jogo?',
     options: [
-      'Para hidratar o corpo e manter a concentracao',
-      'Porque tem sede de golos',
-      'Para lavar as maos',
+      'Para hidratar o corpo e manter a concentração',
+      'Porque têm sede de golos',
+      'Para lavar as mãos',
     ],
     correct: 0,
-    fact: 'Um jogador pode perder ate 2 litros de agua em suor durante um jogo!',
+    fact: 'Um jogador pode perder até 2 litros de água em suor durante um jogo!',
   },
   {
-    question: 'O que acontece aos musculos quando fazemos alongamentos?',
+    question: 'O que acontece aos músculos quando fazemos alongamentos?',
     options: [
-      'Ficam mais flexiveis e previnem lesoes',
+      'Ficam mais flexíveis e previnem lesões',
       'Ficam mais pequenos',
       'Mudam de cor',
     ],
     correct: 0,
-    fact: 'Os alongamentos antes e depois do treino ajudam a prevenir lesoes!',
+    fact: 'Os alongamentos antes e depois do treino ajudam a prevenir lesões!',
   },
   {
     question: 'Porque dormem os jogadores 8-10 horas por noite?',
     options: [
-      'Para o corpo recuperar e os musculos crescerem',
-      'Porque nao ha nada para fazer',
+      'Para o corpo recuperar e os músculos crescerem',
+      'Porque não há nada para fazer',
       'Para sonhar com golos',
     ],
     correct: 0,
-    fact: 'Durante o sono, o corpo liberta hormonas que reparam os musculos!',
+    fact: 'Durante o sono, o corpo liberta hormonas que reparam os músculos!',
   },
   {
-    question: 'Porque e que a bola curva quando a chutamos de lado?',
+    question: 'Porque é que a bola curva quando a chutamos de lado?',
     options: [
-      'O ar faz pressao diferente de cada lado (efeito Magnus)',
+      'O ar faz pressão diferente de cada lado (efeito Magnus)',
       'Porque a bola quer ir por ali',
       'Porque o vento empurra',
     ],
     correct: 0,
-    fact: 'Quando a bola roda, o ar move-se mais rapido de um lado, criando o efeito Magnus!',
+    fact: 'Quando a bola roda, o ar move-se mais rápido de um lado, criando o efeito Magnus!',
   },
   {
     question: 'Quantos ossos tem o corpo humano adulto?',
     options: ['Cerca de 206', 'Cerca de 50', 'Cerca de 500'],
     correct: 0,
-    fact: 'Bebes nascem com cerca de 270 ossos. Alguns fundem-se a medida que crescemos!',
+    fact: 'Bebés nascem com cerca de 270 ossos. Alguns fundem-se à medida que crescemos!',
   },
   {
-    question: 'Que orgao controla todo o corpo?',
-    options: ['O cerebro', 'O estomago', 'O coracao'],
+    question: 'Que órgão controla todo o corpo?',
+    options: ['O cérebro', 'O estômago', 'O coração'],
     correct: 0,
-    fact: 'O cerebro envia milhoes de sinais electricos por segundo para controlar tudo no corpo!',
+    fact: 'O cérebro envia milhões de sinais eléctricos por segundo para controlar tudo no corpo!',
   },
   {
     question: 'Porque espiramos?',
     options: [
-      'Para expulsar particulas irritantes do nariz',
+      'Para expulsar partículas irritantes do nariz',
       'Porque estamos doentes',
-      'Porque respiramos muito rapido',
+      'Porque respiramos muito rápido',
     ],
     correct: 0,
-    fact: 'Um espirro pode atingir 160 km/h! O corpo expulsa particulas como po e bacterias.',
+    fact: 'Um espirro pode atingir 160 km/h! O corpo expulsa partículas como pó e bactérias.',
   },
   {
-    question: 'Que liquido vermelho circula no nosso corpo?',
+    question: 'Que líquido vermelho circula no nosso corpo?',
     options: ['Sangue', 'Sumo de tomate', 'Agua vermelha'],
     correct: 0,
-    fact: 'O sangue transporta oxigenio a todas as celulas. Um adulto tem cerca de 5 litros!',
+    fact: 'O sangue transporta oxigénio a todas as células. Um adulto tem cerca de 5 litros!',
   },
   {
-    question: 'Porque suamos quando fazemos exercicio?',
+    question: 'Porque suamos quando fazemos exercício?',
     options: [
       'Para arrefecer o corpo',
       'Porque bebemos muita agua',
       'Porque temos medo',
     ],
     correct: 0,
-    fact: 'O suor evapora na pele e ajuda a baixar a temperatura do corpo. E um ar condicionado natural!',
+    fact: 'O suor evapora na pele e ajuda a baixar a temperatura do corpo. É um ar condicionado natural!',
   },
   {
     question: 'Que parte do olho muda de tamanho com a luz?',
@@ -106,76 +106,76 @@ const QUESTIONS = [
     fact: 'A pupila dilata no escuro para captar mais luz e contrai no claro para proteger a retina!',
   },
   {
-    question: 'Qual e o musculo mais forte do corpo humano?',
+    question: 'Qual é o músculo mais forte do corpo humano?',
     options: [
-      'O masseter (musculo da mandibula)',
-      'O bicep do braco',
-      'O musculo do dedo mindinho',
+      'O masséter (músculo da mandíbula)',
+      'O bícep do braço',
+      'O músculo do dedo mindinho',
     ],
     correct: 0,
-    fact: 'O masseter, que usamos para mastigar, pode exercer uma forca de ate 70 quilos! Temos mais de 600 musculos no corpo.',
+    fact: 'O masséter, que usamos para mastigar, pode exercer uma força de até 70 quilos! Temos mais de 600 músculos no corpo.',
   },
   {
     question: 'Quantos dentes tem um adulto?',
     options: ['32 dentes', '20 dentes', '50 dentes'],
     correct: 0,
-    fact: 'As criancas tem 20 dentes de leite que caem e sao substituidos por 32 dentes permanentes. Os dentes mais fortes sao os molares!',
+    fact: 'As crianças têm 20 dentes de leite que caem e são substituídos por 32 dentes permanentes. Os dentes mais fortes são os molares!',
   },
   {
-    question: 'O que fazem os pulmoes?',
+    question: 'O que fazem os pulmões?',
     options: [
-      'Levam oxigenio ao sangue quando respiramos',
+      'Levam oxigénio ao sangue quando respiramos',
       'Digerem a comida',
-      'Fazem o coracao bater',
+      'Fazem o coração bater',
     ],
     correct: 0,
-    fact: 'Os pulmoes enchem-se de ar como baloes. Respiramos cerca de 20.000 vezes por dia! O pulmao direito e ligeiramente maior que o esquerdo.',
+    fact: 'Os pulmões enchem-se de ar como balões. Respiramos cerca de 20.000 vezes por dia! O pulmão direito é ligeiramente maior que o esquerdo.',
   },
   {
     question: 'Para onde vai a comida depois de a engolirmos?',
     options: [
-      'Para o estomago, onde e digerida com acidos',
-      'Directamente para os musculos',
-      'Para o cerebro',
+      'Para o estômago, onde é digerida com ácidos',
+      'Directamente para os músculos',
+      'Para o cérebro',
     ],
     correct: 0,
-    fact: 'O estomago usa acidos fortes para desfazer a comida. A digestao completa pode demorar ate 8 horas! O intestino delgado tem cerca de 6 metros.',
+    fact: 'O estômago usa ácidos fortes para desfazer a comida. A digestão completa pode demorar até 8 horas! O intestino delgado tem cerca de 6 metros.',
   },
   {
-    question: 'Qual e o maior orgao do corpo humano?',
-    options: ['A pele', 'O figado', 'O cerebro'],
+    question: 'Qual é o maior órgão do corpo humano?',
+    options: ['A pele', 'O fígado', 'O cérebro'],
     correct: 0,
-    fact: 'A pele e o maior orgao do corpo! Protege-nos de bacterias, regula a temperatura e permite-nos sentir o toque. Renova-se completamente a cada 3-4 semanas.',
+    fact: 'A pele é o maior órgão do corpo! Protege-nos de bactérias, regula a temperatura e permite-nos sentir o toque. Renova-se completamente a cada 3-4 semanas.',
   },
   {
-    question: 'Porque e que o cabelo e as unhas crescem?',
+    question: 'Porque é que o cabelo e as unhas crescem?',
     options: [
-      'Porque as celulas na raiz se multiplicam constantemente',
+      'Porque as células na raiz se multiplicam constantemente',
       'Porque bebemos agua',
       'Porque dormimos muito',
     ],
     correct: 0,
-    fact: 'O cabelo cresce cerca de 1 centimetro por mes. As unhas das maos crescem mais rapido do que as dos pes! Ambos sao feitos de queratina, a mesma proteina.',
+    fact: 'O cabelo cresce cerca de 1 centímetro por mês. As unhas das mãos crescem mais rápido do que as dos pés! Ambos são feitos de queratina, a mesma proteína.',
   },
   {
     question: 'Existem diferentes tipos de sangue?',
     options: [
       'Sim, existem 4 tipos principais: A, B, AB e O',
-      'Nao, o sangue e todo igual',
+      'Não, o sangue é todo igual',
       'Existem 2 tipos: vermelho e azul',
     ],
     correct: 0,
-    fact: 'Existem 4 tipos de sangue: A, B, AB e O. O tipo O pode doar para todos e chama-se dador universal! E importante saber o teu tipo de sangue.',
+    fact: 'Existem 4 tipos de sangue: A, B, AB e O. O tipo O pode doar para todos e chama-se dador universal! É importante saber o teu tipo de sangue.',
   },
   {
-    question: 'O que nos protege de doencas como gripes e virus?',
+    question: 'O que nos protege de doenças como gripes e vírus?',
     options: [
-      'O sistema imunitario, com globulos brancos',
-      'Os musculos',
+      'O sistema imunitário, com glóbulos brancos',
+      'Os músculos',
       'Os ossos',
     ],
     correct: 0,
-    fact: 'O sistema imunitario e como um exercito dentro do corpo. Os globulos brancos atacam virus e bacterias para nos manter saudaveis. A febre e uma forma de combater infeccoes!',
+    fact: 'O sistema imunitário é como um exército dentro do corpo. Os glóbulos brancos atacam vírus e bactérias para nos manter saudáveis. A febre é uma forma de combater infecções!',
   },
 ]
 
@@ -234,7 +234,7 @@ export default function BodyScience({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Ciencia do Corpo" backPath="/campo/3" color="var(--color-campo3)">
+      <ActivityShell title="Ciência do Corpo" backPath="/campo/3" color="var(--color-campo3)">
         <CompletionCelebration
           emoji="🫀"
           title="Aprendeste sobre o corpo humano!"
@@ -249,7 +249,7 @@ export default function BodyScience({
 
   return (
     <ActivityShell
-      title="Ciencia do Corpo"
+      title="Ciência do Corpo"
       instruction={current.question}
       backPath="/campo/3"
       color="var(--color-campo3)"
@@ -281,7 +281,7 @@ export default function BodyScience({
           <span>💡</span>
           <p style={styles.factText}>{current.fact}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo →
+            Próximo →
           </button>
         </div>
       )}

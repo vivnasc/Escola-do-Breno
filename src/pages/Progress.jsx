@@ -27,27 +27,27 @@ export default function Progress({ progress, profile }) {
 
     const trophyList = progress.trophies.length > 0
       ? progress.trophies.map((t) => `  🏆 ${t.name}`).join('\n')
-      : '  Nenhum trofeu ainda'
+      : '  Nenhum troféu ainda'
 
     const report = `
 ╔══════════════════════════════════════════╗
-║     RELATORIO DE PROGRESSO - PITCH       ║
+║     RELATÓRIO DE PROGRESSO - PITCH       ║
 ║     A Escola do ${playerName.padEnd(24)}║
 ╚══════════════════════════════════════════╝
 
 Data: ${date}
 Jogador: ${playerName}
 ${profile?.age ? `Idade: ${profile.age} anos` : ''}
-${profile?.universe ? `Universo tematico: ${profile.universe}` : ''}
+${profile?.universe ? `Universo temático: ${profile.universe}` : ''}
 ${profile?.favoriteTeam ? `Equipa favorita: ${profile.favoriteTeam}` : ''}
 
 ━━━ PERFIL DE NECESSIDADES ━━━
-  Nivel de leitura: ${profile?.learningNeeds?.readingLevel || 'nao definido'}
-  Nivel de apoio: ${profile?.learningNeeds?.supportLevel || 'nao definido'}
-  Areas de dificuldade: ${(profile?.learningNeeds?.areas || []).join(', ') || 'nenhuma indicada'}
+  Nível de leitura: ${profile?.learningNeeds?.readingLevel || 'não definido'}
+  Nível de apoio: ${profile?.learningNeeds?.supportLevel || 'não definido'}
+  Áreas de dificuldade: ${(profile?.learningNeeds?.areas || []).join(', ') || 'nenhuma indicada'}
   Objectivos: ${(profile?.goals || []).join(', ') || 'nenhum indicado'}
-  Sessao: ${profile?.attention?.sessionLength || 15} minutos
-  Sensibilidade a frustracao: ${profile?.attention?.frustrationSensitivity || 'moderada'}
+  Sessão: ${profile?.attention?.sessionLength || 15} minutos
+  Sensibilidade à frustração: ${profile?.attention?.frustrationSensitivity || 'moderada'}
   Tamanho do texto: ${profile?.sensory?.fontSize || 'normal'}
   Contraste: ${profile?.sensory?.visualContrast || 'normal'}
 
@@ -60,10 +60,10 @@ ${profile?.favoriteTeam ? `Equipa favorita: ${profile.favoriteTeam}` : ''}
 ━━━ PROGRESSO POR CAMPO ━━━
 ${campoDetails}
 
-━━━ VOCABULARIO INGLES ━━━
+━━━ VOCABULÁRIO INGLÊS ━━━
 ${vocabDetails}
 
-━━━ TROFEUS ━━━
+━━━ TROFÉUS ━━━
 ${trophyList}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -76,7 +76,7 @@ ${date}
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `PITCH-Relatorio-${playerName}-${new Date().toISOString().split('T')[0]}.txt`
+    a.download = `PITCH-Relatório-${playerName}-${new Date().toISOString().split('T')[0]}.txt`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -92,7 +92,7 @@ ${date}
       <header style={styles.headerRow}>
         <div>
           <h1 style={styles.title}>Progresso</h1>
-          <p style={styles.subtitle}>Ecra para pais e terapeutas</p>
+          <p style={styles.subtitle}>Ecrã para pais e terapeutas</p>
         </div>
         <div style={styles.exportBtns} className="no-print">
           <button style={styles.exportBtn} onClick={generateReport}>
@@ -125,8 +125,8 @@ ${date}
               <div style={styles.needsItem}>
                 <span style={styles.needsLabel}>Leitura</span>
                 <span style={styles.needsValue}>{
-                  profile.learningNeeds.readingLevel === 'pre-reader' ? 'Pre-leitor' :
-                  profile.learningNeeds.readingLevel === 'beginning' ? 'A comecar' : 'Fluente'
+                  profile.learningNeeds.readingLevel === 'pre-reader' ? 'Pré-leitor' :
+                  profile.learningNeeds.readingLevel === 'beginning' ? 'A começar' : 'Fluente'
                 }</span>
               </div>
             )}
@@ -141,15 +141,15 @@ ${date}
             )}
             {profile.attention?.sessionLength && (
               <div style={styles.needsItem}>
-                <span style={styles.needsLabel}>Sessao</span>
+                <span style={styles.needsLabel}>Sessão</span>
                 <span style={styles.needsValue}>{profile.attention.sessionLength} min</span>
               </div>
             )}
             {profile.attention?.frustrationSensitivity && (
               <div style={styles.needsItem}>
-                <span style={styles.needsLabel}>Frustracao</span>
+                <span style={styles.needsLabel}>Frustração</span>
                 <span style={styles.needsValue}>{
-                  profile.attention.frustrationSensitivity === 'sensitive' ? 'Muito sensivel' :
+                  profile.attention.frustrationSensitivity === 'sensitive' ? 'Muito sensível' :
                   profile.attention.frustrationSensitivity === 'resilient' ? 'Resiliente' : 'Moderado'
                 }</span>
               </div>
@@ -157,7 +157,7 @@ ${date}
           </div>
           {profile.learningNeeds?.areas?.length > 0 && (
             <div style={styles.needsTags}>
-              <span style={styles.needsTagLabel}>Areas de apoio:</span>
+              <span style={styles.needsTagLabel}>Áreas de apoio:</span>
               <div style={styles.tagRow}>
                 {profile.learningNeeds.areas.map((a) => (
                   <span key={a} style={styles.needsTag}>{a}</span>
@@ -222,7 +222,7 @@ ${date}
       </section>
 
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Vocabulario Ingles</h2>
+        <h2 style={styles.sectionTitle}>Vocabulário Inglês</h2>
         {VOCABULARY_CATEGORIES.map((cat) => {
           const words = VOCABULARY_WORDS.filter((w) => w.category === cat.id)
           const learned = words.filter((w) => learnedSet.has(w.id))
@@ -258,7 +258,7 @@ ${date}
 
       {progress.trophies.length > 0 && (
         <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>Trofeus</h2>
+          <h2 style={styles.sectionTitle}>Troféus</h2>
           <div style={styles.trophyGrid}>
             {progress.trophies.map((t) => (
               <div key={t.id} style={styles.trophy}>

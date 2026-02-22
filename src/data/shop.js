@@ -3,10 +3,10 @@
  */
 
 export const SHOP_CATEGORIES = [
-  { id: 'celebrations', name: 'Celebracoes', icon: '🎉', description: 'Animacoes de golo' },
+  { id: 'celebrations', name: 'Celebrações', icon: '🎉', description: 'Animações de golo' },
   { id: 'badges', name: 'Emblemas', icon: '🛡️', description: 'Emblemas para o perfil' },
-  { id: 'stickers', name: 'Autocolantes', icon: '🏷️', description: 'Coleccao de autocolantes' },
-  { id: 'stadium', name: 'Estadio', icon: '🏟️', description: 'Melhora o teu estadio' },
+  { id: 'stickers', name: 'Autocolantes', icon: '🏷️', description: 'Colecção de autocolantes' },
+  { id: 'stadium', name: 'Estádio', icon: '🏟️', description: 'Melhora o teu estádio' },
 ]
 
 export const SHOP_ITEMS = [
@@ -23,25 +23,25 @@ export const SHOP_ITEMS = [
   {
     id: 'cele-fireworks',
     category: 'celebrations',
-    name: 'Fogo de Artificio',
+    name: 'Fogo de Artifício',
     icon: '🎆',
-    description: 'Explosao de cores no ceu',
+    description: 'Explosão de cores no céu',
     cost: 15,
   },
   {
     id: 'cele-dance',
     category: 'celebrations',
-    name: 'Danca da Vitoria',
+    name: 'Dança da Vitória',
     icon: '💃',
-    description: 'Danca especial de celebracao',
+    description: 'Dança especial de celebração',
     cost: 25,
   },
   {
     id: 'cele-thunder',
     category: 'celebrations',
-    name: 'Trovao de Golo',
+    name: 'Trovão de Golo',
     icon: '⚡',
-    description: 'Um trovao poderoso ecoa no estadio',
+    description: 'Um trovão poderoso ecoa no estádio',
     cost: 30,
   },
 
@@ -51,7 +51,7 @@ export const SHOP_ITEMS = [
     category: 'badges',
     name: 'Iniciante',
     icon: '🌱',
-    description: 'O comeco de uma grande carreira',
+    description: 'O começo de uma grande carreira',
     cost: 5,
   },
   {
@@ -65,9 +65,9 @@ export const SHOP_ITEMS = [
   {
     id: 'badge-captain',
     category: 'badges',
-    name: 'Capitao',
+    name: 'Capitão',
     icon: '©️',
-    description: 'Lidera a equipa com o braco de capitao',
+    description: 'Lidera a equipa com o braço de capitão',
     cost: 40,
   },
   {
@@ -91,15 +91,15 @@ export const SHOP_ITEMS = [
   {
     id: 'sticker-trophy',
     category: 'stickers',
-    name: 'Taca do Mundo',
+    name: 'Taça do Mundo',
     icon: '🏆',
-    description: 'O maior trofeu do futebol',
+    description: 'O maior troféu do futebol',
     cost: 15,
   },
   {
     id: 'sticker-boots',
     category: 'stickers',
-    name: 'Chuteiras Magicas',
+    name: 'Chuteiras Mágicas',
     icon: '👟',
     description: 'As chuteiras que marcam golos sozinhas',
     cost: 10,
@@ -117,7 +117,7 @@ export const SHOP_ITEMS = [
     category: 'stickers',
     name: 'Bandeira de Portugal',
     icon: '🇵🇹',
-    description: 'Orgulho portugues',
+    description: 'Orgulho português',
     cost: 5,
   },
   {
@@ -135,7 +135,7 @@ export const SHOP_ITEMS = [
     category: 'stadium',
     name: 'Luzes LED',
     icon: '💡',
-    description: 'Ilumina o estadio com luzes coloridas',
+    description: 'Ilumina o estádio com luzes coloridas',
     cost: 30,
   },
   {
@@ -151,15 +151,15 @@ export const SHOP_ITEMS = [
     category: 'stadium',
     name: 'Zona VIP',
     icon: '🌟',
-    description: 'Uma zona especial so para ti',
+    description: 'Uma zona especial só para ti',
     cost: 50,
   },
   {
     id: 'stadium-screen',
     category: 'stadium',
-    name: 'Ecra Gigante',
+    name: 'Ecrã Gigante',
     icon: '📺',
-    description: 'Um ecra gigante que mostra os teus golos',
+    description: 'Um ecrã gigante que mostra os teus golos',
     cost: 45,
   },
 ]

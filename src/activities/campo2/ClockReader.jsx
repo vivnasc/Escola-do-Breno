@@ -9,9 +9,9 @@ function generateClockProblem() {
   const minutes = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
   const display = `${hours}:${minutes.toString().padStart(2, '0')}`
   const context = [
-    `O jogo comeca as ${display}. Que horas sao?`,
-    `O treino e as ${display}. Consegues ler o relogio?`,
-    `O autocarro parte as ${display}. A que horas?`,
+    `O jogo começa às ${display}. Que horas são?`,
+    `O treino é às ${display}. Consegues ler o relógio?`,
+    `O autocarro parte às ${display}. A que horas?`,
   ][Math.floor(Math.random() * 3)]
   return { hours, minutes, display, context }
 }
