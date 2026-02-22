@@ -7,7 +7,7 @@
 const BRENO_PROFILE = {
   // Identity
   name: 'Breno',
-  age: 12,
+  age: 11, // born 1 October 2014
   avatar: 'lion',
   onboardingComplete: true,
   createdAt: new Date().toISOString(),
