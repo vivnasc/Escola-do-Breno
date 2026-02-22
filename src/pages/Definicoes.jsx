@@ -235,7 +235,7 @@ export default function Definicoes({ profile, profiles, updateProfile, resetProf
         <div style={styles.overlay}>
           <div style={styles.modal}>
             <p style={styles.modalText}>
-              Tem a certeza? Isto apaga todo o progresso e perfil actual.
+              Tem a certeza? Isto apaga o perfil "{profile?.name}" e todo o seu progresso.
             </p>
             <div style={styles.modalActions}>
               <button style={styles.modalCancel} onClick={() => setShowReset(false)}>
@@ -243,9 +243,12 @@ export default function Definicoes({ profile, profiles, updateProfile, resetProf
               </button>
               <button
                 style={styles.modalConfirm}
-                onClick={() => resetProfile('full')}
+                onClick={() => {
+                  deleteProfile(profile?.id)
+                  setShowReset(false)
+                }}
               >
-                Sim, apagar tudo
+                Sim, apagar
               </button>
             </div>
           </div>
