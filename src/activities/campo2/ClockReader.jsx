@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 function generateClockProblem() {
@@ -119,13 +120,19 @@ export default function ClockReader({
     }
   }, [round, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 5 ? 3 : score >= 3 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Hora do Jogo" backPath="/campo/2" color="var(--color-campo2)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>⏰</span>
-          <p style={styles.completeText}>Acertaste {score} de {TOTAL}!</p>
-        </div>
+        <CompletionCelebration
+          emoji="⏰"
+          title={`Acertaste ${score} de ${TOTAL}!`}
+          score={score}
+          total={TOTAL}
+          stars={finalStars}
+          color="var(--color-campo2)"
+        />
       </ActivityShell>
     )
   }
@@ -146,6 +153,7 @@ export default function ClockReader({
         {options.map((opt) => (
           <button
             key={opt}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

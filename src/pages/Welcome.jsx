@@ -74,6 +74,7 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
                   <button
                     key={p.id}
                     style={styles.profileBtn}
+                    className="interactive-card"
                     onClick={() => onSwitchProfile(p.id)}
                   >
                     <span style={styles.profileAvatar}>{avatar?.emoji || '⭐'}</span>
@@ -92,6 +93,7 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
           {!hasProfiles && (
             <button
               style={styles.brenoBtn}
+              className="interactive-card"
               onClick={onBreno}
             >
               <span style={styles.brenoBtnIcon}>⚽</span>
@@ -104,6 +106,7 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
 
           <button
             style={styles.newBtn}
+            className="interactive-card"
             onClick={onNewProfile}
           >
             <span style={styles.newBtnIcon}>🌟</span>
@@ -260,10 +263,10 @@ const styles = {
     backgroundColor: '#E3F2FD',
     border: '2px solid var(--color-primary)',
     borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
     cursor: 'pointer',
     fontFamily: 'inherit',
     textAlign: 'left',
-    transition: 'all 0.2s',
   },
   profileAvatar: {
     fontSize: '2rem',
@@ -295,10 +298,10 @@ const styles = {
     backgroundColor: '#E8F5E9',
     border: '3px solid var(--color-primary)',
     borderRadius: 'var(--radius-lg)',
+    boxShadow: '0 4px 12px rgba(46, 125, 50, 0.15)',
     cursor: 'pointer',
     fontFamily: 'inherit',
     textAlign: 'left',
-    transition: 'all 0.2s',
   },
   brenoBtnIcon: {
     fontSize: '2.5rem',
@@ -321,13 +324,13 @@ const styles = {
     alignItems: 'center',
     gap: 'var(--space-md)',
     padding: 'var(--space-md) var(--space-lg)',
-    backgroundColor: 'var(--color-bg)',
+    backgroundColor: 'var(--color-surface)',
     border: '2px solid var(--color-border)',
     borderRadius: 'var(--radius-lg)',
+    boxShadow: 'var(--shadow-sm)',
     cursor: 'pointer',
     fontFamily: 'inherit',
     textAlign: 'left',
-    transition: 'all 0.2s',
   },
   newBtnIcon: {
     fontSize: '2rem',

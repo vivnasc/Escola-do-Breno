@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const CHALLENGES = [
@@ -136,6 +137,94 @@ const CHALLENGES = [
     ],
     tip: 'Gerir dinheiro: primeiro paga o que precisas (comida, transporte), depois ve o que sobra para extras.',
   },
+  {
+    title: 'No Supermercado',
+    situation: 'A tua mae pediu-te para ir buscar leite, pao e ovos ao supermercado. Como te organizas?',
+    emoji: '🛒',
+    options: [
+      { text: 'Faco uma lista no telemovel, procuro os corredores certos e vou a caixa pagar', correct: true },
+      { text: 'Ando pelo supermercado todo sem saber o que procuro', correct: false },
+      { text: 'Compro so o que me apetece e esqueco a lista', correct: false },
+    ],
+    tip: 'No supermercado: faz uma lista antes de ir, procura os produtos por seccao (lacticinios, padaria, ovos) e confere a lista antes de pagar.',
+  },
+  {
+    title: 'Pedir Comida',
+    situation: 'Estas num restaurante de comida rapida e queres pedir um hamburguer. O que fazes?',
+    emoji: '🍔',
+    options: [
+      { text: 'Olho para o menu, decido o que quero, espero a minha vez e peco com clareza', correct: true },
+      { text: 'Aponto para a comida sem dizer nada', correct: false },
+      { text: 'Peco a outra pessoa que faca o pedido por mim', correct: false },
+    ],
+    tip: 'Para pedir comida: le o menu com calma, decide antes de chegar ao balcao, diz o que queres com clareza e paga. Se nao perceberes algo no menu, podes perguntar!',
+  },
+  {
+    title: 'No Dentista',
+    situation: 'Tens uma consulta no dentista e doi-te um dente. Como te preparas?',
+    emoji: '🦷',
+    options: [
+      { text: 'Digo ao dentista qual dente doi, ha quanto tempo doi e se doi mais com frio ou quente', correct: true },
+      { text: 'Nao abro a boca porque tenho medo', correct: false },
+      { text: 'Digo que nao doi nada para ir embora mais depressa', correct: false },
+    ],
+    tip: 'No dentista: explica o que sentes com honestidade. Podes dizer "doi aqui", "doi ha 3 dias" ou "doi quando como gelado". O dentista so te pode ajudar se souberes descrever o que sentes.',
+  },
+  {
+    title: 'Lidar com Barulho',
+    situation: 'Estas numa festa de aniversario e o barulho esta a incomodar-te muito. O que fazes?',
+    emoji: '🔊',
+    options: [
+      { text: 'Digo a um adulto que preciso de uma pausa e vou a um sitio mais calmo por uns minutos', correct: true },
+      { text: 'Fico e aguento mesmo que me sinta muito mal', correct: false },
+      { text: 'Grito para todos fazerem silencio', correct: false },
+    ],
+    tip: 'Quando o barulho incomoda: nao precisas de aguentar. Podes ir a um sitio mais calmo, usar protecao auditiva ou pedir uma pausa. Conhecer os teus limites e cuidar de ti e muito inteligente.',
+  },
+  {
+    title: 'Mudanca de Planos',
+    situation: 'Ias ao parque com o teu pai, mas comecou a chover e nao podem ir. Como reages?',
+    emoji: '🌧️',
+    options: [
+      { text: 'Fico desapontado mas penso numa alternativa divertida para fazer em casa', correct: true },
+      { text: 'Fico muito zangado e recuso-me a fazer outra coisa', correct: false },
+      { text: 'Choro o dia inteiro porque o plano mudou', correct: false },
+    ],
+    tip: 'Quando os planos mudam: e normal sentir frustacao. Respira fundo, aceita o que nao podes controlar e pensa numa alternativa. Ter um "plano B" ajuda muito quando as coisas mudam!',
+  },
+  {
+    title: 'Conhecer Pessoas Novas',
+    situation: 'Estas numa actividade nova e nao conheces ninguem. Como te apresentas?',
+    emoji: '👋',
+    options: [
+      { text: 'Digo "Ola, o meu nome e..." e pergunto o nome da outra pessoa', correct: true },
+      { text: 'Fico num canto sem falar com ninguem', correct: false },
+      { text: 'Espero que as outras pessoas venham falar comigo primeiro', correct: false },
+    ],
+    tip: 'Para conhecer pessoas: olha para a pessoa, diz o teu nome e faz uma pergunta simples como "Como te chamas?" ou "Tambem es novo aqui?". Nao precisas de ser o mais falador, so precisas de dar o primeiro passo.',
+  },
+  {
+    title: 'Seguranca na Internet',
+    situation: 'Alguem que nao conheces manda-te uma mensagem online a pedir a tua morada. O que fazes?',
+    emoji: '🔒',
+    options: [
+      { text: 'Nao respondo, nao partilho dados pessoais e conto a um adulto de confianca', correct: true },
+      { text: 'Respondo porque a pessoa parece simpatica', correct: false },
+      { text: 'Dou uma morada inventada para ver o que acontece', correct: false },
+    ],
+    tip: 'Na internet: nunca partilhes o teu nome completo, morada, escola ou fotos com desconhecidos. Se alguem te pedir informacoes pessoais, nao respondas e conta a um adulto de confianca.',
+  },
+  {
+    title: 'Preparar a Mochila',
+    situation: 'Amanha tens aulas de matematica, educacao fisica e ingles. Como preparas a mochila a noite?',
+    emoji: '🎒',
+    options: [
+      { text: 'Verifico o horario, ponho os cadernos e materiais de cada disciplina e o equipamento de educacao fisica', correct: true },
+      { text: 'Ponho tudo o que encontro e espero que esteja certo', correct: false },
+      { text: 'Deixo para fazer de manha antes de sair', correct: false },
+    ],
+    tip: 'Preparar a mochila na noite anterior: olha o horario, faz uma lista mental (cadernos, materiais, equipamento) e verifica tudo. Assim de manha estas tranquilo e nao te esqueces de nada!',
+  },
 ]
 
 export default function RealWorld({
@@ -185,18 +274,23 @@ export default function RealWorld({
     setIdx(next)
     updateCampoProgress('campo4', next + 17)
     if (next >= CHALLENGES.length) {
-      completeActivity('real-world', score >= 10 ? 3 : score >= 7 ? 2 : 1)
+      completeActivity('real-world', score >= 16 ? 3 : score >= 10 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
+
+  const finalStars = score >= 16 ? 3 : score >= 10 ? 2 : 1
 
   if (isComplete) {
     return (
       <ActivityShell title="No Mundo Real" backPath="/campo/4" color="var(--color-campo4)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🏙️</span>
-          <p style={styles.completeText}>Estas pronto para o mundo real!</p>
-          <p style={styles.completeScore}>{score}/{CHALLENGES.length} desafios superados</p>
-        </div>
+        <CompletionCelebration
+          emoji="🏙️"
+          title="Estas pronto para o mundo real!"
+          score={score}
+          total={CHALLENGES.length}
+          stars={finalStars}
+          color="var(--color-campo4)"
+        />
       </ActivityShell>
     )
   }
@@ -221,6 +315,7 @@ export default function RealWorld({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
@@ -24,6 +25,15 @@ const COUNTRIES = [
   { name: 'Canada', flag: '🇨🇦', continent: 'America do Norte', capital: 'Otava' },
   { name: 'Colombia', flag: '🇨🇴', continent: 'America do Sul', capital: 'Bogota' },
   { name: 'Coreia do Sul', flag: '🇰🇷', continent: 'Asia', capital: 'Seul' },
+  { name: 'Tailandia', flag: '🇹🇭', continent: 'Asia', capital: 'Banguecoque' },
+  { name: 'Suecia', flag: '🇸🇪', continent: 'Europa', capital: 'Estocolmo' },
+  { name: 'Quenia', flag: '🇰🇪', continent: 'Africa', capital: 'Nairobi' },
+  { name: 'Peru', flag: '🇵🇪', continent: 'America do Sul', capital: 'Lima' },
+  { name: 'Turquia', flag: '🇹🇷', continent: 'Europa/Asia', capital: 'Ancara' },
+  { name: 'Grecia', flag: '🇬🇷', continent: 'Europa', capital: 'Atenas' },
+  { name: 'Marrocos', flag: '🇲🇦', continent: 'Africa', capital: 'Rabat' },
+  { name: 'Nova Zelandia', flag: '🇳🇿', continent: 'Oceania', capital: 'Wellington' },
+  { name: 'Chile', flag: '🇨🇱', continent: 'America do Sul', capital: 'Santiago' },
 ]
 
 function shuffle(arr) {
@@ -86,17 +96,23 @@ export default function FlagMatch({
     setIdx(next)
     updateCampoProgress('campo3', next)
     if (next >= COUNTRIES.length) {
-      completeActivity('flag-match', score >= 16 ? 3 : score >= 10 ? 2 : 1)
+      completeActivity('flag-match', score >= 24 ? 3 : score >= 16 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
+
+  const finalStars = score >= 24 ? 3 : score >= 16 ? 2 : 1
 
   if (isComplete) {
     return (
       <ActivityShell title="Bandeiras do Mundo" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🌍</span>
-          <p style={styles.completeText}>Conheces {score} bandeiras!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🌍"
+          title="Conheces as bandeiras do mundo!"
+          score={score}
+          total={COUNTRIES.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -120,6 +136,7 @@ export default function FlagMatch({
         {options.map((opt) => (
           <button
             key={opt.name}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

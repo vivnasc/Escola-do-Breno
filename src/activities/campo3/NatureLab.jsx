@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const EXPERIMENTS = [
@@ -180,6 +181,94 @@ const EXPERIMENTS = [
     ],
     fact: 'A electricidade e o movimento de particulas minusculas chamadas electroes. Viajam a velocidades incriveis nos fios electricos!',
   },
+  {
+    title: 'Ondas Sonoras',
+    question: 'Como e que o som viaja ate aos nossos ouvidos?',
+    emoji: '🔊',
+    options: [
+      { text: 'Atraves de vibracoes no ar', emoji: '🌬️', correct: true },
+      { text: 'Atraves de raios de luz', emoji: '💡', correct: false },
+      { text: 'Atraves de fios invisiveis', emoji: '🧵', correct: false },
+    ],
+    fact: 'O som e uma vibracao que viaja pelo ar, pela agua e ate por materiais solidos. No espaco nao ha som porque nao ha ar para vibrar! O som viaja mais rapido na agua do que no ar.',
+  },
+  {
+    title: 'Migracao Animal',
+    question: 'Porque e que algumas aves voam para outros paises no inverno?',
+    emoji: '🦅',
+    options: [
+      { text: 'Para encontrar comida e clima mais quente', emoji: '☀️', correct: true },
+      { text: 'Porque gostam de viajar', emoji: '✈️', correct: false },
+      { text: 'Porque tem medo da chuva', emoji: '🌧️', correct: false },
+    ],
+    fact: 'A migracao e uma viagem longa que muitos animais fazem todos os anos. A andorinha-do-artico faz a migracao mais longa: 70.000 km por ano, do Artico ate a Antartida e de volta!',
+  },
+  {
+    title: 'Camuflagem',
+    question: 'Porque e que alguns animais tem cores parecidas com o ambiente?',
+    emoji: '🦎',
+    options: [
+      { text: 'Para se esconderem de predadores ou de presas', emoji: '👀', correct: true },
+      { text: 'Porque gostam de moda', emoji: '👗', correct: false },
+      { text: 'Porque a tinta da pele estragou', emoji: '🎨', correct: false },
+    ],
+    fact: 'A camuflagem e uma tactica de sobrevivencia. O camaleao muda de cor, o polvo imita o fundo do mar, e o bicho-pau parece um ramo de arvore. Ate existem insectos que parecem folhas!',
+  },
+  {
+    title: 'Biodiversidade',
+    question: 'O que significa biodiversidade?',
+    emoji: '🌿',
+    options: [
+      { text: 'A enorme variedade de seres vivos no planeta', emoji: '🌍', correct: true },
+      { text: 'Um tipo de planta rara', emoji: '🌺', correct: false },
+      { text: 'Uma doenca dos animais', emoji: '🤒', correct: false },
+    ],
+    fact: 'Existem cerca de 8,7 milhoes de especies no planeta! A floresta amazonica sozinha tem mais de 40.000 especies de plantas e 1.300 especies de aves. Cada ser vivo tem um papel importante.',
+  },
+  {
+    title: 'Polinizacao',
+    question: 'Porque e que as abelhas visitam as flores?',
+    emoji: '🐝',
+    options: [
+      { text: 'Para recolher nectar e espalhar polen entre flores', emoji: '🌸', correct: true },
+      { text: 'Porque gostam de cores bonitas', emoji: '🌈', correct: false },
+      { text: 'Para dormir dentro das petalas', emoji: '😴', correct: false },
+    ],
+    fact: 'As abelhas sao polinizadoras essenciais. Quando visitam flores, levam polen de uma flor para outra, ajudando as plantas a reproduzir-se. Sem abelhas, perderiamos um terco dos alimentos que comemos!',
+  },
+  {
+    title: 'Decomposicao',
+    question: 'O que acontece as folhas que caem das arvores no outono?',
+    emoji: '🍂',
+    options: [
+      { text: 'Sao decompostas por fungos e bacterias e viram nutrientes', emoji: '🍄', correct: true },
+      { text: 'Ficam la para sempre', emoji: '♾️', correct: false },
+      { text: 'Evaporam com o sol', emoji: '☀️', correct: false },
+    ],
+    fact: 'Os decompositores como fungos, bacterias e minhocas transformam materia morta em nutrientes para o solo. Sem eles, o mundo estaria coberto de folhas e restos de plantas ha milhoes de anos!',
+  },
+  {
+    title: 'Correntes Oceanicas',
+    question: 'A agua do oceano esta sempre parada?',
+    emoji: '🌊',
+    options: [
+      { text: 'Nao, existem correntes que movem a agua pelo planeta inteiro', emoji: '🔄', correct: true },
+      { text: 'Sim, a agua fica sempre no mesmo sitio', emoji: '⏸️', correct: false },
+      { text: 'So se move quando ha tempestades', emoji: '⛈️', correct: false },
+    ],
+    fact: 'As correntes oceanicas sao como rios dentro do mar. A Corrente do Golfo leva agua quente do Mexico ate a Europa, ajudando a manter o clima mais ameno. Uma gota de agua pode demorar 1.000 anos a viajar pelo oceano inteiro!',
+  },
+  {
+    title: 'Electricidade Estatica',
+    question: 'Porque e que as vezes levamos um choque ao tocar numa macaneta?',
+    emoji: '⚡',
+    options: [
+      { text: 'Porque o corpo acumulou electricidade estatica', emoji: '🔋', correct: true },
+      { text: 'Porque a macaneta esta partida', emoji: '🔧', correct: false },
+      { text: 'Porque o ar esta electrico', emoji: '🌩️', correct: false },
+    ],
+    fact: 'A electricidade estatica acumula-se quando nos movemos e as nossas roupas friccionam. Os relampagos sao electricidade estatica gigante nas nuvens! Um relampago pode atingir 30.000 graus — cinco vezes mais quente que a superficie do Sol.',
+  },
 ]
 
 export default function NatureLab({
@@ -229,17 +318,23 @@ export default function NatureLab({
     setIdx(next)
     updateCampoProgress('campo3', next + 20)
     if (next >= EXPERIMENTS.length) {
-      completeActivity('nature-lab', score >= 13 ? 3 : score >= 9 ? 2 : 1)
+      completeActivity('nature-lab', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
+
+  const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
 
   if (isComplete) {
     return (
       <ActivityShell title="Laboratorio Natural" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🔬</span>
-          <p style={styles.completeText}>Descobriste {score} factos cientificos!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🔬"
+          title="Descobriste factos cientificos!"
+          score={score}
+          total={EXPERIMENTS.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -264,6 +359,7 @@ export default function NatureLab({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}

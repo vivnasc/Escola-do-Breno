@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const QUESTIONS = [
@@ -104,6 +105,78 @@ const QUESTIONS = [
     correct: 0,
     fact: 'A pupila dilata no escuro para captar mais luz e contrai no claro para proteger a retina!',
   },
+  {
+    question: 'Qual e o musculo mais forte do corpo humano?',
+    options: [
+      'O masseter (musculo da mandibula)',
+      'O bicep do braco',
+      'O musculo do dedo mindinho',
+    ],
+    correct: 0,
+    fact: 'O masseter, que usamos para mastigar, pode exercer uma forca de ate 70 quilos! Temos mais de 600 musculos no corpo.',
+  },
+  {
+    question: 'Quantos dentes tem um adulto?',
+    options: ['32 dentes', '20 dentes', '50 dentes'],
+    correct: 0,
+    fact: 'As criancas tem 20 dentes de leite que caem e sao substituidos por 32 dentes permanentes. Os dentes mais fortes sao os molares!',
+  },
+  {
+    question: 'O que fazem os pulmoes?',
+    options: [
+      'Levam oxigenio ao sangue quando respiramos',
+      'Digerem a comida',
+      'Fazem o coracao bater',
+    ],
+    correct: 0,
+    fact: 'Os pulmoes enchem-se de ar como baloes. Respiramos cerca de 20.000 vezes por dia! O pulmao direito e ligeiramente maior que o esquerdo.',
+  },
+  {
+    question: 'Para onde vai a comida depois de a engolirmos?',
+    options: [
+      'Para o estomago, onde e digerida com acidos',
+      'Directamente para os musculos',
+      'Para o cerebro',
+    ],
+    correct: 0,
+    fact: 'O estomago usa acidos fortes para desfazer a comida. A digestao completa pode demorar ate 8 horas! O intestino delgado tem cerca de 6 metros.',
+  },
+  {
+    question: 'Qual e o maior orgao do corpo humano?',
+    options: ['A pele', 'O figado', 'O cerebro'],
+    correct: 0,
+    fact: 'A pele e o maior orgao do corpo! Protege-nos de bacterias, regula a temperatura e permite-nos sentir o toque. Renova-se completamente a cada 3-4 semanas.',
+  },
+  {
+    question: 'Porque e que o cabelo e as unhas crescem?',
+    options: [
+      'Porque as celulas na raiz se multiplicam constantemente',
+      'Porque bebemos agua',
+      'Porque dormimos muito',
+    ],
+    correct: 0,
+    fact: 'O cabelo cresce cerca de 1 centimetro por mes. As unhas das maos crescem mais rapido do que as dos pes! Ambos sao feitos de queratina, a mesma proteina.',
+  },
+  {
+    question: 'Existem diferentes tipos de sangue?',
+    options: [
+      'Sim, existem 4 tipos principais: A, B, AB e O',
+      'Nao, o sangue e todo igual',
+      'Existem 2 tipos: vermelho e azul',
+    ],
+    correct: 0,
+    fact: 'Existem 4 tipos de sangue: A, B, AB e O. O tipo O pode doar para todos e chama-se dador universal! E importante saber o teu tipo de sangue.',
+  },
+  {
+    question: 'O que nos protege de doencas como gripes e virus?',
+    options: [
+      'O sistema imunitario, com globulos brancos',
+      'Os musculos',
+      'Os ossos',
+    ],
+    correct: 0,
+    fact: 'O sistema imunitario e como um exercito dentro do corpo. Os globulos brancos atacam virus e bacterias para nos manter saudaveis. A febre e uma forma de combater infeccoes!',
+  },
 ]
 
 export default function BodyScience({
@@ -153,17 +226,23 @@ export default function BodyScience({
     setIdx(next)
     updateCampoProgress('campo3', next + 18)
     if (next >= QUESTIONS.length) {
-      completeActivity('body-science', score >= 10 ? 3 : score >= 7 ? 2 : 1)
+      completeActivity('body-science', score >= 16 ? 3 : score >= 12 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
+
+  const finalStars = score >= 16 ? 3 : score >= 12 ? 2 : 1
 
   if (isComplete) {
     return (
       <ActivityShell title="Ciencia do Corpo" backPath="/campo/3" color="var(--color-campo3)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🫀</span>
-          <p style={styles.completeText}>Aprendeste {score} factos sobre o corpo!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🫀"
+          title="Aprendeste sobre o corpo humano!"
+          score={score}
+          total={QUESTIONS.length}
+          stars={finalStars}
+          color="var(--color-campo3)"
+        />
       </ActivityShell>
     )
   }
@@ -187,6 +266,7 @@ export default function BodyScience({
         {current.options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => handleAnswer(i)}
             disabled={feedback !== null}

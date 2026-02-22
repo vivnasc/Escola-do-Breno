@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -67,13 +68,19 @@ export default function EmotionCards({
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
+  const finalStars = score >= 5 ? 3 : score >= 3 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Cartoes das Emocoes" backPath="/campo/4" color="var(--color-campo4)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🟨</span>
-          <p style={styles.completeText}>Sabes gerir as tuas emocoes!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🟨"
+          title="Sabes gerir as tuas emocoes!"
+          score={score}
+          total={SITUATIONS.length}
+          stars={finalStars}
+          color="var(--color-campo4)"
+        />
       </ActivityShell>
     )
   }
@@ -100,6 +107,7 @@ export default function EmotionCards({
           <button
             key={emotion.name}
             style={styles.emotionBtn}
+            className="btn-press"
             onClick={() => handleAnswer(emotion)}
             disabled={feedback !== null}
           >

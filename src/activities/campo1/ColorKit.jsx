@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -89,13 +90,19 @@ export default function ColorKit({
     }
   }, [teamIdx, completeActivity])
 
+  const finalStars = 3
+
   if (isComplete) {
     return (
       <ActivityShell title={colorContent.title} backPath="/campo/1" color="var(--color-campo1)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🎨</span>
-          <p style={styles.completeText}>{colorContent.completeText}</p>
-        </div>
+        <CompletionCelebration
+          emoji="🎨"
+          title={colorContent.completeText}
+          score={TEAMS.length}
+          total={TEAMS.length}
+          stars={finalStars}
+          color="var(--color-campo1)"
+        />
       </ActivityShell>
     )
   }
@@ -146,6 +153,7 @@ export default function ColorKit({
         {COLOR_OPTIONS.map((color) => (
           <button
             key={color.en}
+            className="btn-press"
             style={{
               ...styles.colorBtn,
               backgroundColor: color.hex,

@@ -18,10 +18,10 @@ export default function BreakReminder({ onDismiss, onEnd, name }) {
           <div style={styles.tip}>👁️ Olha pela janela 20 segundos</div>
         </div>
         <div style={styles.actions}>
-          <button style={styles.continueBtn} onClick={onDismiss}>
+          <button style={styles.continueBtn} className="btn-press" onClick={onDismiss}>
             Estou pronto, continuar!
           </button>
-          <button style={styles.endBtn} onClick={onEnd}>
+          <button style={styles.endBtn} className="btn-press" onClick={onEnd}>
             Vou descansar
           </button>
         </div>
@@ -52,6 +52,7 @@ const styles = {
     alignItems: 'center',
     gap: 'var(--space-md)',
     textAlign: 'center',
+    boxShadow: 'var(--shadow-lg)',
   },
   emoji: {
     fontSize: '4rem',

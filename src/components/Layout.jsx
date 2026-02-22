@@ -22,19 +22,24 @@ export default function Layout({ profile }) {
         <Outlet />
       </main>
       {!isActivity && (
-        <nav style={styles.nav} aria-label="Navegacao principal">
+        <nav style={styles.nav} className="safe-area-bottom" aria-label="Navegacao principal">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
-              style={({ isActive }) => ({
-                ...styles.navItem,
-                ...(isActive ? styles.navItemActive : {}),
-              })}
               end={item.path === '/'}
+              style={{ textDecoration: 'none' }}
             >
-              <span style={styles.navIcon} aria-hidden="true">{item.icon}</span>
-              <span style={styles.navLabel}>{item.label}</span>
+              {({ isActive }) => (
+                <span style={{
+                  ...styles.navItem,
+                  ...(isActive ? styles.navItemActive : {}),
+                }}>
+                  <span style={styles.navIcon} aria-hidden="true">{item.icon}</span>
+                  <span style={styles.navLabel}>{item.label}</span>
+                  {isActive && <span className="nav-active-dot" />}
+                </span>
+              )}
             </NavLink>
           ))}
         </nav>
@@ -69,7 +74,8 @@ const styles = {
     alignItems: 'center',
     backgroundColor: 'var(--color-surface)',
     borderTop: '1px solid var(--color-border)',
-    padding: 'var(--space-xs) 0',
+    boxShadow: '0 -2px 12px rgba(0, 0, 0, 0.06)',
+    padding: 'var(--space-sm) 0 var(--space-xs)',
     zIndex: 100,
   },
   navItem: {

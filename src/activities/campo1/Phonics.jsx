@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 import { useSTT } from '../../hooks/useSTT'
 import { useSoundEffects } from '../../hooks/useSoundEffects'
@@ -167,13 +168,19 @@ export default function Phonics({
     }
   }, [idx, phase, score, items.length, completeActivity, updateCampoProgress, sfx])
 
+  const finalStars = score >= items.length * 0.8 ? 3 : score >= items.length * 0.5 ? 2 : 1
+
   if (isComplete) {
     return (
       <ActivityShell title="Sons e Letras" backPath="/campo/1" color="var(--color-campo1)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>🔤</span>
-          <p style={styles.completeText}>Aprendeste {score} sons!</p>
-        </div>
+        <CompletionCelebration
+          emoji="🔤"
+          title={`Aprendeste ${score} sons!`}
+          score={score}
+          total={items.length}
+          stars={finalStars}
+          color="var(--color-campo1)"
+        />
       </ActivityShell>
     )
   }
@@ -199,6 +206,7 @@ export default function Phonics({
             {soundOptions.map((opt) => (
               <button
                 key={opt.letter}
+                className="btn-press"
                 style={styles.letterBtn}
                 onClick={() => handleSoundAnswer(opt)}
                 disabled={feedback !== null}
@@ -217,6 +225,7 @@ export default function Phonics({
             {wordOptions.map((opt) => (
               <button
                 key={opt.word}
+                className="btn-press"
                 style={styles.wordBtn}
                 onClick={() => handleWordAnswer(opt)}
                 disabled={feedback !== null}

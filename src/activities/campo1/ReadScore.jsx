@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 import { getContent } from '../../data/universeContent'
 
@@ -77,13 +78,19 @@ export default function ReadScore({
     }
   }, [matchIdx, completeActivity])
 
+  const finalStars = 3
+
   if (isComplete) {
     return (
       <ActivityShell title={readContent.title} backPath="/campo/1" color="var(--color-campo1)">
-        <div style={styles.complete}>
-          <span style={styles.completeEmoji}>📊</span>
-          <p style={styles.completeText}>{readContent.completeText}</p>
-        </div>
+        <CompletionCelebration
+          emoji="📊"
+          title={readContent.completeText}
+          score={MATCHES.length}
+          total={MATCHES.length}
+          stars={finalStars}
+          color="var(--color-campo1)"
+        />
       </ActivityShell>
     )
   }
@@ -118,6 +125,7 @@ export default function ReadScore({
         {options.map((opt, i) => (
           <button
             key={i}
+            className="btn-press"
             style={styles.optionBtn}
             onClick={() => {
               speakEn(opt)
