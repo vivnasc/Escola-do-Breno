@@ -129,27 +129,42 @@ Traduz o perfil da crianca em adaptacoes concretas de UI/UX:
   - Rate: 0.85 (mais lento para clareza)
   - Seleccao automatica de voz local
 
-### NAO Implementado
-- **STT (Speech-to-Text)**: A app nao ouve a crianca
-  - `webkitSpeechRecognition` disponivel no browser mas nao usado
-  - Potencial: respostas por voz, leitura em voz alta, ditado
-- **Efeitos sonoros**: Nenhum som de acerto/erro/celebracao
-- **Audio gravado**: Nenhum ficheiro de audio (tudo sintetizado)
+### STT (Speech-to-Text) — Implementado
+- **Speech Recognition**: `SpeechRecognition` / `webkitSpeechRecognition` nativa
+  - `useSTT(lang)` — hook com `listen()`, `listenForWord()`, `stop()`
+  - Suporta multiplas alternativas de reconhecimento
+  - Timeout automatico (5s default)
+  - Deteccao de suporte do browser (`supported` flag)
+  - Integrado no Phonics (dizer palavras em ingles em voz alta)
+  - Requer internet (processamento cloud do browser)
+
+### Efeitos Sonoros — Implementado
+- **AudioContext** sintetizado (zero ficheiros de audio)
+  - `useSoundEffects(enabled)` — hook com sons programaticos
+  - `success()` — chime ascendente (C5→E5)
+  - `error()` — tom suave baixo (nao punitivo)
+  - `click()` — tick rapido
+  - `celebrate()` — arpejo ascendente (C5-E5-G5-C6)
+  - `levelUp()` — fanfarra triunfante
+  - Funciona offline, sem dependencias, respeita `soundEnabled`
+
+### Persistencia — Implementado
+- **IndexedDB**: Wrapper robusto alem de localStorage
+  - Migracao automatica localStorage → IndexedDB no primeiro load
+  - Fallback para localStorage se IndexedDB indisponivel
+  - Export/import JSON para backup e transferencia entre dispositivos
+  - Disponivel nas Definicoes (📤 Exportar / 📥 Importar)
 
 ## Lacunas Conhecidas
 
-### Criticas
-- **Sem Speech Recognition**: A crianca so interage por toque, nao por voz
-- **Sem testes**: Zero unit tests, zero integration tests
-- **localStorage apenas**: Sem sync entre dispositivos, sem backup
-- **Sem backend**: Tudo client-side, sem API
-
 ### Importantes
-- **Sem efeitos sonoros**: Feedback puramente visual (sem audio de acerto/erro)
+- **Sem testes**: Zero unit tests, zero integration tests
+- **Sem backend**: Tudo client-side, sem API server (dados ficam no dispositivo)
 - **Conteudo limitado**: 70 palavras vocab, 12 letras phonics — insuficiente para uso sustentado
 - **Export texto simples**: Relatorio e .txt, podia ser PDF com graficos
 - **Sem i18n**: Tudo hardcoded em portugues, sem framework de traducao
 - **TTS qualidade variavel**: Web Speech API depende do dispositivo/browser
+- **STT requer internet**: Speech Recognition e cloud-processed pelo browser
 
 ### Futuras
 - **Sem multiplayer/colaboracao**: Cada crianca aprende sozinha

@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 import { UNIVERSES } from '../data/universes'
+import { exportAllData, importData } from '../hooks/useStorage'
 
 /**
  * Settings page — edit profile, needs, or reset.
@@ -17,6 +18,8 @@ export default function Definicoes({
   const [newRewardName, setNewRewardName] = useState('')
   const [newRewardStars, setNewRewardStars] = useState('10')
   const [newRewardIcon, setNewRewardIcon] = useState('🎁')
+  const [backupMsg, setBackupMsg] = useState(null)
+  const fileInputRef = useRef(null)
 
   const universe = UNIVERSES.find((u) => u.id === profile?.universe)
 
@@ -316,6 +319,68 @@ export default function Definicoes({
         >
           📊 Ver progresso detalhado
         </button>
+      </section>
+
+      {/* Backup & Sync */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>Backup e Transferencia</h2>
+        <p style={styles.rewardHint}>
+          Exporte os dados para transferir para outro dispositivo ou guardar como backup.
+        </p>
+        <div style={styles.backupBtns}>
+          <button
+            style={styles.backupExportBtn}
+            onClick={async () => {
+              try {
+                const data = await exportAllData()
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+                const url = URL.createObjectURL(blob)
+                const a = document.createElement('a')
+                a.href = url
+                a.download = `PITCH_Backup_${new Date().toISOString().slice(0, 10)}.json`
+                document.body.appendChild(a)
+                a.click()
+                document.body.removeChild(a)
+                URL.revokeObjectURL(url)
+                setBackupMsg('Backup exportado com sucesso!')
+              } catch {
+                setBackupMsg('Erro ao exportar')
+              }
+              setTimeout(() => setBackupMsg(null), 3000)
+            }}
+          >
+            📤 Exportar backup
+          </button>
+          <button
+            style={styles.backupImportBtn}
+            onClick={() => fileInputRef.current?.click()}
+          >
+            📥 Importar backup
+          </button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              const file = e.target.files?.[0]
+              if (!file) return
+              try {
+                const text = await file.text()
+                const data = JSON.parse(text)
+                await importData(data)
+                setBackupMsg('Backup importado! Recarregue a pagina.')
+              } catch {
+                setBackupMsg('Erro: ficheiro invalido')
+              }
+              e.target.value = ''
+              setTimeout(() => setBackupMsg(null), 4000)
+            }}
+          />
+        </div>
+        {backupMsg && (
+          <p style={styles.backupMsg}>{backupMsg}</p>
+        )}
       </section>
 
       {/* Actions */}
@@ -749,5 +814,43 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-sm)',
+  },
+  // Backup
+  backupBtns: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+  },
+  backupExportBtn: {
+    flex: 1,
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    border: '2px solid #1565C0',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: '#1565C0',
+  },
+  backupImportBtn: {
+    flex: 1,
+    padding: 'var(--space-md)',
+    backgroundColor: '#FFF3E0',
+    border: '2px solid #E65100',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: '#E65100',
+  },
+  backupMsg: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    color: 'var(--color-primary)',
+    textAlign: 'center',
+    padding: 'var(--space-sm)',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-sm)',
   },
 }

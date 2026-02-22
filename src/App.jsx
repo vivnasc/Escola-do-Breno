@@ -117,6 +117,8 @@ export default function App() {
     plannerData.markDone(activityId)
   }, [progressData, plannerData])
 
+  const soundEnabled = profileData.profile?.sensory?.soundEnabled !== false
+
   const activityProps = {
     ...progressData,
     completeActivity: handleCompleteActivity,
@@ -124,6 +126,7 @@ export default function App() {
     registerError,
     registerSuccess,
     adaptive,
+    soundEnabled,
   }
 
   // Show Welcome screen if no active profile

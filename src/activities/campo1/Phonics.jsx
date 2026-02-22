@@ -2,6 +2,8 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
+import { useSTT } from '../../hooks/useSTT'
+import { useSoundEffects } from '../../hooks/useSoundEffects'
 
 const LETTERS = [
   { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maca', 'formiga'], emoji: '🍎' },
@@ -34,8 +36,11 @@ export default function Phonics({
   completeActivity,
   updateCampoProgress,
   adaptive,
+  soundEnabled,
 }) {
   const { speak, speakEn } = useTTS()
+  const stt = useSTT('en-GB')
+  const sfx = useSoundEffects(soundEnabled)
   const choiceCount = adaptive?.choiceCount || 3
   const rounds = adaptive?.difficulty === 1 ? 6 : adaptive?.difficulty === 3 ? 12 : 8
   const items = useMemo(() => shuffle(LETTERS).slice(0, rounds), [rounds])
@@ -43,6 +48,7 @@ export default function Phonics({
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [phase, setPhase] = useState('sound') // 'sound' | 'word'
+  const [sttResult, setSttResult] = useState(null)
 
   const current = items[idx]
   const isComplete = idx >= items.length
@@ -109,8 +115,30 @@ export default function Phonics({
     [current, registerClick, registerSuccess, registerError, speakEn]
   )
 
+  // Speech recognition: say the word aloud
+  const handleSpeakWord = useCallback(async () => {
+    if (!stt.supported || !current) return
+    setSttResult(null)
+    sfx.click()
+    speak('Diz a palavra em voz alta!')
+
+    const expectedWords = current.words.map((w) => w.toLowerCase())
+    const result = await stt.listenForWord(expectedWords, { lang: 'en-GB', timeout: 5000 })
+
+    setSttResult(result)
+    if (result.match) {
+      sfx.celebrate()
+      speak(`Perfeito! Disseste "${result.heard}" correctamente!`)
+    } else if (result.heard) {
+      speak(`Ouvimos "${result.heard}". Tenta dizer "${current.words[0]}"`)
+    } else {
+      speak('Nao ouvimos nada. Tenta de novo!')
+    }
+  }, [stt, current, sfx, speak])
+
   const handleNext = useCallback(() => {
     setFeedback(null)
+    setSttResult(null)
     if (phase === 'sound') {
       setPhase('word')
     } else {
@@ -119,10 +147,11 @@ export default function Phonics({
       setIdx(next)
       updateCampoProgress('campo1', next + 20)
       if (next >= items.length) {
+        sfx.celebrate()
         completeActivity('phonics', score >= items.length * 0.8 ? 3 : score >= items.length * 0.5 ? 2 : 1)
       }
     }
-  }, [idx, phase, score, items.length, completeActivity, updateCampoProgress])
+  }, [idx, phase, score, items.length, completeActivity, updateCampoProgress, sfx])
 
   if (isComplete) {
     return (
@@ -184,6 +213,32 @@ export default function Phonics({
               </button>
             ))}
           </div>
+          {/* Speech recognition: say the word aloud */}
+          {stt.supported && feedback === null && (
+            <button
+              style={{
+                ...styles.micBtn,
+                ...(stt.isListening ? styles.micBtnActive : {}),
+              }}
+              onClick={handleSpeakWord}
+              disabled={stt.isListening}
+            >
+              {stt.isListening ? '🎙️ A ouvir...' : '🎤 Diz a palavra!'}
+            </button>
+          )}
+          {sttResult && (
+            <div style={{
+              ...styles.sttResult,
+              backgroundColor: sttResult.match ? '#E8F5E9' : '#FFF3E0',
+              borderColor: sttResult.match ? '#4CAF50' : '#FF9800',
+            }}>
+              {sttResult.match
+                ? `Disseste "${sttResult.heard}" — Correcto!`
+                : sttResult.heard
+                  ? `Ouvimos "${sttResult.heard}" — Tenta de novo`
+                  : 'Nao ouvimos nada'}
+            </div>
+          )}
         </>
       )}
 
@@ -192,6 +247,7 @@ export default function Phonics({
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
         universe={adaptive?.universe}
+        soundEnabled={soundEnabled}
       />
     </ActivityShell>
   )
@@ -260,6 +316,29 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     marginLeft: 'auto',
+  },
+  micBtn: {
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    border: '2px solid var(--color-campo1)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    fontFamily: 'inherit',
+    textAlign: 'center',
+  },
+  micBtnActive: {
+    backgroundColor: '#FFCDD2',
+    borderColor: '#E53935',
+  },
+  sttResult: {
+    padding: 'var(--space-sm) var(--space-md)',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    textAlign: 'center',
   },
   complete: {
     display: 'flex',
