@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Campo1Bancada from './pages/Campo1Bancada'
@@ -41,6 +41,14 @@ export default function App() {
   const progressData = useProgress()
   const profileData = useProfile()
   const adaptive = useAdaptive(profileData.profile)
+
+  // Dynamic title: "A Escola do Breno" / "A Escola da Sofia" etc.
+  useEffect(() => {
+    const name = profileData.profile.name
+    if (name) {
+      document.title = `PITCH - A Escola do ${name}`
+    }
+  }, [profileData.profile.name])
 
   const handleFrustration = useCallback(() => {
     setShowCalma(true)

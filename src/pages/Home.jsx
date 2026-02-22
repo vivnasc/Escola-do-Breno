@@ -39,6 +39,12 @@ export default function Home({ progress, profile, adaptive }) {
 
   return (
     <div style={styles.container} className="animate-fade-in">
+      {/* The school belongs to the child */}
+      <div style={styles.schoolBanner}>
+        <span style={styles.schoolIcon}>{universe?.icon || '⚽'}</span>
+        <h1 style={styles.schoolTitle}>A Escola do {playerName}</h1>
+      </div>
+
       <header style={styles.header}>
         <div style={styles.headerLeft}>
           <div style={{
@@ -48,7 +54,7 @@ export default function Home({ progress, profile, adaptive }) {
             {avatarEmoji}
           </div>
           <div>
-            <h1 style={styles.greeting}>Ola, {playerName}!</h1>
+            <p style={styles.greeting}>Ola, {playerName}!</p>
             <p style={styles.subtitle}>
               {universe?.icon} Mundo: {universe?.name || 'Futebol'}
             </p>
@@ -192,6 +198,22 @@ const styles = {
     flexDirection: 'column',
     gap: 'var(--space-lg)',
   },
+  schoolBanner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm)',
+  },
+  schoolIcon: {
+    fontSize: '1.5rem',
+  },
+  schoolTitle: {
+    fontSize: 'var(--font-size-lg)',
+    fontWeight: 700,
+    color: 'var(--color-primary-dark)',
+    letterSpacing: '1px',
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -214,7 +236,7 @@ const styles = {
     border: '2px solid',
   },
   greeting: {
-    fontSize: 'var(--font-size-xl)',
+    fontSize: 'var(--font-size-base)',
     fontWeight: 700,
     color: 'var(--color-primary-dark)',
   },

@@ -9,7 +9,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
-        name: 'PITCH - A Escola do Breno',
+        name: 'PITCH - A Minha Escola',
         short_name: 'PITCH',
         description: 'Play. Interact. Think. Challenge. Hone.',
         start_url: '/',
