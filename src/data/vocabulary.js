@@ -1,6 +1,6 @@
 /**
  * Cambridge Pre A1 Starters vocabulary with universe-specific contexts.
- * 280 words across 19 categories. Each word adapts to the child's universe.
+ * 299 words across 19 categories. Each word adapts to the child's universe.
  * Includes Feelings and Social Words — critical categories for neurodivergent learners.
  */
 
