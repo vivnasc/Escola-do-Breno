@@ -10,20 +10,20 @@ const FAQ_SECTIONS = [
     title: 'Sobre o PITCH',
     items: [
       {
-        q: 'O que e o PITCH?',
-        a: 'PITCH (Play. Interact. Think. Challenge. Hone.) e uma plataforma de aprendizagem inclusiva desenhada para criancas neurodivergentes. Adapta-se ao ritmo, necessidades e interesses de cada crianca, com 20 actividades em 4 campos de competencia.',
+        q: 'O que é o PITCH?',
+        a: 'PITCH (Play. Interact. Think. Challenge. Hone.) é uma plataforma de aprendizagem inclusiva desenhada para crianças neurodivergentes. Adapta-se ao ritmo, necessidades e interesses de cada criança, com 20 actividades em 4 campos de competência.',
       },
       {
-        q: 'Para que idades e adequado?',
-        a: 'O PITCH nao funciona por idades, mas por niveis de competencia. E adequado para criancas de 4 a 14 anos, com conteudo que vai de pre-alfabetizacao a competencias mais avancadas. A avaliacao inicial detecta o nivel certo para cada crianca.',
+        q: 'Para que idades é adequado?',
+        a: 'O PITCH não funciona por idades, mas por níveis de competência. É adequado para crianças de 4 a 14 anos, com conteúdo que vai de pré-alfabetização a competências mais avançadas. A avaliação inicial detecta o nível certo para cada criança.',
       },
       {
-        q: 'E gratuito?',
-        a: 'Sim. O PITCH e completamente gratuito, sem publicidade e sem venda de dados. Foi construido para ser acessivel a todas as familias, independentemente da sua situacao financeira.',
+        q: 'É gratuito?',
+        a: 'Sim. O PITCH é completamente gratuito, sem publicidade e sem venda de dados. Foi construído para ser acessível a todas as famílias, independentemente da sua situação financeira.',
       },
       {
         q: 'Que tipo de necessidades especiais suporta?',
-        a: 'O PITCH foi construido a pensar em criancas com autismo, TDAH, dislexia, e outras necessidades de aprendizagem. Inclui deteccao de frustracao, pausas guiadas, perfil sensorial configuravel (som, animacoes, contraste), e progresso por mestria sem pressao temporal.',
+        a: 'O PITCH foi construído a pensar em crianças com autismo, TDAH, dislexia, e outras necessidades de aprendizagem. Inclui detecção de frustração, pausas guiadas, perfil sensorial configurável (som, animações, contraste), e progresso por mestria sem pressão temporal.',
       },
     ],
   },
@@ -31,24 +31,24 @@ const FAQ_SECTIONS = [
     title: 'Como Funciona',
     items: [
       {
-        q: 'Como comeco?',
-        a: 'Cria uma "escola" para a crianca — basta o nome, idade e interesses. Depois, a plataforma faz 12 perguntas diagnosticas para detectar o nivel em cada campo. A partir dai, as actividades sao adaptadas automaticamente.',
+        q: 'Como começo?',
+        a: 'Cria uma "escola" para a criança — basta o nome, idade e interesses. Depois, a plataforma faz 12 perguntas diagnósticas para detectar o nível em cada campo. A partir daí, as actividades são adaptadas automaticamente.',
       },
       {
-        q: 'O que sao os 4 Campos?',
-        a: 'Os 4 campos organizam o curriculo por areas de competencia: Linguagem e Comunicacao (vocabulario, fonetica, leitura), Matematica e Logica (calculo, padroes, logica), Conhecimento e Descoberta (ciencia, geografia, natureza), e Autonomia e Vida (rotinas, emocoes, resolucao de problemas).',
+        q: 'O que são os 4 Campos?',
+        a: 'Os 4 campos organizam o currículo por áreas de competência: Linguagem e Comunicação (vocabulário, fonética, leitura), Matemática e Lógica (cálculo, padrões, lógica), Conhecimento e Descoberta (ciência, geografia, natureza), e Autonomia e Vida (rotinas, emoções, resolução de problemas).',
       },
       {
-        q: 'O que sao os Universos?',
-        a: 'Os 5 universos (Futebol, Dinossauros, Espaco, Animais, Musica) contextualizam o mesmo curriculo com temas que interessam a crianca. Se gosta de dinossauros, os problemas de matematica usam dinossauros. O conteudo pedagogico e o mesmo.',
+        q: 'O que são os Universos?',
+        a: 'Os 5 universos (Futebol, Dinossauros, Espaço, Animais, Música) contextualizam o mesmo currículo com temas que interessam a criança. Se gosta de dinossauros, os problemas de matemática usam dinossauros. O conteúdo pedagógico é o mesmo.',
       },
       {
         q: 'Como funciona o progresso?',
-        a: 'Cada campo tem 10 niveis (Semente a Floresta), agrupados em 4 fases narrativas (Germinar, Estruturar, Florescer, Sustentar). A crianca avanca quando demonstra mestria — nunca por tempo ou comparacao com outros. Pais e terapeutas recebem relatorios com linguagem de fases.',
+        a: 'Cada campo tem 10 níveis (Semente a Floresta), agrupados em 4 fases narrativas (Germinar, Estruturar, Florescer, Sustentar). A criança avança quando demonstra mestria — nunca por tempo ou comparação com outros. Pais e terapeutas recebem relatórios com linguagem de fases.',
       },
       {
         q: 'Posso ter mais do que um perfil?',
-        a: 'Sim. O PITCH suporta multiplos perfis no mesmo dispositivo. Cada crianca tem a sua propria "escola" com configuracoes, niveis e progresso independentes.',
+        a: 'Sim. O PITCH suporta múltiplos perfis no mesmo dispositivo. Cada criança tem a sua própria "escola" com configurações, níveis e progresso independentes.',
       },
     ],
   },
@@ -57,19 +57,19 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: 'Funciona offline?',
-        a: 'Sim. O PITCH e uma Progressive Web App (PWA) que funciona sem internet. Todas as actividades, sons e dados ficam no dispositivo. Apenas o reconhecimento de fala e a sincronizacao cloud precisam de internet.',
+        a: 'Sim. O PITCH é uma Progressive Web App (PWA) que funciona sem internet. Todas as actividades, sons e dados ficam no dispositivo. Apenas o reconhecimento de fala e a sincronização cloud precisam de internet.',
       },
       {
         q: 'Em que dispositivos funciona?',
-        a: 'O PITCH funciona em qualquer dispositivo com browser moderno: telemovel, tablet, portatil ou desktop. Recomendamos Chrome, Safari ou Edge. E optimizado para ecras touch.',
+        a: 'O PITCH funciona em qualquer dispositivo com browser moderno: telemóvel, tablet, portátil ou desktop. Recomendamos Chrome, Safari ou Edge. É optimizado para ecrãs touch.',
       },
       {
-        q: 'Os dados sao seguros?',
-        a: 'Todos os dados ficam no dispositivo da crianca por defeito (IndexedDB + localStorage). Se activar a sincronizacao cloud (Supabase), os dados sao encriptados e protegidos por Row Level Security — cada utilizador so acede aos seus proprios dados.',
+        q: 'Os dados são seguros?',
+        a: 'Todos os dados ficam no dispositivo da criança por defeito (IndexedDB + localStorage). Se activar a sincronização cloud (Supabase), os dados são encriptados e protegidos por Row Level Security — cada utilizador só acede aos seus próprios dados.',
       },
       {
         q: 'Posso exportar os dados?',
-        a: 'Sim. Nas Definicoes, pode exportar todos os dados como ficheiro JSON para backup ou transferencia entre dispositivos. Tambem pode importar de um backup anterior.',
+        a: 'Sim. Nas Definições, pode exportar todos os dados como ficheiro JSON para backup ou transferência entre dispositivos. Também pode importar de um backup anterior.',
       },
     ],
   },
@@ -78,19 +78,19 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: 'Como acompanho o progresso?',
-        a: 'O Dashboard para educadores mostra niveis por campo, fases narrativas, estrelas, trofeus, e um historico detalhado. Pode exportar relatorios em texto para partilhar com terapeutas ou equipas educativas.',
+        a: 'O Dashboard para educadores mostra níveis por campo, fases narrativas, estrelas, troféus, e um histórico detalhado. Pode exportar relatórios em texto para partilhar com terapeutas ou equipas educativas.',
       },
       {
-        q: 'O que e a deteccao de frustracao?',
-        a: 'O PITCH monitoriza padroes de clicks rapidos e erros consecutivos. Quando detecta frustracao, sugere uma pausa guiada (Banco da Calma) com exercicio de respiracao. E gentil e nao-punitivo — a crianca pode voltar quando estiver pronta.',
+        q: 'O que é a detecção de frustração?',
+        a: 'O PITCH monitoriza padrões de clicks rápidos e erros consecutivos. Quando detecta frustração, sugere uma pausa guiada (Banco da Calma) com exercício de respiração. É gentil e não-punitivo — a criança pode voltar quando estiver pronta.',
       },
       {
         q: 'Posso personalizar as recompensas?',
-        a: 'Sim. Nas Definicoes, pode adicionar recompensas reais (ex: "30 minutos de playstation", "um gelado") que a crianca pode reivindicar ao atingir objectivos. A loja virtual tambem tem badges, stickers e celebracoes cosmeticas.',
+        a: 'Sim. Nas Definições, pode adicionar recompensas reais (ex: "30 minutos de playstation", "um gelado") que a criança pode reivindicar ao atingir objectivos. A loja virtual também tem badges, stickers e celebrações cosméticas.',
       },
       {
-        q: 'Como funciona o plano diario?',
-        a: 'O planeador sugere 3 actividades por dia, priorizadas pelas areas de maior necessidade. Pode gerar um plano automatico ou personalizar manualmente. Cada actividade concluida e marcada no calendario.',
+        q: 'Como funciona o plano diário?',
+        a: 'O planeador sugere 3 actividades por dia, priorizadas pelas áreas de maior necessidade. Pode gerar um plano automático ou personalizar manualmente. Cada actividade concluída é marcada no calendário.',
       },
     ],
   },
@@ -117,7 +117,7 @@ export default function FAQ() {
           <nav style={styles.headerNav}>
             <button style={styles.headerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.headerCta} onClick={() => navigate('/')}>
-              Comecar
+              Começar
             </button>
           </nav>
         </div>
@@ -170,13 +170,13 @@ export default function FAQ() {
 
       {/* CTA */}
       <section style={styles.cta}>
-        <p style={styles.ctaText}>Nao encontrou a resposta?</p>
+        <p style={styles.ctaText}>Não encontrou a resposta?</p>
         <div style={styles.ctaBtns}>
           <button style={styles.ctaPrimary} onClick={() => navigate('/suporte')}>
             Contactar Suporte
           </button>
           <button style={styles.ctaSecondary} onClick={() => navigate('/landing')}>
-            Voltar ao Inicio
+            Voltar ao Início
           </button>
         </div>
       </section>

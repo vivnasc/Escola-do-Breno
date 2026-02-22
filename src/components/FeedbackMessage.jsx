@@ -3,8 +3,8 @@ import { useTTS } from '../hooks/useTTS'
 import { useSoundEffects } from '../hooks/useSoundEffects'
 
 const DEFAULT_MESSAGES = {
-  success: ['Muito bem!', 'Excelente!', 'Fantastico!'],
-  tryAgain: ['Quase! Tenta de novo.', 'Boa tentativa! Tenta outra vez.', 'Quase la! Experimenta de novo.'],
+  success: ['Muito bem!', 'Excelente!', 'Fantástico!'],
+  tryAgain: ['Quase! Tenta de novo.', 'Boa tentativa! Tenta outra vez.', 'Quase lá! Experimenta de novo.'],
 }
 
 export default function FeedbackMessage({ type, visible, onDismiss, universe, soundEnabled = true }) {

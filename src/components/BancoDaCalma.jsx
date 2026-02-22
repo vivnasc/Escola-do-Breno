@@ -35,7 +35,7 @@ export default function BancoDaCalma({ onClose }) {
   // Announce readiness
   useEffect(() => {
     if (cycles === 2) {
-      speak('Boa! Ja podes continuar quando quiseres.', { rate: 0.8 })
+      speak('Boa! Já podes continuar quando quiseres.', { rate: 0.8 })
     }
   }, [cycles, speak])
 
@@ -65,7 +65,7 @@ export default function BancoDaCalma({ onClose }) {
         <p style={styles.phaseText}>{PHASES[phase]}</p>
 
         <p style={styles.message}>
-          Respira devagar. Estas num campo tranquilo.
+          Respira devagar. Estás num campo tranquilo.
         </p>
 
         {cycles >= 2 && (

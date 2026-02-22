@@ -202,7 +202,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           ))}
 
           <div style={styles.wsFooter}>
-            PITCH — A Escola do {profile?.name || 'Breno'}
+            PITCH — A Escola do {profile?.name || 'Aluno'}
           </div>
         </div>
 

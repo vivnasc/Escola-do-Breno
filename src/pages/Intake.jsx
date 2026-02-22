@@ -8,27 +8,27 @@ import { BRENO_PROFILE } from '../data/brenoProfile'
 const LEARNING_AREAS = [
   { id: 'reading', emoji: '📖', label: 'Leitura' },
   { id: 'writing', emoji: '✏️', label: 'Escrita' },
-  { id: 'math', emoji: '🔢', label: 'Matematica' },
-  { id: 'attention', emoji: '🎯', label: 'Atencao / Concentracao' },
-  { id: 'social', emoji: '🤝', label: 'Competencias sociais' },
-  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulacao emocional' },
+  { id: 'math', emoji: '🔢', label: 'Matemática' },
+  { id: 'attention', emoji: '🎯', label: 'Atenção / Concentração' },
+  { id: 'social', emoji: '🤝', label: 'Competências sociais' },
+  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulação emocional' },
   { id: 'speech', emoji: '💬', label: 'Fala / Linguagem' },
-  { id: 'comprehension', emoji: '🧠', label: 'Compreensao' },
+  { id: 'comprehension', emoji: '🧠', label: 'Compreensão' },
   { id: 'motor-fine', emoji: '✍️', label: 'Motricidade fina' },
   { id: 'motor-gross', emoji: '🏃', label: 'Motricidade grossa' },
 ]
 
 const GOALS = [
-  { id: 'language-pt', emoji: '🇵🇹', label: 'Portugues (leitura e escrita)' },
-  { id: 'language-en', emoji: '🇬🇧', label: 'Ingles (vocabulario)' },
-  { id: 'math', emoji: '🔢', label: 'Matematica' },
-  { id: 'social-skills', emoji: '🤝', label: 'Competencias sociais' },
-  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulacao emocional' },
-  { id: 'daily-living', emoji: '🏠', label: 'Autonomia / Vida diaria' },
+  { id: 'language-pt', emoji: '🇵🇹', label: 'Português (leitura e escrita)' },
+  { id: 'language-en', emoji: '🇬🇧', label: 'Inglês (vocabulário)' },
+  { id: 'math', emoji: '🔢', label: 'Matemática' },
+  { id: 'social-skills', emoji: '🤝', label: 'Competências sociais' },
+  { id: 'emotional-regulation', emoji: '🧘', label: 'Regulação emocional' },
+  { id: 'daily-living', emoji: '🏠', label: 'Autonomia / Vida diária' },
   { id: 'reading', emoji: '📖', label: 'Leitura' },
   { id: 'writing', emoji: '✏️', label: 'Escrita' },
-  { id: 'attention-focus', emoji: '🎯', label: 'Atencao e foco' },
-  { id: 'communication', emoji: '💬', label: 'Comunicacao' },
+  { id: 'attention-focus', emoji: '🎯', label: 'Atenção e foco' },
+  { id: 'communication', emoji: '💬', label: 'Comunicação' },
 ]
 
 export default function Intake({ onComplete }) {
@@ -40,9 +40,8 @@ export default function Intake({ onComplete }) {
   const [age, setAge] = useState(null)
   const [avatar, setAvatar] = useState('star')
 
-  // Breno detection — pre-fill his carefully configured profile
-  const [brenoDetected, setBrenoDetected] = useState(false)
-  const [brenoLoaded, setBrenoLoaded] = useState(false)
+  // Founder profile — silently pre-fill via ?fundador URL param
+  const [founderLoaded, setFounderLoaded] = useState(false)
   const [subscriptionTier, setSubscriptionTier] = useState('free')
 
   // Universe (not just football!)
@@ -79,16 +78,11 @@ export default function Intake({ onComplete }) {
 
   const handleNameChange = (newName) => {
     setName(newName)
-    // Detect Breno by name (case-insensitive) — offer to load his profile
-    if (newName.trim().toLowerCase() === 'breno' && !brenoLoaded) {
-      setBrenoDetected(true)
-    } else {
-      setBrenoDetected(false)
-    }
   }
 
-  const loadBrenoProfile = () => {
+  const loadFounderProfile = () => {
     const bp = BRENO_PROFILE
+    setName(bp.name)
     setAge(bp.age)
     setAvatar(bp.avatar)
     setUniverse(bp.universe)
@@ -112,9 +106,17 @@ export default function Intake({ onComplete }) {
     setPrefersSimpleLanguage(bp.communication.prefersSimpleLanguage)
     setNeedsAudioInstructions(bp.communication.needsAudioInstructions)
     setSubscriptionTier(bp.subscriptionTier)
-    setBrenoDetected(false)
-    setBrenoLoaded(true)
+    setFounderLoaded(true)
   }
+
+  // Auto-load founder profile when ?fundador param is present
+  useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('fundador') && !founderLoaded) {
+      loadFounderProfile()
+      setFilledBy('parent')
+    }
+  })
 
   // Diagnostic placement test
   const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-3 for the 4 campos
@@ -171,7 +173,7 @@ export default function Intake({ onComplete }) {
         needsAudioInstructions,
       },
     }
-    // Breno always has full access — the platform was built for him
+    // Founder profile always has full access
     if (subscriptionTier !== 'free') {
       profileData.subscriptionTier = subscriptionTier
     }
@@ -202,15 +204,15 @@ export default function Intake({ onComplete }) {
             <span style={styles.bigEmoji}>👋</span>
             <h1 style={styles.title}>Bem-vindo ao PITCH!</h1>
             <p style={styles.desc}>
-              Antes de comecar, queremos conhecer melhor a crianca para adaptar a experiencia.
+              Antes de começar, queremos conhecer melhor a criança para adaptar a experiência.
             </p>
-            <p style={styles.label}>Quem esta a preencher?</p>
+            <p style={styles.label}>Quem está a preencher?</p>
             <div style={styles.grid2}>
               {[
-                { id: 'parent', icon: '👨‍👩‍👦', label: 'Mae / Pai' },
+                { id: 'parent', icon: '👨‍👩‍👦', label: 'Mãe / Pai' },
                 { id: 'therapist', icon: '🧑‍⚕️', label: 'Terapeuta' },
                 { id: 'teacher', icon: '🧑‍🏫', label: 'Professor(a)' },
-                { id: 'self', icon: '🧒', label: 'Eu proprio!' },
+                { id: 'self', icon: '🧒', label: 'Eu próprio!' },
               ].map((opt) => (
                 <button
                   key={opt.id}
@@ -230,40 +232,21 @@ export default function Intake({ onComplete }) {
           <div style={styles.stepContent}>
             <span style={styles.bigEmoji}>🌟</span>
             <h1 style={styles.title}>
-              {filledBy === 'self' ? 'Como te chamas?' : 'Como se chama a crianca?'}
+              {filledBy === 'self' ? 'Como te chamas?' : 'Como se chama a criança?'}
             </h1>
             <input
               style={styles.input}
               type="text"
               value={name}
               onChange={(e) => handleNameChange(e.target.value)}
-              placeholder={filledBy === 'self' ? 'O teu nome...' : 'Nome da crianca...'}
+              placeholder={filledBy === 'self' ? 'O teu nome...' : 'Nome da criança...'}
               autoFocus
               maxLength={30}
             />
 
-            {brenoDetected && (
-              <div style={styles.brenoDetect}>
-                <p style={styles.brenoDetectText}>
-                  Este e o Breno! Carregar o perfil dele?
-                </p>
-                <p style={styles.brenoDetectSub}>
-                  Todas as definicoes ja configuradas (necessidades, sensorial, objectivos) ficam pre-preenchidas. Podes ajustar tudo nos passos seguintes.
-                </p>
-                <div style={styles.brenoDetectBtns}>
-                  <button style={styles.brenoYes} onClick={loadBrenoProfile}>
-                    Sim, carregar perfil
-                  </button>
-                  <button style={styles.brenoNo} onClick={() => { setBrenoDetected(false); setBrenoLoaded(false) }}>
-                    Nao, comecar do zero
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {brenoLoaded && (
-              <div style={styles.brenoLoaded}>
-                Perfil do Breno carregado — podes rever tudo nos passos seguintes.
+            {founderLoaded && (
+              <div style={styles.founderLoaded}>
+                Perfil pré-configurado carregado — podes rever tudo nos passos seguintes.
               </div>
             )}
 
@@ -289,8 +272,8 @@ export default function Intake({ onComplete }) {
               O que {filledBy === 'self' ? 'te' : ''} fascina mais?
             </h1>
             <p style={styles.desc}>
-              Toda a experiencia vai ser construida a volta deste mundo.
-              {filledBy !== 'self' && ' Escolha o interesse mais intenso da crianca.'}
+              Toda a experiência vai ser construída à volta deste mundo.
+              {filledBy !== 'self' && ' Escolha o interesse mais intenso da criança.'}
             </p>
             <div style={styles.universeGrid}>
               {UNIVERSES.map((u) => (
@@ -343,11 +326,11 @@ export default function Intake({ onComplete }) {
         {step === 3 && (
           <div style={styles.stepContent}>
             <span style={styles.bigEmoji}>💪</span>
-            <h1 style={styles.title}>Areas onde precisa de apoio</h1>
+            <h1 style={styles.title}>Áreas onde precisa de apoio</h1>
             <p style={styles.desc}>
               {filledBy === 'self'
-                ? 'O que achas mais dificil? (podes escolher varios)'
-                : 'Seleccione as areas onde a crianca tem mais dificuldade. Isto adapta o nivel de todas as actividades.'}
+                ? 'O que achas mais difícil? (podes escolher vários)'
+                : 'Seleccione as áreas onde a criança tem mais dificuldade. Isto adapta o nível de todas as actividades.'}
             </p>
             <div style={styles.needsGrid}>
               {LEARNING_AREAS.map((area) => (
@@ -371,14 +354,14 @@ export default function Intake({ onComplete }) {
         {step === 4 && (
           <div style={styles.stepContent}>
             <span style={styles.bigEmoji}>📖</span>
-            <h1 style={styles.title}>Nivel de leitura e apoio</h1>
+            <h1 style={styles.title}>Nível de leitura e apoio</h1>
 
-            <p style={styles.label}>Nivel de leitura</p>
+            <p style={styles.label}>Nível de leitura</p>
             <div style={styles.grid3}>
               {[
-                { id: 'pre-reader', label: 'Pre-leitor', desc: 'Ainda nao le; usa imagens' },
-                { id: 'beginning', label: 'A comecar', desc: 'Le palavras simples' },
-                { id: 'fluent', label: 'Leitor fluente', desc: 'Le frases e textos' },
+                { id: 'pre-reader', label: 'Pré-leitor', desc: 'Ainda não lê; usa imagens' },
+                { id: 'beginning', label: 'A começar', desc: 'Lê palavras simples' },
+                { id: 'fluent', label: 'Leitor fluente', desc: 'Lê frases e textos' },
               ].map((opt) => (
                 <button
                   key={opt.id}
@@ -391,7 +374,7 @@ export default function Intake({ onComplete }) {
               ))}
             </div>
 
-            <p style={styles.label}>Nivel de apoio necessario</p>
+            <p style={styles.label}>Nível de apoio necessário</p>
             <div style={styles.grid3}>
               {[
                 { id: 'independent', label: 'Independente', desc: 'Faz sozinho(a)' },
@@ -409,7 +392,7 @@ export default function Intake({ onComplete }) {
               ))}
             </div>
 
-            <p style={styles.label}>Comunicacao</p>
+            <p style={styles.label}>Comunicação</p>
             <div style={styles.checkList}>
               <CheckItem
                 checked={usesVisualSupports}
@@ -424,7 +407,7 @@ export default function Intake({ onComplete }) {
               <CheckItem
                 checked={needsAudioInstructions}
                 onChange={setNeedsAudioInstructions}
-                label="Precisa de instrucoes em audio"
+                label="Precisa de instruções em áudio"
               />
             </div>
           </div>
@@ -437,8 +420,8 @@ export default function Intake({ onComplete }) {
             <h1 style={styles.title}>Necessidades sensoriais</h1>
             <p style={styles.desc}>
               {filledBy === 'self'
-                ? 'Como preferes que o ecra seja?'
-                : 'Adapte a experiencia sensorial ao perfil da crianca.'}
+                ? 'Como preferes que o ecrã seja?'
+                : 'Adapte a experiência sensorial ao perfil da criança.'}
             </p>
 
             <SensoryRow label="Som">
@@ -453,8 +436,8 @@ export default function Intake({ onComplete }) {
               </SensoryRow>
             )}
 
-            <SensoryRow label="Animacoes">
-              <ToggleBtn active={animationLevel === 'minimal'} onClick={() => setAnimationLevel('minimal')} text="🧘 Minimas" />
+            <SensoryRow label="Animações">
+              <ToggleBtn active={animationLevel === 'minimal'} onClick={() => setAnimationLevel('minimal')} text="🧘 Mínimas" />
               <ToggleBtn active={animationLevel === 'normal'} onClick={() => setAnimationLevel('normal')} text="✨ Normal" />
             </SensoryRow>
 
@@ -473,12 +456,12 @@ export default function Intake({ onComplete }) {
               <CheckItem
                 checked={reducedClutter}
                 onChange={setReducedClutter}
-                label="Ecra simplificado (menos opcoes por vez)"
+                label="Ecrã simplificado (menos opções por vez)"
               />
               <CheckItem
                 checked={!timePressure}
                 onChange={(v) => setTimePressure(!v)}
-                label="Sem pressao de tempo (sem cronometros)"
+                label="Sem pressão de tempo (sem cronómetros)"
               />
             </div>
           </div>
@@ -488,14 +471,14 @@ export default function Intake({ onComplete }) {
         {step === 6 && (
           <div style={styles.stepContent}>
             <span style={styles.bigEmoji}>⏱️</span>
-            <h1 style={styles.title}>Atencao e sessoes</h1>
+            <h1 style={styles.title}>Atenção e sessões</h1>
             <p style={styles.desc}>
               {filledBy === 'self'
                 ? 'Quanto tempo gostas de jogar de cada vez?'
-                : 'Configure o tempo de sessao e pausas para evitar fadiga.'}
+                : 'Configure o tempo de sessão e pausas para evitar fadiga.'}
             </p>
 
-            <p style={styles.label}>Duracao da sessao</p>
+            <p style={styles.label}>Duração da sessão</p>
             <div style={styles.sessionGrid}>
               {[5, 10, 15, 20, 30].map((m) => (
                 <button
@@ -517,15 +500,15 @@ export default function Intake({ onComplete }) {
               />
             </div>
 
-            <p style={styles.label}>Sensibilidade a frustracao</p>
+            <p style={styles.label}>Sensibilidade à frustração</p>
             <p style={styles.smallDesc}>
-              Quando detectamos sinais de frustracao, abrimos o "Banco da Calma" para ajudar.
+              Quando detectamos sinais de frustração, abrimos o "Banco da Calma" para ajudar.
             </p>
             <div style={styles.grid3}>
               {[
-                { id: 'sensitive', label: 'Muito sensivel', desc: 'Activa rapidamente' },
+                { id: 'sensitive', label: 'Muito sensível', desc: 'Activa rapidamente' },
                 { id: 'moderate', label: 'Moderado', desc: 'Equilibrado' },
-                { id: 'resilient', label: 'Resiliente', desc: 'So em situacoes extremas' },
+                { id: 'resilient', label: 'Resiliente', desc: 'Só em situações extremas' },
               ].map((opt) => (
                 <button
                   key={opt.id}
@@ -548,7 +531,7 @@ export default function Intake({ onComplete }) {
             <p style={styles.desc}>
               {filledBy === 'self'
                 ? 'O que queres aprender mais?'
-                : 'Que areas quer priorizar? As actividades recomendadas vao reflectir estas escolhas.'}
+                : 'Que áreas quer priorizar? As actividades recomendadas vão reflectir estas escolhas.'}
             </p>
             <div style={styles.needsGrid}>
               {GOALS.map((goal) => (
@@ -624,7 +607,7 @@ export default function Intake({ onComplete }) {
                 Tudo pronto, {name || 'jogador'}!
               </p>
               <p style={styles.readySubtext}>
-                A experiencia esta adaptada as tuas necessidades. Podes sempre ajustar nas definicoes.
+                A experiência está adaptada às tuas necessidades. Podes sempre ajustar nas definições.
               </p>
             </div>
           </div>
@@ -646,7 +629,7 @@ export default function Intake({ onComplete }) {
           </button>
         ) : (
           <button style={styles.startBtn} onClick={handleFinish}>
-            Comecar!
+            Começar!
           </button>
         )}
       </div>
@@ -689,7 +672,7 @@ function CheckItem({ checked, onChange, label }) {
 
 const CAMPO_LABELS = [
   { id: 'campo1', name: 'Linguagem', icon: '🗣️', color: '#1565C0' },
-  { id: 'campo2', name: 'Matematica', icon: '🔢', color: '#E65100' },
+  { id: 'campo2', name: 'Matemática', icon: '🔢', color: '#E65100' },
   { id: 'campo3', name: 'Descoberta', icon: '🌍', color: '#2E7D32' },
   { id: 'campo4', name: 'Autonomia', icon: '🤝', color: '#6A1B9A' },
 ]
@@ -710,10 +693,10 @@ function DiagnosticStep({
     return (
       <div style={styles.stepContent}>
         <span style={styles.bigEmoji}>🎯</span>
-        <h1 style={styles.title}>Niveis detectados!</h1>
+        <h1 style={styles.title}>Níveis detectados!</h1>
         <p style={styles.desc}>
-          Com base nas respostas, detectamos o nivel inicial para cada area.
-          Isto pode ser ajustado a qualquer momento nas definicoes.
+          Com base nas respostas, detectámos o nível inicial para cada área.
+          Isto pode ser ajustado a qualquer momento nas definições.
         </p>
         <div style={dStyles.resultsGrid}>
           {CAMPO_LABELS.map((campo) => {
@@ -753,11 +736,11 @@ function DiagnosticStep({
   return (
     <div style={styles.stepContent}>
       <span style={styles.bigEmoji}>🧪</span>
-      <h1 style={styles.title}>Mini-avaliacao</h1>
+      <h1 style={styles.title}>Mini-avaliação</h1>
       <p style={styles.desc}>
         {filledBy === 'self'
-          ? 'Responde a estas perguntas rapidas para sabermos por onde comecar. Nao te preocupes se nao souberes!'
-          : 'Perguntas rapidas para detectar o nivel inicial. Pode responder "Nao sei" sem problema.'}
+          ? 'Responde a estas perguntas rápidas para sabermos por onde começar. Não te preocupes se não souberes!'
+          : 'Perguntas rápidas para detectar o nível inicial. Pode responder "Não sei" sem problema.'}
       </p>
 
       <div style={dStyles.progressRow}>
@@ -798,7 +781,7 @@ function DiagnosticStep({
       </div>
 
       <button style={dStyles.skipAllBtn} onClick={onSkipAll}>
-        Saltar avaliacao (comecar no nivel 1)
+        Saltar avaliação (começar no nível 1)
       </button>
     </div>
   )
@@ -1330,54 +1313,8 @@ const styles = {
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-lg)',
   },
-  // Breno detection
-  brenoDetect: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 'var(--space-sm)',
-    padding: 'var(--space-md)',
-    backgroundColor: '#FFF8E1',
-    borderRadius: 'var(--radius-md)',
-    border: '2px solid #FFD54F',
-  },
-  brenoDetectText: {
-    fontWeight: 700,
-    fontSize: 'var(--font-size-base)',
-    textAlign: 'center',
-  },
-  brenoDetectSub: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-    textAlign: 'center',
-    lineHeight: 1.4,
-  },
-  brenoDetectBtns: {
-    display: 'flex',
-    gap: 'var(--space-sm)',
-    justifyContent: 'center',
-  },
-  brenoYes: {
-    padding: 'var(--space-sm) var(--space-md)',
-    backgroundColor: 'var(--color-primary)',
-    color: 'white',
-    border: 'none',
-    borderRadius: 'var(--radius-md)',
-    cursor: 'pointer',
-    fontWeight: 700,
-    fontFamily: 'inherit',
-    fontSize: 'var(--font-size-sm)',
-  },
-  brenoNo: {
-    padding: 'var(--space-sm) var(--space-md)',
-    backgroundColor: 'transparent',
-    color: 'var(--color-text-secondary)',
-    border: '1px solid var(--color-border)',
-    borderRadius: 'var(--radius-md)',
-    cursor: 'pointer',
-    fontFamily: 'inherit',
-    fontSize: 'var(--font-size-sm)',
-  },
-  brenoLoaded: {
+  // Founder profile loaded indicator
+  founderLoaded: {
     padding: 'var(--space-sm) var(--space-md)',
     backgroundColor: '#E8F5E9',
     borderRadius: 'var(--radius-md)',

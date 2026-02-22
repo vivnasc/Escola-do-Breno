@@ -42,7 +42,7 @@ export default function PayPalSubscribeButton({ tierId, onSubscribed }) {
           Pagamentos PayPal em breve.
         </p>
         <p style={styles.placeholderHint}>
-          Configuracao necessaria: VITE_PAYPAL_CLIENT_ID e VITE_PAYPAL_PLAN_{tierId.toUpperCase()}
+          Configuração necessária: VITE_PAYPAL_CLIENT_ID e VITE_PAYPAL_PLAN_{tierId.toUpperCase()}
         </p>
       </div>
     )

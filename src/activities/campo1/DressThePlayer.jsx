@@ -7,18 +7,18 @@ import { getContent } from '../../data/universeContent'
 
 const CLOTHING_ITEMS = [
   { id: 'shirt', en: 'shirt', pt: 'camisola', emoji: '👕', zone: 'torso' },
-  { id: 'shorts', en: 'shorts', pt: 'calcoes', emoji: '🩳', zone: 'legs' },
+  { id: 'shorts', en: 'shorts', pt: 'calções', emoji: '🩳', zone: 'legs' },
   { id: 'socks', en: 'socks', pt: 'meias', emoji: '🧦', zone: 'feet' },
   { id: 'boots', en: 'boots', pt: 'chuteiras', emoji: '👟', zone: 'feet' },
-  { id: 'hat', en: 'hat', pt: 'chapeu', emoji: '🧢', zone: 'head' },
+  { id: 'hat', en: 'hat', pt: 'chapéu', emoji: '🧢', zone: 'head' },
   { id: 'jacket', en: 'jacket', pt: 'casaco', emoji: '🧥', zone: 'torso' },
 ]
 
 const BODY_ZONES = [
-  { id: 'head', label: 'Cabeca', y: '10%' },
+  { id: 'head', label: 'Cabeça', y: '10%' },
   { id: 'torso', label: 'Tronco', y: '35%' },
   { id: 'legs', label: 'Pernas', y: '60%' },
-  { id: 'feet', label: 'Pes', y: '85%' },
+  { id: 'feet', label: 'Pés', y: '85%' },
 ]
 
 export default function DressThePlayer({

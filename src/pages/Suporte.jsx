@@ -8,28 +8,28 @@ import { useNavigate } from 'react-router-dom'
 const HELP_TOPICS = [
   {
     icon: '🚀',
-    title: 'Comecar',
-    desc: 'Como criar uma escola, configurar o perfil, e fazer a avaliacao inicial.',
+    title: 'Começar',
+    desc: 'Como criar uma escola, configurar o perfil, e fazer a avaliação inicial.',
     action: 'Ver FAQ',
     link: '/faq',
   },
   {
     icon: '🔧',
-    title: 'Problemas Tecnicos',
-    desc: 'A app nao abre, o audio nao funciona, ou os dados desapareceram.',
-    action: 'Ver solucoes',
+    title: 'Problemas Técnicos',
+    desc: 'A app não abre, o áudio não funciona, ou os dados desapareceram.',
+    action: 'Ver soluções',
     link: '#troubleshooting',
   },
   {
     icon: '📊',
-    title: 'Progresso e Relatorios',
-    desc: 'Como interpretar niveis, fases, e exportar relatorios para terapeutas.',
+    title: 'Progresso e Relatórios',
+    desc: 'Como interpretar níveis, fases, e exportar relatórios para terapeutas.',
     action: 'Ver FAQ',
     link: '/faq',
   },
   {
     icon: '💬',
-    title: 'Feedback e Sugestoes',
+    title: 'Feedback e Sugestões',
     desc: 'Partilhar ideias para novas actividades, universos, ou melhorias.',
     action: 'Enviar mensagem',
     link: '#contact',
@@ -38,24 +38,24 @@ const HELP_TOPICS = [
 
 const TROUBLESHOOTING = [
   {
-    problem: 'A app nao abre ou fica em branco',
-    solution: 'Limpe a cache do browser (Ctrl+Shift+Delete) e recarregue. Se usar iOS Safari, va a Definicoes > Safari > Limpar dados. Se o problema persistir, tente noutro browser (Chrome recomendado).',
+    problem: 'A app não abre ou fica em branco',
+    solution: 'Limpe a cache do browser (Ctrl+Shift+Delete) e recarregue. Se usar iOS Safari, vá a Definições > Safari > Limpar dados. Se o problema persistir, tente noutro browser (Chrome recomendado).',
   },
   {
-    problem: 'O audio/voz nao funciona',
-    solution: 'Verifique que o volume nao esta silenciado. O TTS (texto-para-voz) depende das vozes instaladas no dispositivo. No iOS, va a Definicoes > Acessibilidade > Conteudo Falado. No Android, verifique Google TTS nas definicoes.',
+    problem: 'O áudio/voz não funciona',
+    solution: 'Verifique que o volume não está silenciado. O TTS (texto-para-voz) depende das vozes instaladas no dispositivo. No iOS, vá a Definições > Acessibilidade > Conteúdo Falado. No Android, verifique Google TTS nas definições.',
   },
   {
     problem: 'Os dados desapareceram',
-    solution: 'Os dados ficam no browser (IndexedDB). Se limpou a cache ou usou modo privado, os dados podem ter sido apagados. Recomendamos activar a sincronizacao cloud (Supabase) ou fazer backups regulares nas Definicoes > Exportar.',
+    solution: 'Os dados ficam no browser (IndexedDB). Se limpou a cache ou usou modo privado, os dados podem ter sido apagados. Recomendamos activar a sincronização cloud (Supabase) ou fazer backups regulares nas Definições > Exportar.',
   },
   {
-    problem: 'O reconhecimento de fala nao funciona',
-    solution: 'O STT (fala-para-texto) requer internet e um browser compativel (Chrome/Edge). Verifique as permissoes do microfone. O Safari tem suporte limitado. Se nao funcionar, as actividades continuam a funcionar sem esta funcionalidade.',
+    problem: 'O reconhecimento de fala não funciona',
+    solution: 'O STT (fala-para-texto) requer internet e um browser compatível (Chrome/Edge). Verifique as permissões do microfone. O Safari tem suporte limitado. Se não funcionar, as actividades continuam a funcionar sem esta funcionalidade.',
   },
   {
-    problem: 'A app esta lenta',
-    solution: 'Feche outros separadores do browser. Se usar um dispositivo antigo, desactive animacoes nas Definicoes do perfil (Perfil Sensorial > Animacoes). A app funciona melhor em Chrome.',
+    problem: 'A app está lenta',
+    solution: 'Feche outros separadores do browser. Se usar um dispositivo antigo, desactive animações nas Definições do perfil (Perfil Sensorial > Animações). A app funciona melhor em Chrome.',
   },
 ]
 
@@ -72,7 +72,7 @@ export default function Suporte() {
     // For now, construct a mailto link. In production, this would hit an API.
     const subject = encodeURIComponent(`[PITCH Suporte] Mensagem de ${contactName.trim()}`)
     const body = encodeURIComponent(
-      `Nome: ${contactName.trim()}\nEmail: ${contactEmail.trim() || 'Nao fornecido'}\n\nMensagem:\n${contactMsg.trim()}`
+      `Nome: ${contactName.trim()}\nEmail: ${contactEmail.trim() || 'Não fornecido'}\n\nMensagem:\n${contactMsg.trim()}`
     )
     window.open(`mailto:suporte@pitch-app.com?subject=${subject}&body=${body}`, '_blank')
     setContactSent(true)
@@ -90,7 +90,7 @@ export default function Suporte() {
           <nav style={styles.headerNav}>
             <button style={styles.headerLink} onClick={() => navigate('/faq')}>FAQ</button>
             <button style={styles.headerCta} onClick={() => navigate('/')}>
-              Comecar
+              Começar
             </button>
           </nav>
         </div>
@@ -132,7 +132,7 @@ export default function Suporte() {
 
         {/* Troubleshooting */}
         <section id="troubleshooting" style={styles.section}>
-          <h2 style={styles.sectionTitle}>Resolucao de Problemas</h2>
+          <h2 style={styles.sectionTitle}>Resolução de Problemas</h2>
           <div style={styles.troubleList}>
             {TROUBLESHOOTING.map((item, i) => (
               <div key={i} style={styles.troubleItem}>
@@ -150,7 +150,7 @@ export default function Suporte() {
         <section id="contact" style={styles.section}>
           <h2 style={styles.sectionTitle}>Enviar Mensagem</h2>
           <p style={styles.contactDesc}>
-            Tem uma pergunta, sugestao, ou problema? Envie-nos uma mensagem.
+            Tem uma pergunta, sugestão, ou problema? Envie-nos uma mensagem.
           </p>
 
           {contactSent ? (
@@ -201,7 +201,7 @@ export default function Suporte() {
                 <textarea
                   id="contact-msg"
                   style={styles.contactTextarea}
-                  placeholder="Descreva a sua pergunta, sugestao ou problema..."
+                  placeholder="Descreva a sua pergunta, sugestão ou problema..."
                   value={contactMsg}
                   onChange={(e) => setContactMsg(e.target.value)}
                   rows={5}
@@ -223,10 +223,10 @@ export default function Suporte() {
 
         {/* System Info */}
         <section style={styles.section}>
-          <h2 style={styles.sectionTitle}>Informacao do Sistema</h2>
+          <h2 style={styles.sectionTitle}>Informação do Sistema</h2>
           <div style={styles.sysInfo}>
             <div style={styles.sysRow}>
-              <span style={styles.sysLabel}>Versao</span>
+              <span style={styles.sysLabel}>Versão</span>
               <span style={styles.sysValue}>PITCH 1.0</span>
             </div>
             <div style={styles.sysRow}>
@@ -252,7 +252,7 @@ export default function Suporte() {
       {/* Footer */}
       <footer style={styles.footer}>
         <div style={styles.footerLinks}>
-          <button style={styles.footerLink} onClick={() => navigate('/landing')}>Inicio</button>
+          <button style={styles.footerLink} onClick={() => navigate('/landing')}>Início</button>
           <button style={styles.footerLink} onClick={() => navigate('/faq')}>FAQ</button>
         </div>
         <p style={styles.footerText}>PITCH — Plataforma de aprendizagem inclusiva</p>

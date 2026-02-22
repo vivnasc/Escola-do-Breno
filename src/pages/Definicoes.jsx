@@ -32,7 +32,7 @@ export default function Definicoes({
       <div style={styles.header}>
         <img src="/logos/pitch-robo.png" alt="PITCH" style={styles.logo} />
         <div>
-          <h1 style={styles.title}>Definicoes</h1>
+          <h1 style={styles.title}>Definições</h1>
           <p style={styles.subtitle}>A Escola do {profile?.name || 'Jogador'}</p>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default function Definicoes({
         <h2 style={styles.sectionTitle}>Necessidades de Aprendizagem</h2>
         <div style={styles.needsCard}>
           <div style={styles.needRow}>
-            <span style={styles.needLabel}>Areas de apoio</span>
+            <span style={styles.needLabel}>Áreas de apoio</span>
             <div style={styles.tags}>
               {(profile?.learningNeeds?.areas || []).map((area) => (
                 <span key={area} style={styles.tag}>{area}</span>
@@ -116,14 +116,14 @@ export default function Definicoes({
             </div>
           </div>
           <div style={styles.needRow}>
-            <span style={styles.needLabel}>Nivel de leitura</span>
+            <span style={styles.needLabel}>Nível de leitura</span>
             <span style={styles.needValue}>
-              {profile?.learningNeeds?.readingLevel === 'pre-reader' ? 'Pre-leitor' :
-               profile?.learningNeeds?.readingLevel === 'beginning' ? 'A comecar' : 'Fluente'}
+              {profile?.learningNeeds?.readingLevel === 'pre-reader' ? 'Pré-leitor' :
+               profile?.learningNeeds?.readingLevel === 'beginning' ? 'A começar' : 'Fluente'}
             </span>
           </div>
           <div style={styles.needRow}>
-            <span style={styles.needLabel}>Nivel de apoio</span>
+            <span style={styles.needLabel}>Nível de apoio</span>
             <span style={styles.needValue}>
               {profile?.learningNeeds?.supportLevel === 'independent' ? 'Independente' :
                profile?.learningNeeds?.supportLevel === 'some' ? 'Algum apoio' : 'Apoio total'}
@@ -142,7 +142,7 @@ export default function Definicoes({
             onToggle={(v) => updateProfile({ sensory: { ...profile.sensory, soundEnabled: v } })}
           />
           <SettingToggle
-            label="Animacoes minimas"
+            label="Animações mínimas"
             value={profile?.sensory?.animationLevel === 'minimal'}
             onToggle={(v) => updateProfile({ sensory: { ...profile.sensory, animationLevel: v ? 'minimal' : 'normal' } })}
           />
@@ -152,7 +152,7 @@ export default function Definicoes({
             onToggle={(v) => updateProfile({ sensory: { ...profile.sensory, visualContrast: v ? 'high' : 'normal' } })}
           />
           <SettingToggle
-            label="Sem pressao de tempo"
+            label="Sem pressão de tempo"
             value={!profile?.sensory?.timePressure}
             onToggle={(v) => updateProfile({ sensory: { ...profile.sensory, timePressure: !v } })}
           />
@@ -178,10 +178,10 @@ export default function Definicoes({
 
       {/* Attention */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Sessoes e Atencao</h2>
+        <h2 style={styles.sectionTitle}>Sessões e Atenção</h2>
         <div style={styles.needsCard}>
           <div style={styles.needRow}>
-            <span style={styles.needLabel}>Duracao da sessao</span>
+            <span style={styles.needLabel}>Duração da sessão</span>
             <div style={styles.sizeButtons}>
               {[5, 10, 15, 20, 30].map((m) => (
                 <button
@@ -209,11 +209,11 @@ export default function Definicoes({
             onToggle={(v) => updateProfile({ attention: { ...profile.attention, breakReminder: v } })}
           />
           <div style={styles.needRow}>
-            <span style={styles.needLabel}>Sensibilidade a frustracao</span>
+            <span style={styles.needLabel}>Sensibilidade à frustração</span>
             <div style={styles.sizeButtons}>
               {[
                 { id: 'sensitive', label: 'Alta' },
-                { id: 'moderate', label: 'Media' },
+                { id: 'moderate', label: 'Média' },
                 { id: 'resilient', label: 'Baixa' },
               ].map((opt) => (
                 <button
@@ -264,8 +264,8 @@ export default function Definicoes({
         <section style={styles.section}>
           <h2 style={styles.sectionTitle}>Partilhar Perfil</h2>
           <p style={styles.rewardHint}>
-            Partilhe o perfil desta crianca com um terapeuta ou educador.
-            Eles poderao ver o progresso e acompanhar a evolucao.
+            Partilhe o perfil desta criança com um terapeuta ou educador.
+            Eles poderão ver o progresso e acompanhar a evolução.
           </p>
           {(() => {
             const existingShare = sharing.getShareForProfile?.(profile?.id)
@@ -273,14 +273,14 @@ export default function Definicoes({
               return (
                 <div style={styles.shareCard}>
                   <div style={styles.shareCodeDisplay}>
-                    <span style={styles.shareCodeLabel}>Codigo de partilha:</span>
+                    <span style={styles.shareCodeLabel}>Código de partilha:</span>
                     <span style={styles.shareCodeValue}>{existingShare.share_code}</span>
                   </div>
                   <div style={styles.shareStatus}>
                     {existingShare.status === 'accepted' ? (
                       <span style={styles.shareAccepted}>Aceite — perfil partilhado</span>
                     ) : (
-                      <span style={styles.sharePending}>A aguardar — envie o codigo ao terapeuta</span>
+                      <span style={styles.sharePending}>A aguardar — envie o código ao terapeuta</span>
                     )}
                   </div>
                   <div style={styles.shareActions}>
@@ -288,11 +288,11 @@ export default function Definicoes({
                       style={styles.shareCopyBtn}
                       onClick={() => {
                         navigator.clipboard?.writeText(existingShare.share_code)
-                        setShareMsg('Codigo copiado!')
+                        setShareMsg('Código copiado!')
                         setTimeout(() => setShareMsg(null), 2000)
                       }}
                     >
-                      Copiar codigo
+                      Copiar código
                     </button>
                     <button
                       style={styles.shareRevokeBtn}
@@ -316,21 +316,21 @@ export default function Definicoes({
                 {shareCode ? (
                   <>
                     <div style={styles.shareCodeDisplay}>
-                      <span style={styles.shareCodeLabel}>Codigo criado:</span>
+                      <span style={styles.shareCodeLabel}>Código criado:</span>
                       <span style={styles.shareCodeValue}>{shareCode}</span>
                     </div>
                     <p style={styles.shareHint}>
-                      Envie este codigo ao terapeuta. Ele insere-o na pagina inicial para aceder ao perfil.
+                      Envie este código ao terapeuta. Ele insere-o na página inicial para aceder ao perfil.
                     </p>
                     <button
                       style={styles.shareCopyBtn}
                       onClick={() => {
                         navigator.clipboard?.writeText(shareCode)
-                        setShareMsg('Codigo copiado!')
+                        setShareMsg('Código copiado!')
                         setTimeout(() => setShareMsg(null), 2000)
                       }}
                     >
-                      Copiar codigo
+                      Copiar código
                     </button>
                   </>
                 ) : (
@@ -343,13 +343,13 @@ export default function Definicoes({
                       if (code) {
                         setShareCode(code)
                       } else {
-                        setShareMsg(sharing.error || 'Erro ao criar codigo.')
+                        setShareMsg(sharing.error || 'Erro ao criar código.')
                       }
                       setShareLoading(false)
                     }}
                     disabled={shareLoading}
                   >
-                    {shareLoading ? 'A gerar codigo...' : 'Gerar codigo de partilha'}
+                    {shareLoading ? 'A gerar código...' : 'Gerar código de partilha'}
                   </button>
                 )}
                 {shareMsg && <p style={styles.shareMsg}>{shareMsg}</p>}
@@ -363,7 +363,7 @@ export default function Definicoes({
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>Recompensas Reais</h2>
         <p style={styles.rewardHint}>
-          Defina premios reais que a crianca pode trocar por estrelas.
+          Defina prémios reais que a criança pode trocar por estrelas.
         </p>
 
         {(profile?.realRewards || []).length > 0 && (
@@ -409,7 +409,7 @@ export default function Definicoes({
             type="text"
             value={newRewardName}
             onChange={(e) => setNewRewardName(e.target.value)}
-            placeholder="Nome do premio (ex: Ida ao parque)"
+            placeholder="Nome do prémio (ex: Ida ao parque)"
             maxLength={50}
           />
           <div style={styles.rewardFormRow}>

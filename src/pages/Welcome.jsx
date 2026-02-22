@@ -132,7 +132,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
               <span style={styles.newBtnTitle}>
                 {hasProfiles ? 'Criar outra escola' : 'Criar a minha escola'}
               </span>
-              <span style={styles.newBtnSub}>Personalizar para {hasProfiles ? 'outra' : 'uma'} crianca</span>
+              <span style={styles.newBtnSub}>Personalizar para {hasProfiles ? 'outra' : 'uma'} criança</span>
             </div>
           </button>
 
@@ -146,15 +146,15 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
                 >
                   <span style={styles.shareCodeBtnIcon}>🔗</span>
                   <div>
-                    <span style={styles.shareCodeBtnTitle}>Tenho um codigo de partilha</span>
-                    <span style={styles.newBtnSub}>Aceder a um perfil partilhado por uma familia</span>
+                    <span style={styles.shareCodeBtnTitle}>Tenho um código de partilha</span>
+                    <span style={styles.newBtnSub}>Aceder a um perfil partilhado por uma família</span>
                   </div>
                 </button>
               ) : (
                 <div style={styles.shareCodeForm}>
-                  <p style={styles.shareCodeFormTitle}>Codigo de partilha</p>
+                  <p style={styles.shareCodeFormTitle}>Código de partilha</p>
                   <p style={styles.shareCodeFormHint}>
-                    Insira o codigo de 6 caracteres que a familia lhe deu.
+                    Insira o código de 6 caracteres que a família lhe deu.
                   </p>
                   <input
                     style={styles.shareCodeInput}
@@ -184,7 +184,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
                           setShareMsg(null)
                         }, 2000)
                       } else {
-                        setShareMsg(sharing.error || 'Codigo invalido.')
+                        setShareMsg(sharing.error || 'Código inválido.')
                       }
                       setShareLoading(false)
                     }}
@@ -282,7 +282,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
         </div>
 
         <p style={styles.footer}>
-          Plataforma de aprendizagem inclusiva para criancas neurodivergentes
+          Plataforma de aprendizagem inclusiva para crianças neurodivergentes
         </p>
       </div>
     </div>
@@ -308,8 +308,8 @@ const styles = {
     textAlign: 'center',
   },
   mascot: {
-    width: '120px',
-    height: '120px',
+    width: '180px',
+    height: '180px',
     objectFit: 'contain',
   },
   logo: {

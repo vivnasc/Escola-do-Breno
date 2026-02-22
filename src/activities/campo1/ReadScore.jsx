@@ -98,7 +98,7 @@ export default function ReadScore({
   return (
     <ActivityShell
       title={readContent.title}
-      instruction="Le o resultado em ingles e escolhe a opcao correcta."
+      instruction="Lê o resultado em inglês e escolhe a opção correcta."
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={matchIdx}
@@ -119,7 +119,7 @@ export default function ReadScore({
         </div>
       </div>
 
-      <p style={styles.prompt}>Como se le este resultado em ingles?</p>
+      <p style={styles.prompt}>Como se lê este resultado em inglês?</p>
 
       <div style={styles.optionsList}>
         {options.map((opt, i) => (
