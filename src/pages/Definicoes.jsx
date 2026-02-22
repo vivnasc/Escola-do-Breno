@@ -214,6 +214,17 @@ export default function Definicoes({ profile, profiles, updateProfile, resetProf
         </section>
       )}
 
+      {/* Dashboard */}
+      <section style={styles.section}>
+        <h2 style={styles.sectionTitle}>Painel do Educador</h2>
+        <button
+          style={styles.dashboardBtn}
+          onClick={() => navigate('/dashboard')}
+        >
+          📊 Ver progresso detalhado
+        </button>
+      </section>
+
       {/* Actions */}
       <section style={styles.section}>
         <button
@@ -437,6 +448,18 @@ const styles = {
   profileCount: {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
+  },
+  dashboardBtn: {
+    width: '100%',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E8F5E9',
+    border: '2px solid var(--color-primary)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+    color: 'var(--color-primary-dark)',
   },
   switchBtn: {
     width: '100%',

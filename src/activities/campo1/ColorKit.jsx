@@ -4,6 +4,15 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 const COLOR_MAP = {
   red: '#CC0000',
   blue: '#1565C0',
@@ -34,7 +43,7 @@ export default function ColorKit({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const colorContent = content.color
-  const TEAMS = colorContent.items
+  const TEAMS = useMemo(() => shuffle(colorContent.items), [colorContent.items])
 
   const [teamIdx, setTeamIdx] = useState(0)
   const [selectedColors, setSelectedColors] = useState([])

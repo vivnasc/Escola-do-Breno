@@ -2,15 +2,17 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { WORKSHEET_CATEGORIES, WORKSHEETS } from '../data/worksheets'
 
-export default function Fichas({ profile, progress, completeActivity, addTrophy }) {
+export default function Fichas({ profile, progress, submitWorksheet }) {
   const navigate = useNavigate()
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [activeWorksheet, setActiveWorksheet] = useState(null)
   const [photoMode, setPhotoMode] = useState(false)
   const [photoTaken, setPhotoTaken] = useState(false)
-  const [score, setScore] = useState(null)
+  const [submitted, setSubmitted] = useState(false)
   const fileInputRef = useRef(null)
   const [photoPreview, setPhotoPreview] = useState(null)
+
+  const submissions = profile?.worksheetSubmissions || []
 
   const filteredSheets = selectedCategory
     ? WORKSHEETS.filter((ws) => ws.category === selectedCategory)
@@ -33,21 +35,27 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
     reader.onload = (ev) => {
       setPhotoPreview(ev.target.result)
       setPhotoTaken(true)
-      // Simulate "analysis" - always give positive feedback
-      setTimeout(() => {
-        const stars = Math.random() > 0.3 ? 3 : 2
-        setScore(stars)
-        if (activeWorksheet) {
-          completeActivity?.(`worksheet-${activeWorksheet.id}`, stars)
-        }
-      }, 2000)
     }
     reader.readAsDataURL(file)
   }
 
+  const handleSubmit = () => {
+    if (activeWorksheet) {
+      submitWorksheet?.(activeWorksheet.id, photoPreview)
+    }
+    setSubmitted(true)
+  }
+
+  const handleSubmitWithoutPhoto = () => {
+    if (activeWorksheet) {
+      submitWorksheet?.(activeWorksheet.id, null)
+    }
+    setSubmitted(true)
+  }
+
   const handleBack = () => {
-    if (score !== null) {
-      setScore(null)
+    if (submitted) {
+      setSubmitted(false)
       setPhotoTaken(false)
       setPhotoPreview(null)
       setPhotoMode(false)
@@ -65,32 +73,40 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
     }
   }
 
-  // Photo correction result
-  if (score !== null) {
+  // Submission result
+  if (submitted) {
+    const latestReview = submissions
+      .filter((s) => s.worksheetId === activeWorksheet?.id && s.status === 'reviewed')
+      .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))[0]
+
     return (
       <div style={styles.container} className="animate-fade-in">
         <button style={styles.backBtn} onClick={handleBack}>← Voltar</button>
         <div style={styles.resultBox}>
-          <span style={styles.resultEmoji}>
-            {score === 3 ? '🌟' : '⭐'}
-          </span>
-          <h2 style={styles.resultTitle}>
-            {score === 3 ? 'Fantastico!' : 'Muito bom!'}
-          </h2>
+          <span style={styles.resultEmoji}>📬</span>
+          <h2 style={styles.resultTitle}>Ficha enviada!</h2>
           <p style={styles.resultText}>
-            {profile?.name || 'Jogador'}, a tua escrita esta{' '}
-            {score === 3 ? 'incrivel! Um verdadeiro campeao!' : 'cada vez melhor! Continua assim!'}
+            Muito bem, {profile?.name || 'Jogador'}! A tua ficha foi guardada
+            para o teu pai ou terapeuta avaliar.
           </p>
-          <div style={styles.starsRow}>
-            {[1, 2, 3].map((s) => (
-              <span key={s} style={{
-                ...styles.star,
-                opacity: s <= score ? 1 : 0.2,
-              }}>⭐</span>
-            ))}
-          </div>
           {photoPreview && (
             <img src={photoPreview} alt="A tua ficha" style={styles.photoPreview} />
+          )}
+          {latestReview && (
+            <div style={styles.reviewBox}>
+              <p style={styles.reviewLabel}>Ultima avaliacao:</p>
+              <div style={styles.starsRow}>
+                {[1, 2, 3].map((s) => (
+                  <span key={s} style={{
+                    ...styles.star,
+                    opacity: s <= latestReview.stars ? 1 : 0.2,
+                  }}>⭐</span>
+                ))}
+              </div>
+              {latestReview.feedback && (
+                <p style={styles.reviewFeedback}>{latestReview.feedback}</p>
+              )}
+            </div>
           )}
           <button style={styles.actionBtn} onClick={handleBack}>
             Fazer outra ficha
@@ -122,12 +138,16 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
           />
 
           {photoTaken ? (
-            <div style={styles.analyzing}>
-              <span style={styles.analyzeEmoji}>🔍</span>
-              <p style={styles.analyzeText}>A analisar a tua escrita...</p>
-              <div style={styles.loadingBar}>
-                <div style={styles.loadingFill} />
-              </div>
+            <div style={styles.previewSection}>
+              {photoPreview && (
+                <img src={photoPreview} alt="A tua ficha" style={styles.photoPreview} />
+              )}
+              <button style={styles.submitBtn} onClick={handleSubmit}>
+                Enviar para avaliacao
+              </button>
+              <button style={styles.retakeBtn} onClick={() => { setPhotoTaken(false); setPhotoPreview(null) }}>
+                Tirar outra foto
+              </button>
             </div>
           ) : (
             <>
@@ -136,12 +156,7 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
               </button>
               <button
                 style={styles.skipBtn}
-                onClick={() => {
-                  setScore(2)
-                  if (activeWorksheet) {
-                    completeActivity?.(`worksheet-${activeWorksheet.id}`, 2)
-                  }
-                }}
+                onClick={handleSubmitWithoutPhoto}
               >
                 Completar sem foto
               </button>
@@ -155,6 +170,9 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
   // Worksheet print view
   if (activeWorksheet) {
     const ws = activeWorksheet
+    const wsSubmissions = submissions.filter((s) => s.worksheetId === ws.id)
+    const hasReview = wsSubmissions.some((s) => s.status === 'reviewed')
+
     return (
       <div style={styles.container} className="animate-fade-in">
         <div className="no-print">
@@ -184,7 +202,7 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
           ))}
 
           <div style={styles.wsFooter}>
-            ⚽ PITCH — A Escola do {profile?.name || 'Breno'} ⚽
+            PITCH — A Escola do {profile?.name || 'Breno'}
           </div>
         </div>
 
@@ -196,9 +214,32 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
             style={styles.photoBtn}
             onClick={() => setPhotoMode(true)}
           >
-            📸 Ja completei! Tirar foto
+            📸 Ja completei! Enviar para avaliacao
           </button>
         </div>
+
+        {hasReview && (
+          <div style={styles.pastReviews} className="no-print">
+            <p style={styles.pastReviewsTitle}>Avaliacoes anteriores:</p>
+            {wsSubmissions
+              .filter((s) => s.status === 'reviewed')
+              .sort((a, b) => new Date(b.reviewedAt) - new Date(a.reviewedAt))
+              .slice(0, 3)
+              .map((s) => (
+                <div key={s.id} style={styles.pastReviewCard}>
+                  <div style={styles.starsRowSmall}>
+                    {[1, 2, 3].map((n) => (
+                      <span key={n} style={{ opacity: n <= s.stars ? 1 : 0.2 }}>⭐</span>
+                    ))}
+                  </div>
+                  {s.feedback && <p style={styles.pastFeedback}>{s.feedback}</p>}
+                  <span style={styles.pastDate}>
+                    {new Date(s.reviewedAt).toLocaleDateString('pt-PT')}
+                  </span>
+                </div>
+              ))}
+          </div>
+        )}
       </div>
     )
   }
@@ -209,7 +250,7 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
       <header style={styles.headerRow}>
         <div>
           <h1 style={styles.pageTitle}>Fichas de Escrita</h1>
-          <p style={styles.pageDesc}>Imprime, escreve e tira uma foto!</p>
+          <p style={styles.pageDesc}>Imprime, escreve e envia para avaliacao!</p>
         </div>
         <span style={styles.headerEmoji}>✏️</span>
       </header>
@@ -241,6 +282,10 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
       <div style={styles.sheetList}>
         {filteredSheets.map((ws) => {
           const cat = WORKSHEET_CATEGORIES.find((c) => c.id === ws.category)
+          const wsSubmissions = submissions.filter((s) => s.worksheetId === ws.id)
+          const pendingCount = wsSubmissions.filter((s) => s.status === 'pending').length
+          const reviewedCount = wsSubmissions.filter((s) => s.status === 'reviewed').length
+
           return (
             <button
               key={ws.id}
@@ -253,16 +298,24 @@ export default function Fichas({ profile, progress, completeActivity, addTrophy 
                   <span style={styles.sheetTitle}>{ws.title}</span>
                   <span style={styles.sheetSubtitle}>{ws.subtitle}</span>
                 </div>
-                <div style={styles.difficultyDots}>
-                  {[1, 2, 3].map((d) => (
-                    <span
-                      key={d}
-                      style={{
-                        ...styles.diffDot,
-                        backgroundColor: d <= ws.difficulty ? cat?.color || '#666' : '#E0E0E0',
-                      }}
-                    />
-                  ))}
+                <div style={styles.statusCol}>
+                  {reviewedCount > 0 && (
+                    <span style={styles.statusReviewed}>⭐ {reviewedCount}x</span>
+                  )}
+                  {pendingCount > 0 && (
+                    <span style={styles.statusPending}>📬 {pendingCount}</span>
+                  )}
+                  <div style={styles.difficultyDots}>
+                    {[1, 2, 3].map((d) => (
+                      <span
+                        key={d}
+                        style={{
+                          ...styles.diffDot,
+                          backgroundColor: d <= ws.difficulty ? cat?.color || '#666' : '#E0E0E0',
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </button>
@@ -366,6 +419,22 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
   },
+  statusCol: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: '4px',
+  },
+  statusPending: {
+    fontSize: 'var(--font-size-sm)',
+    color: '#E65100',
+    fontWeight: 600,
+  },
+  statusReviewed: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-primary)',
+    fontWeight: 600,
+  },
   difficultyDots: {
     display: 'flex',
     gap: '3px',
@@ -375,7 +444,7 @@ const styles = {
     height: '8px',
     borderRadius: '50%',
   },
-  // Worksheet view (printable)
+  // Worksheet view
   worksheetView: {
     backgroundColor: 'white',
     padding: 'var(--space-lg)',
@@ -509,33 +578,33 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
   },
-  analyzing: {
+  previewSection: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     gap: 'var(--space-md)',
   },
-  analyzeEmoji: {
-    fontSize: '3rem',
-    animation: 'gentleBounce 1s ease infinite',
-  },
-  analyzeText: {
-    fontWeight: 600,
-    fontSize: 'var(--font-size-lg)',
-  },
-  loadingBar: {
-    width: '200px',
-    height: '8px',
-    backgroundColor: 'var(--color-border)',
-    borderRadius: '4px',
-    overflow: 'hidden',
-  },
-  loadingFill: {
-    height: '100%',
+  submitBtn: {
+    padding: 'var(--space-md) var(--space-xl)',
     backgroundColor: 'var(--color-primary)',
-    borderRadius: '4px',
-    animation: 'shimmer 2s ease infinite',
-    width: '100%',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+  },
+  retakeBtn: {
+    padding: 'var(--space-sm) var(--space-lg)',
+    backgroundColor: 'transparent',
+    border: '1px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 500,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
   },
   // Results
   resultBox: {
@@ -559,9 +628,34 @@ const styles = {
     color: 'var(--color-text-secondary)',
     lineHeight: 1.5,
   },
+  reviewBox: {
+    padding: 'var(--space-md)',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid var(--color-primary)',
+    textAlign: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  reviewLabel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: 'var(--color-text-secondary)',
+  },
+  reviewFeedback: {
+    fontSize: 'var(--font-size-base)',
+    color: 'var(--color-text)',
+    fontStyle: 'italic',
+  },
   starsRow: {
     display: 'flex',
     gap: 'var(--space-sm)',
+    justifyContent: 'center',
+  },
+  starsRowSmall: {
+    display: 'flex',
+    gap: '2px',
   },
   star: {
     fontSize: '2.5rem',
@@ -583,5 +677,34 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-base)',
+  },
+  pastReviews: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    marginTop: 'var(--space-md)',
+  },
+  pastReviewsTitle: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: 'var(--color-text-secondary)',
+  },
+  pastReviewCard: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-sm)',
+  },
+  pastFeedback: {
+    flex: 1,
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text)',
+    fontStyle: 'italic',
+  },
+  pastDate: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
   },
 }

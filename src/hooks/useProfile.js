@@ -67,6 +67,7 @@ const DEFAULT_PROFILE = {
   encouragements: [],
   weeklyProgress: {},
   lastWeekReset: null,
+  worksheetSubmissions: [],
 }
 
 function generateId() {
@@ -275,6 +276,50 @@ export function useProfile() {
     )
   }, [activeId])
 
+  const submitWorksheet = useCallback(
+    (worksheetId, photoData) => {
+      const submission = {
+        id: generateId(),
+        worksheetId,
+        photoData: photoData || null,
+        date: new Date().toISOString(),
+        status: 'pending',
+        stars: null,
+        feedback: null,
+      }
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          return {
+            ...p,
+            worksheetSubmissions: [...(p.worksheetSubmissions || []), submission],
+          }
+        })
+      )
+      return submission.id
+    },
+    [activeId]
+  )
+
+  const reviewWorksheet = useCallback(
+    (submissionId, stars, feedback) => {
+      setProfiles((prev) =>
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          return {
+            ...p,
+            worksheetSubmissions: (p.worksheetSubmissions || []).map((s) =>
+              s.id === submissionId
+                ? { ...s, status: 'reviewed', stars, feedback, reviewedAt: new Date().toISOString() }
+                : s
+            ),
+          }
+        })
+      )
+    },
+    [activeId]
+  )
+
   const resetAll = useCallback(() => {
     if (activeId) {
       setProfiles((prev) => prev.filter((p) => p.id !== activeId))
@@ -306,5 +351,7 @@ export function useProfile() {
     resetWeekly,
     resetAll,
     resetEverything,
+    submitWorksheet,
+    reviewWorksheet,
   }
 }

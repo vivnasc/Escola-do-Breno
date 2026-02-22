@@ -1,7 +1,16 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
 
 export default function FairPlay({
   registerClick,
@@ -12,7 +21,7 @@ export default function FairPlay({
   adaptive,
 }) {
   const content = getContent(adaptive?.universe?.id)
-  const SCENARIOS = content.fairPlay
+  const SCENARIOS = useMemo(() => shuffle(content.fairPlay), [content.fairPlay])
 
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)

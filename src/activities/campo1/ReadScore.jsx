@@ -4,6 +4,15 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
 import { getContent } from '../../data/universeContent'
 
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 const numberToWord = (n) => {
   const words = ['zero', 'one', 'two', 'three', 'four', 'five']
   return words[n] || String(n)
@@ -18,9 +27,9 @@ export default function ReadScore({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const readContent = content.read
-  const MATCHES = readContent.items.map(m => ({
+  const MATCHES = useMemo(() => shuffle(readContent.items.map(m => ({
     home: m.home, away: m.away, homeGoals: m.homeScore, awayGoals: m.awayScore
-  }))
+  }))), [readContent.items])
 
   const [matchIdx, setMatchIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)

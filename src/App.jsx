@@ -15,6 +15,7 @@ import Comunidade from './pages/Comunidade'
 import Loja from './pages/Loja'
 import Desafios from './pages/Desafios'
 import Definicoes from './pages/Definicoes'
+import Dashboard from './pages/Dashboard'
 import BancoDaCalma from './components/BancoDaCalma'
 import BreakReminder from './components/BreakReminder'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
@@ -157,8 +158,7 @@ export default function App() {
             <Fichas
               profile={profileData.profile}
               progress={progressData.progress}
-              completeActivity={progressData.completeActivity}
-              addTrophy={progressData.addTrophy}
+              submitWorksheet={profileData.submitWorksheet}
             />
           } />
           <Route path="/noticias" element={
@@ -192,6 +192,15 @@ export default function App() {
               updateProfile={profileData.updateProfile}
               resetProfile={handleResetProfile}
               deleteProfile={profileData.deleteProfile}
+            />
+          } />
+
+          <Route path="/dashboard" element={
+            <Dashboard
+              profile={profileData.profile}
+              progress={progressData.progress}
+              reviewWorksheet={profileData.reviewWorksheet}
+              addEncouragement={profileData.addEncouragement}
             />
           } />
 

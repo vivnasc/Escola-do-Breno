@@ -3,6 +3,15 @@ import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { getContent } from '../../data/universeContent'
 
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
 function generateProblem(scenarios) {
   return scenarios[Math.floor(Math.random() * scenarios.length)]
 }
@@ -23,7 +32,8 @@ export default function TeamDivision({
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateProblem(content.division), [round, content.division])
+  const scenarios = useMemo(() => shuffle(content.division), [content.division])
+  const problem = useMemo(() => generateProblem(scenarios), [round, scenarios])
   const answer = problem.total / problem.groups
 
   const options = useMemo(() => {

@@ -83,6 +83,46 @@ const CONTENT = {
         ],
         strategy: 'Sente orgulho do teu trabalho! Agradece ao treinador e aos colegas.',
       },
+      {
+        situation: 'O treinador escolhe-te como capitao da equipa.',
+        emoji: '©️',
+        emotions: [
+          { name: 'Surpreso', emoji: '😲', correct: true },
+          { name: 'Triste', emoji: '😢', correct: false },
+          { name: 'Zangado', emoji: '😠', correct: false },
+        ],
+        strategy: 'Que surpresa boa! Agradece ao treinador e da o teu melhor para liderar a equipa.',
+      },
+      {
+        situation: 'Lesionas-te durante o treino e tens de parar.',
+        emoji: '🤕',
+        emotions: [
+          { name: 'Frustrado', emoji: '😤', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Divertido', emoji: '🤣', correct: false },
+        ],
+        strategy: 'E dificil parar, mas o corpo precisa de descanso. Segue os conselhos do medico e volta mais forte!',
+      },
+      {
+        situation: 'Um colega faz troça de ti por teres falhado um passe.',
+        emoji: '😣',
+        emotions: [
+          { name: 'Envergonhado', emoji: '😳', correct: true },
+          { name: 'Alegre', emoji: '😄', correct: false },
+          { name: 'Com sono', emoji: '😴', correct: false },
+        ],
+        strategy: 'Ninguem joga sempre bem. Ignora os comentarios maldosos e continua a esforcar-te.',
+      },
+      {
+        situation: 'A tua equipa empata um jogo que estava a perder no ultimo minuto!',
+        emoji: '⏱️',
+        emotions: [
+          { name: 'Aliviado', emoji: '😮‍💨', correct: true },
+          { name: 'Zangado', emoji: '😠', correct: false },
+          { name: 'Aborrecido', emoji: '😐', correct: false },
+        ],
+        strategy: 'Que alivio! Nunca se deve desistir. Celebra o esforco de toda a equipa.',
+      },
     ],
 
     fairPlay: [
@@ -146,6 +186,46 @@ const CONTENT = {
         ],
         lesson: 'Apoiar os colegas quando estao tristes mostra que es um verdadeiro amigo e jogador de equipa!',
       },
+      {
+        situation: 'Um jogador adversario cai no chao durante uma jogada. O que fazes?',
+        emoji: '🤝',
+        options: [
+          { text: 'Paro o jogo e ajudo-o a levantar-se', correct: true },
+          { text: 'Continuo a jogar e ignoro-o', correct: false },
+          { text: 'Rio-me porque caiu', correct: false },
+        ],
+        lesson: 'Ajudar um adversario mostra verdadeiro espirito desportivo. O respeito esta acima do resultado!',
+      },
+      {
+        situation: 'A bola sai mas o arbitro nao viu. So tu sabes que foi a tua equipa a tocar por ultimo. O que fazes?',
+        emoji: '⚖️',
+        options: [
+          { text: 'Digo a verdade ao arbitro', correct: true },
+          { text: 'Fico calado e aproveito', correct: false },
+          { text: 'Culpo o adversario', correct: false },
+        ],
+        lesson: 'Ser honesto e mais importante do que ganhar. O fair play comeca com a verdade!',
+      },
+      {
+        situation: 'Es o melhor marcador da equipa mas um colega nunca marca. O que fazes?',
+        emoji: '🤜',
+        options: [
+          { text: 'Passo-lhe a bola para ele marcar tambem', correct: true },
+          { text: 'Continuo a marcar sempre eu', correct: false },
+          { text: 'Digo-lhe que nao sabe jogar', correct: false },
+        ],
+        lesson: 'Partilhar oportunidades faz toda a equipa crescer. Um bom jogador faz os outros melhores!',
+      },
+      {
+        situation: 'A tua equipa perde um jogo importante. O adversario vem cumprimentar-te. O que fazes?',
+        emoji: '🫱',
+        options: [
+          { text: 'Cumprimento-o e dou-lhe os parabens', correct: true },
+          { text: 'Recuso-me a cumprimentar', correct: false },
+          { text: 'Vou embora sem falar com ninguem', correct: false },
+        ],
+        lesson: 'Saber perder com dignidade e tao importante como saber ganhar. Os grandes campeoes respeitam sempre!',
+      },
     ],
 
     division: [
@@ -157,6 +237,10 @@ const CONTENT = {
       { total: 6, groups: 3, context: '6 pares de luvas para 3 guarda-redes.' },
       { total: 16, groups: 4, context: '16 cones para marcar 4 zonas do campo.' },
       { total: 9, groups: 3, context: '9 jogadores divididos em 3 mini-equipas.' },
+      { total: 18, groups: 6, context: '18 garrafas de agua para 6 jogadores.' },
+      { total: 24, groups: 4, context: '24 chuteiras para 4 bancadas do balneario.' },
+      { total: 14, groups: 7, context: '14 caneleiras para 7 jogadores.' },
+      { total: 21, groups: 3, context: '21 camisolas para 3 equipas do torneio.' },
     ],
 
     shop: {
@@ -289,6 +373,46 @@ const CONTENT = {
         ],
         strategy: 'Sente orgulho do teu trabalho! Agradece ao guia e aos colegas de equipa.',
       },
+      {
+        situation: 'Encontras uma pegada gigante de dinossauro na rocha!',
+        emoji: '🦶',
+        emotions: [
+          { name: 'Surpreso', emoji: '😲', correct: true },
+          { name: 'Triste', emoji: '😢', correct: false },
+          { name: 'Zangado', emoji: '😠', correct: false },
+        ],
+        strategy: 'Que descoberta incrivel! Chama o guia e partilha a novidade com o grupo.',
+      },
+      {
+        situation: 'O fossil que escavaste durante horas parte-se ao meio.',
+        emoji: '💔',
+        emotions: [
+          { name: 'Frustrado', emoji: '😤', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Divertido', emoji: '🤣', correct: false },
+        ],
+        strategy: 'E frustrante, mas acontece! Com cola especial e paciencia, muitos fosseis podem ser reparados.',
+      },
+      {
+        situation: 'Outro grupo goza contigo porque ainda nao encontraste nenhum fossil.',
+        emoji: '😣',
+        emotions: [
+          { name: 'Envergonhado', emoji: '😳', correct: true },
+          { name: 'Alegre', emoji: '😄', correct: false },
+          { name: 'Com sono', emoji: '😴', correct: false },
+        ],
+        strategy: 'Escavar leva tempo. Os maiores descobridores procuraram durante anos! Continua com calma.',
+      },
+      {
+        situation: 'O museu convida o teu grupo para ver uma exposicao especial antes de abrir ao publico.',
+        emoji: '🎟️',
+        emotions: [
+          { name: 'Entusiasmado', emoji: '🤩', correct: true },
+          { name: 'Zangado', emoji: '😠', correct: false },
+          { name: 'Aborrecido', emoji: '😐', correct: false },
+        ],
+        strategy: 'Que privilegio! Aproveita cada momento e tira notas sobre o que viste.',
+      },
     ],
 
     fairPlay: [
@@ -352,6 +476,46 @@ const CONTENT = {
         ],
         lesson: 'Apoiar os amigos nos momentos dificeis mostra que es um verdadeiro companheiro de aventura!',
       },
+      {
+        situation: 'Encontras um fossil mas um colega diz que o viu primeiro. O que fazes?',
+        emoji: '🦴',
+        options: [
+          { text: 'Partilho a descoberta e trabalhamos juntos', correct: true },
+          { text: 'Digo que e so meu e escondo-o', correct: false },
+          { text: 'Atiro o fossil para longe', correct: false },
+        ],
+        lesson: 'Partilhar descobertas e o espirito da ciencia. Os grandes cientistas trabalham em equipa!',
+      },
+      {
+        situation: 'O guia pede-te para deixar um colega mais novo escavar primeiro. O que fazes?',
+        emoji: '⛏️',
+        options: [
+          { text: 'Deixo-o ir primeiro e ajudo-o se precisar', correct: true },
+          { text: 'Recuso e digo que sou mais experiente', correct: false },
+          { text: 'Fico zangado e vou embora', correct: false },
+        ],
+        lesson: 'Dar a vez aos mais novos mostra maturidade. Um dia tambem te ajudaram a comecar!',
+      },
+      {
+        situation: 'Um colega estraga a tua escavacao sem querer. O que fazes?',
+        emoji: '😬',
+        options: [
+          { text: 'Aceito o pedido de desculpa e recomecamos juntos', correct: true },
+          { text: 'Grito com ele e culpo-o', correct: false },
+          { text: 'Estrago a escavacao dele tambem', correct: false },
+        ],
+        lesson: 'Acidentes acontecem. Perdoar e recomecar mostra que es um verdadeiro explorador!',
+      },
+      {
+        situation: 'O teu grupo tem de escolher que sala do museu visitar e tu nao concordas com a escolha. O que fazes?',
+        emoji: '🏛️',
+        options: [
+          { text: 'Aceito a decisao do grupo e aproveito a visita', correct: true },
+          { text: 'Reclamo e insisto na minha escolha', correct: false },
+          { text: 'Separo-me do grupo e vou sozinho', correct: false },
+        ],
+        lesson: 'Respeitar as decisoes do grupo faz parte de trabalhar em equipa. Podes sugerir a tua sala para a proxima vez!',
+      },
     ],
 
     division: [
@@ -363,6 +527,10 @@ const CONTENT = {
       { total: 6, groups: 3, context: '6 lupas para 3 pares de exploradores.' },
       { total: 16, groups: 4, context: '16 marcadores para 4 zonas de escavacao.' },
       { total: 9, groups: 3, context: '9 exploradores divididos em 3 mini-equipas.' },
+      { total: 18, groups: 6, context: '18 fosseis para guardar em 6 vitrinas do museu.' },
+      { total: 24, groups: 4, context: '24 pinceis de escavacao para 4 mesas de trabalho.' },
+      { total: 14, groups: 7, context: '14 amostras de terra para 7 tubos de ensaio.' },
+      { total: 21, groups: 3, context: '21 livros de dinossauros para 3 prateleiras da biblioteca.' },
     ],
 
     shop: {
@@ -495,6 +663,46 @@ const CONTENT = {
         ],
         strategy: 'Sente orgulho! Agradece ao comandante e a tripulacao que te ajudou.',
       },
+      {
+        situation: 'Avistas uma estrela cadente pela janela da estacao espacial!',
+        emoji: '🌠',
+        emotions: [
+          { name: 'Entusiasmado', emoji: '🤩', correct: true },
+          { name: 'Triste', emoji: '😢', correct: false },
+          { name: 'Zangado', emoji: '😠', correct: false },
+        ],
+        strategy: 'Que momento magico! Regista no diario de bordo e partilha com a tripulacao.',
+      },
+      {
+        situation: 'O teu fato espacial avaria e nao podes sair da nave.',
+        emoji: '🧑‍🚀',
+        emotions: [
+          { name: 'Frustrado', emoji: '😤', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Divertido', emoji: '🤣', correct: false },
+        ],
+        strategy: 'E frustrante, mas a seguranca e primeiro! Pede ajuda ao tecnico e espera com paciencia.',
+      },
+      {
+        situation: 'Um colega diz que a tua experiencia cientifica nao vai funcionar.',
+        emoji: '🔬',
+        emotions: [
+          { name: 'Envergonhado', emoji: '😳', correct: true },
+          { name: 'Alegre', emoji: '😄', correct: false },
+          { name: 'Com sono', emoji: '😴', correct: false },
+        ],
+        strategy: 'Nao fiques triste. Todos os cientistas erram. Tenta outra vez e aprende com os erros!',
+      },
+      {
+        situation: 'Depois de meses no espaco, finalmente ves a Terra pela janela ao regressar!',
+        emoji: '🌍',
+        emotions: [
+          { name: 'Aliviado', emoji: '😮‍💨', correct: true },
+          { name: 'Zangado', emoji: '😠', correct: false },
+          { name: 'Aborrecido', emoji: '😐', correct: false },
+        ],
+        strategy: 'Que alivio enorme! Regressar a casa e sempre especial. Celebra com a tripulacao.',
+      },
     ],
 
     fairPlay: [
@@ -558,6 +766,46 @@ const CONTENT = {
         ],
         lesson: 'Encorajar os colegas faz toda a equipa mais forte e confiante!',
       },
+      {
+        situation: 'Reparas que um colega cometeu um erro nos calculos da missao, mas ninguem viu. O que fazes?',
+        emoji: '🔢',
+        options: [
+          { text: 'Aviso-o em privado para corrigir o erro', correct: true },
+          { text: 'Fico calado para ele ter problemas', correct: false },
+          { text: 'Digo a todos que ele errou', correct: false },
+        ],
+        lesson: 'Corrigir erros em privado mostra respeito. No espaco, um pequeno erro pode ser muito grave!',
+      },
+      {
+        situation: 'Ha so um lugar para ver a chuva de meteoritos pela janela da estacao. O que fazes?',
+        emoji: '☄️',
+        options: [
+          { text: 'Revezamo-nos para todos verem', correct: true },
+          { text: 'Fico eu no melhor lugar o tempo todo', correct: false },
+          { text: 'Empurro os outros para ficar a frente', correct: false },
+        ],
+        lesson: 'Partilhar as experiencias especiais torna-as ainda melhores. A tripulacao e uma familia!',
+      },
+      {
+        situation: 'A tua experiencia cientifica correu melhor do que a de um colega. O que fazes?',
+        emoji: '🧪',
+        options: [
+          { text: 'Ajudo-o a perceber o que correu mal na dele', correct: true },
+          { text: 'Gabei-me do meu resultado', correct: false },
+          { text: 'Digo que a experiencia dele nao presta', correct: false },
+        ],
+        lesson: 'Ajudar os colegas a melhorar e o que fazem os verdadeiros cientistas. A ciencia e colaboracao!',
+      },
+      {
+        situation: 'O comandante pede voluntarios para uma tarefa dificil e perigosa. O que fazes?',
+        emoji: '🛡️',
+        options: [
+          { text: 'Ofereco-me e trabalho em equipa para a cumprir', correct: true },
+          { text: 'Escondo-me para nao ser escolhido', correct: false },
+          { text: 'Digo que os outros devem ir', correct: false },
+        ],
+        lesson: 'A coragem de se voluntariar mostra espirito de equipa. No espaco, todos contam uns com os outros!',
+      },
     ],
 
     division: [
@@ -569,6 +817,10 @@ const CONTENT = {
       { total: 6, groups: 3, context: '6 tablets para 3 pares de astronautas.' },
       { total: 16, groups: 4, context: '16 sensores para 4 estacoes de monitorizacao.' },
       { total: 9, groups: 3, context: '9 astronautas divididos em 3 mini-equipas.' },
+      { total: 18, groups: 6, context: '18 paineis solares para 6 modulos da estacao.' },
+      { total: 24, groups: 4, context: '24 racoes espaciais para 4 semanas de missao.' },
+      { total: 14, groups: 7, context: '14 ferramentas para 7 astronautas na caminhada espacial.' },
+      { total: 21, groups: 3, context: '21 amostras de solo marciano para 3 laboratorios.' },
     ],
 
     shop: {
@@ -701,6 +953,46 @@ const CONTENT = {
         ],
         strategy: 'Sente orgulho! Cuidar dos animais e uma das coisas mais bonitas que se pode fazer.',
       },
+      {
+        situation: 'O veterinario pede-te para cuidar de um animal que te assusta um pouco.',
+        emoji: '🐍',
+        emotions: [
+          { name: 'Nervoso', emoji: '😰', correct: true },
+          { name: 'Alegre', emoji: '😄', correct: false },
+          { name: 'Aborrecido', emoji: '😐', correct: false },
+        ],
+        strategy: 'E normal ter receio! Pede ao veterinario que te ensine como lidar com ele. Aos poucos o medo passa.',
+      },
+      {
+        situation: 'Um colega goza contigo porque gostas de cuidar de insectos.',
+        emoji: '🐛',
+        emotions: [
+          { name: 'Envergonhado', emoji: '😳', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Com sono', emoji: '😴', correct: false },
+        ],
+        strategy: 'Todos os animais sao importantes, ate os mais pequenos! Nao tenhas vergonha do que gostas.',
+      },
+      {
+        situation: 'O passaro que cuidaste desde bebe finalmente aprende a voar!',
+        emoji: '🕊️',
+        emotions: [
+          { name: 'Entusiasmado', emoji: '🤩', correct: true },
+          { name: 'Zangado', emoji: '😠', correct: false },
+          { name: 'Triste', emoji: '😢', correct: false },
+        ],
+        strategy: 'Que momento especial! Celebra e partilha a novidade com os colegas. O teu cuidado fez a diferenca!',
+      },
+      {
+        situation: 'Chegas a reserva e descobres que o teu animal preferido fugiu durante a noite.',
+        emoji: '🔍',
+        emotions: [
+          { name: 'Preocupado', emoji: '😟', correct: true },
+          { name: 'Divertido', emoji: '🤣', correct: false },
+          { name: 'Com fome', emoji: '🤤', correct: false },
+        ],
+        strategy: 'E normal ficar preocupado. Avisa o tratador e ajuda nas buscas. Com calma, vao encontra-lo!',
+      },
     ],
 
     fairPlay: [
@@ -764,6 +1056,46 @@ const CONTENT = {
         ],
         lesson: 'Apoiar os amigos quando estao preocupados com os animais mostra empatia e bondade!',
       },
+      {
+        situation: 'Ha um so binouculo e dois colegas querem observar os passaros ao mesmo tempo. O que fazes?',
+        emoji: '🔭',
+        options: [
+          { text: 'Sugiro que se revezem e partilhem', correct: true },
+          { text: 'Tiro o binoculo e fico eu com ele', correct: false },
+          { text: 'Vou-me embora porque nao quero esperar', correct: false },
+        ],
+        lesson: 'Partilhar os recursos mostra maturidade. Quando esperamos, todos acabam por aproveitar!',
+      },
+      {
+        situation: 'Um colega tem medo de um animal inofensivo e os outros riem-se. O que fazes?',
+        emoji: '🐸',
+        options: [
+          { text: 'Defendo-o e digo que ter medo e normal', correct: true },
+          { text: 'Rio-me tambem', correct: false },
+          { text: 'Ignoro a situacao', correct: false },
+        ],
+        lesson: 'Defender quem esta a ser gozado e corajoso. Toda a gente tem medos e isso e normal!',
+      },
+      {
+        situation: 'O tratador pede-te para ensinares a um colega mais novo como dar comida aos coelhos. O que fazes?',
+        emoji: '🐇',
+        options: [
+          { text: 'Ensino-lhe com paciencia e passo a passo', correct: true },
+          { text: 'Digo-lhe para aprender sozinho', correct: false },
+          { text: 'Faco tudo eu porque sou mais rapido', correct: false },
+        ],
+        lesson: 'Ensinar os mais novos e uma responsabilidade bonita. Quando ensinamos, tambem aprendemos!',
+      },
+      {
+        situation: 'O teu grupo perde o concurso de melhor projeto sobre animais. O que fazes?',
+        emoji: '📋',
+        options: [
+          { text: 'Dou os parabens ao grupo vencedor e penso no que posso melhorar', correct: true },
+          { text: 'Digo que o concurso nao foi justo', correct: false },
+          { text: 'Fico zangado e nao falo com ninguem', correct: false },
+        ],
+        lesson: 'Saber perder com elegancia e aprender com os outros faz-nos crescer. Da proxima vez, sera melhor!',
+      },
     ],
 
     division: [
@@ -775,6 +1107,10 @@ const CONTENT = {
       { total: 6, groups: 3, context: '6 escovas para 3 pares de tratadores.' },
       { total: 16, groups: 4, context: '16 brinquedos para 4 grupos de animais.' },
       { total: 9, groups: 3, context: '9 tratadores divididos em 3 mini-equipas.' },
+      { total: 18, groups: 6, context: '18 cenouras para 6 coelhos da reserva.' },
+      { total: 24, groups: 4, context: '24 peixes para 4 golfinhos do aquario.' },
+      { total: 14, groups: 7, context: '14 ninhos para 7 pares de passaros.' },
+      { total: 21, groups: 3, context: '21 maças para 3 grupos de elefantes.' },
     ],
 
     shop: {
@@ -907,6 +1243,46 @@ const CONTENT = {
         ],
         strategy: 'Sente orgulho da tua criacao! Agradece a quem te inspirou e continua a compor.',
       },
+      {
+        situation: 'O professor escolhe outro colega para o solo em vez de ti.',
+        emoji: '🎤',
+        emotions: [
+          { name: 'Frustrado', emoji: '😤', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Divertido', emoji: '🤣', correct: false },
+        ],
+        strategy: 'E dificil nao ser escolhido, mas havera mais oportunidades. Continua a praticar e mostra o teu valor!',
+      },
+      {
+        situation: 'Um colega diz que o teu instrumento e estranho e ninguem gosta dele.',
+        emoji: '😣',
+        emotions: [
+          { name: 'Envergonhado', emoji: '😳', correct: true },
+          { name: 'Alegre', emoji: '😄', correct: false },
+          { name: 'Com sono', emoji: '😴', correct: false },
+        ],
+        strategy: 'Todos os instrumentos sao especiais! Nao deixes os outros mudar o que gostas. Toca com orgulho!',
+      },
+      {
+        situation: 'O publico aplaude de pe no final do teu concerto!',
+        emoji: '👏',
+        emotions: [
+          { name: 'Entusiasmado', emoji: '🤩', correct: true },
+          { name: 'Zangado', emoji: '😠', correct: false },
+          { name: 'Triste', emoji: '😢', correct: false },
+        ],
+        strategy: 'Que momento incrivel! Agradece ao publico com uma venia e celebra com a banda.',
+      },
+      {
+        situation: 'Depois de semanas a ensaiar, o concerto e cancelado por causa da chuva.',
+        emoji: '🌧️',
+        emotions: [
+          { name: 'Desapontado', emoji: '😞', correct: true },
+          { name: 'Feliz', emoji: '😊', correct: false },
+          { name: 'Com fome', emoji: '🤤', correct: false },
+        ],
+        strategy: 'E muito desapontante, mas o trabalho nao foi em vao. O concerto sera remarcado e vais estar ainda mais preparado!',
+      },
     ],
 
     fairPlay: [
@@ -970,6 +1346,46 @@ const CONTENT = {
         ],
         lesson: 'Encorajar os colegas antes de uma actuacao faz toda a banda sentir-se mais confiante!',
       },
+      {
+        situation: 'Reparas que um colega esta a tocar as notas erradas no ensaio. O que fazes?',
+        emoji: '🎼',
+        options: [
+          { text: 'Falo com ele em privado e ajudo-o a corrigir', correct: true },
+          { text: 'Digo a todos que ele esta a tocar mal', correct: false },
+          { text: 'Nao digo nada e deixo-o errar no concerto', correct: false },
+        ],
+        lesson: 'Ajudar um colega em privado mostra respeito e faz toda a banda soar melhor!',
+      },
+      {
+        situation: 'A banda tem de escolher a musica para o concerto e a tua sugestao nao foi escolhida. O que fazes?',
+        emoji: '🗳️',
+        options: [
+          { text: 'Aceito a escolha do grupo e ensaio com entusiasmo', correct: true },
+          { text: 'Recuso-me a tocar se nao for a minha musica', correct: false },
+          { text: 'Toco mal de proposito para estragar', correct: false },
+        ],
+        lesson: 'Aceitar as decisoes do grupo faz parte de tocar em banda. A tua sugestao pode ser a proxima!',
+      },
+      {
+        situation: 'Um colega mais novo erra durante a actuacao e fica muito envergonhado. O que fazes?',
+        emoji: '😊',
+        options: [
+          { text: 'Digo-lhe que todos erram e que tocou bem no resto', correct: true },
+          { text: 'Reclamo porque estragou a actuacao', correct: false },
+          { text: 'Faco de conta que nao o conhesso', correct: false },
+        ],
+        lesson: 'Errar faz parte de aprender. Apoiar quem erra e o que fazem os verdadeiros musicos!',
+      },
+      {
+        situation: 'A banda adversaria no concurso toca muito bem. O que fazes?',
+        emoji: '👏',
+        options: [
+          { text: 'Aplaudo e reconheco que tocaram muito bem', correct: true },
+          { text: 'Digo que nao foi assim tao bom', correct: false },
+          { text: 'Fico de bracos cruzados sem aplaudir', correct: false },
+        ],
+        lesson: 'Reconhecer o talento dos outros mostra grandeza. A musica une as pessoas, nao as separa!',
+      },
     ],
 
     division: [
@@ -981,6 +1397,10 @@ const CONTENT = {
       { total: 6, groups: 3, context: '6 guitarras para 3 pares de musicos.' },
       { total: 16, groups: 4, context: '16 cadeiras para 4 filas da orquestra.' },
       { total: 9, groups: 3, context: '9 cantores divididos em 3 grupos vocais.' },
+      { total: 18, groups: 6, context: '18 palhetas de guitarra para 6 guitarristas.' },
+      { total: 24, groups: 4, context: '24 folhas de partitura para 4 grupos de musicos.' },
+      { total: 14, groups: 7, context: '14 estantes de partitura para 7 pares de musicos.' },
+      { total: 21, groups: 3, context: '21 CDs para 3 prateleiras da loja do concerto.' },
     ],
 
     shop: {
