@@ -183,6 +183,11 @@ export function useProfile() {
     }))
   }, [])
 
+  const resetAll = useCallback(() => {
+    localStorage.removeItem(STORAGE_KEY)
+    setProfile(DEFAULT_PROFILE)
+  }, [])
+
   return {
     profile,
     updateProfile,
@@ -193,5 +198,6 @@ export function useProfile() {
     addEncouragement,
     updateWeeklyProgress,
     resetWeekly,
+    resetAll,
   }
 }

@@ -4,15 +4,14 @@ import { AVATARS } from '../hooks/useProfile'
 const navItems = [
   { path: '/', label: 'Inicio', icon: '🏟️' },
   { path: '/fichas', label: 'Fichas', icon: '✏️' },
-  { path: '/noticias', label: 'Noticias', icon: '📰' },
   { path: '/desafios', label: 'Desafios', icon: '🎯' },
   { path: '/loja', label: 'Loja', icon: '🛒' },
+  { path: '/definicoes', label: 'Mais', icon: '⚙️' },
 ]
 
 export default function Layout({ profile }) {
   const location = useLocation()
   const isActivity = location.pathname.split('/').length > 3
-  const avatarEmoji = AVATARS.find((a) => a.id === profile?.avatar)?.emoji || '⭐'
 
   return (
     <div style={styles.container}>

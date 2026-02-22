@@ -77,6 +77,7 @@ export default function RealWorld({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)

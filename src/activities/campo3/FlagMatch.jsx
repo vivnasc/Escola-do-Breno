@@ -30,7 +30,9 @@ export default function FlagMatch({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const choiceCount = adaptive?.choiceCount || 4
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -41,7 +43,7 @@ export default function FlagMatch({
   const options = useMemo(() => {
     if (!country) return []
     const others = COUNTRIES.filter((c) => c.name !== country.name)
-    const distractors = shuffle(others).slice(0, 3)
+    const distractors = shuffle(others).slice(0, choiceCount - 1)
     return shuffle([country, ...distractors])
   }, [country])
 

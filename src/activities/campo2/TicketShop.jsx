@@ -27,7 +27,9 @@ export default function TicketShop({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const choiceCount = adaptive?.choiceCount || 4
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -36,7 +38,7 @@ export default function TicketShop({
 
   const options = useMemo(() => {
     const opts = new Set([problem.change])
-    while (opts.size < 4) {
+    while (opts.size < choiceCount) {
       const offset = (Math.floor(Math.random() * 4) + 1) * 10
       const sign = Math.random() > 0.5 ? 1 : -1
       const o = problem.change + sign * offset

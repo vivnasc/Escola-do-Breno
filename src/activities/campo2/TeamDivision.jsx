@@ -24,7 +24,9 @@ export default function TeamDivision({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
+  const choiceCount = adaptive?.choiceCount || 4
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -34,7 +36,7 @@ export default function TeamDivision({
 
   const options = useMemo(() => {
     const opts = new Set([answer])
-    while (opts.size < 4) {
+    while (opts.size < choiceCount) {
       const offset = Math.floor(Math.random() * 5) - 2
       const o = answer + offset
       if (o > 0) opts.add(o)

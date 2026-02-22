@@ -41,8 +41,11 @@ export default function Home({ progress, profile, adaptive }) {
     <div style={styles.container} className="animate-fade-in">
       {/* The school belongs to the child */}
       <div style={styles.schoolBanner}>
-        <span style={styles.schoolIcon}>{universe?.icon || '⚽'}</span>
-        <h1 style={styles.schoolTitle}>A Escola do {playerName}</h1>
+        <img src="/logos/pitch-robo.png" alt="PITCH" style={styles.schoolLogo} />
+        <div>
+          <h1 style={styles.schoolTitle}>A Escola do {playerName}</h1>
+          <p style={styles.schoolWorld}>{universe?.icon} {universe?.name || 'Futebol'}</p>
+        </div>
       </div>
 
       <header style={styles.header}>
@@ -55,9 +58,6 @@ export default function Home({ progress, profile, adaptive }) {
           </div>
           <div>
             <p style={styles.greeting}>Ola, {playerName}!</p>
-            <p style={styles.subtitle}>
-              {universe?.icon} Mundo: {universe?.name || 'Futebol'}
-            </p>
           </div>
         </div>
         <button
@@ -205,14 +205,21 @@ const styles = {
     gap: 'var(--space-sm)',
     padding: 'var(--space-sm)',
   },
-  schoolIcon: {
-    fontSize: '1.5rem',
+  schoolLogo: {
+    width: '40px',
+    height: '40px',
+    objectFit: 'contain',
   },
   schoolTitle: {
     fontSize: 'var(--font-size-lg)',
     fontWeight: 700,
     color: 'var(--color-primary-dark)',
     letterSpacing: '1px',
+  },
+  schoolWorld: {
+    fontSize: '0.7rem',
+    color: 'var(--color-text-secondary)',
+    fontWeight: 500,
   },
   header: {
     display: 'flex',

@@ -22,6 +22,7 @@ export default function ReadScore({
   registerError,
   registerSuccess,
   completeActivity,
+  adaptive,
 }) {
   const [matchIdx, setMatchIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)

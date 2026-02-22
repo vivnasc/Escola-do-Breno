@@ -71,6 +71,7 @@ export default function EmotionCards({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
   const [idx, setIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)

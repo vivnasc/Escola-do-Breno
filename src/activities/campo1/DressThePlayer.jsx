@@ -25,6 +25,7 @@ export default function DressThePlayer({
   registerSuccess,
   completeActivity,
   markWordLearned,
+  adaptive,
 }) {
   const [currentItem, setCurrentItem] = useState(0)
   const [dressed, setDressed] = useState([])

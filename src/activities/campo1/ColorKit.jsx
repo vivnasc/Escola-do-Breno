@@ -30,6 +30,7 @@ export default function ColorKit({
   registerSuccess,
   completeActivity,
   markWordLearned,
+  adaptive,
 }) {
   const [teamIdx, setTeamIdx] = useState(0)
   const [selectedColors, setSelectedColors] = useState([])

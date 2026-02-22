@@ -20,7 +20,9 @@ export default function VocabularyMatch({
   registerError,
   registerSuccess,
   completeActivity,
+  adaptive,
 }) {
+  const choiceCount = adaptive?.choiceCount || 4
   const [categoryIdx, setCategoryIdx] = useState(0)
   const [questionIdx, setQuestionIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -40,7 +42,7 @@ export default function VocabularyMatch({
     const others = VOCABULARY_WORDS.filter(
       (w) => w.id !== currentWord.id && w.category === currentWord.category
     )
-    const distractors = shuffle(others).slice(0, 3)
+    const distractors = shuffle(others).slice(0, choiceCount - 1)
     return shuffle([currentWord, ...distractors])
   }, [currentWord])
 

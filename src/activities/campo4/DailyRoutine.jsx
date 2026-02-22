@@ -32,6 +32,7 @@ export default function DailyRoutine({
   registerSuccess,
   completeActivity,
   updateCampoProgress,
+  adaptive,
 }) {
   const [ordered, setOrdered] = useState([])
   const [remaining, setRemaining] = useState(() => shuffle(ROUTINE_STEPS))
@@ -106,7 +107,7 @@ export default function DailyRoutine({
       </p>
 
       <div style={styles.optionsList}>
-        {remaining.slice(0, 4).map((step) => (
+        {remaining.slice(0, adaptive?.choiceCount || 4).map((step) => (
           <button
             key={step.id}
             style={styles.optionBtn}

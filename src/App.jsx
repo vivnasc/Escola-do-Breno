@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useCallback, useEffect } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
+import Welcome from './pages/Welcome'
 import Campo1Bancada from './pages/Campo1Bancada'
 import Campo2Marcador from './pages/Campo2Marcador'
 import Campo3Mundo from './pages/Campo3Mundo'
@@ -13,6 +14,7 @@ import Noticias from './pages/Noticias'
 import Comunidade from './pages/Comunidade'
 import Loja from './pages/Loja'
 import Desafios from './pages/Desafios'
+import Definicoes from './pages/Definicoes'
 import BancoDaCalma from './components/BancoDaCalma'
 import BreakReminder from './components/BreakReminder'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
@@ -35,9 +37,11 @@ import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
 import { useAdaptive } from './hooks/useAdaptive'
+import { BRENO_PROFILE } from './data/brenoProfile'
 
 export default function App() {
   const [showCalma, setShowCalma] = useState(false)
+  const [showIntake, setShowIntake] = useState(false)
   const progressData = useProgress()
   const profileData = useProfile()
   const adaptive = useAdaptive(profileData.profile)
@@ -62,9 +66,30 @@ export default function App() {
     calmDown()
   }, [calmDown])
 
+  // Breno quick-start: pre-load his full profile
+  const handleBrenoStart = useCallback(() => {
+    profileData.completeOnboarding(BRENO_PROFILE)
+  }, [profileData])
+
+  // New profile: show intake wizard
+  const handleNewProfile = useCallback(() => {
+    setShowIntake(true)
+  }, [])
+
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
+    setShowIntake(false)
   }, [profileData])
+
+  // Reset profile (from settings page)
+  const handleResetProfile = useCallback((type) => {
+    if (type === 'intake') {
+      setShowIntake(true)
+    } else {
+      profileData.resetAll()
+      progressData.resetAll()
+    }
+  }, [profileData, progressData])
 
   const activityProps = {
     ...progressData,
@@ -74,8 +99,13 @@ export default function App() {
     adaptive,
   }
 
-  // Show onboarding if not completed
-  if (!profileData.profile.onboardingComplete) {
+  // Show Welcome screen if never onboarded
+  if (!profileData.profile.onboardingComplete && !showIntake) {
+    return <Welcome onBreno={handleBrenoStart} onNewProfile={handleNewProfile} />
+  }
+
+  // Show Intake wizard (new profile or redo)
+  if (showIntake) {
     return <Intake onComplete={handleOnboardingComplete} />
   }
 
@@ -138,6 +168,13 @@ export default function App() {
             <Desafios
               profile={profileData.profile}
               progress={progressData.progress}
+            />
+          } />
+          <Route path="/definicoes" element={
+            <Definicoes
+              profile={profileData.profile}
+              updateProfile={profileData.updateProfile}
+              resetProfile={handleResetProfile}
             />
           } />
 
