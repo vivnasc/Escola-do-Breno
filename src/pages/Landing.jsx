@@ -1,39 +1,39 @@
 /**
  * Public landing page — the first thing visitors see.
- * Showcases features, campos, competency framework, and call-to-action.
+ * Core narrative: "De pais para pais" — universal platform, individual for each child.
  */
 import { useNavigate } from 'react-router-dom'
 
 const FEATURES = [
   {
-    icon: '🧩',
-    title: 'Adaptativo',
-    desc: 'Cada crianca tem um perfil unico. A plataforma ajusta dificuldade, opcoes, tempo e suporte visual automaticamente.',
-  },
-  {
-    icon: '🎮',
-    title: '20 Actividades',
-    desc: 'Vocabulario, matematica, ciencia, autonomia — tudo integrado em 4 campos de aprendizagem interactivos.',
-  },
-  {
     icon: '🌍',
-    title: '5 Universos',
-    desc: 'Futebol, Dinossauros, Espaco, Animais ou Musica. O mesmo curriculo, contextualizado pelo interesse da crianca.',
+    title: 'Universal',
+    desc: 'Uma plataforma para qualquer crianca, em qualquer pais. Conteudo global, sem centrismo cultural. Do Maputo a Lisboa, de Lagos a Sao Paulo.',
   },
   {
-    icon: '📊',
-    title: 'Progresso por Mestria',
-    desc: '10 niveis de competencia (Semente a Floresta). Avanca quando domina, sem pressao temporal ou comparacoes.',
-  },
-  {
-    icon: '🔊',
-    title: 'Audio e Fala',
-    desc: 'Instrucoes por voz, efeitos sonoros gentis, e reconhecimento de fala para praticar pronuncia.',
+    icon: '🧩',
+    title: 'Individual',
+    desc: 'Cada crianca tem a SUA escola. Perfil unico, niveis independentes por campo, dificuldade adaptada, universo tematico escolhido.',
   },
   {
     icon: '💚',
-    title: 'Gentil e Inclusivo',
-    desc: 'Deteccao de frustracao, pausas guiadas, animacoes suaves. Zero pressao, zero punicao.',
+    title: 'Gentil',
+    desc: 'Deteccao de frustracao, pausas guiadas com respiracao, animacoes suaves. Zero pressao, zero punicao. O erro e parte de aprender.',
+  },
+  {
+    icon: '📊',
+    title: 'Competencia, nao idade',
+    desc: 'Avanca quando domina. Sem comparacoes, sem anos escolares. 10 niveis de crescimento, do Semente a Floresta.',
+  },
+  {
+    icon: '🔊',
+    title: 'Voz e Audio',
+    desc: 'Instrucoes por voz, efeitos sonoros sintetizados, reconhecimento de fala. Tudo funciona offline, sem ficheiros externos.',
+  },
+  {
+    icon: '📴',
+    title: 'Offline-first',
+    desc: 'Funciona sem internet. PWA instalavel no telemovel. Dados ficam no dispositivo com backup cloud opcional.',
   },
 ]
 
@@ -53,17 +53,17 @@ const PHASES = [
 
 const TESTIMONIALS = [
   {
-    quote: 'O Breno agora pede para estudar. Nunca achei que ia dizer isto.',
-    author: 'Mae do Breno, 12 anos',
+    quote: 'Construimos o PITCH porque nenhuma ferramenta existente funcionava para o nosso filho. Agora ele pede para estudar.',
+    author: 'Fundadores do PITCH, pais do Breno',
+    avatar: '👨‍👩‍👦',
+  },
+  {
+    quote: 'O meu filho tem TDAH e sempre se frustrava com apps educativas. Com o PITCH, ele finalmente termina as actividades com orgulho.',
+    author: 'Mae, crianca de 9 anos',
     avatar: '👩',
   },
   {
-    quote: 'Finalmente uma ferramenta que respeita o ritmo do meu filho.',
-    author: 'Pai do Miguel, 8 anos',
-    avatar: '👨',
-  },
-  {
-    quote: 'Uso com 3 alunos neurodivergentes. Cada um tem o seu perfil proprio.',
+    quote: 'Cada aluno tem o seu proprio ritmo e perfil. O PITCH e a primeira ferramenta que realmente respeita isso na pratica.',
     author: 'Terapeuta Educacional',
     avatar: '🧑‍⚕️',
   },
@@ -95,29 +95,46 @@ export default function Landing() {
       <section style={styles.hero}>
         <div style={styles.heroInner}>
           <img src="/logos/pitch-robo.png" alt="PITCH mascot" style={styles.heroMascot} />
+          <p style={styles.heroBadge}>De pais para pais</p>
           <h1 style={styles.heroTitle}>
-            A escola que se adapta a cada crianca.
+            Uma plataforma universal que trata cada crianca como unica.
           </h1>
           <p style={styles.heroSubtitle}>
             <strong>P</strong>lay. <strong>I</strong>nteract. <strong>T</strong>hink. <strong>C</strong>hallenge. <strong>H</strong>one.
           </p>
           <p style={styles.heroDesc}>
-            Plataforma de aprendizagem inclusiva para criancas neurodivergentes.
-            Adaptativa, gentil, e construida por competencia — nao por idade.
+            Nasceu de uma necessidade real: o nosso filho precisava de uma escola que se adaptasse a ele, nao o contrario. Nao encontramos. Entao construimos.
           </p>
           <div style={styles.heroBtns}>
             <button style={styles.heroPrimary} onClick={() => navigate('/')}>
-              Comecar Gratis
+              Criar a Escola do Meu Filho
             </button>
             <button style={styles.heroSecondary} onClick={() => {
-              document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' })
+              document.getElementById('nossa-historia')?.scrollIntoView({ behavior: 'smooth' })
             }}>
-              Como Funciona
+              A Nossa Historia
             </button>
           </div>
           <p style={styles.heroNote}>
-            Sem pagamento. Sem publicidade. Offline-first.
+            Gratuito. Sem publicidade. Sem dados vendidos. Funciona offline.
           </p>
+        </div>
+      </section>
+
+      {/* Our Story */}
+      <section id="nossa-historia" style={styles.storySection}>
+        <div style={styles.storyInner}>
+          <div style={styles.storyQuote}>
+            <p style={styles.storyText}>
+              O Breno tem 12 anos, esta no espectro autista, e faz homeschooling. Tentamos dezenas de aplicacoes educativas. Nenhuma respeitava o ritmo dele. Nenhuma entendia que ele pode estar no nivel 7 em linguagem e no nivel 3 em matematica — ao mesmo tempo. Nenhuma detectava que ele estava frustrado e precisava de uma pausa.
+            </p>
+            <p style={styles.storyText}>
+              Entao decidimos: se a escola que o nosso filho precisa nao existe, vamos construi-la. Nao so para ele — para todas as criancas que aprendem de forma diferente, em qualquer parte do mundo.
+            </p>
+            <p style={styles.storySignature}>
+              — Os pais do Breno, fundadores do PITCH
+            </p>
+          </div>
         </div>
       </section>
 
@@ -209,9 +226,9 @@ export default function Landing() {
       {/* Features Grid */}
       <section style={styles.section}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.sectionTitle}>Porque PITCH?</h2>
+          <h2 style={styles.sectionTitle}>Universal e Individual</h2>
           <p style={styles.sectionSubtitle}>
-            Tecnologia de ponta ao servico da inclusao.
+            Uma plataforma para qualquer crianca, que trata cada uma como unica.
           </p>
           <div style={styles.featGrid}>
             {FEATURES.map((feat) => (
@@ -275,7 +292,7 @@ export default function Landing() {
       {/* Testimonials */}
       <section style={{ ...styles.section, backgroundColor: '#FFF8E1' }}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.sectionTitle}>O Que Dizem</h2>
+          <h2 style={styles.sectionTitle}>Vozes de Quem Usa</h2>
           <div style={styles.testimonialGrid}>
             {TESTIMONIALS.map((t, i) => (
               <div key={i} style={styles.testimonialCard}>
@@ -326,12 +343,12 @@ export default function Landing() {
       {/* Final CTA */}
       <section style={styles.ctaSection}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.ctaTitle}>Pronto para comecar?</h2>
+          <h2 style={styles.ctaTitle}>Cada crianca merece uma escola que a entenda.</h2>
           <p style={styles.ctaDesc}>
-            Cria a escola da tua crianca em menos de 2 minutos. Gratuito, sem publicidade, sem dados vendidos.
+            Construido por pais, para pais. Gratuito, sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho esta pronta.
           </p>
           <button style={styles.ctaBtn} onClick={() => navigate('/')}>
-            Criar a Minha Escola
+            Criar a Escola do Meu Filho
           </button>
           <div style={styles.ctaLinks}>
             <button style={styles.ctaLink} onClick={() => navigate('/faq')}>
@@ -509,11 +526,51 @@ const styles = {
     minHeight: '44px',
     border: '2px solid #2E7D32',
   },
+  heroBadge: {
+    fontSize: '0.8rem',
+    fontWeight: 700,
+    color: '#1B5E20',
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    padding: '6px 16px',
+    borderRadius: '20px',
+    textTransform: 'uppercase',
+    letterSpacing: '1.5px',
+  },
   heroNote: {
     fontSize: '0.8rem',
     color: '#558B2F',
     fontWeight: 600,
     marginTop: '4px',
+  },
+
+  // Our Story
+  storySection: {
+    padding: '48px 24px',
+    backgroundColor: '#FFFFFF',
+  },
+  storyInner: {
+    maxWidth: '640px',
+    margin: '0 auto',
+  },
+  storyQuote: {
+    padding: '32px',
+    backgroundColor: '#F5F5F5',
+    borderRadius: '20px',
+    borderLeft: '4px solid #2E7D32',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '16px',
+  },
+  storyText: {
+    fontSize: '1rem',
+    color: '#37474F',
+    lineHeight: 1.7,
+  },
+  storySignature: {
+    fontSize: '0.9rem',
+    fontWeight: 700,
+    color: '#1B5E20',
+    fontStyle: 'italic',
   },
 
   // Social proof bar
