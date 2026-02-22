@@ -179,7 +179,7 @@ export default function SharedProfile({ share, onRefresh }) {
           style={styles.backBtn}
           onClick={() => navigate('/')}
         >
-          Voltar ao inicio
+          Voltar ao início
         </button>
       </section>
     </div>
