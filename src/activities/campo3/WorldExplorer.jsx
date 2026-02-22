@@ -94,6 +94,66 @@ const FACTS = [
     correct: 'China',
     fact: 'A Grande Muralha da China tem mais de 21.000 km! Foi construida ao longo de 2.000 anos.',
   },
+  {
+    question: 'Em que continente fica a maior floresta tropical do mundo, a Amazonia?',
+    options: ['America do Sul', 'Africa', 'Asia', 'Oceania'],
+    correct: 'America do Sul',
+    fact: 'A Amazonia cobre 9 paises e produz cerca de 20% do oxigenio do planeta. Tem mais especies de animais do que qualquer outro lugar na Terra!',
+  },
+  {
+    question: 'Onde fica a Grande Barreira de Coral?',
+    options: ['Australia', 'Brasil', 'Japao', 'Mexico'],
+    correct: 'Australia',
+    fact: 'A Grande Barreira de Coral fica na costa da Australia e tem mais de 2.300 km. E tao grande que pode ser vista do espaco!',
+  },
+  {
+    question: 'Qual e o mar onde se flutua sem esforco porque a agua e muito salgada?',
+    options: ['Mar Morto', 'Mar Mediterraneo', 'Mar do Norte', 'Mar Vermelho'],
+    correct: 'Mar Morto',
+    fact: 'O Mar Morto, entre Israel e Jordania, e quase 10 vezes mais salgado que o oceano. O sal faz o corpo flutuar sem esforco!',
+  },
+  {
+    question: 'Qual e a cadeia de montanhas mais comprida do mundo?',
+    options: ['Andes', 'Himalaias', 'Alpes', 'Montanhas Rochosas'],
+    correct: 'Andes',
+    fact: 'Os Andes estendem-se por 7.000 km ao longo da America do Sul, atravessando 7 paises! O pico mais alto e o Aconcagua, com 6.961 metros.',
+  },
+  {
+    question: 'Em que continente ficam as Cataratas Victoria?',
+    options: ['Africa', 'America do Sul', 'Asia', 'Europa'],
+    correct: 'Africa',
+    fact: 'As Cataratas Victoria ficam entre a Zambia e o Zimbabue. Tem mais de 1.700 metros de largura e o barulho da agua ouve-se a 40 km de distancia!',
+  },
+  {
+    question: 'Que animal consegue sobreviver no deserto do Sahara sem beber agua durante semanas?',
+    options: ['Camelo', 'Elefante', 'Urso', 'Golfinho'],
+    correct: 'Camelo',
+    fact: 'Os camelos guardam gordura nas bossas (nao agua!) e o seu corpo esta adaptado para nao perder agua. Podem beber 200 litros de agua de uma vez!',
+  },
+  {
+    question: 'Que animal vive no Artico e e o maior carnivoro terrestre?',
+    options: ['Urso polar', 'Pinguim', 'Foca', 'Rena'],
+    correct: 'Urso polar',
+    fact: 'O urso polar vive no Artico (Polo Norte) e pode pesar ate 700 kg. A sua pele e na verdade preta, mas o pelo transparente parece branco com a luz!',
+  },
+  {
+    question: 'Como se chama a montanha que pode expelir lava e cinzas?',
+    options: ['Vulcao', 'Glaciar', 'Geyser', 'Cratera'],
+    correct: 'Vulcao',
+    fact: 'Existem cerca de 1.500 vulcoes activos no mundo. O Anel de Fogo do Pacifico tem 75% de todos os vulcoes da Terra!',
+  },
+  {
+    question: 'Qual e o ponto mais fundo do oceano?',
+    options: ['Fossa das Marianas', 'Fossa do Atlantico', 'Mar Morto', 'Lago Baikal'],
+    correct: 'Fossa das Marianas',
+    fact: 'A Fossa das Marianas, no Oceano Pacifico, tem quase 11.000 metros de profundidade. Se la colocassemos o Monte Evereste, ainda faltava mais de 2 km para chegar a superficie!',
+  },
+  {
+    question: 'Qual e o lago mais profundo do mundo?',
+    options: ['Lago Baikal', 'Lago Victoria', 'Lago Superior', 'Lago Titicaca'],
+    correct: 'Lago Baikal',
+    fact: 'O Lago Baikal na Russia tem 1.642 metros de profundidade e contem cerca de 20% da agua doce do planeta. Tem mais de 25 milhoes de anos!',
+  },
 ]
 
 export default function WorldExplorer({
@@ -143,7 +203,7 @@ export default function WorldExplorer({
     setIdx(next)
     updateCampoProgress('campo3', next + 10)
     if (next >= FACTS.length) {
-      completeActivity('world-explorer', score >= 13 ? 3 : score >= 9 ? 2 : 1)
+      completeActivity('world-explorer', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

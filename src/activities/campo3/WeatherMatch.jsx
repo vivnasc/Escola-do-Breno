@@ -124,6 +124,78 @@ const SCENARIOS = [
       { id: 'seco', label: 'Roupa de algodao normal', emoji: '👕' },
     ],
   },
+  {
+    city: 'Sydney',
+    temp: 26,
+    weather: 'Sol e brisa maritima',
+    weatherEmoji: '🌊',
+    correctKit: 'praia',
+    options: [
+      { id: 'praia', label: 'Roupa leve, protector solar e oculos de sol', emoji: '👕🧴🕶️' },
+      { id: 'pesado', label: 'Casaco grosso e cachecol', emoji: '🧥🧣' },
+      { id: 'neve', label: 'Roupa para neve e luvas', emoji: '⛷️🧤' },
+    ],
+  },
+  {
+    city: 'Banguecoque',
+    temp: 34,
+    weather: 'Quente e muito humido',
+    weatherEmoji: '🌡️',
+    correctKit: 'tropical',
+    options: [
+      { id: 'tropical', label: 'Roupa muito leve e garrafa de agua', emoji: '👕💧' },
+      { id: 'pesado', label: 'Casaco de la e botas', emoji: '🧥🥾' },
+      { id: 'formal', label: 'Fato e gravata', emoji: '👔' },
+    ],
+  },
+  {
+    city: 'Nairobi',
+    temp: 22,
+    weather: 'Ameno e soalheiro',
+    weatherEmoji: '🌤️',
+    correctKit: 'ameno',
+    options: [
+      { id: 'ameno', label: 'Camisola leve e calcas confortaveis', emoji: '👕👖' },
+      { id: 'pesado', label: 'Casaco de inverno e gorro', emoji: '🧥🧢' },
+      { id: 'neve', label: 'Roupa para neve', emoji: '⛷️' },
+    ],
+  },
+  {
+    city: 'Lima',
+    temp: 18,
+    weather: 'Nublado e fresco',
+    weatherEmoji: '🌫️',
+    correctKit: 'fresco',
+    options: [
+      { id: 'fresco', label: 'Camisola manga comprida e casaco leve', emoji: '👔🧥' },
+      { id: 'leve', label: 'T-shirt e calcoes', emoji: '👕🩳' },
+      { id: 'pesado', label: 'Casaco grosso, gorro e luvas', emoji: '🧥🧤🧢' },
+    ],
+  },
+  {
+    city: 'Nuuk',
+    temp: -8,
+    weather: 'Muito frio e neve',
+    weatherEmoji: '🥶',
+    correctKit: 'artico',
+    options: [
+      { id: 'artico', label: 'Varias camadas, casaco grosso, gorro e luvas', emoji: '🧥🧤🧣🧢' },
+      { id: 'leve', label: 'T-shirt e sandalia', emoji: '👕🩴' },
+      { id: 'normal', label: 'Camisola fina e tenis', emoji: '👔👟' },
+    ],
+  },
+  {
+    city: 'Havana',
+    temp: 30,
+    weather: 'Quente com trovoada',
+    weatherEmoji: '⛈️',
+    correctKit: 'chuva-quente',
+    options: [
+      { id: 'chuva-quente', label: 'Roupa leve e impermeavel compacto', emoji: '👕🧥' },
+      { id: 'neve', label: 'Roupa para neve e botas', emoji: '⛷️🥾' },
+      { id: 'formal', label: 'Fato de cerimonia', emoji: '👔' },
+    ],
+  },
 ]
 
 export default function WeatherMatch({
@@ -169,7 +241,7 @@ export default function WeatherMatch({
     setIdx(next)
     updateCampoProgress('campo3', next + 14)
     if (next >= SCENARIOS.length) {
-      completeActivity('weather-match', score >= 8 ? 3 : score >= 5 ? 2 : 1)
+      completeActivity('weather-match', score >= 13 ? 3 : score >= 8 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 

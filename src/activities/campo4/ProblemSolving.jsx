@@ -180,6 +180,94 @@ const SCENARIOS = [
     ],
     lesson: 'Cuidar das coisas dos outros mostra responsabilidade. Quando cuidamos, as pessoas confiam em nos.',
   },
+  {
+    title: 'Lidar com Injustica',
+    situation: 'Na escola, um colega recebeu um premio que tu achas que nao merecia. Como reages?',
+    emoji: '⚖️',
+    options: [
+      { text: 'Aceito que nem sempre concordo com as decisoes, e foco-me no meu proprio esforco', correct: true },
+      { text: 'Digo a toda a gente que foi injusto', correct: false },
+      { text: 'Deixo de me esforcar porque nao vale a pena', correct: false },
+    ],
+    lesson: 'Nem tudo na vida parece justo. Quando sentimos injustica, podemos falar sobre isso com calma, mas o mais importante e nao deixar de dar o nosso melhor.',
+  },
+  {
+    title: 'Ouvir o Corpo',
+    situation: 'Estas a jogar ha muito tempo e comecas a sentir dor de cabeca e os olhos cansados. O que fazes?',
+    emoji: '🧍',
+    options: [
+      { text: 'Paro, bebo agua, descanso os olhos e faco uma pausa', correct: true },
+      { text: 'Ignoro e continuo a jogar', correct: false },
+      { text: 'Tomo um medicamento sem dizer a ninguem', correct: false },
+    ],
+    lesson: 'O teu corpo manda sinais: dor de cabeca, fome, cansaco, vontade de estar sozinho. Ouvir esses sinais e cuidar de ti e uma das coisas mais importantes que podes aprender.',
+  },
+  {
+    title: 'Organizar Tarefas',
+    situation: 'Tens de arrumar o quarto, fazer os trabalhos de casa e tomar banho. Parece muito! Como resolves?',
+    emoji: '📝',
+    options: [
+      { text: 'Divido em passos pequenos: primeiro uma coisa, depois outra, com pausas entre elas', correct: true },
+      { text: 'Tento fazer tudo ao mesmo tempo', correct: false },
+      { text: 'Nao faco nada porque e demais', correct: false },
+    ],
+    lesson: 'Quando uma tarefa parece grande demais, divide-a em pedacos pequenos. Em vez de "arrumar o quarto", pensa: "primeiro a cama, depois a secretaria, depois o chao". Passo a passo, tudo se faz!',
+  },
+  {
+    title: 'Dizer Nao',
+    situation: 'Um colega insiste para que copies o teste dele. Tu sabes que isso e errado. O que fazes?',
+    emoji: '✋',
+    options: [
+      { text: 'Digo "nao, obrigado" com firmeza e faco o teste com o que sei', correct: true },
+      { text: 'Copio porque ele vai ficar chateado se eu recusar', correct: false },
+      { text: 'Digo que sim mas depois nao copio', correct: false },
+    ],
+    lesson: 'Dizer "nao" com respeito e uma forca, nao uma fraqueza. Nao precisas de inventar desculpas. Um "nao, obrigado" claro e honesto e suficiente. As pessoas que te respeitam vao aceitar.',
+  },
+  {
+    title: 'Quando Nao Concordo',
+    situation: 'O teu amigo acha que o melhor jogador do mundo e um, e tu achas que e outro. A conversa esta a ficar tensa. O que fazes?',
+    emoji: '💬',
+    options: [
+      { text: 'Digo "eu penso diferente, mas respeito a tua opiniao" e mudamos de assunto', correct: true },
+      { text: 'Insisto ate ele concordar comigo', correct: false },
+      { text: 'Fico zangado e deixo de falar com ele', correct: false },
+    ],
+    lesson: 'Pessoas diferentes pensam de formas diferentes, e isso e normal. Discordar nao significa que alguem esta errado. Podemos ter opinioes diferentes e continuar a ser amigos.',
+  },
+  {
+    title: 'Fazer Amigos',
+    situation: 'Ha um colega novo na turma que esta sozinho no intervalo. Gostarias de ser amigo dele. O que fazes?',
+    emoji: '🤗',
+    options: [
+      { text: 'Aproximo-me, apresento-me e convido-o para brincar ou estar comigo', correct: true },
+      { text: 'Espero que ele venha falar comigo primeiro', correct: false },
+      { text: 'Nao faco nada porque nao sei o que dizer', correct: false },
+    ],
+    lesson: 'Fazer amigos começa com um gesto simples: dizer "ola", apresentar-te e convidar. Nao precisa de ser perfeito. A maioria das pessoas fica feliz quando alguem se aproxima com boa intencao.',
+  },
+  {
+    title: 'Empatia',
+    situation: 'O teu amigo esta triste porque perdeu o jogo da equipa dele. Tu ganhaste o teu jogo. O que fazes?',
+    emoji: '💛',
+    options: [
+      { text: 'Digo que percebo que esta triste e pergunto se quer falar ou se prefere ficar quieto', correct: true },
+      { text: 'Falo so do meu jogo e de como ganhei', correct: false },
+      { text: 'Digo-lhe para nao ficar triste porque e so um jogo', correct: false },
+    ],
+    lesson: 'Empatia e tentar perceber o que o outro esta a sentir, mesmo que tu nao sintas o mesmo. As vezes a melhor coisa e simplesmente dizer "estou aqui" e ouvir, sem tentar resolver.',
+  },
+  {
+    title: 'Celebrar Pequenas Vitorias',
+    situation: 'Conseguiste finalmente ler um texto inteiro sem ajuda. Ninguem reparou. Como te sentes?',
+    emoji: '🏆',
+    options: [
+      { text: 'Fico orgulhoso de mim proprio e reconheco o meu progresso, mesmo que ninguem tenha visto', correct: true },
+      { text: 'Nao conta porque ninguem viu', correct: false },
+      { text: 'So vale a pena se for uma coisa grande', correct: false },
+    ],
+    lesson: 'As grandes conquistas sao feitas de muitas pequenas vitorias. Cada passo conta, mesmo os que ninguem ve. Ser capaz de reconhecer o teu proprio progresso e uma forca enorme.',
+  },
 ]
 
 export default function ProblemSolving({
@@ -229,7 +317,7 @@ export default function ProblemSolving({
     setIdx(next)
     updateCampoProgress('campo4', next + 20)
     if (next >= SCENARIOS.length) {
-      completeActivity('problem-solving', score >= 13 ? 3 : score >= 9 ? 2 : 1)
+      completeActivity('problem-solving', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
   }, [idx, score, completeActivity, updateCampoProgress])
 
