@@ -16,6 +16,7 @@ import Loja from './pages/Loja'
 import Desafios from './pages/Desafios'
 import Definicoes from './pages/Definicoes'
 import Dashboard from './pages/Dashboard'
+import Planner from './pages/Planner'
 import BancoDaCalma from './components/BancoDaCalma'
 import BreakReminder from './components/BreakReminder'
 import VocabularyMatch from './activities/campo1/VocabularyMatch'
@@ -38,6 +39,7 @@ import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
 import { useAdaptive } from './hooks/useAdaptive'
+import { usePlanner } from './hooks/usePlanner'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
 export default function App() {
@@ -46,6 +48,11 @@ export default function App() {
   const progressData = useProgress()
   const profileData = useProfile()
   const adaptive = useAdaptive(profileData.profile)
+  const plannerData = usePlanner(
+    profileData.profile?.id,
+    adaptive.prioritisedCampos,
+    progressData.progress,
+  )
 
   // Dynamic title
   useEffect(() => {
@@ -100,8 +107,15 @@ export default function App() {
     }
   }, [profileData, progressData])
 
+  // Wrap completeActivity to also mark done in planner
+  const handleCompleteActivity = useCallback((activityId, stars) => {
+    progressData.completeActivity(activityId, stars)
+    plannerData.markDone(activityId)
+  }, [progressData, plannerData])
+
   const activityProps = {
     ...progressData,
+    completeActivity: handleCompleteActivity,
     registerClick,
     registerError,
     registerSuccess,
@@ -142,6 +156,7 @@ export default function App() {
               progress={progressData.progress}
               profile={profileData.profile}
               adaptive={adaptive}
+              planner={plannerData}
             />
           } />
           <Route path="/campo/1" element={<Campo1Bancada {...activityProps} />} />
@@ -192,6 +207,15 @@ export default function App() {
               updateProfile={profileData.updateProfile}
               resetProfile={handleResetProfile}
               deleteProfile={profileData.deleteProfile}
+            />
+          } />
+
+          <Route path="/planner" element={
+            <Planner
+              profile={profileData.profile}
+              progress={progressData.progress}
+              planner={plannerData}
+              adaptive={adaptive}
             />
           } />
 

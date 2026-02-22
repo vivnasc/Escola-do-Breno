@@ -4,7 +4,7 @@ import { getCurrentChallenges, getDaysUntilReset } from '../data/challenges'
 import { AVATARS } from '../hooks/useProfile'
 import ProgressBar from '../components/ProgressBar'
 
-export default function Home({ progress, profile, adaptive }) {
+export default function Home({ progress, profile, adaptive, planner }) {
   const navigate = useNavigate()
   const totalWords = progress.wordsLearned.length
   const totalStars = progress.totalStars
@@ -103,6 +103,67 @@ export default function Home({ progress, profile, adaptive }) {
             </p>
           </div>
         </div>
+      )}
+
+      {/* Today's Plan */}
+      {planner && (
+        <section style={styles.todayPlan}>
+          {planner.todayPlan ? (
+            <>
+              <div style={styles.todayPlanHeader}>
+                <h2 style={styles.todayPlanTitle}>Plano de Hoje</h2>
+                <span style={styles.todayPlanCount}>
+                  {planner.todayPlan.activities.filter((a) => a.completed).length}/
+                  {planner.todayPlan.activities.length}
+                </span>
+              </div>
+              <div style={styles.todayPlanList}>
+                {planner.todayPlan.activities.map((act) => (
+                  <button
+                    key={act.activityId}
+                    style={{
+                      ...styles.todayPlanItem,
+                      ...(act.completed ? styles.todayPlanItemDone : {}),
+                    }}
+                    onClick={() => !act.completed && navigate(act.path)}
+                    disabled={act.completed}
+                  >
+                    <span>{act.icon}</span>
+                    <span style={styles.todayPlanName}>{act.name}</span>
+                    {act.completed ? (
+                      <span style={styles.todayCheck}>✓</span>
+                    ) : (
+                      <span style={styles.todayGo}>→</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+              <button
+                style={styles.todayPlanMore}
+                onClick={() => navigate('/planner')}
+              >
+                Ver plano completo →
+              </button>
+            </>
+          ) : (
+            <button
+              style={styles.todayPlanGenerate}
+              onClick={() => {
+                planner.generateToday()
+                navigate('/planner')
+              }}
+            >
+              <span style={styles.todayPlanGenerateIcon}>📋</span>
+              <div>
+                <span style={styles.todayPlanGenerateTitle}>Plano do Dia</span>
+                <span style={styles.todayPlanGenerateDesc}>
+                  Gera o plano de actividades para hoje
+                </span>
+              </div>
+              <span style={styles.todayGo}>→</span>
+            </button>
+          )}
+        </section>
       )}
 
       {/* Quick Actions */}
@@ -457,5 +518,108 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     textAlign: 'right',
+  },
+  // Today's Plan
+  todayPlan: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-md)',
+    border: '1px solid #A5D6A7',
+  },
+  todayPlanHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  todayPlanTitle: {
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: 'var(--color-primary-dark)',
+  },
+  todayPlanCount: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: 'var(--color-primary)',
+    backgroundColor: 'white',
+    padding: '2px 8px',
+    borderRadius: 'var(--radius-sm)',
+  },
+  todayPlanList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+  },
+  todayPlanItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-sm)',
+    backgroundColor: 'white',
+    borderRadius: 'var(--radius-sm)',
+    border: 'none',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    width: '100%',
+    textAlign: 'left',
+  },
+  todayPlanItemDone: {
+    opacity: 0.5,
+    textDecoration: 'line-through',
+    cursor: 'default',
+  },
+  todayPlanName: {
+    flex: 1,
+    fontWeight: 600,
+    fontSize: 'var(--font-size-sm)',
+  },
+  todayCheck: {
+    color: 'var(--color-primary)',
+    fontWeight: 700,
+  },
+  todayGo: {
+    color: 'var(--color-primary)',
+    fontWeight: 700,
+    fontSize: 'var(--font-size-lg)',
+  },
+  todayPlanMore: {
+    alignSelf: 'center',
+    padding: '4px var(--space-md)',
+    backgroundColor: 'transparent',
+    color: 'var(--color-primary)',
+    border: 'none',
+    cursor: 'pointer',
+    fontWeight: 600,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  todayPlanGenerate: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-md)',
+    backgroundColor: 'white',
+    border: '2px dashed var(--color-primary)',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    width: '100%',
+    textAlign: 'left',
+  },
+  todayPlanGenerateIcon: {
+    fontSize: '1.5rem',
+  },
+  todayPlanGenerateTitle: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-sm)',
+    display: 'block',
+    color: 'var(--color-primary-dark)',
+  },
+  todayPlanGenerateDesc: {
+    fontSize: '0.7rem',
+    color: 'var(--color-text-secondary)',
+    display: 'block',
   },
 }

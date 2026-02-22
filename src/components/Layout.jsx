@@ -3,7 +3,7 @@ import { AVATARS } from '../hooks/useProfile'
 
 const navItems = [
   { path: '/', label: 'Inicio', icon: '🏟️' },
-  { path: '/fichas', label: 'Fichas', icon: '✏️' },
+  { path: '/planner', label: 'Plano', icon: '📋' },
   { path: '/desafios', label: 'Desafios', icon: '🎯' },
   { path: '/loja', label: 'Loja', icon: '🛒' },
   { path: '/definicoes', label: 'Mais', icon: '⚙️' },
