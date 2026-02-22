@@ -53,7 +53,6 @@ import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
 import { useProfileSharing } from './hooks/useProfileSharing'
-import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
 const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
@@ -116,11 +115,6 @@ function AppContent() {
     setShowCalma(false)
     calmDown()
   }, [calmDown])
-
-  // Breno quick-start
-  const handleBrenoStart = useCallback(() => {
-    profileData.completeOnboarding(BRENO_PROFILE)
-  }, [profileData])
 
   // New profile: show intake wizard
   const handleNewProfile = useCallback(() => {
@@ -206,7 +200,6 @@ function AppContent() {
   if (!profileData.profile && !showIntake) {
     return (
       <Welcome
-        onBreno={handleBrenoStart}
         onNewProfile={handleNewProfile}
         profiles={profileData.profiles}
         onSwitchProfile={handleSwitchProfile}
