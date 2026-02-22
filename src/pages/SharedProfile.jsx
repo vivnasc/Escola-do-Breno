@@ -14,9 +14,9 @@ export default function SharedProfile({ share, onRefresh }) {
     return (
       <div style={styles.container} className="animate-fade-in">
         <div style={styles.empty}>
-          <p style={styles.emptyText}>Perfil partilhado nao encontrado.</p>
+          <p style={styles.emptyText}>Perfil partilhado não encontrado.</p>
           <button style={styles.backBtn} onClick={() => navigate('/')}>
-            Voltar ao inicio
+            Voltar ao início
           </button>
         </div>
       </div>
@@ -30,7 +30,7 @@ export default function SharedProfile({ share, onRefresh }) {
 
   const campos = [
     { id: 'campo1', name: 'Linguagem', color: '#1565C0' },
-    { id: 'campo2', name: 'Matematica', color: '#E65100' },
+    { id: 'campo2', name: 'Matemática', color: '#E65100' },
     { id: 'campo3', name: 'Descoberta', color: '#2E7D32' },
     { id: 'campo4', name: 'Autonomia', color: '#6A1B9A' },
   ]
@@ -51,7 +51,7 @@ export default function SharedProfile({ share, onRefresh }) {
 
       {/* Profile Info */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Informacao</h2>
+        <h2 style={styles.sectionTitle}>Informação</h2>
         <div style={styles.card}>
           <div style={styles.row}>
             <span style={styles.label}>Idade</span>
@@ -62,14 +62,14 @@ export default function SharedProfile({ share, onRefresh }) {
             <span style={styles.value}>{universe?.icon} {universe?.name}</span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Nivel de leitura</span>
+            <span style={styles.label}>Nível de leitura</span>
             <span style={styles.value}>
-              {profile?.learningNeeds?.readingLevel === 'pre-reader' ? 'Pre-leitor' :
-               profile?.learningNeeds?.readingLevel === 'beginning' ? 'A comecar' : 'Fluente'}
+              {profile?.learningNeeds?.readingLevel === 'pre-reader' ? 'Pré-leitor' :
+               profile?.learningNeeds?.readingLevel === 'beginning' ? 'A começar' : 'Fluente'}
             </span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Nivel de apoio</span>
+            <span style={styles.label}>Nível de apoio</span>
             <span style={styles.value}>
               {profile?.learningNeeds?.supportLevel === 'independent' ? 'Independente' :
                profile?.learningNeeds?.supportLevel === 'some' ? 'Algum apoio' : 'Apoio total'}
@@ -77,7 +77,7 @@ export default function SharedProfile({ share, onRefresh }) {
           </div>
           {profile?.learningNeeds?.areas?.length > 0 && (
             <div style={styles.row}>
-              <span style={styles.label}>Areas de apoio</span>
+              <span style={styles.label}>Áreas de apoio</span>
               <div style={styles.tags}>
                 {profile.learningNeeds.areas.map(a => (
                   <span key={a} style={styles.tag}>{a}</span>
@@ -90,7 +90,7 @@ export default function SharedProfile({ share, onRefresh }) {
 
       {/* Competency Levels */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Niveis de Competencia</h2>
+        <h2 style={styles.sectionTitle}>Níveis de Competência</h2>
         <div style={styles.campoGrid}>
           {campos.map(campo => {
             const level = profile?.competencyLevels?.[campo.id] || 1
@@ -127,7 +127,7 @@ export default function SharedProfile({ share, onRefresh }) {
             <span style={styles.value}>{progress?.wordsLearned?.length || 0}</span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Sequencia actual</span>
+            <span style={styles.label}>Sequência actual</span>
             <span style={styles.value}>{progress?.currentStreak || 0} dias</span>
           </div>
         </div>
@@ -135,16 +135,16 @@ export default function SharedProfile({ share, onRefresh }) {
 
       {/* Sensory Settings */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Configuracoes Sensoriais</h2>
+        <h2 style={styles.sectionTitle}>Configurações Sensoriais</h2>
         <div style={styles.card}>
           <div style={styles.row}>
             <span style={styles.label}>Som</span>
             <span style={styles.value}>{profile?.sensory?.soundEnabled ? 'Ligado' : 'Desligado'}</span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Animacoes</span>
+            <span style={styles.label}>Animações</span>
             <span style={styles.value}>
-              {profile?.sensory?.animationLevel === 'minimal' ? 'Minimas' : 'Normal'}
+              {profile?.sensory?.animationLevel === 'minimal' ? 'Mínimas' : 'Normal'}
             </span>
           </div>
           <div style={styles.row}>
@@ -154,14 +154,14 @@ export default function SharedProfile({ share, onRefresh }) {
             </span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Sessao</span>
+            <span style={styles.label}>Sessão</span>
             <span style={styles.value}>{profile?.attention?.sessionLength || 15} min</span>
           </div>
           <div style={styles.row}>
-            <span style={styles.label}>Frustracao</span>
+            <span style={styles.label}>Frustração</span>
             <span style={styles.value}>
               {profile?.attention?.frustrationSensitivity === 'sensitive' ? 'Alta' :
-               profile?.attention?.frustrationSensitivity === 'resilient' ? 'Baixa' : 'Media'}
+               profile?.attention?.frustrationSensitivity === 'resilient' ? 'Baixa' : 'Média'}
             </span>
           </div>
         </div>
