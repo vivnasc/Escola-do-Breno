@@ -19,7 +19,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: 'É gratuito?',
-        a: 'Sim. O PITCH é completamente gratuito, sem publicidade e sem venda de dados. Foi construído para ser acessível a todas as famílias, independentemente da sua situação financeira.',
+        a: 'O plano Semente é gratuito para sempre — 4 actividades reais com 10 níveis completos, sem limites. Para famílias que queiram todas as 20 actividades, 5 universos e funcionalidades como fichas e desafios, há o plano Flor (5,99€/mês). Para terapeutas e escolas, o plano Floresta (14,99€/mês). Zero publicidade e zero dados vendidos em todos os planos.',
       },
       {
         q: 'Que tipo de necessidades especiais suporta?',
@@ -57,7 +57,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: 'Funciona offline?',
-        a: 'Sim. O PITCH é uma Progressive Web App (PWA) que funciona sem internet. Todas as actividades, sons e dados ficam no dispositivo. Apenas o reconhecimento de fala e a sincronização cloud precisam de internet.',
+        a: 'Sim. O PITCH é uma Progressive Web App (PWA) que funciona sem internet. Todas as actividades, sons e dados ficam no dispositivo. Quando volta online, sincroniza automaticamente com a cloud. Apenas o reconhecimento de fala e as mensagens da comunidade precisam de internet.',
       },
       {
         q: 'Em que dispositivos funciona?',
@@ -74,11 +74,32 @@ const FAQ_SECTIONS = [
     ],
   },
   {
+    title: 'Comunidade e Família',
+    items: [
+      {
+        q: 'O que é o mural familiar?',
+        a: 'O mural familiar permite que pais e terapeutas enviem mensagens de encorajamento do seu próprio dispositivo. A criança vê as mensagens no tablet ou telemóvel dela. É privado — só a família tem acesso.',
+      },
+      {
+        q: 'A comunidade entre famílias é obrigatória?',
+        a: 'Não. As funcionalidades sociais são completamente opcionais (opt-in). Cada família escolhe o nível de participação. Por defeito, está desactivado. Quem quiser, activa nas definições com consentimento parental.',
+      },
+      {
+        q: 'Como funciona a comunidade social?',
+        a: 'Famílias que optam por participar podem ver conquistas de outras crianças (anonimizadas por defeito), celebrar vitórias alheias e participar em rankings gentis — sem competição negativa, apenas celebração. Nenhum dado pessoal é partilhado sem autorização.',
+      },
+      {
+        q: 'Os dados das crianças ficam protegidos na comunidade?',
+        a: 'Segurança máxima. Perfis de crianças nunca são expostos publicamente. Consentimento parental obrigatório. Conformidade RGPD. Moderação de conteúdo em mensagens. Row Level Security no Supabase — cada utilizador só acede aos seus dados.',
+      },
+    ],
+  },
+  {
     title: 'Para Pais e Terapeutas',
     items: [
       {
         q: 'Como acompanho o progresso?',
-        a: 'O Dashboard para educadores mostra níveis por campo, fases narrativas, estrelas, troféus, e um histórico detalhado. Pode exportar relatórios em texto para partilhar com terapeutas ou equipas educativas.',
+        a: 'O Dashboard mostra níveis por campo, fases narrativas, estrelas, troféus e histórico detalhado. Pais e terapeutas recebem notificações de conquistas e podem acompanhar remotamente do seu próprio dispositivo. Pode exportar relatórios para partilhar com equipas educativas.',
       },
       {
         q: 'O que é a detecção de frustração?',

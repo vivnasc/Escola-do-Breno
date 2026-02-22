@@ -31,9 +31,14 @@ const FEATURES = [
     desc: 'Instruções por voz, efeitos sonoros sintetizados, reconhecimento de fala. Tudo funciona offline, sem ficheiros externos.',
   },
   {
+    icon: '👨‍👩‍👧‍👦',
+    title: 'Família Conectada',
+    desc: 'Pais enviam mensagens do telemóvel, a criança vê no tablet. Terapeuta acompanha progresso remotamente. Comunidade entre famílias opcional.',
+  },
+  {
     icon: '📴',
     title: 'Offline-first',
-    desc: 'Funciona sem internet. PWA instalável no telemóvel. Dados ficam no dispositivo com backup cloud opcional.',
+    desc: 'Funciona sem internet. PWA instalável no telemóvel. Sincroniza automaticamente quando volta online.',
   },
 ]
 
@@ -116,7 +121,7 @@ export default function Landing({ onStart }) {
             </button>
           </div>
           <p style={styles.heroNote}>
-            Plano grátis disponível. Sem publicidade. Sem dados vendidos. Funciona offline.
+            Plano grátis disponível. Família conectada. Sem publicidade. Sem dados vendidos.
           </p>
         </div>
       </section>
@@ -159,6 +164,11 @@ export default function Landing({ onStart }) {
           <div style={styles.socialStat}>
             <span style={styles.socialNumber}>10</span>
             <span style={styles.socialLabel}>Níveis</span>
+          </div>
+          <div style={styles.socialDivider} />
+          <div style={styles.socialStat}>
+            <span style={styles.socialNumber}>👨‍👩‍👧‍👦</span>
+            <span style={styles.socialLabel}>Comunidade</span>
           </div>
         </div>
       </section>
@@ -335,6 +345,45 @@ export default function Landing({ onStart }) {
             <div style={styles.a11yItem}>
               <span style={styles.a11yIcon}>🔇</span>
               <span style={styles.a11yText}>Perfil sensorial configurável</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community */}
+      <section style={{ ...styles.section, backgroundColor: '#F3E5F5' }}>
+        <div style={styles.sectionInner}>
+          <h2 style={styles.sectionTitle}>Família e Comunidade</h2>
+          <p style={styles.sectionSubtitle}>
+            A aprendizagem não é só da criança — é de toda a família.
+          </p>
+          <div style={styles.stepsGrid}>
+            <div style={styles.step}>
+              <div style={{ ...styles.stepCircle, backgroundColor: '#F3E5F5', borderColor: '#6A1B9A' }}>
+                <span style={{ fontSize: '1.5rem' }}>💌</span>
+              </div>
+              <h3 style={styles.stepTitle}>Mural Familiar</h3>
+              <p style={styles.stepDesc}>
+                Pais e terapeutas enviam mensagens de encorajamento do seu próprio dispositivo.
+              </p>
+            </div>
+            <div style={styles.step}>
+              <div style={{ ...styles.stepCircle, backgroundColor: '#F3E5F5', borderColor: '#6A1B9A' }}>
+                <span style={{ fontSize: '1.5rem' }}>🏆</span>
+              </div>
+              <h3 style={styles.stepTitle}>Conquistas Partilhadas</h3>
+              <p style={styles.stepDesc}>
+                A família recebe notificações quando a criança completa actividades e alcança objectivos.
+              </p>
+            </div>
+            <div style={styles.step}>
+              <div style={{ ...styles.stepCircle, backgroundColor: '#F3E5F5', borderColor: '#6A1B9A' }}>
+                <span style={{ fontSize: '1.5rem' }}>🤝</span>
+              </div>
+              <h3 style={styles.stepTitle}>Social Opcional</h3>
+              <p style={styles.stepDesc}>
+                Comunidade entre famílias, rankings gentis — tudo opt-in. Quem não quiser, não participa.
+              </p>
             </div>
           </div>
         </div>

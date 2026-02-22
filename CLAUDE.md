@@ -5,12 +5,13 @@ Construida originalmente para o Breno (12 anos, espectro autista, homeschooling)
 
 ## Visao Geral
 
-- **Stack**: React 18 + React Router 6 + Vite + Workbox PWA
-- **Dependencias externas**: react, react-dom, react-router-dom, @paypal/react-paypal-js (producao)
-- **Persistencia**: localStorage (multi-perfil)
+- **Stack**: React 18 + React Router 6 + Vite + Workbox PWA + Supabase
+- **Backend**: Supabase (Auth, Postgres, Realtime, Edge Functions, Storage)
+- **Dependencias externas**: react, react-dom, react-router-dom, @paypal/react-paypal-js, @supabase/supabase-js (producao)
+- **Persistencia**: Supabase (cloud) + localStorage/IndexedDB (offline fallback)
 - **Audio**: Web Speech API nativa (TTS)
 - **Styling**: CSS Variables + inline styles React (sem framework CSS)
-- **Offline**: PWA com service worker + CacheFirst para imagens
+- **Offline**: PWA com service worker + CacheFirst para imagens + sync quando online
 
 ## Estrutura do Projecto
 
@@ -151,11 +152,59 @@ Factores de ajuste: idade, nivel de leitura, nivel de apoio.
 - Universos verificados via `subscription.isUniverseLocked(universeId)`
 - Features: `subscription.hasFichas`, `subscription.hasDesafios`, `subscription.hasLoja`
 
-### Futuro (nao implementado)
-- Webhooks PayPal no Supabase Edge Functions (validacao server-side)
+### Webhooks PayPal (Supabase Edge Functions)
+- Validacao server-side de subscricoes via webhooks
 - Trial period
 - Codigos de desconto
 - Cancelamento/downgrade automatico via webhook
+
+## Supabase Backend
+
+### Servicos Utilizados
+- **Auth**: Login para pais, terapeutas, criancas (email, Google, Apple)
+- **Database (Postgres)**: Perfis, progresso, mensagens, conquistas
+- **Realtime**: Mensagens familiares e notificacoes em tempo real
+- **Edge Functions**: Webhooks PayPal, logica server-side
+- **Storage**: Avatares customizados, exports de relatorios
+
+### Env vars
+- `VITE_SUPABASE_URL` — URL do projecto Supabase
+- `VITE_SUPABASE_ANON_KEY` — Chave publica (anon key)
+
+### Sync Offline
+- App funciona offline com dados locais (localStorage/IndexedDB)
+- Quando volta online, sincroniza automaticamente com Supabase
+- Conflitos resolvidos por "last write wins" com timestamp
+
+## Comunidade e Familia
+
+### Visao
+A comunidade serve as criancas e as suas familias. Funcionalidades sociais sao **opcionais** — cada familia escolhe o nivel de participacao que quer.
+
+### Mural Familiar (remoto)
+- Pais e terapeutas enviam mensagens do seu proprio dispositivo
+- Crianca ve mensagens de encorajamento no tablet/telemovel dela
+- Notificacoes quando ha novas mensagens
+- Historico de mensagens preservado
+
+### Conquistas Partilhadas
+- Crianca completa actividade → familia recebe notificacao automatica
+- Mural de orgulho visivel para toda a familia
+- Terapeuta acompanha progresso remotamente e deixa orientacoes
+
+### Social entre Familias (opcional, opt-in)
+- Criancas podem ver conquistas de outras criancas (anonimizado por default)
+- Rankings gentis (sem competicao negativa — celebracao, nao comparacao)
+- Quem nao quiser participar, desactiva nas definicoes
+- Zero exposicao de dados pessoais sem consentimento explicito dos pais
+
+### Privacidade e Seguranca
+- Publico vulneravel (criancas com necessidades especiais) — seguranca maxima
+- Consentimento parental obrigatorio para funcionalidades sociais
+- Perfis de criancas nunca expostos publicamente
+- Moderacao de conteudo em mensagens
+- Conformidade RGPD (direito ao esquecimento, export de dados)
+- Row Level Security (RLS) no Supabase em todas as tabelas
 
 ## Motor Adaptativo (useAdaptive.js)
 
@@ -206,29 +255,36 @@ Traduz o perfil da crianca em adaptacoes concretas de UI/UX:
   - `levelUp()` — fanfarra triunfante
   - Funciona offline, sem dependencias, respeita `soundEnabled`
 
-### Persistencia — Implementado
+### Persistencia — Implementado + Em Evolucao
 - **IndexedDB**: Wrapper robusto alem de localStorage
   - Migracao automatica localStorage → IndexedDB no primeiro load
   - Fallback para localStorage se IndexedDB indisponivel
   - Export/import JSON para backup e transferencia entre dispositivos
   - Disponivel nas Definicoes (📤 Exportar / 📥 Importar)
+- **Supabase (em desenvolvimento)**: Persistencia cloud
+  - Perfis, progresso e mensagens sincronizados na cloud
+  - Dados acessiveis em qualquer dispositivo apos login
+  - Offline-first: funciona local, sincroniza quando online
 
 ## Lacunas Conhecidas
 
 ### Importantes
 - **Sem testes**: Zero unit tests, zero integration tests
-- **Sem backend**: Tudo client-side, sem API server (dados ficam no dispositivo)
 - **Conteudo robusto**: 299 palavras vocab (19 categorias inc. sentimentos e social), 26 letras phonics, 30 paises, 20 perguntas ciencia, 25 factos geografia, 24 experiencias natureza, 20 cenarios mundo real, 24 problemas resolucao
 - **Export texto simples**: Relatorio e .txt, podia ser PDF com graficos
 - **Sem i18n**: Tudo hardcoded em portugues, sem framework de traducao
 - **TTS qualidade variavel**: Web Speech API depende do dispositivo/browser
 - **STT requer internet**: Speech Recognition e cloud-processed pelo browser
 
+### Em Desenvolvimento
+- **Supabase backend**: Migracao de client-only para Supabase (auth, database, realtime)
+- **Comunidade familiar**: Mural remoto, conquistas partilhadas, terapeuta conectado
+- **Social opt-in**: Comunidade entre familias (opcional)
+- **Notificacoes push**: Mensagens familiares e conquistas
+- **Webhooks PayPal**: Validacao server-side via Supabase Edge Functions
+- **Analytics**: Tracking de uso para melhorar a experiencia (sem venda de dados)
+
 ### Futuras
-- **PayPal client-side only**: Subscricoes PayPal integradas mas sem webhooks server-side (validacao local)
-- **Sem multiplayer/colaboracao**: Cada crianca aprende sozinha
-- **Sem notificacoes push**: PWA suporta mas nao implementado
-- **Sem analytics**: Sem tracking de uso (tempo em cada actividade, taxas de abandono)
 - **Sem modo offline completo para TTS**: TTS precisa de vozes instaladas no dispositivo
 
 ## Perfil do Breno (Quick Start)
@@ -282,5 +338,7 @@ npm run preview      # Preview production build
 2. **Universalista** — conteudo global (Barcelona, Liverpool, Bayern — nao centrado num pais)
 3. **Adaptativo** — cada crianca tem um perfil unico de necessidades
 4. **Gentil** — animacoes suaves, sem pressao temporal, deteccao de frustracao
-5. **Offline-first** — PWA que funciona sem internet
-6. **Minimalista** — zero dependencias desnecessarias (3 deps de producao)
+5. **Offline-first** — PWA que funciona sem internet, sincroniza quando online
+6. **Familia primeiro** — comunidade ao servico das familias, nunca o contrario
+7. **Social por escolha** — funcionalidades sociais sao opt-in, nunca forcadas
+8. **Seguranca maxima** — publico vulneravel, RGPD, consentimento parental, RLS

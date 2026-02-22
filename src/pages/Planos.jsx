@@ -145,6 +145,15 @@ export default function Planos({ currentTier, onSubscribed }) {
             Zero publicidade, zero venda de dados. Sempre.
           </p>
         </div>
+
+        <div style={styles.faqItem}>
+          <h3 style={styles.faqQ}>Como funciona a comunidade?</h3>
+          <p style={styles.faqA}>
+            O mural familiar está disponível em todos os planos — pais enviam mensagens de encorajamento.
+            A comunidade social entre famílias (rankings gentis, conquistas partilhadas) é exclusiva dos planos
+            Flor e Floresta, e é sempre opcional. Cada família escolhe se quer participar.
+          </p>
+        </div>
       </section>
 
       <button style={styles.backBtn} onClick={() => navigate('/')}>
