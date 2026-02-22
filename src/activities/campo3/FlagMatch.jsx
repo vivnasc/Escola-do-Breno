@@ -91,6 +91,7 @@ export default function FlagMatch({
       color="var(--color-campo3)"
       score={score}
       total={COUNTRIES.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.flagDisplay}>
         <span style={styles.flag}>{country.flag}</span>
@@ -114,6 +115,7 @@ export default function FlagMatch({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

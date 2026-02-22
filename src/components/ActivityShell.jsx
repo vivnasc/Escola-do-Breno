@@ -10,16 +10,19 @@ export default function ActivityShell({
   children,
   score,
   total,
+  textLevel,
 }) {
   const navigate = useNavigate()
   const { speak } = useTTS()
 
+  // Auto-read instruction on load (respects textLevel.readAloud)
+  const shouldReadAloud = textLevel ? textLevel.readAloud !== false : true
   useEffect(() => {
-    if (instruction) {
+    if (instruction && shouldReadAloud) {
       const timer = setTimeout(() => speak(instruction), 500)
       return () => clearTimeout(timer)
     }
-  }, [instruction, speak])
+  }, [instruction, speak, shouldReadAloud])
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -42,7 +45,10 @@ export default function ActivityShell({
 
       {instruction && (
         <button
-          style={styles.instruction}
+          style={{
+            ...styles.instruction,
+            ...(textLevel?.useSimpleLanguage ? styles.instructionLarge : {}),
+          }}
           onClick={() => speak(instruction)}
           aria-label={`Ouvir instrucao: ${instruction}`}
         >
@@ -101,6 +107,11 @@ const styles = {
     cursor: 'pointer',
     textAlign: 'left',
     lineHeight: 1.4,
+  },
+  instructionLarge: {
+    fontSize: 'var(--font-size-lg)',
+    padding: 'var(--space-md)',
+    lineHeight: 1.6,
   },
   content: {
     flex: 1,

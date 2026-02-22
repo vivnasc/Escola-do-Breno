@@ -130,6 +130,7 @@ export default function ClockReader({
       color="var(--color-campo2)"
       score={score}
       total={TOTAL}
+      textLevel={adaptive?.textLevel}
     >
       <ClockFace hours={problem.hours} minutes={problem.minutes} />
 
@@ -150,6 +151,7 @@ export default function ClockReader({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

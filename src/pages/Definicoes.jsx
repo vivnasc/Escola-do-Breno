@@ -7,7 +7,7 @@ import { UNIVERSES } from '../data/universes'
  * Settings page — edit profile, needs, or reset.
  * Accessible from bottom nav so the parent/therapist can adjust anytime.
  */
-export default function Definicoes({ profile, updateProfile, resetProfile }) {
+export default function Definicoes({ profile, profiles, updateProfile, resetProfile, deleteProfile }) {
   const navigate = useNavigate()
   const [showReset, setShowReset] = useState(false)
   const [editSection, setEditSection] = useState(null)
@@ -200,6 +200,20 @@ export default function Definicoes({ profile, updateProfile, resetProfile }) {
         </div>
       </section>
 
+      {/* Profile Management */}
+      {profiles && profiles.length > 1 && (
+        <section style={styles.section}>
+          <h2 style={styles.sectionTitle}>Perfis</h2>
+          <p style={styles.profileCount}>{profiles.length} escolas neste dispositivo</p>
+          <button
+            style={styles.switchBtn}
+            onClick={() => resetProfile('switch')}
+          >
+            Trocar de perfil
+          </button>
+        </section>
+      )}
+
       {/* Actions */}
       <section style={styles.section}>
         <button
@@ -213,7 +227,7 @@ export default function Definicoes({ profile, updateProfile, resetProfile }) {
           style={styles.resetBtn}
           onClick={() => setShowReset(true)}
         >
-          Criar perfil novo (apaga tudo)
+          Apagar este perfil
         </button>
       </section>
 
@@ -417,6 +431,22 @@ const styles = {
     color: 'var(--color-primary)',
   },
   // Actions
+  profileCount: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  switchBtn: {
+    width: '100%',
+    padding: 'var(--space-md)',
+    backgroundColor: '#E3F2FD',
+    border: '2px solid #1565C0',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+    color: '#1565C0',
+  },
   intakeBtn: {
     width: '100%',
     padding: 'var(--space-md)',

@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
-import { TEAMS } from '../../data/vocabulary'
+import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
 const COLOR_MAP = {
@@ -32,6 +32,10 @@ export default function ColorKit({
   markWordLearned,
   adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const colorContent = content.color
+  const TEAMS = colorContent.items
+
   const [teamIdx, setTeamIdx] = useState(0)
   const [selectedColors, setSelectedColors] = useState([])
   const [feedback, setFeedback] = useState(null)
@@ -51,7 +55,7 @@ export default function ColorKit({
           setSelectedColors(next)
           registerSuccess()
           // Mark colour words learned
-          const colorWordIds = { red: 26, blue: 27, green: 28, yellow: 29, white: 30, black: 31, orange: 32 }
+          const colorWordIds = { red: 28, blue: 29, green: 30, yellow: 31, white: 32, black: 33, orange: 34 }
           if (colorWordIds[color.en]) markWordLearned(colorWordIds[color.en])
 
           if (next.length === targetColors.length) {
@@ -78,10 +82,10 @@ export default function ColorKit({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Pinta o Equipamento" backPath="/campo/1" color="var(--color-campo1)">
+      <ActivityShell title={colorContent.title} backPath="/campo/1" color="var(--color-campo1)">
         <div style={styles.complete}>
           <span style={styles.completeEmoji}>🎨</span>
-          <p style={styles.completeText}>Pintaste todos os equipamentos!</p>
+          <p style={styles.completeText}>{colorContent.completeText}</p>
         </div>
       </ActivityShell>
     )
@@ -89,16 +93,17 @@ export default function ColorKit({
 
   return (
     <ActivityShell
-      title="Pinta o Equipamento"
-      instruction={`Pinta o equipamento do ${team.name}. Escolhe as cores: ${targetColors.join(' and ')}.`}
+      title={colorContent.title}
+      instruction={colorContent.instruction(team.name, targetColors.join(' and '))}
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={teamIdx}
       total={TEAMS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.teamInfo}>
         <span style={styles.teamName}>{team.name}</span>
-        <span style={styles.teamCountry}>{team.country}</span>
+        <span style={styles.teamCountry}>{team.detail}</span>
       </div>
 
       <div style={styles.kitPreview}>
@@ -153,6 +158,7 @@ export default function ColorKit({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

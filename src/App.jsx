@@ -46,13 +46,13 @@ export default function App() {
   const profileData = useProfile()
   const adaptive = useAdaptive(profileData.profile)
 
-  // Dynamic title: "A Escola do Breno" / "A Escola da Sofia" etc.
+  // Dynamic title
   useEffect(() => {
-    const name = profileData.profile.name
+    const name = profileData.profile?.name
     if (name) {
       document.title = `PITCH - A Escola do ${name}`
     }
-  }, [profileData.profile.name])
+  }, [profileData.profile?.name])
 
   const handleFrustration = useCallback(() => {
     setShowCalma(true)
@@ -66,7 +66,7 @@ export default function App() {
     calmDown()
   }, [calmDown])
 
-  // Breno quick-start: pre-load his full profile
+  // Breno quick-start
   const handleBrenoStart = useCallback(() => {
     profileData.completeOnboarding(BRENO_PROFILE)
   }, [profileData])
@@ -75,6 +75,11 @@ export default function App() {
   const handleNewProfile = useCallback(() => {
     setShowIntake(true)
   }, [])
+
+  // Switch to existing profile
+  const handleSwitchProfile = useCallback((id) => {
+    profileData.switchProfile(id)
+  }, [profileData])
 
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
@@ -85,6 +90,9 @@ export default function App() {
   const handleResetProfile = useCallback((type) => {
     if (type === 'intake') {
       setShowIntake(true)
+    } else if (type === 'switch') {
+      // Switch profile — go back to welcome
+      profileData.switchProfile(null)
     } else {
       profileData.resetAll()
       progressData.resetAll()
@@ -99,9 +107,16 @@ export default function App() {
     adaptive,
   }
 
-  // Show Welcome screen if never onboarded
-  if (!profileData.profile.onboardingComplete && !showIntake) {
-    return <Welcome onBreno={handleBrenoStart} onNewProfile={handleNewProfile} />
+  // Show Welcome screen if no active profile
+  if (!profileData.profile && !showIntake) {
+    return (
+      <Welcome
+        onBreno={handleBrenoStart}
+        onNewProfile={handleNewProfile}
+        profiles={profileData.profiles}
+        onSwitchProfile={handleSwitchProfile}
+      />
+    )
   }
 
   // Show Intake wizard (new profile or redo)
@@ -173,8 +188,10 @@ export default function App() {
           <Route path="/definicoes" element={
             <Definicoes
               profile={profileData.profile}
+              profiles={profileData.profiles}
               updateProfile={profileData.updateProfile}
               resetProfile={handleResetProfile}
+              deleteProfile={profileData.deleteProfile}
             />
           } />
 

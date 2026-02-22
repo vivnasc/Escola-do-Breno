@@ -1,69 +1,7 @@
 import { useState, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
-
-const SCENARIOS = [
-  {
-    situation: 'Um colega marca um golo contra a tua equipa. O que fazes?',
-    emoji: '⚽',
-    options: [
-      { text: 'Dou-lhe os parabens e continuo a jogar', correct: true },
-      { text: 'Fico zangado e nao falo com ele', correct: false },
-      { text: 'Saio do jogo', correct: false },
-    ],
-    lesson: 'No fair play, felicitamos o adversario. Um bom jogador sabe perder com dignidade!',
-  },
-  {
-    situation: 'O treinador poe-te no banco. Como reages?',
-    emoji: '🪑',
-    options: [
-      { text: 'Espero a minha vez e apoio a equipa', correct: true },
-      { text: 'Reclamo e grito com o treinador', correct: false },
-      { text: 'Vou-me embora', correct: false },
-    ],
-    lesson: 'Todos os jogadores passam pelo banco. E um momento para observar e aprender!',
-  },
-  {
-    situation: 'Um colega novo chega a equipa e nao conhece ninguem. O que fazes?',
-    emoji: '👋',
-    options: [
-      { text: 'Apresento-me e convido-o para brincar', correct: true },
-      { text: 'Ignoro-o', correct: false },
-      { text: 'Gozar com ele porque nao sabe jogar', correct: false },
-    ],
-    lesson: 'Receber bem os novos colegas e uma qualidade de um grande capitao de equipa!',
-  },
-  {
-    situation: 'A tua equipa ganha o jogo. Como celebras?',
-    emoji: '🎉',
-    options: [
-      { text: 'Celebro com a equipa e cumprimento os adversarios', correct: true },
-      { text: 'Gozar com a equipa que perdeu', correct: false },
-      { text: 'Celebrar sozinho e gabar-me', correct: false },
-    ],
-    lesson: 'Os melhores jogadores do mundo celebram com a equipa e respeitam os adversarios!',
-  },
-  {
-    situation: 'Nao entendes uma regra do jogo. O que fazes?',
-    emoji: '❓',
-    options: [
-      { text: 'Pergunto ao treinador ou professor', correct: true },
-      { text: 'Finjo que sei e continuo', correct: false },
-      { text: 'Fico calado e nao jogo mais', correct: false },
-    ],
-    lesson: 'Pedir ajuda e corajoso! Ate os jogadores profissionais pedem ajuda ao treinador.',
-  },
-  {
-    situation: 'Um colega esta triste porque perdeu o jogo. O que fazes?',
-    emoji: '😢',
-    options: [
-      { text: 'Digo-lhe que jogou bem e que da proxima vez sera melhor', correct: true },
-      { text: 'Rio-me dele', correct: false },
-      { text: 'Nao faco nada, nao e comigo', correct: false },
-    ],
-    lesson: 'Apoiar os colegas quando estao tristes mostra que es um verdadeiro amigo e jogador de equipa!',
-  },
-]
+import { getContent } from '../../data/universeContent'
 
 export default function FairPlay({
   registerClick,
@@ -73,6 +11,9 @@ export default function FairPlay({
   updateCampoProgress,
   adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const SCENARIOS = content.fairPlay
+
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -128,6 +69,7 @@ export default function FairPlay({
       color="var(--color-campo4)"
       score={score}
       total={SCENARIOS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.scenarioCard}>
         <span style={styles.scenarioEmoji}>{current.emoji}</span>
@@ -162,6 +104,7 @@ export default function FairPlay({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

@@ -123,6 +123,7 @@ export default function BodyScience({
       color="var(--color-campo3)"
       score={score}
       total={QUESTIONS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>
         <span style={styles.questionIcon}>🫀</span>
@@ -157,6 +158,7 @@ export default function BodyScience({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

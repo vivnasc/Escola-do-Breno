@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
+import { getContent } from '../../data/universeContent'
 
 const CLOTHING_ITEMS = [
   { id: 'shirt', en: 'shirt', pt: 'camisola', emoji: '👕', zone: 'torso' },
@@ -27,6 +28,9 @@ export default function DressThePlayer({
   markWordLearned,
   adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const dressContent = content.dress
+
   const [currentItem, setCurrentItem] = useState(0)
   const [dressed, setDressed] = useState([])
   const [feedback, setFeedback] = useState(null)
@@ -41,7 +45,7 @@ export default function DressThePlayer({
       if (zoneId === item.zone) {
         registerSuccess()
         markWordLearned(
-          { shirt: 20, shorts: 21, boots: 22, socks: 23, hat: 24, jacket: 25 }[item.id]
+          { shirt: 21, shorts: 22, boots: 23, socks: 24, hat: 25, jacket: 26 }[item.id]
         )
         setDressed((d) => [...d, item.id])
         setFeedback('success')
@@ -64,10 +68,10 @@ export default function DressThePlayer({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Veste o Jogador" backPath="/campo/1" color="var(--color-campo1)">
+      <ActivityShell title={dressContent.title} backPath="/campo/1" color="var(--color-campo1)">
         <div style={styles.complete}>
-          <span style={styles.completeEmoji}>⚽</span>
-          <p style={styles.completeText}>O jogador esta pronto para o jogo!</p>
+          <span style={styles.completeEmoji}>{dressContent.completeEmoji}</span>
+          <p style={styles.completeText}>{dressContent.completeText}</p>
           <div style={styles.dressedRow}>
             {CLOTHING_ITEMS.map((c) => (
               <span key={c.id} style={styles.dressedItem}>{c.emoji}</span>
@@ -80,12 +84,13 @@ export default function DressThePlayer({
 
   return (
     <ActivityShell
-      title="Veste o Jogador"
-      instruction={`Coloca a ${item.en} no jogador. Onde vai a ${item.pt}?`}
+      title={dressContent.title}
+      instruction={dressContent.instruction(item.en, item.pt)}
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={currentItem}
       total={CLOTHING_ITEMS.length}
+      textLevel={adaptive?.textLevel}
     >
       <button
         style={styles.itemCard}
@@ -130,6 +135,7 @@ export default function DressThePlayer({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

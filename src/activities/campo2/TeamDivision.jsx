@@ -1,18 +1,9 @@
 import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
 
-function generateProblem() {
-  const scenarios = [
-    { total: 12, groups: 2, context: '12 jogadores divididos em 2 equipas iguais.' },
-    { total: 10, groups: 5, context: '10 bolas para 5 jogadores.' },
-    { total: 15, groups: 3, context: '15 bidonees de agua para 3 equipas.' },
-    { total: 8, groups: 2, context: '8 coletes para 2 grupos de treino.' },
-    { total: 20, groups: 4, context: '20 medalhas para 4 equipas vencedoras.' },
-    { total: 6, groups: 3, context: '6 pares de luvas para 3 guarda-redes.' },
-    { total: 16, groups: 4, context: '16 cones para marcar 4 zonas do campo.' },
-    { total: 9, groups: 3, context: '9 jogadores divididos em 3 mini-equipas.' },
-  ]
+function generateProblem(scenarios) {
   return scenarios[Math.floor(Math.random() * scenarios.length)]
 }
 
@@ -26,12 +17,13 @@ export default function TeamDivision({
   updateCampoProgress,
   adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
   const choiceCount = adaptive?.choiceCount || 4
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateProblem(), [round])
+  const problem = useMemo(() => generateProblem(content.division), [round, content.division])
   const answer = problem.total / problem.groups
 
   const options = useMemo(() => {
@@ -93,6 +85,7 @@ export default function TeamDivision({
       color="var(--color-campo2)"
       score={score}
       total={TOTAL}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.problemCard}>
         <span style={styles.problemEmoji}>
@@ -121,6 +114,7 @@ export default function TeamDivision({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

@@ -1,7 +1,7 @@
 import { useState, useMemo, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
-import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../../data/vocabulary'
+import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES, getWordContext } from '../../data/vocabulary'
 import { useTTS } from '../../hooks/useTTS'
 
 function shuffle(arr) {
@@ -22,6 +22,7 @@ export default function VocabularyMatch({
   completeActivity,
   adaptive,
 }) {
+  const universeId = adaptive?.universe?.id || 'football'
   const choiceCount = adaptive?.choiceCount || 4
   const [categoryIdx, setCategoryIdx] = useState(0)
   const [questionIdx, setQuestionIdx] = useState(0)
@@ -94,6 +95,7 @@ export default function VocabularyMatch({
       color="var(--color-campo1)"
       score={score}
       total={VOCABULARY_WORDS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.categoryBadge}>
         {category.icon} {category.labelPt}
@@ -108,7 +110,7 @@ export default function VocabularyMatch({
         <span style={styles.speakerIcon}>🔊</span>
       </button>
 
-      <p style={styles.contextHint}>{currentWord.context}</p>
+      <p style={styles.contextHint}>{getWordContext(currentWord, universeId)}</p>
 
       <div style={styles.optionsGrid}>
         {options.map((opt) => (
@@ -128,6 +130,7 @@ export default function VocabularyMatch({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

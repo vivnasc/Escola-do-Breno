@@ -134,6 +134,7 @@ export default function RealWorld({
       color="var(--color-campo4)"
       score={score}
       total={CHALLENGES.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.challengeCard}>
         <span style={styles.challengeEmoji}>{current.emoji}</span>
@@ -169,6 +170,7 @@ export default function RealWorld({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

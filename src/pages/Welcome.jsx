@@ -1,9 +1,12 @@
 /**
- * Welcome screen — shown on first launch.
- * Breno gets instant access ("Sou o Breno!").
- * Other children go through the full Intake.
+ * Welcome screen — shown when no active profile.
+ * Shows existing profiles for switching, plus Breno quick-start and new profile.
  */
-export default function Welcome({ onBreno, onNewProfile }) {
+import { AVATARS } from '../hooks/useProfile'
+
+export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile }) {
+  const hasProfiles = profiles && profiles.length > 0
+
   return (
     <div style={styles.container} className="animate-fade-in">
       <div style={styles.content}>
@@ -23,17 +26,44 @@ export default function Welcome({ onBreno, onNewProfile }) {
           Play. Interact. Think. Challenge. Hone.
         </p>
 
-        <div style={styles.actions}>
-          <button
-            style={styles.brenoBtn}
-            onClick={onBreno}
-          >
-            <span style={styles.brenoBtnIcon}>⚽</span>
-            <div>
-              <span style={styles.brenoBtnTitle}>Sou o Breno!</span>
-              <span style={styles.brenoBtnSub}>Entrar na minha escola</span>
+        {/* Existing profiles */}
+        {hasProfiles && (
+          <div style={styles.profilesSection}>
+            <p style={styles.profilesTitle}>Escolas existentes:</p>
+            <div style={styles.profilesList}>
+              {profiles.map((p) => {
+                const avatar = AVATARS.find((a) => a.id === p.avatar)
+                return (
+                  <button
+                    key={p.id}
+                    style={styles.profileBtn}
+                    onClick={() => onSwitchProfile(p.id)}
+                  >
+                    <span style={styles.profileAvatar}>{avatar?.emoji || '⭐'}</span>
+                    <div>
+                      <span style={styles.profileName}>A Escola do {p.name}</span>
+                      <span style={styles.profileAge}>{p.age} anos</span>
+                    </div>
+                  </button>
+                )
+              })}
             </div>
-          </button>
+          </div>
+        )}
+
+        <div style={styles.actions}>
+          {!hasProfiles && (
+            <button
+              style={styles.brenoBtn}
+              onClick={onBreno}
+            >
+              <span style={styles.brenoBtnIcon}>⚽</span>
+              <div>
+                <span style={styles.brenoBtnTitle}>Sou o Breno!</span>
+                <span style={styles.brenoBtnSub}>Entrar na minha escola</span>
+              </div>
+            </button>
+          )}
 
           <button
             style={styles.newBtn}
@@ -41,8 +71,10 @@ export default function Welcome({ onBreno, onNewProfile }) {
           >
             <span style={styles.newBtnIcon}>🌟</span>
             <div>
-              <span style={styles.newBtnTitle}>Criar a minha escola</span>
-              <span style={styles.newBtnSub}>Personalizar para outra crianca</span>
+              <span style={styles.newBtnTitle}>
+                {hasProfiles ? 'Criar outra escola' : 'Criar a minha escola'}
+              </span>
+              <span style={styles.newBtnSub}>Personalizar para {hasProfiles ? 'outra' : 'uma'} crianca</span>
             </div>
           </button>
         </div>
@@ -88,6 +120,51 @@ const styles = {
     color: 'var(--color-text-secondary)',
     fontWeight: 500,
     letterSpacing: '0.5px',
+  },
+  profilesSection: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  profilesTitle: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: 'var(--color-text-secondary)',
+    textAlign: 'left',
+  },
+  profilesList: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+  },
+  profileBtn: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-md)',
+    padding: 'var(--space-md) var(--space-lg)',
+    backgroundColor: '#E3F2FD',
+    border: '2px solid var(--color-primary)',
+    borderRadius: 'var(--radius-lg)',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    textAlign: 'left',
+    transition: 'all 0.2s',
+  },
+  profileAvatar: {
+    fontSize: '2rem',
+    flexShrink: 0,
+  },
+  profileName: {
+    display: 'block',
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: 'var(--color-primary-dark)',
+  },
+  profileAge: {
+    display: 'block',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
   },
   actions: {
     display: 'flex',

@@ -1,18 +1,15 @@
 import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
+import { getContent } from '../../data/universeContent'
 
-function generateProblem(round, difficulty = 2) {
-  // Difficulty 1: only addition, small numbers
-  // Difficulty 2: addition and subtraction
-  // Difficulty 3: all operations, bigger numbers
+function generateProblem(round, difficulty, mathContent) {
   const ops = difficulty === 1
     ? ['+']
     : difficulty === 3
     ? (round < 3 ? ['+'] : round < 7 ? ['+', '-'] : ['+', '-', '×'])
     : (round < 5 ? ['+'] : ['+', '-'])
   const op = ops[Math.floor(Math.random() * ops.length)]
-
   const maxNum = difficulty === 1 ? 5 : difficulty === 3 ? 12 : 8
 
   let a, b, answer
@@ -37,10 +34,10 @@ function generateProblem(round, difficulty = 2) {
   }
 
   const context = op === '+'
-    ? `O ${['Benfica', 'Porto', 'Sporting'][Math.floor(Math.random() * 3)]} marcou ${a} golos na primeira parte e ${b} na segunda.`
+    ? mathContent.addContext(a, b)
     : op === '-'
-    ? `A equipa tinha ${a} pontos e perdeu ${b}. Quantos ficaram?`
-    : `Sao ${a} jogos e cada jogo vale ${b} pontos.`
+    ? mathContent.subContext(a, b)
+    : mathContent.mulContext(a, b)
 
   return { a, b, op, answer, context }
 }
@@ -73,11 +70,13 @@ export default function GoalMath({
 }) {
   const choiceCount = adaptive?.choiceCount || 4
   const difficulty = adaptive?.difficulty || 2
+  const content = getContent(adaptive?.universe?.id)
+  const mathContent = content.math
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateProblem(round, difficulty), [round, difficulty])
+  const problem = useMemo(() => generateProblem(round, difficulty, mathContent), [round, difficulty, mathContent])
   const options = useMemo(() => generateOptions(problem.answer, choiceCount), [problem, choiceCount])
   const isComplete = round >= TOTAL_PROBLEMS
 
@@ -108,9 +107,9 @@ export default function GoalMath({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Golos e Contas" backPath="/campo/2" color="var(--color-campo2)">
+      <ActivityShell title={mathContent.title} backPath="/campo/2" color="var(--color-campo2)">
         <div style={styles.complete}>
-          <span style={styles.completeEmoji}>⚽</span>
+          <span style={styles.completeEmoji}>{mathContent.icon}</span>
           <p style={styles.completeText}>
             Marcaste {score} de {TOTAL_PROBLEMS}!
           </p>
@@ -121,12 +120,13 @@ export default function GoalMath({
 
   return (
     <ActivityShell
-      title="Golos e Contas"
+      title={mathContent.title}
       instruction={problem.context}
       backPath="/campo/2"
       color="var(--color-campo2)"
       score={score}
       total={TOTAL_PROBLEMS}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.problemCard}>
         <span style={styles.problemText}>
@@ -142,7 +142,7 @@ export default function GoalMath({
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
           >
-            <span style={styles.optionBall}>⚽</span>
+            <span style={styles.optionBall}>{mathContent.icon}</span>
             <span style={styles.optionNumber}>{opt}</span>
           </button>
         ))}
@@ -152,6 +152,7 @@ export default function GoalMath({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

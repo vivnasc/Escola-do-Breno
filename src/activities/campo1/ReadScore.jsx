@@ -2,15 +2,7 @@ import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
-
-const MATCHES = [
-  { home: 'Portugal', away: 'France', homeGoals: 3, awayGoals: 1 },
-  { home: 'Brazil', away: 'Germany', homeGoals: 2, awayGoals: 2 },
-  { home: 'England', away: 'Spain', homeGoals: 0, awayGoals: 1 },
-  { home: 'Argentina', away: 'Italy', homeGoals: 4, awayGoals: 0 },
-  { home: 'Benfica', away: 'Porto', homeGoals: 2, awayGoals: 1 },
-  { home: 'Sporting', away: 'Benfica', homeGoals: 1, awayGoals: 3 },
-]
+import { getContent } from '../../data/universeContent'
 
 const numberToWord = (n) => {
   const words = ['zero', 'one', 'two', 'three', 'four', 'five']
@@ -24,6 +16,12 @@ export default function ReadScore({
   completeActivity,
   adaptive,
 }) {
+  const content = getContent(adaptive?.universe?.id)
+  const readContent = content.read
+  const MATCHES = readContent.items.map(m => ({
+    home: m.home, away: m.away, homeGoals: m.homeScore, awayGoals: m.awayScore
+  }))
+
   const [matchIdx, setMatchIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const { speakEn } = useTTS()
@@ -72,10 +70,10 @@ export default function ReadScore({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Le o Resultado" backPath="/campo/1" color="var(--color-campo1)">
+      <ActivityShell title={readContent.title} backPath="/campo/1" color="var(--color-campo1)">
         <div style={styles.complete}>
           <span style={styles.completeEmoji}>📊</span>
-          <p style={styles.completeText}>Leste todos os resultados!</p>
+          <p style={styles.completeText}>{readContent.completeText}</p>
         </div>
       </ActivityShell>
     )
@@ -83,14 +81,15 @@ export default function ReadScore({
 
   return (
     <ActivityShell
-      title="Le o Resultado"
+      title={readContent.title}
       instruction="Le o resultado em ingles e escolhe a opcao correcta."
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={matchIdx}
       total={MATCHES.length}
+      textLevel={adaptive?.textLevel}
     >
-      <div style={styles.scoreBoard}>
+      <div style={{ ...styles.scoreBoard, backgroundColor: readContent.boardColor }}>
         <div style={styles.teamSide}>
           <span style={styles.teamName}>{match.home}</span>
         </div>
@@ -126,6 +125,7 @@ export default function ReadScore({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )

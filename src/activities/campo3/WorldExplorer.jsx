@@ -115,6 +115,7 @@ export default function WorldExplorer({
       color="var(--color-campo3)"
       score={score}
       total={FACTS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>
         <span style={styles.questionIcon}>🌍</span>
@@ -149,6 +150,7 @@ export default function WorldExplorer({
           type={feedback}
           visible={feedback !== null}
           onDismiss={() => setFeedback(null)}
+          universe={adaptive?.universe}
         />
       )}
     </ActivityShell>

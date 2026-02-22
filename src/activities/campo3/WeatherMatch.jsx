@@ -124,6 +124,7 @@ export default function WeatherMatch({
       color="var(--color-campo3)"
       score={score}
       total={SCENARIOS.length}
+      textLevel={adaptive?.textLevel}
     >
       <div style={styles.weatherCard}>
         <span style={styles.weatherEmoji}>{scenario.weatherEmoji}</span>
@@ -163,6 +164,7 @@ export default function WeatherMatch({
         type={feedback}
         visible={feedback !== null}
         onDismiss={feedback === 'success' ? handleNext : () => setFeedback(null)}
+        universe={adaptive?.universe}
       />
     </ActivityShell>
   )
