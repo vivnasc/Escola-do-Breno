@@ -175,7 +175,7 @@ const QUESTIONS = [
       'Os ossos',
     ],
     correct: 0,
-    fact: 'O sistema imunitario e como um exercito dentro do corpo. Os globulos brancos atacam virus e bacterias para nos manter saudaveis. A febre e uma forma de combater infeccoes!',
+    fact: 'O sistema imunitário é como um exército dentro do corpo. Os glóbulos brancos atacam vírus e bactérias para nos manter saudáveis. A febre é uma forma de combater infecções!',
   },
 ]
 
@@ -234,7 +234,7 @@ export default function BodyScience({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Ciencia do Corpo" backPath="/campo/3" color="var(--color-campo3)">
+      <ActivityShell title="Ciência do Corpo" backPath="/campo/3" color="var(--color-campo3)">
         <CompletionCelebration
           emoji="🫀"
           title="Aprendeste sobre o corpo humano!"
@@ -249,7 +249,7 @@ export default function BodyScience({
 
   return (
     <ActivityShell
-      title="Ciencia do Corpo"
+      title="Ciência do Corpo"
       instruction={current.question}
       backPath="/campo/3"
       color="var(--color-campo3)"
@@ -281,7 +281,7 @@ export default function BodyScience({
           <span>💡</span>
           <p style={styles.factText}>{current.fact}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo →
+            Próximo →
           </button>
         </div>
       )}
