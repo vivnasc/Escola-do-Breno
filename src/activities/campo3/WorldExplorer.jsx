@@ -5,28 +5,34 @@ import { useTTS } from '../../hooks/useTTS'
 
 const FACTS = [
   {
-    question: 'Em que continente fica o Brasil?',
-    options: ['America do Sul', 'Europa', 'Africa', 'Asia'],
-    correct: 'America do Sul',
-    fact: 'O Brasil e o maior pais da America do Sul e ja ganhou 5 Mundiais!',
-  },
-  {
-    question: 'Qual e a capital de Portugal?',
-    options: ['Lisboa', 'Porto', 'Madrid', 'Maputo'],
-    correct: 'Lisboa',
-    fact: 'Lisboa e a capital de Portugal, onde fica o famoso Estadio da Luz!',
+    question: 'Qual e a capital de Mocambique?',
+    options: ['Maputo', 'Beira', 'Nampula', 'Lisboa'],
+    correct: 'Maputo',
+    fact: 'Maputo e a capital de Mocambique. O grande Eusebio nasceu em Mocambique!',
   },
   {
     question: 'Em que continente fica Mocambique?',
     options: ['Africa', 'Asia', 'Europa', 'Oceania'],
     correct: 'Africa',
-    fact: 'Mocambique fica na Africa oriental. Eusebio nasceu em Mocambique!',
+    fact: 'Mocambique fica na Africa oriental, banhado pelo Oceano Indico!',
   },
   {
-    question: 'Que pais tem a seleccao chamada "La Roja"?',
-    options: ['Espanha', 'Italia', 'Alemanha', 'Franca'],
-    correct: 'Espanha',
-    fact: 'A Espanha ganhou o Mundial de 2010 na Africa do Sul!',
+    question: 'Qual e o maior rio de Africa?',
+    options: ['Nilo', 'Amazonas', 'Danubio', 'Zambeze'],
+    correct: 'Nilo',
+    fact: 'O Nilo e o rio mais comprido de Africa, com cerca de 6.650 km! O Zambeze tambem passa por Mocambique.',
+  },
+  {
+    question: 'Em que pais fica o Monte Kilimanjaro?',
+    options: ['Tanzania', 'Quenia', 'Mocambique', 'Africa do Sul'],
+    correct: 'Tanzania',
+    fact: 'O Kilimanjaro e a montanha mais alta de Africa, com 5.895 metros! Tanzania e vizinha de Mocambique.',
+  },
+  {
+    question: 'Em que continente fica o Brasil?',
+    options: ['America do Sul', 'Europa', 'Africa', 'Asia'],
+    correct: 'America do Sul',
+    fact: 'O Brasil e o maior pais da America do Sul e tambem fala portugues, como Mocambique!',
   },
   {
     question: 'Quantos continentes existem?',
@@ -35,22 +41,16 @@ const FACTS = [
     fact: 'Ha 7 continentes: Europa, Asia, Africa, America do Norte, America do Sul, Oceania e Antartida.',
   },
   {
-    question: 'Em que pais fica a cidade de Buenos Aires?',
-    options: ['Argentina', 'Brasil', 'Chile', 'Uruguai'],
-    correct: 'Argentina',
-    fact: 'Buenos Aires e a capital da Argentina, terra de Maradona e Messi!',
+    question: 'Que oceano banha a costa de Mocambique?',
+    options: ['Indico', 'Atlantico', 'Pacifico', 'Artico'],
+    correct: 'Indico',
+    fact: 'O Oceano Indico banha toda a costa leste de Mocambique. As praias de Mocambique sao lindissimas!',
   },
   {
-    question: 'Qual e o maior rio de Africa?',
-    options: ['Nilo', 'Amazonas', 'Danubio', 'Zambeze'],
-    correct: 'Nilo',
-    fact: 'O Nilo e o rio mais comprido de Africa, com cerca de 6.650 km!',
-  },
-  {
-    question: 'O Mundial de 2022 foi em que pais?',
-    options: ['Qatar', 'Russia', 'Brasil', 'Africa do Sul'],
-    correct: 'Qatar',
-    fact: 'O Qatar esta na Asia. A Argentina ganhou esse Mundial!',
+    question: 'O CAN (Campeonato Africano de Nacoes) e de que desporto?',
+    options: ['Futebol', 'Basquetebol', 'Tenis', 'Natacao'],
+    correct: 'Futebol',
+    fact: 'O CAN e o maior torneio de futebol de Africa. Mocambique ja participou!',
   },
 ]
 

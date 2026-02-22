@@ -40,7 +40,7 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
 
   const handleExportReport = useCallback(() => {
     const name = profile?.name || 'Aluno'
-    const date = new Date().toLocaleDateString('pt-PT')
+    const date = new Date().toLocaleDateString('pt')
     const areas = (profile?.learningNeeds?.areas || []).join(', ') || 'Nenhuma'
     const goals = (profile?.goals || []).join(', ') || 'Nenhum'
 
@@ -128,7 +128,7 @@ Gerado automaticamente por PITCH
         <h2 style={styles.pageTitle}>Avaliar Ficha</h2>
         <p style={styles.pageDesc}>{ws?.title || reviewingSubmission.worksheetId}</p>
         <p style={styles.dateText}>
-          Enviada: {new Date(reviewingSubmission.date).toLocaleDateString('pt-PT')}
+          Enviada: {new Date(reviewingSubmission.date).toLocaleDateString('pt')}
         </p>
 
         {reviewingSubmission.photoData && (
@@ -336,7 +336,7 @@ Gerado automaticamente por PITCH
                     <div style={styles.subInfo}>
                       <span style={styles.subTitle2}>{ws?.title || sub.worksheetId}</span>
                       <span style={styles.subDate}>
-                        {new Date(sub.date).toLocaleDateString('pt-PT')}
+                        {new Date(sub.date).toLocaleDateString('pt')}
                       </span>
                     </div>
                     <span style={styles.subAction}>Avaliar →</span>
@@ -360,7 +360,7 @@ Gerado automaticamente por PITCH
                         <div style={styles.subInfo}>
                           <span style={styles.subTitle2}>{ws?.title || sub.worksheetId}</span>
                           <span style={styles.subDate}>
-                            {new Date(sub.reviewedAt).toLocaleDateString('pt-PT')}
+                            {new Date(sub.reviewedAt).toLocaleDateString('pt')}
                           </span>
                         </div>
                         <div style={styles.reviewedStars}>

@@ -4,15 +4,15 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
-  { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
+  { name: 'Mocambique', flag: '🇲🇿', continent: 'Africa', capital: 'Maputo' },
+  { name: 'Africa do Sul', flag: '🇿🇦', continent: 'Africa', capital: 'Pretoria' },
+  { name: 'Tanzania', flag: '🇹🇿', continent: 'Africa', capital: 'Dodoma' },
   { name: 'Brasil', flag: '🇧🇷', continent: 'America do Sul', capital: 'Brasilia' },
+  { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
   { name: 'Espanha', flag: '🇪🇸', continent: 'Europa', capital: 'Madrid' },
   { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', continent: 'Europa', capital: 'Londres' },
-  { name: 'Franca', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
-  { name: 'Alemanha', flag: '🇩🇪', continent: 'Europa', capital: 'Berlim' },
   { name: 'Argentina', flag: '🇦🇷', continent: 'America do Sul', capital: 'Buenos Aires' },
-  { name: 'Italia', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
-  { name: 'Mocambique', flag: '🇲🇿', continent: 'Africa', capital: 'Maputo' },
+  { name: 'Nigeria', flag: '🇳🇬', continent: 'Africa', capital: 'Abuja' },
   { name: 'Japao', flag: '🇯🇵', continent: 'Asia', capital: 'Toquio' },
 ]
 

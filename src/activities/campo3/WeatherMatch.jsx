@@ -5,7 +5,7 @@ import { useTTS } from '../../hooks/useTTS'
 
 const SCENARIOS = [
   {
-    city: 'Lisboa',
+    city: 'Maputo',
     temp: 32,
     weather: 'Sol',
     weatherEmoji: '☀️',
@@ -41,7 +41,7 @@ const SCENARIOS = [
     ],
   },
   {
-    city: 'Maputo',
+    city: 'Beira',
     temp: 28,
     weather: 'Sol com nuvens',
     weatherEmoji: '⛅',

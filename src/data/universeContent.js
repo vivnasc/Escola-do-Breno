@@ -15,7 +15,7 @@ const CONTENT = {
       title: 'Golos e Contas',
       icon: '⚽',
       addContext: (a, b) =>
-        `O ${pick(['Benfica', 'Porto', 'Sporting'])} marcou ${a} golos na primeira parte e ${b} na segunda.`,
+        `O ${pick(['Costa do Sol', 'Ferroviario', 'Black Bulls', 'Benfica', 'Barcelona'])} marcou ${a} golos na primeira parte e ${b} na segunda.`,
       subContext: (a, b) =>
         `A equipa tinha ${a} pontos e perdeu ${b}. Quantos ficaram?`,
       mulContext: (a, b) =>
@@ -268,14 +268,14 @@ const CONTENT = {
       completeText: 'Pintaste todos os equipamentos!',
       instruction: (name, colors) => `Pinta o equipamento do ${name}. Escolhe as cores: ${colors}.`,
       items: [
-        { name: 'Benfica', detail: 'Portugal', colors: ['red', 'white'] },
-        { name: 'Sporting', detail: 'Portugal', colors: ['green', 'white'] },
-        { name: 'FC Porto', detail: 'Portugal', colors: ['blue', 'white'] },
+        { name: 'Costa do Sol', detail: 'Mocambique', colors: ['red', 'white'] },
+        { name: 'Ferroviario', detail: 'Mocambique', colors: ['green', 'white'] },
+        { name: 'Black Bulls', detail: 'Mocambique', colors: ['black', 'red'] },
+        { name: 'Mocambique', detail: 'Seleccao', colors: ['red', 'green', 'yellow'] },
         { name: 'Liverpool', detail: 'England', colors: ['red'] },
         { name: 'Real Madrid', detail: 'Spain', colors: ['white'] },
         { name: 'Barcelona', detail: 'Spain', colors: ['red', 'blue'] },
         { name: 'Brasil', detail: 'Brazil', colors: ['yellow', 'green'] },
-        { name: 'Portugal', detail: 'Portugal', colors: ['red', 'green'] },
       ],
     },
 
@@ -284,12 +284,12 @@ const CONTENT = {
       completeText: 'Leste todos os resultados!',
       boardColor: '#1B5E20',
       items: [
-        { home: 'Portugal', away: 'France', homeScore: 3, awayScore: 1 },
+        { home: 'Mocambique', away: 'Tanzania', homeScore: 3, awayScore: 1 },
         { home: 'Brazil', away: 'Germany', homeScore: 2, awayScore: 2 },
         { home: 'England', away: 'Spain', homeScore: 0, awayScore: 1 },
         { home: 'Argentina', away: 'Italy', homeScore: 4, awayScore: 0 },
-        { home: 'Benfica', away: 'Porto', homeScore: 2, awayScore: 1 },
-        { home: 'Sporting', away: 'Benfica', homeScore: 1, awayScore: 3 },
+        { home: 'Costa do Sol', away: 'Ferroviario', homeScore: 2, awayScore: 1 },
+        { home: 'Black Bulls', away: 'Costa do Sol', homeScore: 1, awayScore: 3 },
       ],
     },
 

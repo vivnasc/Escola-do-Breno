@@ -19,11 +19,11 @@ export const VOCABULARY_CATEGORIES = [
 export const VOCABULARY_WORDS = [
   // === Animals (10) ===
   { id: 1, en: 'eagle', pt: 'aguia', category: 'animals', emoji: '🦅',
-    contexts: { football: 'Benfica', dinosaurs: 'Ave mesozoica', space: 'Nebulosa da Aguia', animals: 'Ave de rapina', music: 'The Eagles' } },
+    contexts: { football: 'Costa do Sol', dinosaurs: 'Ave mesozoica', space: 'Nebulosa da Aguia', animals: 'Ave de rapina', music: 'The Eagles' } },
   { id: 2, en: 'lion', pt: 'leao', category: 'animals', emoji: '🦁',
-    contexts: { football: 'Sporting', dinosaurs: 'Rei dos predadores', space: 'Constelacao Leao', animals: 'Rei da selva', music: 'O Rei Leao' } },
+    contexts: { football: 'Ferroviario', dinosaurs: 'Rei dos predadores', space: 'Constelacao Leao', animals: 'Rei da selva', music: 'O Rei Leao' } },
   { id: 3, en: 'dragon', pt: 'dragao', category: 'animals', emoji: '🐉',
-    contexts: { football: 'FC Porto', dinosaurs: 'Criatura lendaria', space: 'Nave Dragon', animals: 'Lagarto de Komodo', music: 'Imagine Dragons' } },
+    contexts: { football: 'Mascote lendaria', dinosaurs: 'Criatura lendaria', space: 'Nave Dragon', animals: 'Lagarto de Komodo', music: 'Imagine Dragons' } },
   { id: 4, en: 'rooster', pt: 'galo', category: 'animals', emoji: '🐓',
     contexts: { football: 'Tottenham', dinosaurs: 'Descendente dos dinos', space: 'Som da manha', animals: 'Ave da quinta', music: 'Canto matinal' } },
   { id: 5, en: 'cat', pt: 'gato', category: 'animals', emoji: '🐱',
@@ -79,11 +79,11 @@ export const VOCABULARY_WORDS = [
 
   // === Colours (7) ===
   { id: 28, en: 'red', pt: 'vermelho', category: 'colours', emoji: '🔴',
-    contexts: { football: 'Benfica, Liverpool', dinosaurs: 'Lava vulcanica', space: 'Marte', animals: 'Papagaio', music: 'Cortina do palco' } },
+    contexts: { football: 'Costa do Sol, Liverpool', dinosaurs: 'Lava vulcanica', space: 'Marte', animals: 'Papagaio', music: 'Cortina do palco' } },
   { id: 29, en: 'blue', pt: 'azul', category: 'colours', emoji: '🔵',
-    contexts: { football: 'FC Porto, Chelsea', dinosaurs: 'Oceano antigo', space: 'Terra do espaco', animals: 'Arara azul', music: 'Jazz e blues' } },
+    contexts: { football: 'Chelsea, Oceano Indico', dinosaurs: 'Oceano antigo', space: 'Terra do espaco', animals: 'Arara azul', music: 'Jazz e blues' } },
   { id: 30, en: 'green', pt: 'verde', category: 'colours', emoji: '🟢',
-    contexts: { football: 'Sporting, campo', dinosaurs: 'Floresta jurassica', space: 'Planeta verde', animals: 'Sapo, selva', music: 'Guitarra verde' } },
+    contexts: { football: 'Ferroviario, campo', dinosaurs: 'Floresta jurassica', space: 'Planeta verde', animals: 'Sapo, selva', music: 'Guitarra verde' } },
   { id: 31, en: 'yellow', pt: 'amarelo', category: 'colours', emoji: '🟡',
     contexts: { football: 'Brasil, cartao', dinosaurs: 'Areia do deserto', space: 'Sol', animals: 'Canario', music: 'Saxofone dourado' } },
   { id: 32, en: 'white', pt: 'branco', category: 'colours', emoji: '⚪',
@@ -183,6 +183,9 @@ export function getWordContext(word, universeId) {
 }
 
 export const TEAMS = [
+  { name: 'Costa do Sol', country: 'Mocambique', colors: ['red', 'white'], mascot: 'eagle' },
+  { name: 'Ferroviario', country: 'Mocambique', colors: ['green', 'white'], mascot: 'lion' },
+  { name: 'Black Bulls', country: 'Mocambique', colors: ['black', 'red'], mascot: 'bear' },
   { name: 'Benfica', country: 'Portugal', colors: ['red', 'white'], mascot: 'eagle' },
   { name: 'Sporting', country: 'Portugal', colors: ['green', 'white'], mascot: 'lion' },
   { name: 'FC Porto', country: 'Portugal', colors: ['blue', 'white'], mascot: 'dragon' },
@@ -190,12 +193,13 @@ export const TEAMS = [
   { name: 'Real Madrid', country: 'Spain', colors: ['white'], mascot: 'eagle' },
   { name: 'Barcelona', country: 'Spain', colors: ['red', 'blue'], mascot: 'lion' },
   { name: 'Brasil', country: 'Brazil', colors: ['yellow', 'green'], mascot: 'bird' },
-  { name: 'Portugal', country: 'Portugal', colors: ['red', 'green'], mascot: 'rooster' },
+  { name: 'Mocambique', country: 'Mocambique', colors: ['red', 'green', 'yellow'], mascot: 'eagle' },
 ]
 
 export const PLAYERS = [
+  { name: 'Eusebio', number: 10, team: 'Mocambique/Benfica', position: 'Avancado' },
+  { name: 'Reinildo', number: 3, team: 'Mocambique', position: 'Defesa' },
   { name: 'Ronaldo', number: 7, team: 'Portugal', position: 'Avancado' },
   { name: 'Messi', number: 10, team: 'Argentina', position: 'Avancado' },
   { name: 'Di Maria', number: 11, team: 'Argentina', position: 'Medio' },
-  { name: 'Eusebio', number: 10, team: 'Mocambique/Benfica', position: 'Avancado' },
 ]
