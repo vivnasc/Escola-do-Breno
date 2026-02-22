@@ -53,6 +53,7 @@ import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
 import { useProfileSharing } from './hooks/useProfileSharing'
+import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
 const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
@@ -105,21 +106,31 @@ function AppContent() {
   }, [profileData.profile?.name])
 
   const handleFrustration = useCallback(() => {
-    setShowCalma(true)
-  }, [])
+    if (!showIntake) setShowCalma(true)
+  }, [showIntake])
 
   const { registerClick, registerError, registerSuccess, calmDown } =
-    useFrustration(handleFrustration)
+    useFrustration(handleFrustration, { paused: showIntake })
 
   const handleCloseCalma = useCallback(() => {
     setShowCalma(false)
     calmDown()
   }, [calmDown])
 
-  // New profile: show intake wizard
+  // New profile: show intake wizard (or skip for founder)
   const handleNewProfile = useCallback(() => {
     setShowIntake(true)
   }, [])
+
+  // Auto-load founder profile when ?fundador param is present (skip intake entirely)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('fundador') && !profileData.profile) {
+      profileData.completeOnboarding(BRENO_PROFILE)
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Switch to existing profile
   const handleSwitchProfile = useCallback((id) => {
@@ -129,7 +140,9 @@ function AppContent() {
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
     setShowIntake(false)
-  }, [profileData])
+    setShowCalma(false)
+    calmDown()
+  }, [profileData, calmDown])
 
   // Reset profile (from settings page)
   const handleResetProfile = useCallback((type) => {

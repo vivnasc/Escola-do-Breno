@@ -5,19 +5,28 @@ const RAPID_CLICK_WINDOW = 3000
 const CONSECUTIVE_ERRORS = 3
 const INACTIVITY_TIMEOUT = 60000
 
-export function useFrustration(onFrustrationDetected) {
+export function useFrustration(onFrustrationDetected, { paused = false } = {}) {
   const [isCalm, setIsCalm] = useState(true)
   const clickTimestamps = useRef([])
   const errorCount = useRef(0)
   const inactivityTimer = useRef(null)
 
+  // Clear timers and reset state when paused (e.g. during Intake)
+  useEffect(() => {
+    if (paused && inactivityTimer.current) {
+      clearTimeout(inactivityTimer.current)
+      inactivityTimer.current = null
+    }
+  }, [paused])
+
   const resetInactivityTimer = useCallback(() => {
     if (inactivityTimer.current) clearTimeout(inactivityTimer.current)
+    if (paused) return
     inactivityTimer.current = setTimeout(() => {
       setIsCalm(false)
       onFrustrationDetected?.('inactivity')
     }, INACTIVITY_TIMEOUT)
-  }, [onFrustrationDetected])
+  }, [onFrustrationDetected, paused])
 
   const registerClick = useCallback(() => {
     const now = Date.now()
