@@ -70,7 +70,7 @@ export const NEWS_TEMPLATES = [
     icon: '🔢',
     headline: 'Bilhetes para o jogo do {team} esgotados!',
     body: 'O estadio tem 50.000 lugares e todos os bilhetes foram vendidos! {name}, sabes calcular o dinheiro dos bilhetes?',
-    fact: 'Se cada bilhete custa 10 euros e venderam 50.000 bilhetes, o total e 500.000 euros!',
+    fact: 'Se cada bilhete custa 10 e venderam 50.000 bilhetes, o total e 500.000! Os numeros grandes sao incriveis!',
     question: 'Quanto e 10 vezes 5?',
     english: 'ticket',
     englishPt: 'bilhete',
@@ -141,7 +141,7 @@ export const NEWS_TEMPLATES = [
     category: 'language',
     icon: '🗣️',
     headline: 'Nomes dos animais em ingles: mascotes de equipas!',
-    body: '{name}, sabias que a aguia do Benfica em ingles e "eagle"? E o leao do Sporting e "lion"!',
+    body: '{name}, sabias que muitas equipas tem mascotes animais? A aguia em ingles e "eagle" e o leao e "lion"!',
     fact: 'Muitas equipas de futebol tem animais como mascote. Aprender os nomes dos animais em ingles e muito util!',
     question: 'Como se diz "aguia" em ingles?',
     english: 'eagle',
@@ -152,8 +152,8 @@ export const NEWS_TEMPLATES = [
 
 export function personalizeNews(templates, profile) {
   const name = profile.name || 'Jogador'
-  const team = profile.favoriteTeam || 'Benfica'
-  const player = profile.favoritePlayer || 'Ronaldo'
+  const team = profile.favoriteTeam || 'a equipa'
+  const player = profile.favoritePlayer || 'o jogador'
 
   return templates.map((t) => ({
     ...t,

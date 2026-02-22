@@ -4,16 +4,16 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
-  { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
   { name: 'Brasil', flag: '🇧🇷', continent: 'America do Sul', capital: 'Brasilia' },
   { name: 'Espanha', flag: '🇪🇸', continent: 'Europa', capital: 'Madrid' },
-  { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', continent: 'Europa', capital: 'Londres' },
-  { name: 'Franca', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
-  { name: 'Alemanha', flag: '🇩🇪', continent: 'Europa', capital: 'Berlim' },
   { name: 'Argentina', flag: '🇦🇷', continent: 'America do Sul', capital: 'Buenos Aires' },
-  { name: 'Italia', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
-  { name: 'Mocambique', flag: '🇲🇿', continent: 'Africa', capital: 'Maputo' },
+  { name: 'Franca', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
   { name: 'Japao', flag: '🇯🇵', continent: 'Asia', capital: 'Toquio' },
+  { name: 'Egipto', flag: '🇪🇬', continent: 'Africa', capital: 'Cairo' },
+  { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', continent: 'Europa', capital: 'Londres' },
+  { name: 'Australia', flag: '🇦🇺', continent: 'Oceania', capital: 'Canberra' },
+  { name: 'Mexico', flag: '🇲🇽', continent: 'America do Norte', capital: 'Cidade do Mexico' },
+  { name: 'Africa do Sul', flag: '🇿🇦', continent: 'Africa', capital: 'Pretoria' },
 ]
 
 function shuffle(arr) {

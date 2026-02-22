@@ -151,7 +151,7 @@ export default function Comunidade({ profile, progress, addEncouragement }) {
                     <span style={styles.messageName}>{msg.from}</span>
                     <p style={styles.messageText}>{msg.message}</p>
                     <span style={styles.messageDate}>
-                      {new Date(msg.date).toLocaleDateString('pt-PT')}
+                      {new Date(msg.date).toLocaleDateString('pt')}
                     </span>
                   </div>
                 </div>

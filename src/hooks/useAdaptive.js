@@ -82,21 +82,30 @@ export function useAdaptive(profile) {
     sessionStartRef.current = Date.now()
   }, [])
 
-  // === Difficulty adjustment based on learning needs ===
+  // === Difficulty adjustment based on competency levels ===
+  // Returns overall difficulty (1-3) and per-campo difficulty map
   const difficulty = useMemo(() => {
-    const needs = profile?.learningNeeds || {}
-    const areas = needs.areas || []
+    const levels = profile?.competencyLevels || {}
+    // Average across all campos for a global difficulty
+    const vals = Object.values(levels).filter((v) => typeof v === 'number')
+    const avg = vals.length > 0 ? vals.reduce((s, v) => s + v, 0) / vals.length : 1
+    // Map 1-10 competency levels to 1-3 difficulty
+    if (avg >= 7) return 3
+    if (avg >= 4) return 2
+    return 1
+  }, [profile?.competencyLevels])
 
-    // Start easier if they have many areas of difficulty
-    const baseDifficulty = areas.length >= 3 ? 1 : areas.length >= 1 ? 1 : 2
-
-    // Support level affects starting difficulty
-    const supportMod = needs.supportLevel === 'full' ? -1
-      : needs.supportLevel === 'independent' ? 1
-      : 0
-
-    return Math.max(1, Math.min(3, baseDifficulty + supportMod))
-  }, [profile?.learningNeeds])
+  // Per-campo difficulty (1-3) derived from competency levels
+  const campoDifficulty = useMemo(() => {
+    const levels = profile?.competencyLevels || {}
+    const result = {}
+    for (const [campo, level] of Object.entries(levels)) {
+      if (level >= 7) result[campo] = 3
+      else if (level >= 4) result[campo] = 2
+      else result[campo] = 1
+    }
+    return result
+  }, [profile?.competencyLevels])
 
   // === How many options to show per question ===
   const choiceCount = useMemo(() => {
@@ -169,6 +178,7 @@ export function useAdaptive(profile) {
     universe,
     cssAdaptations,
     difficulty,
+    campoDifficulty,
     choiceCount,
     frustrationConfig,
     showTimers,

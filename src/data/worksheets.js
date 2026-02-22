@@ -14,7 +14,7 @@ export const WORKSHEET_CATEGORIES = [
   {
     id: 'words-pt',
     name: 'Palavras em Portugues',
-    icon: '🇵🇹',
+    icon: '⚽',
     description: 'Escreve palavras de futebol',
     color: '#2E7D32',
   },
@@ -53,7 +53,7 @@ export const WORKSHEETS = [
       { guide: 'A B C D E', context: 'A de Aguia, B de Bola, C de Campeao' },
       { guide: 'F G H I J', context: 'F de Futebol, G de Golo' },
       { guide: 'K L M N O', context: 'L de Leao, M de Messi' },
-      { guide: 'P Q R S T', context: 'R de Ronaldo, S de Sporting' },
+      { guide: 'P Q R S T', context: 'R de Ronaldo, S de Sol' },
       { guide: 'U V W X Y Z', context: 'V de Vitoria' },
     ],
   },
@@ -79,11 +79,11 @@ export const WORKSHEETS = [
     subtitle: 'Escreve o nome das grandes equipas',
     difficulty: 2,
     lines: [
-      { guide: 'BENFICA', context: 'A aguia de Lisboa' },
-      { guide: 'SPORTING', context: 'O leao de Alvalade' },
-      { guide: 'FC PORTO', context: 'O dragao do Norte' },
+      { guide: 'BARCELONA', context: 'A grande equipa de Espanha' },
+      { guide: 'LIVERPOOL', context: 'O orgulho de Inglaterra' },
+      { guide: 'REAL MADRID', context: 'Os reis do futebol europeu' },
       { guide: 'BRASIL', context: 'O pais do futebol' },
-      { guide: 'PORTUGAL', context: 'A nossa seleccao' },
+      { guide: 'ARGENTINA', context: 'A terra de Messi' },
     ],
   },
   {
@@ -122,9 +122,9 @@ export const WORKSHEETS = [
     subtitle: 'Write the team mascots in English',
     difficulty: 1,
     lines: [
-      { guide: 'EAGLE', context: 'Benfica - aguia' },
-      { guide: 'LION', context: 'Sporting - leao' },
-      { guide: 'DRAGON', context: 'FC Porto - dragao' },
+      { guide: 'EAGLE', context: 'Aguia - mascote' },
+      { guide: 'LION', context: 'Leao - rei da selva' },
+      { guide: 'DRAGON', context: 'Dragao - criatura lendaria' },
       { guide: 'BIRD', context: 'Canario - passaro' },
       { guide: 'BEAR', context: 'Mascote forte - urso' },
     ],
@@ -136,9 +136,9 @@ export const WORKSHEETS = [
     subtitle: 'Write the team colours in English',
     difficulty: 1,
     lines: [
-      { guide: 'RED', context: 'Benfica, Liverpool - vermelho' },
-      { guide: 'BLUE', context: 'FC Porto, Chelsea - azul' },
-      { guide: 'GREEN', context: 'Sporting - verde' },
+      { guide: 'RED', context: 'Liverpool, Bayern - vermelho' },
+      { guide: 'BLUE', context: 'Chelsea, Inter - azul' },
+      { guide: 'GREEN', context: 'Sporting, campo - verde' },
       { guide: 'YELLOW', context: 'Brasil - amarelo' },
       { guide: 'WHITE', context: 'Real Madrid - branco' },
     ],
@@ -176,9 +176,9 @@ export const WORKSHEETS = [
     subtitle: 'Escreve resultados de jogos',
     difficulty: 2,
     lines: [
-      { guide: 'Benfica 3 - 1 Sporting', context: 'O Benfica ganhou por 3 a 1' },
-      { guide: 'Portugal 2 - 0 Brasil', context: 'Portugal ganhou por 2 a 0' },
-      { guide: 'FC Porto 1 - 1 Liverpool', context: 'Empataram 1 a 1' },
+      { guide: 'Barcelona 3 - 1 Liverpool', context: 'O Barcelona ganhou por 3 a 1' },
+      { guide: 'Brasil 2 - 0 Argentina', context: 'O Brasil ganhou por 2 a 0' },
+      { guide: 'Real Madrid 1 - 1 Bayern', context: 'Empataram 1 a 1' },
     ],
   },
   // Sentences
@@ -190,8 +190,8 @@ export const WORKSHEETS = [
     difficulty: 2,
     lines: [
       { guide: 'EU GOSTO DE FUTEBOL', context: 'Diz o que sentes' },
-      { guide: 'O RONALDO E O MELHOR', context: 'O teu jogador favorito' },
-      { guide: 'PORTUGAL VAI GANHAR', context: 'Torce pela seleccao' },
+      { guide: 'O MESSI E INCRIVEL', context: 'O teu jogador favorito' },
+      { guide: 'ADORO A MINHA EQUIPA', context: 'Orgulho no futebol' },
     ],
   },
   {

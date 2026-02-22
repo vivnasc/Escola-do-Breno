@@ -5,40 +5,16 @@ import { useTTS } from '../../hooks/useTTS'
 
 const FACTS = [
   {
-    question: 'Em que continente fica o Brasil?',
-    options: ['America do Sul', 'Europa', 'Africa', 'Asia'],
-    correct: 'America do Sul',
-    fact: 'O Brasil e o maior pais da America do Sul e ja ganhou 5 Mundiais!',
-  },
-  {
-    question: 'Qual e a capital de Portugal?',
-    options: ['Lisboa', 'Porto', 'Madrid', 'Maputo'],
-    correct: 'Lisboa',
-    fact: 'Lisboa e a capital de Portugal, onde fica o famoso Estadio da Luz!',
-  },
-  {
-    question: 'Em que continente fica Mocambique?',
-    options: ['Africa', 'Asia', 'Europa', 'Oceania'],
-    correct: 'Africa',
-    fact: 'Mocambique fica na Africa oriental. Eusebio nasceu em Mocambique!',
-  },
-  {
-    question: 'Que pais tem a seleccao chamada "La Roja"?',
-    options: ['Espanha', 'Italia', 'Alemanha', 'Franca'],
-    correct: 'Espanha',
-    fact: 'A Espanha ganhou o Mundial de 2010 na Africa do Sul!',
-  },
-  {
     question: 'Quantos continentes existem?',
     options: ['7', '5', '6', '8'],
     correct: '7',
     fact: 'Ha 7 continentes: Europa, Asia, Africa, America do Norte, America do Sul, Oceania e Antartida.',
   },
   {
-    question: 'Em que pais fica a cidade de Buenos Aires?',
-    options: ['Argentina', 'Brasil', 'Chile', 'Uruguai'],
-    correct: 'Argentina',
-    fact: 'Buenos Aires e a capital da Argentina, terra de Maradona e Messi!',
+    question: 'Em que continente fica o Brasil?',
+    options: ['America do Sul', 'Europa', 'Africa', 'Asia'],
+    correct: 'America do Sul',
+    fact: 'O Brasil e o maior pais da America do Sul e ja ganhou 5 Mundiais de futebol!',
   },
   {
     question: 'Qual e o maior rio de Africa?',
@@ -47,10 +23,34 @@ const FACTS = [
     fact: 'O Nilo e o rio mais comprido de Africa, com cerca de 6.650 km!',
   },
   {
+    question: 'Em que pais fica o Monte Kilimanjaro?',
+    options: ['Tanzania', 'Quenia', 'Brasil', 'India'],
+    correct: 'Tanzania',
+    fact: 'O Kilimanjaro e a montanha mais alta de Africa, com 5.895 metros!',
+  },
+  {
     question: 'O Mundial de 2022 foi em que pais?',
     options: ['Qatar', 'Russia', 'Brasil', 'Africa do Sul'],
     correct: 'Qatar',
-    fact: 'O Qatar esta na Asia. A Argentina ganhou esse Mundial!',
+    fact: 'O Qatar esta na Asia. A Argentina ganhou esse Mundial com Messi!',
+  },
+  {
+    question: 'Em que pais fica a Torre Eiffel?',
+    options: ['Franca', 'Italia', 'Espanha', 'Alemanha'],
+    correct: 'Franca',
+    fact: 'A Torre Eiffel fica em Paris, capital da Franca. O PSG joga la!',
+  },
+  {
+    question: 'Qual e o maior oceano do mundo?',
+    options: ['Pacifico', 'Atlantico', 'Indico', 'Artico'],
+    correct: 'Pacifico',
+    fact: 'O Oceano Pacifico e o maior do mundo. Cobre mais area do que todos os continentes juntos!',
+  },
+  {
+    question: 'Em que pais fica a cidade de Buenos Aires?',
+    options: ['Argentina', 'Brasil', 'Chile', 'Uruguai'],
+    correct: 'Argentina',
+    fact: 'Buenos Aires e a capital da Argentina, terra de Maradona e Messi!',
   },
 ]
 

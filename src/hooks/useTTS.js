@@ -1,6 +1,6 @@
 import { useCallback, useRef } from 'react'
 
-export function useTTS(lang = 'pt-PT') {
+export function useTTS(lang = 'pt') {
   const utteranceRef = useRef(null)
 
   const speak = useCallback(

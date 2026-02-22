@@ -8,7 +8,7 @@ export default function Progress({ progress, profile }) {
   const playerName = profile?.name || 'Jogador'
 
   const generateReport = useCallback(() => {
-    const date = new Date().toLocaleDateString('pt-PT')
+    const date = new Date().toLocaleDateString('pt')
     const totalActivities = Object.keys(progress.activitiesCompleted).length
     const totalWords = progress.wordsLearned.length
 

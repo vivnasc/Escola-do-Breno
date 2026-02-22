@@ -54,6 +54,14 @@ const DEFAULT_PROFILE = {
 
   goals: [],
 
+  // Per-campo competency levels (1-10), detected by intake diagnostic
+  competencyLevels: {
+    campo1: 1,
+    campo2: 1,
+    campo3: 1,
+    campo4: 1,
+  },
+
   communication: {
     usesVisualSupports: false,
     prefersSimpleLanguage: false,
@@ -83,6 +91,7 @@ function deepMergeProfile(saved) {
     learningNeeds: { ...DEFAULT_PROFILE.learningNeeds, ...saved.learningNeeds },
     sensory: { ...DEFAULT_PROFILE.sensory, ...saved.sensory },
     attention: { ...DEFAULT_PROFILE.attention, ...saved.attention },
+    competencyLevels: { ...DEFAULT_PROFILE.competencyLevels, ...saved.competencyLevels },
     communication: { ...DEFAULT_PROFILE.communication, ...saved.communication },
   }
 }

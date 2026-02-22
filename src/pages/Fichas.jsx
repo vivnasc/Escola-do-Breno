@@ -234,7 +234,7 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
                   </div>
                   {s.feedback && <p style={styles.pastFeedback}>{s.feedback}</p>}
                   <span style={styles.pastDate}>
-                    {new Date(s.reviewedAt).toLocaleDateString('pt-PT')}
+                    {new Date(s.reviewedAt).toLocaleDateString('pt')}
                   </span>
                 </div>
               ))}

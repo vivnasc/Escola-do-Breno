@@ -35,6 +35,10 @@ import DailyRoutine from './activities/campo4/DailyRoutine'
 import FairPlay from './activities/campo4/FairPlay'
 import EmotionCards from './activities/campo4/EmotionCards'
 import RealWorld from './activities/campo4/RealWorld'
+import Phonics from './activities/campo1/Phonics'
+import Patterns from './activities/campo2/Patterns'
+import NatureLab from './activities/campo3/NatureLab'
+import ProblemSolving from './activities/campo4/ProblemSolving'
 import { useProgress } from './hooks/useProgress'
 import { useProfile } from './hooks/useProfile'
 import { useFrustration } from './hooks/useFrustration'
@@ -236,24 +240,28 @@ export default function App() {
           <Route path="/campo/1/dress-player" element={<DressThePlayer {...activityProps} />} />
           <Route path="/campo/1/color-kit" element={<ColorKit {...activityProps} />} />
           <Route path="/campo/1/read-score" element={<ReadScore {...activityProps} />} />
+          <Route path="/campo/1/phonics" element={<Phonics {...activityProps} />} />
 
           {/* Campo 2 activities */}
           <Route path="/campo/2/goal-math" element={<GoalMath {...activityProps} />} />
           <Route path="/campo/2/clock-reader" element={<ClockReader {...activityProps} />} />
           <Route path="/campo/2/team-division" element={<TeamDivision {...activityProps} />} />
           <Route path="/campo/2/ticket-shop" element={<TicketShop {...activityProps} />} />
+          <Route path="/campo/2/patterns" element={<Patterns {...activityProps} />} />
 
           {/* Campo 3 activities */}
           <Route path="/campo/3/flag-match" element={<FlagMatch {...activityProps} />} />
           <Route path="/campo/3/world-explorer" element={<WorldExplorer {...activityProps} />} />
           <Route path="/campo/3/body-science" element={<BodyScience {...activityProps} />} />
           <Route path="/campo/3/weather-match" element={<WeatherMatch {...activityProps} />} />
+          <Route path="/campo/3/nature-lab" element={<NatureLab {...activityProps} />} />
 
           {/* Campo 4 activities */}
           <Route path="/campo/4/daily-routine" element={<DailyRoutine {...activityProps} />} />
           <Route path="/campo/4/fair-play" element={<FairPlay {...activityProps} />} />
           <Route path="/campo/4/emotion-cards" element={<EmotionCards {...activityProps} />} />
           <Route path="/campo/4/real-world" element={<RealWorld {...activityProps} />} />
+          <Route path="/campo/4/problem-solving" element={<ProblemSolving {...activityProps} />} />
         </Route>
       </Routes>
     </BrowserRouter>

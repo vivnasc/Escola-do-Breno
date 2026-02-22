@@ -46,7 +46,7 @@ const CHALLENGES = [
       { text: 'Ignoro e continuo a brincar', correct: false },
       { text: 'Tento resolver sozinho', correct: false },
     ],
-    tip: 'Em emergencia: chama um adulto, nao toques na pessoa se nao souberes, e o numero de emergencia em Mocambique e 198.',
+    tip: 'Em emergencia: chama um adulto, nao toques na pessoa se nao souberes, e liga para o numero de emergencia do teu pais.',
   },
   {
     title: 'Dados Pessoais',
@@ -61,10 +61,10 @@ const CHALLENGES = [
   },
   {
     title: 'Na Loja',
-    situation: 'Queres comprar agua na loja. Custa 15 MT e tens 20 MT. O que fazes?',
+    situation: 'Queres comprar agua na loja. Custa 15 e tens 20. O que fazes?',
     emoji: '🏪',
     options: [
-      { text: 'Vou a caixa, digo que quero agua, pago 20 MT e espero o troco de 5 MT', correct: true },
+      { text: 'Vou a caixa, digo que quero agua, pago 20 e espero o troco de 5', correct: true },
       { text: 'Deixo o dinheiro no balcao e saio', correct: false },
       { text: 'Peco para levar de graca', correct: false },
     ],

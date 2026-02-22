@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES } from '../data/vocabulary'
 import { WORKSHEETS } from '../data/worksheets'
+import { COMPETENCY_AREAS, MASTERY_LEVELS, PHASES, getCompetencySummary, getCampoPhases, idToLevel, getPhase } from '../data/competencies'
 
 /**
  * Parent/Therapist Dashboard — real progress monitoring and worksheet review.
@@ -40,7 +41,7 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
 
   const handleExportReport = useCallback(() => {
     const name = profile?.name || 'Aluno'
-    const date = new Date().toLocaleDateString('pt-PT')
+    const date = new Date().toLocaleDateString('pt')
     const areas = (profile?.learningNeeds?.areas || []).join(', ') || 'Nenhuma'
     const goals = (profile?.goals || []).join(', ') || 'Nenhum'
 
@@ -52,6 +53,19 @@ export default function Dashboard({ profile, progress, reviewWorksheet, addEncou
 
     const vocabLines = wordsByCategory.map((cat) => {
       return `  ${cat.icon} ${cat.label}: ${cat.learned}/${cat.total}`
+    }).join('\n')
+
+    // Competency phases for report
+    const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
+    const campoMeta = [
+      { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
+      { id: 'campo2', name: 'Matematica', icon: '🔢' },
+      { id: 'campo3', name: 'Descoberta', icon: '🌍' },
+      { id: 'campo4', name: 'Autonomia', icon: '🤝' },
+    ]
+    const phaseLines = campoMeta.map((c) => {
+      const cp = campoPhases[c.id]
+      return `  ${c.icon} ${c.name}: ${cp.phase.emoji} ${cp.phase.reportText} (Nv. ${cp.averageLevel}/10)`
     }).join('\n')
 
     const report = `
@@ -66,10 +80,19 @@ Preenchido por: ${profile?.filledBy || 'pai/mae'}
 
 --- Resumo ---
 Estrelas: ${totalStars}
-Actividades completadas: ${totalActivities}/16
+Actividades completadas: ${totalActivities}/20
 Palavras aprendidas: ${wordsLearned.length}/${VOCABULARY_WORDS.length}
 Dias consecutivos: ${progress?.streakDays || 0}
 Trofeus: ${progress?.trophies?.length || 0}
+
+--- Fases de Competencia ---
+${phaseLines}
+
+  Legenda:
+  🌱 Germinar (1-3) — Exploracao, tentativa, curiosidade
+  🌿 Estruturar (4-6) — Competencia a formar-se
+  🌸 Florescer (7-8) — Autonomia emergente
+  🌳 Sustentar (9-10) — Autonomia consolidada
 
 --- Progresso por Area ---
 ${campoLines}
@@ -128,7 +151,7 @@ Gerado automaticamente por PITCH
         <h2 style={styles.pageTitle}>Avaliar Ficha</h2>
         <p style={styles.pageDesc}>{ws?.title || reviewingSubmission.worksheetId}</p>
         <p style={styles.dateText}>
-          Enviada: {new Date(reviewingSubmission.date).toLocaleDateString('pt-PT')}
+          Enviada: {new Date(reviewingSubmission.date).toLocaleDateString('pt')}
         </p>
 
         {reviewingSubmission.photoData && (
@@ -212,6 +235,7 @@ Gerado automaticamente por PITCH
           { id: 'resumo', label: 'Resumo', icon: '📊' },
           { id: 'fichas', label: `Fichas (${pendingSubmissions.length})`, icon: '📬' },
           { id: 'palavras', label: 'Vocabulario', icon: '🗣️' },
+          { id: 'competencias', label: 'Competencias', icon: '🌱' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -336,7 +360,7 @@ Gerado automaticamente por PITCH
                     <div style={styles.subInfo}>
                       <span style={styles.subTitle2}>{ws?.title || sub.worksheetId}</span>
                       <span style={styles.subDate}>
-                        {new Date(sub.date).toLocaleDateString('pt-PT')}
+                        {new Date(sub.date).toLocaleDateString('pt')}
                       </span>
                     </div>
                     <span style={styles.subAction}>Avaliar →</span>
@@ -360,7 +384,7 @@ Gerado automaticamente por PITCH
                         <div style={styles.subInfo}>
                           <span style={styles.subTitle2}>{ws?.title || sub.worksheetId}</span>
                           <span style={styles.subDate}>
-                            {new Date(sub.reviewedAt).toLocaleDateString('pt-PT')}
+                            {new Date(sub.reviewedAt).toLocaleDateString('pt')}
                           </span>
                         </div>
                         <div style={styles.reviewedStars}>
@@ -399,6 +423,122 @@ Gerado automaticamente por PITCH
               )
             })}
           </div>
+        </div>
+      )}
+      {activeTab === 'competencias' && (
+        <div style={styles.section} className="animate-fade-in">
+          <h3 style={styles.subTitle}>Mapa de Competencias</h3>
+          <p style={styles.sectionDesc}>
+            10 niveis progressivos — a crianca avanca quando domina, nao por idade.
+          </p>
+
+          {/* Phase overview — the therapist/parent communication layer */}
+          {(() => {
+            const campoPhases = getCampoPhases(progress, profile?.competencyLevels)
+            const campoMeta = [
+              { id: 'campo1', name: 'Linguagem', icon: '🗣️' },
+              { id: 'campo2', name: 'Matematica', icon: '🔢' },
+              { id: 'campo3', name: 'Descoberta', icon: '🌍' },
+              { id: 'campo4', name: 'Autonomia', icon: '🤝' },
+            ]
+            return (
+              <div style={styles.phaseOverview}>
+                <p style={styles.phaseOverviewTitle}>Fases por area</p>
+                <div style={styles.phaseGrid}>
+                  {campoMeta.map((c) => {
+                    const cp = campoPhases[c.id]
+                    return (
+                      <div key={c.id} style={styles.phaseCard}>
+                        <span style={styles.phaseCardIcon}>{c.icon}</span>
+                        <span style={styles.phaseCardName}>{c.name}</span>
+                        <span style={{
+                          ...styles.phaseBadge,
+                          backgroundColor: cp.phase.color,
+                        }}>
+                          {cp.phase.emoji} {cp.phase.label}
+                        </span>
+                        <span style={styles.phaseCardLevel}>Nv. {cp.averageLevel}</span>
+                      </div>
+                    )
+                  })}
+                </div>
+                {/* Phase legend */}
+                <div style={styles.phaseLegend}>
+                  {PHASES.map((p) => (
+                    <div key={p.id} style={styles.phaseLegendItem}>
+                      <span style={{ ...styles.phaseLegendDot, backgroundColor: p.color }} />
+                      <span style={styles.phaseLegendText}>
+                        {p.emoji} {p.label} ({p.range[0]}-{p.range[1]}) — {p.description}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )
+          })()}
+
+          {Object.entries(getCompetencySummary(progress, profile?.competencyLevels)).map(([campoId, competencies]) => {
+            const campo = COMPETENCY_AREAS[campoId]
+            return (
+              <div key={campoId} style={styles.compCampo}>
+                <h4 style={styles.compCampoTitle}>{campo.icon} {campo.name}</h4>
+                {competencies.map((comp) => {
+                  const numLevel = comp.numericLevel
+                  const level = MASTERY_LEVELS[numLevel - 1]
+                  const phase = comp.phase
+                  return (
+                    <div key={comp.id} style={styles.compCard}>
+                      <div style={styles.compHeader}>
+                        <span style={styles.compName}>{comp.name}</span>
+                        <span style={styles.compLevel}>{level.emoji} Nv. {numLevel} — {level.label}</span>
+                      </div>
+                      <div style={styles.compPhaseRow}>
+                        <span style={{ ...styles.compPhaseBadge, backgroundColor: phase.color }}>
+                          {phase.emoji} {phase.label}
+                        </span>
+                        <span style={styles.compPhaseDesc}>{phase.description}</span>
+                      </div>
+                      <p style={styles.compDesc}>{comp.description}</p>
+
+                      {/* 10-level progress bar with phase colors */}
+                      <div style={styles.compProgressTrack}>
+                        <div style={{
+                          ...styles.compProgressFill,
+                          width: `${(numLevel / 10) * 100}%`,
+                          backgroundColor: phase.color,
+                        }} />
+                        <div style={styles.compProgressMarkers}>
+                          {Array.from({ length: 10 }, (_, i) => (
+                            <div
+                              key={i}
+                              style={{
+                                ...styles.compProgressDot,
+                                backgroundColor: i < numLevel ? phase.color : 'var(--color-border)',
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Current & next milestone */}
+                      <div style={styles.compCurrentMilestone}>
+                        <span>{level.emoji}</span>
+                        <span style={styles.compMilestoneText}>{comp.milestones[level.id]}</span>
+                      </div>
+                      {numLevel < 10 && (
+                        <div style={{ ...styles.compCurrentMilestone, opacity: 0.5 }}>
+                          <span>{MASTERY_LEVELS[numLevel].emoji}</span>
+                          <span style={styles.compMilestoneText}>
+                            Proximo: {comp.milestones[MASTERY_LEVELS[numLevel].id]}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
@@ -753,5 +893,182 @@ const styles = {
     height: '100%',
     borderRadius: '3px',
     transition: 'width 0.6s ease',
+  },
+  // Phases overview
+  phaseOverview: {
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-lg)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-md)',
+    border: '1px solid var(--color-border)',
+  },
+  phaseOverviewTitle: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+    color: 'var(--color-text-secondary)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+  },
+  phaseGrid: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 'var(--space-sm)',
+  },
+  phaseCard: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-md)',
+  },
+  phaseCardIcon: { fontSize: '1.5rem' },
+  phaseCardName: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+  },
+  phaseBadge: {
+    padding: '2px 10px',
+    borderRadius: 'var(--radius-sm)',
+    color: 'white',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 700,
+  },
+  phaseCardLevel: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  phaseLegend: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    borderTop: '1px solid var(--color-border)',
+    paddingTop: 'var(--space-sm)',
+  },
+  phaseLegendItem: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-xs)',
+  },
+  phaseLegendDot: {
+    width: '8px',
+    height: '8px',
+    borderRadius: '50%',
+    flexShrink: 0,
+  },
+  phaseLegendText: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    lineHeight: 1.3,
+  },
+  // Competencies
+  compCampo: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    marginBottom: 'var(--space-md)',
+  },
+  compCampoTitle: {
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 700,
+    color: 'var(--color-text)',
+    borderBottom: '2px solid var(--color-border)',
+    paddingBottom: 'var(--space-xs)',
+  },
+  compCard: {
+    padding: 'var(--space-md)',
+    backgroundColor: 'var(--color-bg)',
+    borderRadius: 'var(--radius-md)',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-xs)',
+  },
+  compHeader: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '4px',
+  },
+  compName: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+  },
+  compLevel: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    padding: '2px 8px',
+    backgroundColor: '#E8F5E9',
+    borderRadius: 'var(--radius-sm)',
+  },
+  compPhaseRow: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 'var(--space-xs)',
+    marginTop: '2px',
+  },
+  compPhaseBadge: {
+    padding: '1px 8px',
+    borderRadius: 'var(--radius-sm)',
+    color: 'white',
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
+    flexShrink: 0,
+  },
+  compPhaseDesc: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    fontStyle: 'italic',
+  },
+  compDesc: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+  },
+  compProgressTrack: {
+    position: 'relative',
+    height: '8px',
+    backgroundColor: 'var(--color-border)',
+    borderRadius: '4px',
+    overflow: 'hidden',
+    marginTop: 'var(--space-xs)',
+  },
+  compProgressFill: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: '100%',
+    backgroundColor: 'var(--color-primary)',
+    borderRadius: '4px',
+    transition: 'width 0.6s ease',
+  },
+  compProgressMarkers: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: '0 1px',
+  },
+  compProgressDot: {
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%',
+    transition: 'background-color 0.3s',
+  },
+  compCurrentMilestone: {
+    display: 'flex',
+    gap: 'var(--space-xs)',
+    alignItems: 'flex-start',
+    fontSize: 'var(--font-size-sm)',
+    marginTop: '2px',
+  },
+  compMilestoneText: {
+    lineHeight: 1.3,
   },
 }
