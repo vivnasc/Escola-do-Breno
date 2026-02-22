@@ -95,36 +95,36 @@ const EXPERIMENTS = [
   },
   {
     title: 'Gravidade',
-    question: 'Porque e que as coisas caem para o chao?',
+    question: 'Porque é que as coisas caem para o chão?',
     emoji: '🍎',
     options: [
       { text: 'Porque a Terra puxa tudo para si (gravidade)', emoji: '🌍', correct: true },
       { text: 'Porque o ar empurra para baixo', emoji: '💨', correct: false },
       { text: 'Porque as coisas querem cair', emoji: '⬇️', correct: false },
     ],
-    fact: 'A gravidade e a forca que puxa tudo para o centro da Terra. Na Lua, a gravidade e 6 vezes mais fraca — podes saltar muito mais alto!',
+    fact: 'A gravidade é a força que puxa tudo para o centro da Terra. Na Lua, a gravidade é 6 vezes mais fraca — podes saltar muito mais alto!',
   },
   {
-    title: 'Fosseis',
-    question: 'O que e um fossil?',
+    title: 'Fósseis',
+    question: 'O que é um fóssil?',
     emoji: '🦴',
     options: [
-      { text: 'Restos de seres vivos que viveram ha muito tempo', emoji: '🦕', correct: true },
+      { text: 'Restos de seres vivos que viveram há muito tempo', emoji: '🦕', correct: true },
       { text: 'Uma pedra bonita', emoji: '💎', correct: false },
       { text: 'Um tipo de planta', emoji: '🌿', correct: false },
     ],
-    fact: 'Os fosseis formam-se quando restos de animais ou plantas ficam presos em rochas durante milhoes de anos. E assim que sabemos que os dinossauros existiram!',
+    fact: 'Os fósseis formam-se quando restos de animais ou plantas ficam presos em rochas durante milhões de anos. É assim que sabemos que os dinossauros existiram!',
   },
   {
-    title: 'Vulcoes',
-    question: 'O que sai de um vulcao quando entra em erupcao?',
+    title: 'Vulcões',
+    question: 'O que sai de um vulcão quando entra em erupção?',
     emoji: '🌋',
     options: [
       { text: 'Lava, cinzas e gases quentes', emoji: '🔥', correct: true },
       { text: 'Agua e gelo', emoji: '🧊', correct: false },
       { text: 'Areia e pedras frias', emoji: '🪨', correct: false },
     ],
-    fact: 'A lava e rocha derretida que vem do interior da Terra. Pode atingir 1.200 graus! Existem cerca de 1.500 vulcoes activos no mundo.',
+    fact: 'A lava é rocha derretida que vem do interior da Terra. Pode atingir 1.200 graus! Existem cerca de 1.500 vulcões activos no mundo.',
   },
   {
     title: 'Insectos',
@@ -135,84 +135,84 @@ const EXPERIMENTS = [
       { text: '4 patas', emoji: '🐕', correct: false },
       { text: '8 patas', emoji: '🕷️', correct: false },
     ],
-    fact: 'Todos os insectos tem 6 patas. As aranhas tem 8 patas e NAO sao insectos — sao aracnideos! As formigas conseguem carregar 50 vezes o seu peso.',
+    fact: 'Todos os insectos têm 6 patas. As aranhas têm 8 patas e NÃO são insectos — são aracnídeos! As formigas conseguem carregar 50 vezes o seu peso.',
   },
   {
     title: 'Reciclagem',
-    question: 'Porque e importante reciclar?',
+    question: 'Porque é importante reciclar?',
     emoji: '♻️',
     options: [
       { text: 'Para proteger a natureza e reutilizar materiais', emoji: '🌍', correct: true },
       { text: 'Porque o lixo e bonito', emoji: '✨', correct: false },
-      { text: 'Nao e importante', emoji: '❌', correct: false },
+      { text: 'Não é importante', emoji: '❌', correct: false },
     ],
-    fact: 'Reciclar uma lata de aluminio poupa energia suficiente para alimentar uma TV durante 3 horas! Cada pessoa pode fazer a diferenca.',
+    fact: 'Reciclar uma lata de alumínio poupa energia suficiente para alimentar uma TV durante 3 horas! Cada pessoa pode fazer a diferença.',
   },
   {
-    title: 'Estacoes do Ano',
-    question: 'Porque existem estacoes do ano?',
+    title: 'Estações do Ano',
+    question: 'Porque existem estações do ano?',
     emoji: '🍂',
     options: [
-      { text: 'Porque a Terra e inclinada enquanto roda a volta do Sol', emoji: '🌍', correct: true },
+      { text: 'Porque a Terra é inclinada enquanto roda à volta do Sol', emoji: '🌍', correct: true },
       { text: 'Porque o Sol muda de tamanho', emoji: '☀️', correct: false },
       { text: 'Porque a Terra se afasta do Sol', emoji: '🚀', correct: false },
     ],
-    fact: 'O eixo da Terra e inclinado 23.5 graus. Quando o teu hemisferio esta inclinado para o Sol, e verao. Quando esta inclinado para o outro lado, e inverno!',
+    fact: 'O eixo da Terra é inclinado 23.5 graus. Quando o teu hemisfério está inclinado para o Sol, é verão. Quando está inclinado para o outro lado, é inverno!',
   },
   {
     title: 'Magnetismo',
-    question: 'O que e que um iman atrai?',
+    question: 'O que é que um íman atrai?',
     emoji: '🧲',
     options: [
-      { text: 'Objectos de ferro e aco', emoji: '🔩', correct: true },
+      { text: 'Objectos de ferro e aço', emoji: '🔩', correct: true },
       { text: 'Tudo o que existe', emoji: '🌍', correct: false },
       { text: 'Apenas papel e madeira', emoji: '📄', correct: false },
     ],
-    fact: 'Os imans atraem metais como ferro e aco. A Terra tambem e um iman gigante — e por isso que a bussola aponta para o norte!',
+    fact: 'Os ímans atraem metais como ferro e aço. A Terra também é um íman gigante — é por isso que a bússola aponta para o norte!',
   },
   {
     title: 'Electricidade',
-    question: 'O que faz uma lampada acender?',
+    question: 'O que faz uma lâmpada acender?',
     emoji: '💡',
     options: [
       { text: 'Electricidade a passar pelo filamento', emoji: '⚡', correct: true },
-      { text: 'O ar dentro da lampada', emoji: '💨', correct: false },
-      { text: 'O vidro da lampada', emoji: '🔮', correct: false },
+      { text: 'O ar dentro da lâmpada', emoji: '💨', correct: false },
+      { text: 'O vidro da lâmpada', emoji: '🔮', correct: false },
     ],
-    fact: 'A electricidade e o movimento de particulas minusculas chamadas electroes. Viajam a velocidades incriveis nos fios electricos!',
+    fact: 'A electricidade é o movimento de partículas minúsculas chamadas electrões. Viajam a velocidades incríveis nos fios eléctricos!',
   },
   {
     title: 'Ondas Sonoras',
-    question: 'Como e que o som viaja ate aos nossos ouvidos?',
+    question: 'Como é que o som viaja até aos nossos ouvidos?',
     emoji: '🔊',
     options: [
-      { text: 'Atraves de vibracoes no ar', emoji: '🌬️', correct: true },
-      { text: 'Atraves de raios de luz', emoji: '💡', correct: false },
-      { text: 'Atraves de fios invisiveis', emoji: '🧵', correct: false },
+      { text: 'Através de vibrações no ar', emoji: '🌬️', correct: true },
+      { text: 'Através de raios de luz', emoji: '💡', correct: false },
+      { text: 'Através de fios invisíveis', emoji: '🧵', correct: false },
     ],
-    fact: 'O som e uma vibracao que viaja pelo ar, pela agua e ate por materiais solidos. No espaco nao ha som porque nao ha ar para vibrar! O som viaja mais rapido na agua do que no ar.',
+    fact: 'O som é uma vibração que viaja pelo ar, pela água e até por materiais sólidos. No espaço não há som porque não há ar para vibrar! O som viaja mais rápido na água do que no ar.',
   },
   {
-    title: 'Migracao Animal',
-    question: 'Porque e que algumas aves voam para outros paises no inverno?',
+    title: 'Migração Animal',
+    question: 'Porque é que algumas aves voam para outros países no inverno?',
     emoji: '🦅',
     options: [
       { text: 'Para encontrar comida e clima mais quente', emoji: '☀️', correct: true },
       { text: 'Porque gostam de viajar', emoji: '✈️', correct: false },
       { text: 'Porque tem medo da chuva', emoji: '🌧️', correct: false },
     ],
-    fact: 'A migracao e uma viagem longa que muitos animais fazem todos os anos. A andorinha-do-artico faz a migracao mais longa: 70.000 km por ano, do Artico ate a Antartida e de volta!',
+    fact: 'A migração é uma viagem longa que muitos animais fazem todos os anos. A andorinha-do-ártico faz a migração mais longa: 70.000 km por ano, do Ártico até à Antártida e de volta!',
   },
   {
     title: 'Camuflagem',
-    question: 'Porque e que alguns animais tem cores parecidas com o ambiente?',
+    question: 'Porque é que alguns animais têm cores parecidas com o ambiente?',
     emoji: '🦎',
     options: [
       { text: 'Para se esconderem de predadores ou de presas', emoji: '👀', correct: true },
       { text: 'Porque gostam de moda', emoji: '👗', correct: false },
       { text: 'Porque a tinta da pele estragou', emoji: '🎨', correct: false },
     ],
-    fact: 'A camuflagem e uma tactica de sobrevivencia. O camaleao muda de cor, o polvo imita o fundo do mar, e o bicho-pau parece um ramo de arvore. Ate existem insectos que parecem folhas!',
+    fact: 'A camuflagem é uma táctica de sobrevivência. O camaleão muda de cor, o polvo imita o fundo do mar, e o bicho-pau parece um ramo de árvore. Até existem insectos que parecem folhas!',
   },
   {
     title: 'Biodiversidade',
@@ -223,51 +223,51 @@ const EXPERIMENTS = [
       { text: 'Um tipo de planta rara', emoji: '🌺', correct: false },
       { text: 'Uma doenca dos animais', emoji: '🤒', correct: false },
     ],
-    fact: 'Existem cerca de 8,7 milhoes de especies no planeta! A floresta amazonica sozinha tem mais de 40.000 especies de plantas e 1.300 especies de aves. Cada ser vivo tem um papel importante.',
+    fact: 'Existem cerca de 8,7 milhões de espécies no planeta! A floresta amazónica sozinha tem mais de 40.000 espécies de plantas e 1.300 espécies de aves. Cada ser vivo tem um papel importante.',
   },
   {
-    title: 'Polinizacao',
-    question: 'Porque e que as abelhas visitam as flores?',
+    title: 'Polinização',
+    question: 'Porque é que as abelhas visitam as flores?',
     emoji: '🐝',
     options: [
-      { text: 'Para recolher nectar e espalhar polen entre flores', emoji: '🌸', correct: true },
+      { text: 'Para recolher néctar e espalhar pólen entre flores', emoji: '🌸', correct: true },
       { text: 'Porque gostam de cores bonitas', emoji: '🌈', correct: false },
-      { text: 'Para dormir dentro das petalas', emoji: '😴', correct: false },
+      { text: 'Para dormir dentro das pétalas', emoji: '😴', correct: false },
     ],
-    fact: 'As abelhas sao polinizadoras essenciais. Quando visitam flores, levam polen de uma flor para outra, ajudando as plantas a reproduzir-se. Sem abelhas, perderiamos um terco dos alimentos que comemos!',
+    fact: 'As abelhas são polinizadoras essenciais. Quando visitam flores, levam pólen de uma flor para outra, ajudando as plantas a reproduzir-se. Sem abelhas, perderíamos um terço dos alimentos que comemos!',
   },
   {
-    title: 'Decomposicao',
-    question: 'O que acontece as folhas que caem das arvores no outono?',
+    title: 'Decomposição',
+    question: 'O que acontece às folhas que caem das árvores no outono?',
     emoji: '🍂',
     options: [
-      { text: 'Sao decompostas por fungos e bacterias e viram nutrientes', emoji: '🍄', correct: true },
+      { text: 'São decompostas por fungos e bactérias e viram nutrientes', emoji: '🍄', correct: true },
       { text: 'Ficam la para sempre', emoji: '♾️', correct: false },
       { text: 'Evaporam com o sol', emoji: '☀️', correct: false },
     ],
-    fact: 'Os decompositores como fungos, bacterias e minhocas transformam materia morta em nutrientes para o solo. Sem eles, o mundo estaria coberto de folhas e restos de plantas ha milhoes de anos!',
+    fact: 'Os decompositores como fungos, bactérias e minhocas transformam matéria morta em nutrientes para o solo. Sem eles, o mundo estaria coberto de folhas e restos de plantas há milhões de anos!',
   },
   {
-    title: 'Correntes Oceanicas',
-    question: 'A agua do oceano esta sempre parada?',
+    title: 'Correntes Oceânicas',
+    question: 'A água do oceano está sempre parada?',
     emoji: '🌊',
     options: [
-      { text: 'Nao, existem correntes que movem a agua pelo planeta inteiro', emoji: '🔄', correct: true },
-      { text: 'Sim, a agua fica sempre no mesmo sitio', emoji: '⏸️', correct: false },
-      { text: 'So se move quando ha tempestades', emoji: '⛈️', correct: false },
+      { text: 'Não, existem correntes que movem a água pelo planeta inteiro', emoji: '🔄', correct: true },
+      { text: 'Sim, a água fica sempre no mesmo sítio', emoji: '⏸️', correct: false },
+      { text: 'Só se move quando há tempestades', emoji: '⛈️', correct: false },
     ],
-    fact: 'As correntes oceanicas sao como rios dentro do mar. A Corrente do Golfo leva agua quente do Mexico ate a Europa, ajudando a manter o clima mais ameno. Uma gota de agua pode demorar 1.000 anos a viajar pelo oceano inteiro!',
+    fact: 'As correntes oceânicas são como rios dentro do mar. A Corrente do Golfo leva água quente do México até à Europa, ajudando a manter o clima mais ameno. Uma gota de água pode demorar 1.000 anos a viajar pelo oceano inteiro!',
   },
   {
-    title: 'Electricidade Estatica',
-    question: 'Porque e que as vezes levamos um choque ao tocar numa macaneta?',
+    title: 'Electricidade Estática',
+    question: 'Porque é que às vezes levamos um choque ao tocar numa maçaneta?',
     emoji: '⚡',
     options: [
-      { text: 'Porque o corpo acumulou electricidade estatica', emoji: '🔋', correct: true },
-      { text: 'Porque a macaneta esta partida', emoji: '🔧', correct: false },
-      { text: 'Porque o ar esta electrico', emoji: '🌩️', correct: false },
+      { text: 'Porque o corpo acumulou electricidade estática', emoji: '🔋', correct: true },
+      { text: 'Porque a maçaneta está partida', emoji: '🔧', correct: false },
+      { text: 'Porque o ar está eléctrico', emoji: '🌩️', correct: false },
     ],
-    fact: 'A electricidade estatica acumula-se quando nos movemos e as nossas roupas friccionam. Os relampagos sao electricidade estatica gigante nas nuvens! Um relampago pode atingir 30.000 graus — cinco vezes mais quente que a superficie do Sol.',
+    fact: 'A electricidade estática acumula-se quando nos movemos e as nossas roupas friccionam. Os relâmpagos são electricidade estática gigante nas nuvens! Um relâmpago pode atingir 30.000 graus — cinco vezes mais quente que a superfície do Sol.',
   },
 ]
 
@@ -329,7 +329,7 @@ export default function NatureLab({
       <ActivityShell title="Laboratorio Natural" backPath="/campo/3" color="var(--color-campo3)">
         <CompletionCelebration
           emoji="🔬"
-          title="Descobriste factos cientificos!"
+          title="Descobriste factos científicos!"
           score={score}
           total={EXPERIMENTS.length}
           stars={finalStars}
@@ -341,7 +341,7 @@ export default function NatureLab({
 
   return (
     <ActivityShell
-      title="Laboratorio Natural"
+      title="Laboratório Natural"
       instruction={current.question}
       backPath="/campo/3"
       color="var(--color-campo3)"
@@ -375,7 +375,7 @@ export default function NatureLab({
           <span style={styles.factIcon}>🔬</span>
           <p style={styles.factText}>{current.fact}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo →
+            Próximo →
           </button>
         </div>
       )}

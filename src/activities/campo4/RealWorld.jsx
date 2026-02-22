@@ -7,56 +7,56 @@ import { useTTS } from '../../hooks/useTTS'
 const CHALLENGES = [
   {
     title: 'No Restaurante',
-    situation: 'Estas no restaurante com a tua familia. Queres pedir frango grelhado. O que fazes?',
+    situation: 'Estás no restaurante com a tua família. Queres pedir frango grelhado. O que fazes?',
     emoji: '🍽️',
     options: [
-      { text: 'Olho para o menu, encontro "frango grelhado" e peco ao empregado', correct: true },
+      { text: 'Olho para o menu, encontro "frango grelhado" e peço ao empregado', correct: true },
       { text: 'Grito "frango!" muito alto', correct: false },
       { text: 'Saio do restaurante', correct: false },
     ],
-    tip: 'No restaurante: olha o menu, decide o que queres, espera a tua vez, e pede com educacao.',
+    tip: 'No restaurante: olha o menu, decide o que queres, espera a tua vez, e pede com educação.',
   },
   {
     title: 'No Autocarro',
-    situation: 'Precisas de apanhar o autocarro para ir ao estadio. O que tens de saber?',
+    situation: 'Precisas de apanhar o autocarro para ir ao estádio. O que tens de saber?',
     emoji: '🚌',
     options: [
-      { text: 'O numero do autocarro, a paragem e o horario', correct: true },
-      { text: 'So o nome do estadio', correct: false },
+      { text: 'O número do autocarro, a paragem e o horário', correct: true },
+      { text: 'Só o nome do estádio', correct: false },
       { text: 'Nada, o autocarro vem sozinho', correct: false },
     ],
-    tip: 'Para usar transportes: sabe o numero/nome, a paragem, o horario e o dinheiro necessario.',
+    tip: 'Para usar transportes: sabe o número/nome, a paragem, o horário e o dinheiro necessário.',
   },
   {
     title: 'Estou Perdido',
-    situation: 'Estas no centro comercial e nao encontras os teus pais. O que fazes?',
+    situation: 'Estás no centro comercial e não encontras os teus pais. O que fazes?',
     emoji: '🏬',
     options: [
-      { text: 'Fico no mesmo sitio, procuro um seguranca e digo o meu nome e o dos meus pais', correct: true },
+      { text: 'Fico no mesmo sítio, procuro um segurança e digo o meu nome e o dos meus pais', correct: true },
       { text: 'Corro para todo o lado a gritar', correct: false },
       { text: 'Vou para a rua sozinho', correct: false },
     ],
-    tip: 'Se te perderes: fica parado, procura alguem de uniforme, sabe dizer o teu nome e o contacto dos teus pais.',
+    tip: 'Se te perderes: fica parado, procura alguém de uniforme, sabe dizer o teu nome e o contacto dos teus pais.',
   },
   {
     title: 'Emergencia',
-    situation: 'Alguem se magoa no recreio e precisa de ajuda. O que fazes?',
+    situation: 'Alguém se magoa no recreio e precisa de ajuda. O que fazes?',
     emoji: '🚑',
     options: [
       { text: 'Chamo um professor e fico junto da pessoa', correct: true },
       { text: 'Ignoro e continuo a brincar', correct: false },
       { text: 'Tento resolver sozinho', correct: false },
     ],
-    tip: 'Em emergencia: chama um adulto, nao toques na pessoa se nao souberes, e liga para o numero de emergencia do teu pais.',
+    tip: 'Em emergência: chama um adulto, não toques na pessoa se não souberes, e liga para o número de emergência do teu país.',
   },
   {
     title: 'Dados Pessoais',
-    situation: 'Um adulto da escola pergunta o teu nome completo e morada. E seguro responder?',
+    situation: 'Um adulto da escola pergunta o teu nome completo e morada. É seguro responder?',
     emoji: '🪪',
     options: [
-      { text: 'Sim, adultos da escola sao de confianca e preciso saber dizer os meus dados', correct: true },
+      { text: 'Sim, adultos da escola são de confiança e preciso saber dizer os meus dados', correct: true },
       { text: 'Nunca, a ninguem', correct: false },
-      { text: 'So digo se me derem um presente', correct: false },
+      { text: 'Só digo se me derem um presente', correct: false },
     ],
     tip: 'Sabe o teu nome completo, morada, e contacto dos pais. Partilha com adultos de confianca (escola, policia).',
   },
@@ -65,22 +65,22 @@ const CHALLENGES = [
     situation: 'Queres comprar agua na loja. Custa 15 e tens 20. O que fazes?',
     emoji: '🏪',
     options: [
-      { text: 'Vou a caixa, digo que quero agua, pago 20 e espero o troco de 5', correct: true },
+      { text: 'Vou à caixa, digo que quero água, pago 20 e espero o troco de 5', correct: true },
       { text: 'Deixo o dinheiro no balcao e saio', correct: false },
-      { text: 'Peco para levar de graca', correct: false },
+      { text: 'Peço para levar de graça', correct: false },
     ],
-    tip: 'Na loja: escolhe o que queres, vai a caixa, paga e confere o troco!',
+    tip: 'Na loja: escolhe o que queres, vai à caixa, paga e confere o troco!',
   },
   {
     title: 'No Hospital',
-    situation: 'Dói-te muito a barriga e tens de ir ao medico. Como te preparas?',
+    situation: 'Dói-te muito a barriga e tens de ir ao médico. Como te preparas?',
     emoji: '🏥',
     options: [
-      { text: 'Digo ao medico onde doi, ha quanto tempo e o que comi', correct: true },
-      { text: 'Nao digo nada e espero que ele adivinhe', correct: false },
-      { text: 'Recuso-me a ir ao medico', correct: false },
+      { text: 'Digo ao médico onde dói, há quanto tempo e o que comi', correct: true },
+      { text: 'Não digo nada e espero que ele adivinhe', correct: false },
+      { text: 'Recuso-me a ir ao médico', correct: false },
     ],
-    tip: 'No medico: explica o que sentes, onde doi, e ha quanto tempo. O medico precisa dessas informacoes para te ajudar!',
+    tip: 'No médico: explica o que sentes, onde dói, e há quanto tempo. O médico precisa dessas informações para te ajudar!',
   },
   {
     title: 'Atravessar a Rua',
@@ -95,14 +95,14 @@ const CHALLENGES = [
   },
   {
     title: 'Fazer uma Chamada',
-    situation: 'Precisas de ligar para a tua mae para ela te vir buscar. O que fazes?',
+    situation: 'Precisas de ligar para a tua mãe para ela te vir buscar. O que fazes?',
     emoji: '📱',
     options: [
-      { text: 'Marco o numero da mae, espero que atenda, digo quem sou e onde estou', correct: true },
+      { text: 'Marco o número da mãe, espero que atenda, digo quem sou e onde estou', correct: true },
       { text: 'Envio uma mensagem sem dizer onde estou', correct: false },
-      { text: 'Espero sem ligar a ninguem', correct: false },
+      { text: 'Espero sem ligar a ninguém', correct: false },
     ],
-    tip: 'Ao telefone: diz quem es, onde estas e o que precisas. Sabe de cor o numero dos teus pais!',
+    tip: 'Ao telefone: diz quem és, onde estás e o que precisas. Sabe de cor o número dos teus pais!',
   },
   {
     title: 'Visita a Casa de um Amigo',
@@ -111,119 +111,119 @@ const CHALLENGES = [
     options: [
       { text: 'Cumprimento os pais dele, tiro os sapatos se pedirem, e sigo as regras da casa', correct: true },
       { text: 'Entro sem cumprimentar ninguem e abro o frigorifico', correct: false },
-      { text: 'Recuso-me a ir porque nao conhesso a casa', correct: false },
+      { text: 'Recuso-me a ir porque não conheço a casa', correct: false },
     ],
-    tip: 'Em casa alheia: cumprimentar, seguir as regras da casa e agradecer ao sair sao sinais de boa educacao.',
+    tip: 'Em casa alheia: cumprimentar, seguir as regras da casa e agradecer ao sair são sinais de boa educação.',
   },
   {
-    title: 'Pedir Direccoes',
-    situation: 'Estas numa cidade nova e nao sabes onde fica a biblioteca. O que fazes?',
+    title: 'Pedir Direcções',
+    situation: 'Estás numa cidade nova e não sabes onde fica a biblioteca. O que fazes?',
     emoji: '🗺️',
     options: [
-      { text: 'Pergunto a alguem de confianca (policia, empregado de loja) onde fica', correct: true },
+      { text: 'Pergunto a alguém de confiança (polícia, empregado de loja) onde fica', correct: true },
       { text: 'Ando sem rumo ate encontrar', correct: false },
       { text: 'Desisto e volto para casa', correct: false },
     ],
-    tip: 'Se nao sabes o caminho: pede ajuda a um adulto de confianca (policia, empregado). Sabe o nome do lugar que procuras!',
+    tip: 'Se não sabes o caminho: pede ajuda a um adulto de confiança (polícia, empregado). Sabe o nome do lugar que procuras!',
   },
   {
     title: 'Usar Dinheiro',
-    situation: 'A tua mae da-te 100 para o dia. Tens de almossar (60) e comprar o bilhete de autocarro (25). Quanto sobra?',
+    situation: 'A tua mãe dá-te 100 para o dia. Tens de almoçar (60) e comprar o bilhete de autocarro (25). Quanto sobra?',
     emoji: '💵',
     options: [
-      { text: '15. Almoco 60, autocarro 25, total 85, sobram 15', correct: true },
-      { text: 'Nao sei contar, gasto tudo no almoco', correct: false },
+      { text: '15. Almoço 60, autocarro 25, total 85, sobram 15', correct: true },
+      { text: 'Não sei contar, gasto tudo no almoço', correct: false },
       { text: 'Compro doces com todo o dinheiro', correct: false },
     ],
     tip: 'Gerir dinheiro: primeiro paga o que precisas (comida, transporte), depois ve o que sobra para extras.',
   },
   {
     title: 'No Supermercado',
-    situation: 'A tua mae pediu-te para ir buscar leite, pao e ovos ao supermercado. Como te organizas?',
+    situation: 'A tua mãe pediu-te para ir buscar leite, pão e ovos ao supermercado. Como te organizas?',
     emoji: '🛒',
     options: [
-      { text: 'Faco uma lista no telemovel, procuro os corredores certos e vou a caixa pagar', correct: true },
+      { text: 'Faço uma lista no telemóvel, procuro os corredores certos e vou à caixa pagar', correct: true },
       { text: 'Ando pelo supermercado todo sem saber o que procuro', correct: false },
       { text: 'Compro so o que me apetece e esqueco a lista', correct: false },
     ],
-    tip: 'No supermercado: faz uma lista antes de ir, procura os produtos por seccao (lacticinios, padaria, ovos) e confere a lista antes de pagar.',
+    tip: 'No supermercado: faz uma lista antes de ir, procura os produtos por secção (lacticínios, padaria, ovos) e confere a lista antes de pagar.',
   },
   {
     title: 'Pedir Comida',
-    situation: 'Estas num restaurante de comida rapida e queres pedir um hamburguer. O que fazes?',
+    situation: 'Estás num restaurante de comida rápida e queres pedir um hambúrguer. O que fazes?',
     emoji: '🍔',
     options: [
-      { text: 'Olho para o menu, decido o que quero, espero a minha vez e peco com clareza', correct: true },
+      { text: 'Olho para o menu, decido o que quero, espero a minha vez e peço com clareza', correct: true },
       { text: 'Aponto para a comida sem dizer nada', correct: false },
-      { text: 'Peco a outra pessoa que faca o pedido por mim', correct: false },
+      { text: 'Peço a outra pessoa que faça o pedido por mim', correct: false },
     ],
-    tip: 'Para pedir comida: le o menu com calma, decide antes de chegar ao balcao, diz o que queres com clareza e paga. Se nao perceberes algo no menu, podes perguntar!',
+    tip: 'Para pedir comida: lê o menu com calma, decide antes de chegar ao balcão, diz o que queres com clareza e paga. Se não perceberes algo no menu, podes perguntar!',
   },
   {
     title: 'No Dentista',
-    situation: 'Tens uma consulta no dentista e doi-te um dente. Como te preparas?',
+    situation: 'Tens uma consulta no dentista e dói-te um dente. Como te preparas?',
     emoji: '🦷',
     options: [
       { text: 'Digo ao dentista qual dente doi, ha quanto tempo doi e se doi mais com frio ou quente', correct: true },
-      { text: 'Nao abro a boca porque tenho medo', correct: false },
-      { text: 'Digo que nao doi nada para ir embora mais depressa', correct: false },
+      { text: 'Não abro a boca porque tenho medo', correct: false },
+      { text: 'Digo que não dói nada para ir embora mais depressa', correct: false },
     ],
-    tip: 'No dentista: explica o que sentes com honestidade. Podes dizer "doi aqui", "doi ha 3 dias" ou "doi quando como gelado". O dentista so te pode ajudar se souberes descrever o que sentes.',
+    tip: 'No dentista: explica o que sentes com honestidade. Podes dizer "dói aqui", "dói há 3 dias" ou "dói quando como gelado". O dentista só te pode ajudar se souberes descrever o que sentes.',
   },
   {
     title: 'Lidar com Barulho',
-    situation: 'Estas numa festa de aniversario e o barulho esta a incomodar-te muito. O que fazes?',
+    situation: 'Estás numa festa de aniversário e o barulho está a incomodar-te muito. O que fazes?',
     emoji: '🔊',
     options: [
       { text: 'Digo a um adulto que preciso de uma pausa e vou a um sitio mais calmo por uns minutos', correct: true },
       { text: 'Fico e aguento mesmo que me sinta muito mal', correct: false },
       { text: 'Grito para todos fazerem silencio', correct: false },
     ],
-    tip: 'Quando o barulho incomoda: nao precisas de aguentar. Podes ir a um sitio mais calmo, usar protecao auditiva ou pedir uma pausa. Conhecer os teus limites e cuidar de ti e muito inteligente.',
+    tip: 'Quando o barulho incomoda: não precisas de aguentar. Podes ir a um sítio mais calmo, usar proteção auditiva ou pedir uma pausa. Conhecer os teus limites e cuidar de ti é muito inteligente.',
   },
   {
-    title: 'Mudanca de Planos',
-    situation: 'Ias ao parque com o teu pai, mas comecou a chover e nao podem ir. Como reages?',
+    title: 'Mudança de Planos',
+    situation: 'Ias ao parque com o teu pai, mas começou a chover e não podem ir. Como reages?',
     emoji: '🌧️',
     options: [
       { text: 'Fico desapontado mas penso numa alternativa divertida para fazer em casa', correct: true },
       { text: 'Fico muito zangado e recuso-me a fazer outra coisa', correct: false },
       { text: 'Choro o dia inteiro porque o plano mudou', correct: false },
     ],
-    tip: 'Quando os planos mudam: e normal sentir frustacao. Respira fundo, aceita o que nao podes controlar e pensa numa alternativa. Ter um "plano B" ajuda muito quando as coisas mudam!',
+    tip: 'Quando os planos mudam: é normal sentir frustração. Respira fundo, aceita o que não podes controlar e pensa numa alternativa. Ter um "plano B" ajuda muito quando as coisas mudam!',
   },
   {
     title: 'Conhecer Pessoas Novas',
-    situation: 'Estas numa actividade nova e nao conheces ninguem. Como te apresentas?',
+    situation: 'Estás numa actividade nova e não conheces ninguém. Como te apresentas?',
     emoji: '👋',
     options: [
-      { text: 'Digo "Ola, o meu nome e..." e pergunto o nome da outra pessoa', correct: true },
-      { text: 'Fico num canto sem falar com ninguem', correct: false },
+      { text: 'Digo "Olá, o meu nome é..." e pergunto o nome da outra pessoa', correct: true },
+      { text: 'Fico num canto sem falar com ninguém', correct: false },
       { text: 'Espero que as outras pessoas venham falar comigo primeiro', correct: false },
     ],
-    tip: 'Para conhecer pessoas: olha para a pessoa, diz o teu nome e faz uma pergunta simples como "Como te chamas?" ou "Tambem es novo aqui?". Nao precisas de ser o mais falador, so precisas de dar o primeiro passo.',
+    tip: 'Para conhecer pessoas: olha para a pessoa, diz o teu nome e faz uma pergunta simples como "Como te chamas?" ou "Também és novo aqui?". Não precisas de ser o mais falador, só precisas de dar o primeiro passo.',
   },
   {
-    title: 'Seguranca na Internet',
-    situation: 'Alguem que nao conheces manda-te uma mensagem online a pedir a tua morada. O que fazes?',
+    title: 'Segurança na Internet',
+    situation: 'Alguém que não conheces manda-te uma mensagem online a pedir a tua morada. O que fazes?',
     emoji: '🔒',
     options: [
-      { text: 'Nao respondo, nao partilho dados pessoais e conto a um adulto de confianca', correct: true },
-      { text: 'Respondo porque a pessoa parece simpatica', correct: false },
+      { text: 'Não respondo, não partilho dados pessoais e conto a um adulto de confiança', correct: true },
+      { text: 'Respondo porque a pessoa parece simpática', correct: false },
       { text: 'Dou uma morada inventada para ver o que acontece', correct: false },
     ],
-    tip: 'Na internet: nunca partilhes o teu nome completo, morada, escola ou fotos com desconhecidos. Se alguem te pedir informacoes pessoais, nao respondas e conta a um adulto de confianca.',
+    tip: 'Na internet: nunca partilhes o teu nome completo, morada, escola ou fotos com desconhecidos. Se alguém te pedir informações pessoais, não respondas e conta a um adulto de confiança.',
   },
   {
     title: 'Preparar a Mochila',
-    situation: 'Amanha tens aulas de matematica, educacao fisica e ingles. Como preparas a mochila a noite?',
+    situation: 'Amanhã tens aulas de matemática, educação física e inglês. Como preparas a mochila à noite?',
     emoji: '🎒',
     options: [
-      { text: 'Verifico o horario, ponho os cadernos e materiais de cada disciplina e o equipamento de educacao fisica', correct: true },
+      { text: 'Verifico o horário, ponho os cadernos e materiais de cada disciplina e o equipamento de educação física', correct: true },
       { text: 'Ponho tudo o que encontro e espero que esteja certo', correct: false },
       { text: 'Deixo para fazer de manha antes de sair', correct: false },
     ],
-    tip: 'Preparar a mochila na noite anterior: olha o horario, faz uma lista mental (cadernos, materiais, equipamento) e verifica tudo. Assim de manha estas tranquilo e nao te esqueces de nada!',
+    tip: 'Preparar a mochila na noite anterior: olha o horário, faz uma lista mental (cadernos, materiais, equipamento) e verifica tudo. Assim de manhã estás tranquilo e não te esqueces de nada!',
   },
 ]
 
@@ -285,7 +285,7 @@ export default function RealWorld({
       <ActivityShell title="No Mundo Real" backPath="/campo/4" color="var(--color-campo4)">
         <CompletionCelebration
           emoji="🏙️"
-          title="Estas pronto para o mundo real!"
+          title="Estás pronto para o mundo real!"
           score={score}
           total={CHALLENGES.length}
           stars={finalStars}
@@ -330,7 +330,7 @@ export default function RealWorld({
           <span>💡</span>
           <p style={styles.tipText}>{current.tip}</p>
           <button style={styles.nextBtn} onClick={handleNext}>
-            Proximo desafio →
+            Próximo desafio →
           </button>
         </div>
       )}

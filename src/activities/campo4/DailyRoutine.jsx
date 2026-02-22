@@ -6,12 +6,12 @@ import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
 const ROUTINE_STEPS = [
-  { id: 1, text: 'Acordar as 7h', emoji: '⏰', time: '07:00' },
+  { id: 1, text: 'Acordar às 7h', emoji: '⏰', time: '07:00' },
   { id: 2, text: 'Tomar banho e escovar os dentes', emoji: '🪥', time: '07:15' },
   { id: 3, text: 'Vestir-se', emoji: '👕', time: '07:30' },
-  { id: 4, text: 'Tomar o pequeno-almoco', emoji: '🥣', time: '07:45' },
+  { id: 4, text: 'Tomar o pequeno-almoço', emoji: '🥣', time: '07:45' },
   { id: 5, text: 'Ir para a escola', emoji: '🎒', time: '08:00' },
-  { id: 6, text: 'Aulas da manha', emoji: '📚', time: '08:30' },
+  { id: 6, text: 'Aulas da manhã', emoji: '📚', time: '08:30' },
   { id: 7, text: 'Almoco', emoji: '🍽️', time: '12:30' },
   { id: 8, text: 'Aulas da tarde / Treino', emoji: '⚽', time: '14:00' },
   { id: 9, text: 'Lanche', emoji: '🍎', time: '16:30' },
@@ -84,7 +84,7 @@ export default function DailyRoutine({
       <ActivityShell title={routineContent.title} backPath="/campo/4" color="var(--color-campo4)">
         <CompletionCelebration
           emoji="🏆"
-          title="A tua rotina esta completa!"
+          title="A tua rotina está completa!"
           score={ordered.length}
           total={STEPS.length}
           stars={finalStars}
@@ -97,7 +97,7 @@ export default function DailyRoutine({
   return (
     <ActivityShell
       title={routineContent.title}
-      instruction="Organiza a rotina diaria pela ordem correcta. O que vem a seguir?"
+      instruction="Organiza a rotina diária pela ordem correcta. O que vem a seguir?"
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={ordered.length}
