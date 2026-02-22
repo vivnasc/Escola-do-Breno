@@ -1,13 +1,22 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TIERS, TIER_ORDER } from '../data/tiers'
+import PayPalSubscribeButton from '../components/PayPalSubscribeButton'
 
 /**
  * Pricing page — shows the 3 tiers with features and CTAs.
  * Gentle, informative, non-aggressive.
+ * PayPal buttons appear when user clicks "Escolher".
  */
-export default function Planos({ currentTier }) {
+export default function Planos({ currentTier, onSubscribed }) {
   const navigate = useNavigate()
   const tierId = currentTier || 'free'
+  const [expandedTier, setExpandedTier] = useState(null)
+
+  const handleSubscribed = (data) => {
+    onSubscribed?.(data)
+    setExpandedTier(null)
+  }
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -76,14 +85,23 @@ export default function Planos({ currentTier }) {
                 </div>
               ) : id === 'free' ? (
                 <div style={styles.freeNote}>Sempre disponivel</div>
+              ) : expandedTier === id ? (
+                <div style={styles.paypalSection}>
+                  <PayPalSubscribeButton
+                    tierId={id}
+                    onSubscribed={handleSubscribed}
+                  />
+                  <button
+                    style={styles.cancelBtn}
+                    onClick={() => setExpandedTier(null)}
+                  >
+                    Cancelar
+                  </button>
+                </div>
               ) : (
                 <button
                   style={{ ...styles.upgradeBtn, backgroundColor: tier.color }}
-                  onClick={() => {
-                    // Future: Stripe/Paddle checkout
-                    // For now, show coming soon
-                    alert('Pagamentos em breve! Por agora, todas as funcionalidades estao disponiveis.')
-                  }}
+                  onClick={() => setExpandedTier(id)}
                 >
                   Escolher {tier.name}
                 </button>
@@ -311,6 +329,23 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     lineHeight: 1.5,
+  },
+  paypalSection: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--space-sm)',
+    marginTop: 'auto',
+  },
+  cancelBtn: {
+    padding: 'var(--space-xs)',
+    backgroundColor: 'transparent',
+    color: 'var(--color-text-secondary)',
+    border: 'none',
+    cursor: 'pointer',
+    fontWeight: 500,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
   },
   backBtn: {
     alignSelf: 'center',

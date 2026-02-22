@@ -139,6 +139,15 @@ function AppContent() {
 
   const soundEnabled = profileData.profile?.sensory?.soundEnabled !== false
 
+  // Handle PayPal subscription activation
+  const handleSubscribed = useCallback((data) => {
+    profileData.updateProfile({
+      subscriptionTier: data.tierId,
+      paypalSubscriptionId: data.subscriptionId,
+      subscriptionActivatedAt: data.activatedAt,
+    })
+  }, [profileData])
+
   const activityProps = {
     ...progressData,
     completeActivity: handleCompleteActivity,
@@ -158,7 +167,7 @@ function AppContent() {
         <Route path="/landing" element={<Landing />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/suporte" element={<Suporte />} />
-        <Route path="/planos" element={<Planos currentTier={profileData.profile?.subscriptionTier} />} />
+        <Route path="/planos" element={<Planos currentTier={profileData.profile?.subscriptionTier} onSubscribed={handleSubscribed} />} />
       </Routes>
     )
   }
@@ -262,7 +271,7 @@ function AppContent() {
           } />
 
           <Route path="/planos" element={
-            <Planos currentTier={subscription.tierId} />
+            <Planos currentTier={subscription.tierId} onSubscribed={handleSubscribed} />
           } />
 
           <Route path="/planner" element={
