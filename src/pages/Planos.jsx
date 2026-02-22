@@ -23,8 +23,8 @@ export default function Planos({ currentTier, onSubscribed }) {
       <header style={styles.header}>
         <h1 style={styles.title}>Planos</h1>
         <p style={styles.subtitle}>
-          Escolhe o plano que melhor se adapta a tua familia.
-          Todas as criancas merecem aprender ao seu ritmo.
+          Escolhe o plano que melhor se adapta à tua família.
+          Todas as crianças merecem aprender ao seu ritmo.
         </p>
       </header>
 
@@ -55,11 +55,11 @@ export default function Planos({ currentTier, onSubscribed }) {
 
               <div style={styles.priceRow}>
                 {tier.price === 0 ? (
-                  <span style={styles.priceFree}>Gratis</span>
+                  <span style={styles.priceFree}>Grátis</span>
                 ) : (
                   <>
                     <span style={styles.priceAmount}>{tier.price.toFixed(2).replace('.', ',')}€</span>
-                    <span style={styles.pricePeriod}>/mes</span>
+                    <span style={styles.pricePeriod}>/mês</span>
                   </>
                 )}
               </div>
@@ -84,7 +84,7 @@ export default function Planos({ currentTier, onSubscribed }) {
                   Plano actual
                 </div>
               ) : id === 'free' ? (
-                <div style={styles.freeNote}>Sempre disponivel</div>
+                <div style={styles.freeNote}>Sempre disponível</div>
               ) : expandedTier === id ? (
                 <div style={styles.paypalSection}>
                   <PayPalSubscribeButton
@@ -115,17 +115,17 @@ export default function Planos({ currentTier, onSubscribed }) {
         <h2 style={styles.faqTitle}>Perguntas Frequentes</h2>
 
         <div style={styles.faqItem}>
-          <h3 style={styles.faqQ}>O plano gratis e limitado?</h3>
+          <h3 style={styles.faqQ}>O plano grátis é limitado?</h3>
           <p style={styles.faqA}>
-            Nao. O plano Semente inclui 4 actividades reais (1 por campo) com progressao
-            completa nos 10 niveis. A crianca aprende de verdade, sem limites de tempo.
+            Não. O plano Semente inclui 4 actividades reais (1 por campo) com progressão
+            completa nos 10 níveis. A criança aprende de verdade, sem limites de tempo.
           </p>
         </div>
 
         <div style={styles.faqItem}>
-          <h3 style={styles.faqQ}>A acessibilidade e paga?</h3>
+          <h3 style={styles.faqQ}>A acessibilidade é paga?</h3>
           <p style={styles.faqA}>
-            Nunca. Alto contraste, instrucoes por voz, deteccao de frustracao,
+            Nunca. Alto contraste, instruções por voz, detecção de frustração,
             Banco da Calma — tudo gratuito, em todos os planos.
           </p>
         </div>
@@ -133,8 +133,8 @@ export default function Planos({ currentTier, onSubscribed }) {
         <div style={styles.faqItem}>
           <h3 style={styles.faqQ}>Posso cancelar a qualquer momento?</h3>
           <p style={styles.faqA}>
-            Sim. Sem periodo minimo, sem penalizacoes. Se cancelares, mantem
-            o acesso ate ao fim do periodo pago e depois volta ao plano Semente.
+            Sim. Sem período mínimo, sem penalizações. Se cancelares, manténs
+            o acesso até ao fim do período pago e depois volta ao plano Semente.
           </p>
         </div>
 
@@ -148,7 +148,7 @@ export default function Planos({ currentTier, onSubscribed }) {
       </section>
 
       <button style={styles.backBtn} onClick={() => navigate('/')}>
-        Voltar a escola
+        Voltar à escola
       </button>
     </div>
   )

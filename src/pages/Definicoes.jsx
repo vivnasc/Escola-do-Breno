@@ -441,7 +441,7 @@ export default function Definicoes({
             }}
             disabled={!newRewardName.trim()}
           >
-            + Adicionar premio
+            + Adicionar prémio
           </button>
         </div>
       </section>
@@ -459,7 +459,7 @@ export default function Definicoes({
 
       {/* Backup & Sync */}
       <section style={styles.section}>
-        <h2 style={styles.sectionTitle}>Backup e Transferencia</h2>
+        <h2 style={styles.sectionTitle}>Backup e Transferência</h2>
         <p style={styles.rewardHint}>
           Exporte os dados para transferir para outro dispositivo ou guardar como backup.
         </p>
@@ -505,9 +505,9 @@ export default function Definicoes({
                 const text = await file.text()
                 const data = JSON.parse(text)
                 await importData(data)
-                setBackupMsg('Backup importado! Recarregue a pagina.')
+                setBackupMsg('Backup importado! Recarregue a página.')
               } catch {
-                setBackupMsg('Erro: ficheiro invalido')
+                setBackupMsg('Erro: ficheiro inválido')
               }
               e.target.value = ''
               setTimeout(() => setBackupMsg(null), 4000)
@@ -525,7 +525,7 @@ export default function Definicoes({
           style={styles.intakeBtn}
           onClick={() => resetProfile('intake')}
         >
-          Refazer questionario completo
+          Refazer questionário completo
         </button>
 
         <button

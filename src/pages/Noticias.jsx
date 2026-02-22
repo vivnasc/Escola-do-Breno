@@ -5,10 +5,10 @@ import { useTTS } from '../hooks/useTTS'
 
 const CATEGORY_FILTERS = [
   { id: 'all', label: 'Todas', icon: '📰' },
-  { id: 'language', label: 'Linguas', icon: '🗣️' },
-  { id: 'math', label: 'Matematica', icon: '🔢' },
+  { id: 'language', label: 'Línguas', icon: '🗣️' },
+  { id: 'math', label: 'Matemática', icon: '🔢' },
   { id: 'geography', label: 'Geografia', icon: '🌍' },
-  { id: 'science', label: 'Ciencia', icon: '🫀' },
+  { id: 'science', label: 'Ciência', icon: '🫀' },
   { id: 'life-skills', label: 'Vida', icon: '🤝' },
 ]
 
@@ -39,9 +39,9 @@ export default function Noticias({ profile }) {
       <header style={styles.header}>
         <div>
           <h1 style={styles.title}>
-            Noticias do {profile?.name || 'Jogador'}
+            Notícias do {profile?.name || 'Jogador'}
           </h1>
-          <p style={styles.subtitle}>Aprende com as noticias de futebol!</p>
+          <p style={styles.subtitle}>Aprende com as notícias de futebol!</p>
         </div>
         <span style={styles.headerEmoji}>📰</span>
       </header>
@@ -80,9 +80,9 @@ export default function Noticias({ profile }) {
                   <h3 style={styles.newsHeadline}>{item.headline}</h3>
                   <span style={styles.newsCampo}>
                     {item.category === 'language' && '🗣️ Linguagem'}
-                    {item.category === 'math' && '🔢 Matematica'}
+                    {item.category === 'math' && '🔢 Matemática'}
                     {item.category === 'geography' && '🌍 Geografia'}
-                    {item.category === 'science' && '🫀 Ciencia'}
+                    {item.category === 'science' && '🫀 Ciência'}
                     {item.category === 'life-skills' && '🤝 Vida'}
                   </span>
                 </div>
@@ -99,7 +99,7 @@ export default function Noticias({ profile }) {
                   </div>
 
                   <div style={styles.englishBox}>
-                    <span style={styles.englishLabel}>Palavra em Ingles</span>
+                    <span style={styles.englishLabel}>Palavra em Inglês</span>
                     <div style={styles.englishRow}>
                       <span style={styles.englishWord}>{item.english}</span>
                       <span style={styles.englishPt}>= {item.englishPt}</span>
@@ -125,7 +125,7 @@ export default function Noticias({ profile }) {
                   ) : (
                     <div style={styles.answeredBox}>
                       <span style={styles.answeredEmoji}>⭐</span>
-                      <span style={styles.answeredText}>Boa, campeao!</span>
+                      <span style={styles.answeredText}>Boa, campeão!</span>
                     </div>
                   )}
 

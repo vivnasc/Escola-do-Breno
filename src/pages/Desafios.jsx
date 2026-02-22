@@ -57,7 +57,7 @@ export default function Desafios({ profile, progress }) {
       <header style={styles.header}>
         <div>
           <h1 style={styles.title}>Desafios da Semana</h1>
-          <p style={styles.subtitle}>Missoes especiais com premios!</p>
+          <p style={styles.subtitle}>Missões especiais com prémios!</p>
         </div>
         <div style={styles.timerBadge}>
           <span style={styles.timerNumber}>{daysLeft}</span>
@@ -141,7 +141,7 @@ export default function Desafios({ profile, progress }) {
           </div>
           <div style={styles.rule}>
             <span style={styles.ruleEmoji}>🛒</span>
-            <p style={styles.ruleText}>Usa estrelas na Loja de Premios!</p>
+            <p style={styles.ruleText}>Usa estrelas na Loja de Prémios!</p>
           </div>
         </div>
       </div>

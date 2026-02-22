@@ -23,8 +23,8 @@ export default function Campo3Mundo({ progress, subscription }) {
       </header>
 
       <p style={styles.description}>
-        O futebol e jogado em todo o planeta. Cada equipa vem de um lugar,
-        cada lugar tem uma historia.
+        O futebol é jogado em todo o planeta. Cada equipa vem de um lugar,
+        cada lugar tem uma história.
       </p>
 
       <div style={styles.progressSection}>

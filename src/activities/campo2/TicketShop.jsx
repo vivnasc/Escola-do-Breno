@@ -34,7 +34,7 @@ export default function TicketShop({
 
   useEffect(() => {
     if (round < TOTAL) {
-      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto e o troco?`)
+      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto é o troco?`)
     }
   }, [round])
 
@@ -99,7 +99,7 @@ export default function TicketShop({
   return (
     <ActivityShell
       title={content.shop.title}
-      instruction={`Queres comprar ${problem.item.name} por ${problem.item.price} MT. Pagas com ${problem.paid} MT. Quanto e o troco?`}
+      instruction={`Queres comprar ${problem.item.name} por ${problem.item.price} MT. Pagas com ${problem.paid} MT. Quanto é o troco?`}
       backPath="/campo/2"
       color="var(--color-campo2)"
       score={score}

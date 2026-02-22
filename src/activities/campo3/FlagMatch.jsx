@@ -5,35 +5,35 @@ import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
-  { name: 'Brasil', flag: '🇧🇷', continent: 'America do Sul', capital: 'Brasilia' },
+  { name: 'Brasil', flag: '🇧🇷', continent: 'América do Sul', capital: 'Brasília' },
   { name: 'Espanha', flag: '🇪🇸', continent: 'Europa', capital: 'Madrid' },
-  { name: 'Argentina', flag: '🇦🇷', continent: 'America do Sul', capital: 'Buenos Aires' },
-  { name: 'Franca', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
-  { name: 'Japao', flag: '🇯🇵', continent: 'Asia', capital: 'Toquio' },
-  { name: 'Egipto', flag: '🇪🇬', continent: 'Africa', capital: 'Cairo' },
+  { name: 'Argentina', flag: '🇦🇷', continent: 'América do Sul', capital: 'Buenos Aires' },
+  { name: 'França', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
+  { name: 'Japão', flag: '🇯🇵', continent: 'Ásia', capital: 'Tóquio' },
+  { name: 'Egipto', flag: '🇪🇬', continent: 'África', capital: 'Cairo' },
   { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', continent: 'Europa', capital: 'Londres' },
-  { name: 'Australia', flag: '🇦🇺', continent: 'Oceania', capital: 'Canberra' },
-  { name: 'Mexico', flag: '🇲🇽', continent: 'America do Norte', capital: 'Cidade do Mexico' },
-  { name: 'Africa do Sul', flag: '🇿🇦', continent: 'Africa', capital: 'Pretoria' },
-  { name: 'Mocambique', flag: '🇲🇿', continent: 'Africa', capital: 'Maputo' },
+  { name: 'Austrália', flag: '🇦🇺', continent: 'Oceânia', capital: 'Canberra' },
+  { name: 'México', flag: '🇲🇽', continent: 'América do Norte', capital: 'Cidade do México' },
+  { name: 'África do Sul', flag: '🇿🇦', continent: 'África', capital: 'Pretória' },
+  { name: 'Moçambique', flag: '🇲🇿', continent: 'África', capital: 'Maputo' },
   { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
   { name: 'Alemanha', flag: '🇩🇪', continent: 'Europa', capital: 'Berlim' },
-  { name: 'Italia', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
-  { name: 'China', flag: '🇨🇳', continent: 'Asia', capital: 'Pequim' },
-  { name: 'India', flag: '🇮🇳', continent: 'Asia', capital: 'Nova Deli' },
-  { name: 'Nigeria', flag: '🇳🇬', continent: 'Africa', capital: 'Abuja' },
-  { name: 'Canada', flag: '🇨🇦', continent: 'America do Norte', capital: 'Otava' },
-  { name: 'Colombia', flag: '🇨🇴', continent: 'America do Sul', capital: 'Bogota' },
-  { name: 'Coreia do Sul', flag: '🇰🇷', continent: 'Asia', capital: 'Seul' },
-  { name: 'Tailandia', flag: '🇹🇭', continent: 'Asia', capital: 'Banguecoque' },
-  { name: 'Suecia', flag: '🇸🇪', continent: 'Europa', capital: 'Estocolmo' },
-  { name: 'Quenia', flag: '🇰🇪', continent: 'Africa', capital: 'Nairobi' },
-  { name: 'Peru', flag: '🇵🇪', continent: 'America do Sul', capital: 'Lima' },
-  { name: 'Turquia', flag: '🇹🇷', continent: 'Europa/Asia', capital: 'Ancara' },
-  { name: 'Grecia', flag: '🇬🇷', continent: 'Europa', capital: 'Atenas' },
-  { name: 'Marrocos', flag: '🇲🇦', continent: 'Africa', capital: 'Rabat' },
-  { name: 'Nova Zelandia', flag: '🇳🇿', continent: 'Oceania', capital: 'Wellington' },
-  { name: 'Chile', flag: '🇨🇱', continent: 'America do Sul', capital: 'Santiago' },
+  { name: 'Itália', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
+  { name: 'China', flag: '🇨🇳', continent: 'Ásia', capital: 'Pequim' },
+  { name: 'Índia', flag: '🇮🇳', continent: 'Ásia', capital: 'Nova Déli' },
+  { name: 'Nigéria', flag: '🇳🇬', continent: 'África', capital: 'Abuja' },
+  { name: 'Canadá', flag: '🇨🇦', continent: 'América do Norte', capital: 'Otava' },
+  { name: 'Colômbia', flag: '🇨🇴', continent: 'América do Sul', capital: 'Bogotá' },
+  { name: 'Coreia do Sul', flag: '🇰🇷', continent: 'Ásia', capital: 'Seul' },
+  { name: 'Tailândia', flag: '🇹🇭', continent: 'Ásia', capital: 'Banguecoque' },
+  { name: 'Suécia', flag: '🇸🇪', continent: 'Europa', capital: 'Estocolmo' },
+  { name: 'Quénia', flag: '🇰🇪', continent: 'África', capital: 'Nairobi' },
+  { name: 'Peru', flag: '🇵🇪', continent: 'América do Sul', capital: 'Lima' },
+  { name: 'Turquia', flag: '🇹🇷', continent: 'Europa/Ásia', capital: 'Ancara' },
+  { name: 'Grécia', flag: '🇬🇷', continent: 'Europa', capital: 'Atenas' },
+  { name: 'Marrocos', flag: '🇲🇦', continent: 'África', capital: 'Rabat' },
+  { name: 'Nova Zelândia', flag: '🇳🇿', continent: 'Oceânia', capital: 'Wellington' },
+  { name: 'Chile', flag: '🇨🇱', continent: 'América do Sul', capital: 'Santiago' },
 ]
 
 function shuffle(arr) {
@@ -64,7 +64,7 @@ export default function FlagMatch({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`De que pais e esta bandeira? Pista: fica no continente ${country.continent}.`)
+      speak(`De que país é esta bandeira? Pista: fica no continente ${country.continent}.`)
     }
   }, [idx])
 
@@ -120,7 +120,7 @@ export default function FlagMatch({
   return (
     <ActivityShell
       title="Bandeiras do Mundo"
-      instruction={`De que pais e esta bandeira?`}
+      instruction={`De que país é esta bandeira?`}
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}

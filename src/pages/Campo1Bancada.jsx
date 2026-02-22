@@ -20,13 +20,13 @@ export default function Campo1Bancada({ progress, subscription }) {
         <span style={styles.icon}>🗣️</span>
         <div>
           <h1 style={styles.title}>A Bancada</h1>
-          <p style={styles.subtitle}>Linguagem e Comunicacao</p>
+          <p style={styles.subtitle}>Linguagem e Comunicação</p>
         </div>
       </header>
 
       <div style={styles.progressSection}>
         <div style={styles.progressLabel}>
-          <span>Vocabulario Ingles</span>
+          <span>Vocabulário Inglês</span>
           <span style={styles.progressCount}>
             {learnedCount}/{totalWords} palavras
           </span>

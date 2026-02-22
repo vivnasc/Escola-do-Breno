@@ -17,7 +17,7 @@ export default function Planner({
   const [activeTab, setActiveTab] = useState('hoje')
   const [showSettings, setShowSettings] = useState(false)
 
-  const playerName = profile?.name || 'Crianca'
+  const playerName = profile?.name || 'Criança'
   const universe = adaptive?.universe
 
   const {
@@ -61,7 +61,7 @@ export default function Planner({
         <button
           style={styles.settingsBtn}
           onClick={() => setShowSettings(!showSettings)}
-          aria-label="Definicoes do plano"
+          aria-label="Definições do plano"
         >
           {showSettings ? '✕' : '⚙️'}
         </button>
@@ -89,8 +89,8 @@ export default function Planner({
             </div>
           </div>
           <p style={styles.settingHint}>
-            O plano e gerado com base no perfil do {playerName} e no progresso.
-            Actividades de campos prioritarios aparecem mais vezes.
+            O plano é gerado com base no perfil do {playerName} e no progresso.
+            Actividades de campos prioritários aparecem mais vezes.
           </p>
         </div>
       )}
@@ -120,9 +120,9 @@ export default function Planner({
           {!hasPlan ? (
             <div style={styles.emptyState}>
               <span style={styles.emptyEmoji}>📋</span>
-              <h2 style={styles.emptyTitle}>Ainda nao tens plano para hoje!</h2>
+              <h2 style={styles.emptyTitle}>Ainda não tens plano para hoje!</h2>
               <p style={styles.emptyText}>
-                Gera o teu plano diario com actividades recomendadas para o {playerName}.
+                Gera o teu plano diário com actividades recomendadas para o {playerName}.
               </p>
               <button style={styles.generateBtn} onClick={handleGenerate}>
                 {universe?.icon || '⚽'} Gerar Plano de Hoje
@@ -157,12 +157,12 @@ export default function Planner({
                 <div>
                   <p style={styles.progressLabel}>
                     {todayCompleted === todayTotal
-                      ? 'Parabens! Plano completo!'
+                      ? 'Parabéns! Plano completo!'
                       : `${todayCompleted} de ${todayTotal} feitas`}
                   </p>
                   <p style={styles.progressHint}>
                     {todayCompleted === todayTotal
-                      ? 'Grande trabalho, campeao!'
+                      ? 'Grande trabalho, campeão!'
                       : 'Continua assim!'}
                   </p>
                 </div>
@@ -304,7 +304,7 @@ export default function Planner({
             {weekData.every((d) => d.planned === 0) && (
               <div style={styles.emptyWeek}>
                 <p style={styles.emptyWeekText}>
-                  Ainda nao ha actividades esta semana. Gera o plano de hoje para comecar!
+                  Ainda não há actividades esta semana. Gera o plano de hoje para começar!
                 </p>
               </div>
             )}

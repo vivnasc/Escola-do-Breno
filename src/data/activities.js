@@ -160,15 +160,15 @@ export const CAMPO3_ACTIVITIES = [
   {
     id: 'weather-match',
     name: 'Tempo no Estadio',
-    description: 'Le a temperatura e veste o jogador para o clima.',
+    description: 'Lê a temperatura e veste o jogador para o clima.',
     icon: '🌤️',
     type: 'weather-match',
     difficulty: 1,
   },
   {
     id: 'nature-lab',
-    name: 'Laboratorio Natural',
-    description: 'Descobre como funciona a natureza e a ciencia.',
+    name: 'Laboratório Natural',
+    description: 'Descobre como funciona a natureza e a ciência.',
     icon: '🔬',
     type: 'nature-lab',
     difficulty: 2,
@@ -178,8 +178,8 @@ export const CAMPO3_ACTIVITIES = [
 export const CAMPO4_ACTIVITIES = [
   {
     id: 'daily-routine',
-    name: 'Rotina do Campeao',
-    description: 'Organiza a rotina diaria como um jogador profissional.',
+    name: 'Rotina do Campeão',
+    description: 'Organiza a rotina diária como um jogador profissional.',
     icon: '📋',
     type: 'daily-routine',
     difficulty: 1,
@@ -187,15 +187,15 @@ export const CAMPO4_ACTIVITIES = [
   {
     id: 'fair-play',
     name: 'Fair Play',
-    description: 'Escolhe a melhor resposta em situacoes sociais.',
+    description: 'Escolhe a melhor resposta em situações sociais.',
     icon: '🤝',
     type: 'fair-play',
     difficulty: 1,
   },
   {
     id: 'emotion-cards',
-    name: 'Cartoes das Emocoes',
-    description: 'Identifica e gere emocoes como um verdadeiro jogador.',
+    name: 'Cartões das Emoções',
+    description: 'Identifica e gere emoções como um verdadeiro jogador.',
     icon: '🟨',
     type: 'emotion-cards',
     difficulty: 1,
@@ -211,7 +211,7 @@ export const CAMPO4_ACTIVITIES = [
   {
     id: 'problem-solving',
     name: 'Resolver Problemas',
-    description: 'Pensa criticamente e resolve situacoes da vida.',
+    description: 'Pensa criticamente e resolve situações da vida.',
     icon: '🧠',
     type: 'problem-solving',
     difficulty: 2,
