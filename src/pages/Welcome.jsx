@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
-export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfile, auth, sharing }) {
+export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing }) {
   const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
@@ -122,20 +122,6 @@ export default function Welcome({ onBreno, onNewProfile, profiles, onSwitchProfi
         )}
 
         <div style={styles.actions}>
-          {!hasProfiles && (
-            <button
-              style={styles.brenoBtn}
-              className="interactive-card"
-              onClick={onBreno}
-            >
-              <span style={styles.brenoBtnIcon}>⚽</span>
-              <div>
-                <span style={styles.brenoBtnTitle}>Sou o Breno!</span>
-                <span style={styles.brenoBtnSub}>Entrar na minha escola</span>
-              </div>
-            </button>
-          )}
-
           <button
             style={styles.newBtn}
             className="interactive-card"
@@ -388,35 +374,6 @@ const styles = {
     gap: 'var(--space-md)',
     width: '100%',
     marginTop: 'var(--space-md)',
-  },
-  brenoBtn: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'var(--space-md)',
-    padding: 'var(--space-lg)',
-    backgroundColor: '#E8F5E9',
-    border: '3px solid var(--color-primary)',
-    borderRadius: 'var(--radius-lg)',
-    boxShadow: '0 4px 12px rgba(46, 125, 50, 0.15)',
-    cursor: 'pointer',
-    fontFamily: 'inherit',
-    textAlign: 'left',
-  },
-  brenoBtnIcon: {
-    fontSize: '2.5rem',
-    flexShrink: 0,
-  },
-  brenoBtnTitle: {
-    display: 'block',
-    fontSize: 'var(--font-size-lg)',
-    fontWeight: 700,
-    color: 'var(--color-primary-dark)',
-  },
-  brenoBtnSub: {
-    display: 'block',
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-    marginTop: '2px',
   },
   newBtn: {
     display: 'flex',
