@@ -31,7 +31,7 @@ const GOALS = [
   { id: 'communication', emoji: '💬', label: 'Comunicação' },
 ]
 
-export default function Intake({ onComplete }) {
+export default function Intake({ onComplete, onCancel }) {
   const [step, setStep] = useState(0)
 
   // Identity
@@ -615,9 +615,11 @@ export default function Intake({ onComplete }) {
       </div>
 
       <div style={styles.footer}>
-        {step > 0 && (
+        {step > 0 ? (
           <button style={styles.backBtn} onClick={handleBack}>← Voltar</button>
-        )}
+        ) : onCancel ? (
+          <button style={styles.backBtn} onClick={onCancel}>← Sair</button>
+        ) : null}
         <div style={{ flex: 1 }} />
         {step < totalSteps - 1 ? (
           <button

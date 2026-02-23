@@ -272,6 +272,10 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
             Sobre o PITCH
           </button>
           <span style={styles.publicLinkSep}>|</span>
+          <button style={styles.publicLink} onClick={() => navigate('/planos')}>
+            Planos
+          </button>
+          <span style={styles.publicLinkSep}>|</span>
           <button style={styles.publicLink} onClick={() => navigate('/faq')}>
             FAQ
           </button>
