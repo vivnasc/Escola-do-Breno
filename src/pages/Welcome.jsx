@@ -283,6 +283,10 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           <button style={styles.publicLink} onClick={() => navigate('/suporte')}>
             Suporte
           </button>
+          <span style={styles.publicLinkSep}>|</span>
+          <button style={styles.publicLink} onClick={() => { window.location.href = '/?fundador' }}>
+            A Escola do Breno
+          </button>
         </div>
 
         <p style={styles.footer}>
