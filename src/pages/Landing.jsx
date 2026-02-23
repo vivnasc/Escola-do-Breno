@@ -432,7 +432,7 @@ export default function Landing({ onStart }) {
             style={styles.footerLink}
             onClick={() => { window.location.href = '/?fundador' }}
           >
-            A Escola do Breno
+            Perfil Demo
           </button>
           <p style={styles.footerCopy}>
             PITCH — Plataforma de aprendizagem inclusiva para crianças neurodivergentes.

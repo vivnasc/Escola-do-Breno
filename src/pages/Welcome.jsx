@@ -285,7 +285,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           </button>
           <span style={styles.publicLinkSep}>|</span>
           <button style={styles.publicLink} onClick={() => { window.location.href = '/?fundador' }}>
-            A Escola do Breno
+            Perfil Demo
           </button>
         </div>
 
