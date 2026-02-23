@@ -41,7 +41,7 @@ export default function TeamDivision({
 
   useEffect(() => {
     if (round < TOTAL) {
-      speak(`${problem.context} ${problem.total} a dividir por ${problem.groups}. Quantos ficam em cada grupo?`)
+      speak(`${problem.context} ${problem.total} a dividir por ${problem.groups}. Quantos ficam em cada grupo?`, { auto: true })
     }
   }, [round])
 

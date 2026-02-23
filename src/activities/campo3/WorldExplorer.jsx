@@ -176,7 +176,7 @@ export default function WorldExplorer({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.question)
+      speak(current.question, { auto: true })
     }
   }, [idx])
 

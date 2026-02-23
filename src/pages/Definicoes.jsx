@@ -141,6 +141,27 @@ export default function Definicoes({
             value={profile?.sensory?.soundEnabled}
             onToggle={(v) => updateProfile({ sensory: { ...profile.sensory, soundEnabled: v } })}
           />
+          <div style={styles.needRow}>
+            <span style={styles.needLabel}>Voz (TTS)</span>
+            <div style={styles.sizeButtons}>
+              {[
+                { id: 'auto', label: 'Auto' },
+                { id: 'on-demand', label: 'Ao tocar' },
+                { id: 'off', label: 'Desligada' },
+              ].map((opt) => (
+                <button
+                  key={opt.id}
+                  style={{
+                    ...styles.sizeBtn,
+                    ...((profile?.sensory?.ttsMode || 'auto') === opt.id ? styles.sizeBtnActive : {}),
+                  }}
+                  onClick={() => updateProfile({ sensory: { ...profile.sensory, ttsMode: opt.id } })}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
           <SettingToggle
             label="Animações mínimas"
             value={profile?.sensory?.animationLevel === 'minimal'}

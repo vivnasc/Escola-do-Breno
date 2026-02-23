@@ -217,7 +217,7 @@ export default function WeatherMatch({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`Vai haver jogo em ${scenario.city}. A temperatura é ${scenario.temp} graus. ${scenario.weather}. Como te deves vestir?`)
+      speak(`Vai haver jogo em ${scenario.city}. A temperatura é ${scenario.temp} graus. ${scenario.weather}. Como te deves vestir?`, { auto: true })
     }
   }, [idx])
 

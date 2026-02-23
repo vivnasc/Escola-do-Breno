@@ -1,11 +1,35 @@
 import { useCallback, useRef } from 'react'
 
+/**
+ * TTS module-level config — synced from profile by App.jsx.
+ *
+ * ttsMode values:
+ *   'auto'      — speaks automatically + on tap (current default)
+ *   'on-demand' — only speaks when the user taps the instruction
+ *   'off'       — completely silent
+ */
+let _ttsMode = 'auto'
+
+export function setTTSMode(mode) {
+  _ttsMode = mode || 'auto'
+}
+
+export function getTTSMode() {
+  return _ttsMode
+}
+
 export function useTTS(lang = 'pt') {
   const utteranceRef = useRef(null)
 
   const speak = useCallback(
     (text, options = {}) => {
       if (!('speechSynthesis' in window)) return
+
+      // Respect ttsMode:
+      // 'off' → never speak
+      // 'on-demand' → skip auto-triggered speaks, allow manual (tap)
+      if (_ttsMode === 'off') return
+      if (_ttsMode === 'on-demand' && options.auto) return
 
       window.speechSynthesis.cancel()
 

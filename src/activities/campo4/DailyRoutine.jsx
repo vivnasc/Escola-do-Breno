@@ -54,7 +54,7 @@ export default function DailyRoutine({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`Passo ${ordered.length + 1}. O que vem a seguir?`)
+      speak(`Passo ${ordered.length + 1}. O que vem a seguir?`, { auto: true })
     }
   }, [ordered.length])
 

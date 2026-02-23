@@ -43,6 +43,7 @@ const DEFAULT_PROFILE = {
     fontSize: 'normal',
     reducedClutter: false,
     timePressure: true,
+    ttsMode: 'on-demand', // 'auto' | 'on-demand' | 'off'
   },
 
   attention: {

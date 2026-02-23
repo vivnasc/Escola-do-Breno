@@ -198,7 +198,7 @@ export default function BodyScience({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.question)
+      speak(current.question, { auto: true })
     }
   }, [idx])
 
