@@ -59,7 +59,7 @@ export default function Patterns({
 
   useEffect(() => {
     if (!isComplete && current) {
-      speak('Observa o padrão. O que vem a seguir?')
+      speak('Observa o padrão. O que vem a seguir?', { auto: true })
     }
   }, [idx])
 

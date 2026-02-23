@@ -86,7 +86,7 @@ export default function GoalMath({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`${problem.a} ${problem.op === '×' ? 'vezes' : problem.op === '+' ? 'mais' : 'menos'} ${problem.b}. ${problem.context}`)
+      speak(`${problem.a} ${problem.op === '×' ? 'vezes' : problem.op === '+' ? 'mais' : 'menos'} ${problem.b}. ${problem.context}`, { auto: true })
     }
   }, [round])
 

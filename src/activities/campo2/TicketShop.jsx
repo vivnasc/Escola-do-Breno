@@ -34,7 +34,7 @@ export default function TicketShop({
 
   useEffect(() => {
     if (round < TOTAL) {
-      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto é o troco?`)
+      speak(`Queres comprar ${problem.item.name} por ${problem.item.price} meticais. Pagas com ${problem.paid} meticais. Quanto é o troco?`, { auto: true })
     }
   }, [round])
 

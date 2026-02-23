@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { useTTS } from '../hooks/useTTS'
-import { useEffect } from 'react'
+import { useTTS, setTTSMode, getTTSMode } from '../hooks/useTTS'
+import { useEffect, useState, useCallback } from 'react'
 import VisualTimer from './VisualTimer'
 
 export default function ActivityShell({
@@ -17,16 +17,29 @@ export default function ActivityShell({
   showTimer = true,
 }) {
   const navigate = useNavigate()
-  const { speak } = useTTS()
+  const { speak, stop } = useTTS()
+  const [muted, setMuted] = useState(() => getTTSMode() === 'off')
 
   // Auto-read instruction on load (respects textLevel.readAloud)
   const shouldReadAloud = textLevel ? textLevel.readAloud !== false : true
   useEffect(() => {
     if (instruction && shouldReadAloud) {
-      const timer = setTimeout(() => speak(instruction), 500)
+      const timer = setTimeout(() => speak(instruction, { auto: true }), 500)
       return () => clearTimeout(timer)
     }
   }, [instruction, speak, shouldReadAloud])
+
+  // Quick mute toggle — sets mode to 'off' or restores to 'on-demand'
+  const toggleMute = useCallback(() => {
+    if (muted) {
+      setTTSMode('on-demand')
+      setMuted(false)
+    } else {
+      stop()
+      setTTSMode('off')
+      setMuted(true)
+    }
+  }, [muted, stop])
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -39,6 +52,17 @@ export default function ActivityShell({
           ← Voltar
         </button>
         <div style={styles.headerRight}>
+          <button
+            style={{
+              ...styles.muteBtn,
+              backgroundColor: muted ? '#FFEBEE' : '#E8F5E9',
+              color: muted ? '#C62828' : 'var(--color-primary)',
+            }}
+            onClick={toggleMute}
+            aria-label={muted ? 'Ligar voz' : 'Desligar voz'}
+          >
+            {muted ? '🔇' : '🔊'}
+          </button>
           {timerSeconds && showTimer && (
             <VisualTimer
               durationSeconds={timerSeconds}
@@ -100,6 +124,19 @@ const styles = {
     cursor: 'pointer',
     border: 'none',
     background: 'none',
+  },
+  muteBtn: {
+    width: '44px',
+    height: '44px',
+    borderRadius: '50%',
+    border: '2px solid currentColor',
+    cursor: 'pointer',
+    fontSize: '1.2rem',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'inherit',
+    flexShrink: 0,
   },
   score: {
     padding: 'var(--space-xs) var(--space-md)',

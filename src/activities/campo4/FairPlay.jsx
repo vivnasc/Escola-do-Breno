@@ -36,7 +36,7 @@ export default function FairPlay({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.situation)
+      speak(current.situation, { auto: true })
     }
   }, [idx])
 

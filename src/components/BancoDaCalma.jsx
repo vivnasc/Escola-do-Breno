@@ -28,14 +28,14 @@ export default function BancoDaCalma({ onClose }) {
         : phase === 1
           ? 'Segura'
           : 'Expira devagar'
-      speak(voiceText, { rate: 0.7, volume: 0.8 })
+      speak(voiceText, { rate: 0.7, volume: 0.8, auto: true })
     }
   }, [phase, speak])
 
   // Announce readiness
   useEffect(() => {
     if (cycles === 2) {
-      speak('Boa! Já podes continuar quando quiseres.', { rate: 0.8 })
+      speak('Boa! Já podes continuar quando quiseres.', { rate: 0.8, auto: true })
     }
   }, [cycles, speak])
 

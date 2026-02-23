@@ -38,6 +38,7 @@ const BRENO_PROFILE = {
     fontSize: 'normal',
     reducedClutter: false,
     timePressure: false, // no time pressure for Breno
+    ttsMode: 'on-demand', // only speaks when tapped, not automatically
   },
 
   attention: {

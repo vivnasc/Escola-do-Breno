@@ -36,7 +36,7 @@ export default function EmotionCards({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`${current.situation} Que emoção sentes?`)
+      speak(`${current.situation} Que emoção sentes?`, { auto: true })
     }
   }, [idx])
 

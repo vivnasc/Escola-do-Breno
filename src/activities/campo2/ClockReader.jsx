@@ -74,7 +74,7 @@ export default function ClockReader({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(problem.context)
+      speak(problem.context, { auto: true })
     }
   }, [round])
 

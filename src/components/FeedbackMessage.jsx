@@ -34,7 +34,7 @@ export default function FeedbackMessage({ type, visible, onDismiss, universe, so
       } else {
         sfx.error()
       }
-      speak(message)
+      speak(message, { auto: true })
       if (isSuccess) {
         const timer = setTimeout(() => onDismiss?.(), 1500)
         return () => clearTimeout(timer)

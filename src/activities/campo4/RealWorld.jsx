@@ -246,7 +246,7 @@ export default function RealWorld({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.situation)
+      speak(current.situation, { auto: true })
     }
   }, [idx])
 

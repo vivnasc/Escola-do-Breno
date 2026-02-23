@@ -53,6 +53,7 @@ import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
 import { useProfileSharing } from './hooks/useProfileSharing'
+import { setTTSMode } from './hooks/useTTS'
 import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
@@ -104,6 +105,12 @@ function AppContent() {
       document.title = 'PITCH - Aprendizagem Inclusiva'
     }
   }, [profileData.profile?.name])
+
+  // Sync TTS mode from profile to module-level config
+  useEffect(() => {
+    const mode = profileData.profile?.sensory?.ttsMode || 'auto'
+    setTTSMode(mode)
+  }, [profileData.profile?.sensory?.ttsMode])
 
   const handleFrustration = useCallback(() => {
     if (!showIntake) setShowCalma(true)

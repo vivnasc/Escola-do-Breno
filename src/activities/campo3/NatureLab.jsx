@@ -290,7 +290,7 @@ export default function NatureLab({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.question)
+      speak(current.question, { auto: true })
     }
   }, [idx])
 

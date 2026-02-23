@@ -290,7 +290,7 @@ export default function ProblemSolving({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(current.situation)
+      speak(current.situation, { auto: true })
     }
   }, [idx])
 

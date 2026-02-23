@@ -64,7 +64,7 @@ export default function FlagMatch({
 
   useEffect(() => {
     if (!isComplete) {
-      speak(`De que país é esta bandeira? Pista: fica no continente ${country.continent}.`)
+      speak(`De que país é esta bandeira? Pista: fica no continente ${country.continent}.`, { auto: true })
     }
   }, [idx])
 

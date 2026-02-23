@@ -71,11 +71,11 @@ export default function Phonics({
   useEffect(() => {
     if (!isComplete && current) {
       if (phase === 'sound') {
-        speak(`Que letra faz o som "${current.sound}"?`)
-        setTimeout(() => speakEn(current.sound), 1200)
+        speak(`Que letra faz o som "${current.sound}"?`, { auto: true })
+        setTimeout(() => speakEn(current.sound, { auto: true }), 1200)
       } else {
-        speakEn(`${current.words[0]}`)
-        speak(`Que palavra começa com ${current.letter}?`)
+        speakEn(`${current.words[0]}`, { auto: true })
+        speak(`Que palavra começa com ${current.letter}?`, { auto: true })
       }
     }
   }, [idx, phase])
