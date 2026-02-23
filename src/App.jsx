@@ -235,7 +235,7 @@ function AppContent() {
 
   // Show Intake wizard (new profile or redo)
   if (showIntake) {
-    return <Intake onComplete={handleOnboardingComplete} />
+    return <Intake onComplete={handleOnboardingComplete} onCancel={() => setShowIntake(false)} />
   }
 
   return (

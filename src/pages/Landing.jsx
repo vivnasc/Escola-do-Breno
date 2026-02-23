@@ -87,6 +87,7 @@ export default function Landing({ onStart }) {
             <span style={styles.headerLogoText}>PITCH</span>
           </div>
           <nav style={styles.headerNav}>
+            <button style={styles.headerLink} onClick={() => navigate('/planos')}>Planos</button>
             <button style={styles.headerLink} onClick={() => navigate('/faq')}>FAQ</button>
             <button style={styles.headerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.headerCta} onClick={onStart || (() => navigate('/'))}>
