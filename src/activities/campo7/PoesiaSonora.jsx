@@ -70,6 +70,116 @@ const POEMS = [
       ],
     },
   },
+  {
+    id: 'cat',
+    title: 'O Gato Misterioso',
+    lines: [
+      { text: 'Aparece um gatinho', pause: false },
+      { text: 'quando a lua vem brilhar.', pause: false },
+      { text: 'Caminha pelo caminho', pause: false },
+      { text: 'sem pressa de chegar.', pause: true },
+      { text: 'Os olhos como a lua,', pause: false },
+      { text: 'dois faróis na escuridão.', pause: false },
+      { text: 'Atravessa toda a rua', pause: false },
+      { text: 'e entra no meu coração.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "gatinho"?',
+      options: [
+        { text: 'Caminho', correct: true },
+        { text: 'Noite', correct: false },
+        { text: 'Gato', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'colors',
+    title: 'As Cores do Mundo',
+    lines: [
+      { text: 'O azul é calma no coração,', pause: false },
+      { text: 'o vermelho é ser valente.', pause: false },
+      { text: 'O verde é ter emoção', pause: false },
+      { text: 'de esperança que se sente.', pause: true },
+      { text: 'Amarelo é para sentir', pause: false },
+      { text: 'a alegria de um novo dia.', pause: false },
+      { text: 'Todas as cores fazem sorrir', pause: false },
+      { text: 'e enchem a vida de magia.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "coração"?',
+      options: [
+        { text: 'Emoção', correct: true },
+        { text: 'Azul', correct: false },
+        { text: 'Pintura', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'wind',
+    title: 'O Vento Brincalhão',
+    lines: [
+      { text: 'O vento levou o chapéu', pause: false },
+      { text: 'e fez as folhas voar.', pause: false },
+      { text: 'Soprou até lá no céu', pause: false },
+      { text: 'e voltou para brincar.', pause: true },
+      { text: 'Bagunçou todo o jardim,', pause: false },
+      { text: 'fez a roupa rodopiar.', pause: false },
+      { text: 'Disse adeus, mas no fim', pause: false },
+      { text: 'prometeu sempre voltar.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "chapéu"?',
+      options: [
+        { text: 'Céu', correct: true },
+        { text: 'Folha', correct: false },
+        { text: 'Vento', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'stars',
+    title: 'A Noite e as Estrelas',
+    lines: [
+      { text: 'A noite vem, tão escura,', pause: false },
+      { text: 'mas não preciso ter medo.', pause: false },
+      { text: 'Cada estrela é ternura,', pause: false },
+      { text: 'um brilho que é segredo.', pause: true },
+      { text: 'Mil estrelas a brilhar', pause: false },
+      { text: 'como luzes no algodão.', pause: false },
+      { text: 'Cada uma guarda um sonhar,', pause: false },
+      { text: 'um desejo do coração.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "brilhar"?',
+      options: [
+        { text: 'Sonhar', correct: true },
+        { text: 'Estrela', correct: false },
+        { text: 'Noite', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'hug',
+    title: 'O Abraço',
+    lines: [
+      { text: 'Um abraço é um espaço', pause: false },
+      { text: 'onde tudo fica bem.', pause: false },
+      { text: 'Não precisa de um laço,', pause: false },
+      { text: 'só de alguém que nos tem.', pause: true },
+      { text: 'Abraço é ter calor', pause: false },
+      { text: 'quando o dia está a acabar.', pause: false },
+      { text: 'Abraço é puro amor', pause: false },
+      { text: 'que nos ensina a amar.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "abraço"?',
+      options: [
+        { text: 'Espaço', correct: true },
+        { text: 'Carinho', correct: false },
+        { text: 'Forte', correct: false },
+      ],
+    },
+  },
 ]
 
 export default function PoesiaSonora({

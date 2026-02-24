@@ -61,6 +61,122 @@ const DIALOGUES = [
       { char: 1, text: 'Combinado! Dividir sabe melhor do que comer sozinho.' },
     ],
   },
+  {
+    id: 'new-friend',
+    title: 'O Amigo Novo',
+    setting: 'Na escola, um aluno novo aparece na turma.',
+    characters: [
+      { name: 'Rui', emoji: '👦', color: '#1565C0' },
+      { name: 'André', emoji: '👦', color: '#E65100' },
+    ],
+    lines: [
+      { char: 0, text: 'Olha, há alguém novo na turma. Está ali sozinho no canto.' },
+      {
+        char: 0,
+        text: null,
+        choice: {
+          prompt: 'O que achas que o Rui deve fazer?',
+          options: [
+            { text: '"Olá! Queres vir jogar connosco?"', response: 'O Rui foi logo convidar o André. Às vezes basta um convite para mudar o dia de alguém!' },
+            { text: '"Vou esperar para ver se ele fala primeiro."', response: 'O Rui decidiu esperar. É normal ter calma, mas o André pode estar à espera que alguém fale com ele.' },
+            { text: '"Olá, eu sou o Rui. Como te chamas?"', response: 'Apresentar-se é um bom começo! Saber o nome de alguém faz logo a pessoa sentir-se bem-vinda.' },
+          ],
+        },
+      },
+      { char: 1, text: 'Olá... eu sou o André. Cheguei hoje. Não conheço ninguém.' },
+      { char: 0, text: 'Eu no início também não conhecia ninguém. Depois fiz amigos.' },
+      { char: 1, text: 'A sério? Eu tenho um bocado de medo de não encaixar aqui.' },
+      { char: 0, text: 'É normal. Mas vais ver que a turma é fixe. Senta-te ao pé de mim!' },
+      { char: 1, text: 'Obrigado, Rui. Já me sinto melhor.' },
+    ],
+  },
+  {
+    id: 'the-lie',
+    title: 'A Mentira',
+    setting: 'Em casa, a mãe pergunta quem partiu a jarra.',
+    characters: [
+      { name: 'Sara', emoji: '👧', color: '#6A1B9A' },
+      { name: 'Mãe', emoji: '👩', color: '#2E7D32' },
+    ],
+    lines: [
+      { char: 1, text: 'Sara, a jarra da avó está partida no chão. O que aconteceu?' },
+      { char: 0, text: 'Eu... eu estava a brincar com a bola dentro de casa.' },
+      {
+        char: 0,
+        text: null,
+        choice: {
+          prompt: 'O que achas que a Sara deve dizer?',
+          options: [
+            { text: '"Fui eu, mãe. Desculpa, não foi de propósito."', response: 'A Sara disse a verdade. Custa, mas ser honesta mostra coragem e respeito.' },
+            { text: '"Acho que foi o gato que a derrubou..."', response: 'A Sara culpou o gato. Mentir pode parecer mais fácil, mas faz a pessoa sentir-se mal por dentro.' },
+            { text: '(Ficar calada e olhar para o chão)', response: 'A Sara não conseguiu falar. Às vezes é difícil encontrar as palavras, e tudo bem precisar de tempo.' },
+          ],
+        },
+      },
+      { char: 1, text: 'Sara, sabes que podes dizer-me sempre a verdade. Eu não vou gritar.' },
+      { char: 0, text: 'Desculpa, mãe. Fui eu com a bola. Estou muito triste.' },
+      { char: 1, text: 'Obrigada por seres honesta. A jarra pode ser colada, mas a confiança é mais importante.' },
+      { char: 0, text: 'Prometo ter mais cuidado. E já não jogo à bola dentro de casa.' },
+    ],
+  },
+  {
+    id: 'dark-fear',
+    title: 'O Medo do Escuro',
+    setting: 'À noite, o quarto está escuro e há sons estranhos.',
+    characters: [
+      { name: 'Tomás', emoji: '👦', color: '#1565C0' },
+      { name: 'Pai', emoji: '👨', color: '#5D4037' },
+    ],
+    lines: [
+      { char: 0, text: 'O que foi aquilo? Ouvi um barulho... Está tão escuro.' },
+      {
+        char: 0,
+        text: null,
+        choice: {
+          prompt: 'O que achas que o Tomás deve fazer?',
+          options: [
+            { text: '"Pai! Podes vir aqui, por favor?"', response: 'O Tomás pediu ajuda. Pedir ajuda quando temos medo é corajoso, não é fraqueza!' },
+            { text: '"Vou tapar a cabeça com o lençol e esperar."', response: 'O Tomás escondeu-se debaixo do lençol. Às vezes precisamos de nos sentir protegidos primeiro.' },
+            { text: '"Vou respirar fundo e tentar perceber o barulho."', response: 'O Tomás tentou acalmar-se sozinho. Respirar fundo ajuda muito quando estamos assustados.' },
+          ],
+        },
+      },
+      { char: 1, text: 'Estou aqui, filho. O que se passa?' },
+      { char: 0, text: 'Pai, tenho medo. Ouvi um barulho esquisito e está muito escuro.' },
+      { char: 1, text: 'Vamos ouvir juntos. Olha... é o vento a bater na janela. Nada de assustador.' },
+      { char: 0, text: 'Ah, era só o vento? Que alívio. Senti-me melhor quando chamei por ti.' },
+      { char: 1, text: 'Ter medo é normal, Tomás. O importante é não ficares sozinho com esse medo.' },
+    ],
+  },
+  {
+    id: 'sharing-hard',
+    title: 'Não Quero Partilhar',
+    setting: 'No recreio, duas crianças querem o mesmo baloiço.',
+    characters: [
+      { name: 'Matilde', emoji: '👧', color: '#E91E63' },
+      { name: 'Joana', emoji: '👧', color: '#FF6F00' },
+    ],
+    lines: [
+      { char: 0, text: 'Sim! O baloiço está livre. Eu cheguei primeiro!' },
+      { char: 1, text: 'Mas eu também quero andar! Já estou à espera há imenso tempo.' },
+      {
+        char: 0,
+        text: null,
+        choice: {
+          prompt: 'O que achas que a Matilde deve dizer?',
+          options: [
+            { text: '"Está bem, podemos fazer à vez. Eu ando um bocado e depois és tu."', response: 'A Matilde propôs turnos. É uma solução justa que mostra respeito pelas duas!' },
+            { text: '"Não! Eu cheguei primeiro, é meu."', response: 'A Matilde não quer ceder. É natural querer o que é nosso, mas às vezes partilhar torna tudo mais divertido.' },
+            { text: '"E se contarmos até 50 e depois trocamos?"', response: 'A Matilde inventou uma regra para as duas. Criar combinados juntas é uma ótima forma de resolver as coisas!' },
+          ],
+        },
+      },
+      { char: 1, text: 'Pode ser! Conta até 50 e depois trocamos. Eu conto por ti!' },
+      { char: 0, text: 'Boa! Um... dois... três... Isto até é mais divertido assim.' },
+      { char: 1, text: 'Pois é! E agora temos uma regra só nossa para o baloiço.' },
+      { char: 0, text: 'Amanhã podemos brincar outra vez as duas. Combinado?' },
+    ],
+  },
 ]
 
 export default function TeatroVozes({
