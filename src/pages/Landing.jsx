@@ -291,18 +291,13 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
       <section style={styles.socialBar}>
         <div style={styles.socialInner}>
           <div style={styles.socialStat}>
+            <span style={styles.socialNumber}>800+</span>
+            <span style={styles.socialLabel}>Exercícios</span>
+          </div>
+          <div style={styles.socialDivider} />
+          <div style={styles.socialStat}>
             <span style={styles.socialNumber}>20</span>
-            <span style={styles.socialLabel}>Actividades</span>
-          </div>
-          <div style={styles.socialDivider} />
-          <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>4</span>
-            <span style={styles.socialLabel}>Campos</span>
-          </div>
-          <div style={styles.socialDivider} />
-          <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>5</span>
-            <span style={styles.socialLabel}>Universos</span>
+            <span style={styles.socialLabel}>Tipos de Actividade</span>
           </div>
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
@@ -311,8 +306,13 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
           </div>
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>👨‍👩‍👧‍👦</span>
-            <span style={styles.socialLabel}>Comunidade</span>
+            <span style={styles.socialNumber}>5</span>
+            <span style={styles.socialLabel}>Mundos</span>
+          </div>
+          <div style={styles.socialDivider} />
+          <div style={styles.socialStat}>
+            <span style={styles.socialNumber}>♾️</span>
+            <span style={styles.socialLabel}>Combinações</span>
           </div>
         </div>
       </section>
@@ -538,7 +538,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.ctaTitle}>Cada criança merece uma escola que a entenda.</h2>
           <p style={styles.ctaDesc}>
-            Construído por pais, para pais. Plano grátis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho está pronta.
+            Construído por pais, para pais. Plano grátis com 4 actividades completas, 10 níveis cada, conteúdo que nunca se repete. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho está pronta.
           </p>
           <button style={styles.ctaBtn} onClick={onStart || (() => navigate('/'))}>
             Criar a Escola do Meu Filho
