@@ -204,10 +204,10 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </button>
       </section>
 
-      {/* 4 Campos — sorted by priority */}
+      {/* 6 Campos — sorted by priority */}
       <section style={styles.campos}>
         <h2 style={styles.sectionTitle}>
-          {hasGoals ? 'Recomendado para ti' : 'Os 4 Campos'}
+          {hasGoals ? 'Recomendado para ti' : 'Os 6 Campos'}
         </h2>
         <div style={styles.campoGrid}>
           {sortedCampos.map((campo, idx) => {

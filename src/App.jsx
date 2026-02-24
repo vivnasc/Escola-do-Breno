@@ -10,6 +10,8 @@ import Campo1Bancada from './pages/Campo1Bancada'
 import Campo2Marcador from './pages/Campo2Marcador'
 import Campo3Mundo from './pages/Campo3Mundo'
 import Campo4Vida from './pages/Campo4Vida'
+import Campo5Expressao from './pages/Campo5Expressao'
+import Campo6Social from './pages/Campo6Social'
 import Progress from './pages/Progress'
 import Intake from './pages/Intake'
 import Fichas from './pages/Fichas'
@@ -35,13 +37,23 @@ import WorldExplorer from './activities/campo3/WorldExplorer'
 import BodyScience from './activities/campo3/BodyScience'
 import WeatherMatch from './activities/campo3/WeatherMatch'
 import DailyRoutine from './activities/campo4/DailyRoutine'
-import FairPlay from './activities/campo4/FairPlay'
-import EmotionCards from './activities/campo4/EmotionCards'
 import RealWorld from './activities/campo4/RealWorld'
 import Phonics from './activities/campo1/Phonics'
 import Patterns from './activities/campo2/Patterns'
 import NatureLab from './activities/campo3/NatureLab'
 import ProblemSolving from './activities/campo4/ProblemSolving'
+import HealthyChoices from './activities/campo4/HealthyChoices'
+import TimePlanner from './activities/campo4/TimePlanner'
+import StoryBuilder from './activities/campo5/StoryBuilder'
+import MusicMaker from './activities/campo5/MusicMaker'
+import ColorCanvas from './activities/campo5/ColorCanvas'
+import PatternArt from './activities/campo5/PatternArt'
+import SoundStory from './activities/campo5/SoundStory'
+import EmotionCards from './activities/campo6/EmotionCards'
+import FairPlay from './activities/campo6/FairPlay'
+import SocialDetective from './activities/campo6/SocialDetective'
+import TurnTalk from './activities/campo6/TurnTalk'
+import CalmToolkit from './activities/campo6/CalmToolkit'
 import Planos from './pages/Planos'
 import SharedProfile from './pages/SharedProfile'
 import { useProgress } from './hooks/useProgress'
@@ -422,6 +434,8 @@ function AppContent() {
           <Route path="/campo/2" element={<Campo2Marcador {...activityProps} />} />
           <Route path="/campo/3" element={<Campo3Mundo {...activityProps} />} />
           <Route path="/campo/4" element={<Campo4Vida {...activityProps} />} />
+          <Route path="/campo/5" element={<Campo5Expressao {...activityProps} />} />
+          <Route path="/campo/6" element={<Campo6Social {...activityProps} />} />
           <Route path="/progresso" element={
             <Progress
               progress={progressData.progress}
@@ -519,10 +533,24 @@ function AppContent() {
 
           {/* Campo 4 activities */}
           <Route path="/campo/4/daily-routine" element={<DailyRoutine {...activityProps} />} />
-          <Route path="/campo/4/fair-play" element={<FairPlay {...activityProps} />} />
-          <Route path="/campo/4/emotion-cards" element={<EmotionCards {...activityProps} />} />
           <Route path="/campo/4/real-world" element={<RealWorld {...activityProps} />} />
           <Route path="/campo/4/problem-solving" element={<ProblemSolving {...activityProps} />} />
+          <Route path="/campo/4/healthy-choices" element={<HealthyChoices {...activityProps} />} />
+          <Route path="/campo/4/time-planner" element={<TimePlanner {...activityProps} />} />
+
+          {/* Campo 5 activities */}
+          <Route path="/campo/5/story-builder" element={<StoryBuilder {...activityProps} />} />
+          <Route path="/campo/5/music-maker" element={<MusicMaker {...activityProps} />} />
+          <Route path="/campo/5/color-canvas" element={<ColorCanvas {...activityProps} />} />
+          <Route path="/campo/5/pattern-art" element={<PatternArt {...activityProps} />} />
+          <Route path="/campo/5/sound-story" element={<SoundStory {...activityProps} />} />
+
+          {/* Campo 6 activities */}
+          <Route path="/campo/6/emotion-cards" element={<EmotionCards {...activityProps} />} />
+          <Route path="/campo/6/fair-play" element={<FairPlay {...activityProps} />} />
+          <Route path="/campo/6/social-detective" element={<SocialDetective {...activityProps} />} />
+          <Route path="/campo/6/turn-talk" element={<TurnTalk {...activityProps} />} />
+          <Route path="/campo/6/calm-toolkit" element={<CalmToolkit {...activityProps} />} />
         </Route>
       </Routes>
     </>

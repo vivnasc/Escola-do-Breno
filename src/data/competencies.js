@@ -278,27 +278,9 @@ export const COMPETENCY_AREAS = {
 
   campo4: {
     id: 'campo4',
-    name: 'Autonomia e Vida',
-    icon: '🤝',
+    name: 'Autonomia e Vida Prática',
+    icon: '🏠',
     competencies: [
-      {
-        id: 'c4-emotions',
-        name: 'Inteligência Emocional',
-        description: 'Identificar e gerir emoções',
-        activities: ['emotion-cards', 'fair-play'],
-        milestones: {
-          seed:   'Expressa emoções básicas',
-          root:   'Nomeia 4 emoções (feliz, triste, zangado, medo)',
-          sprout: 'Identifica emoções nos outros',
-          stem:   'Descreve o que causa emoções',
-          leaf:   'Usa 1 estratégia para se acalmar',
-          bud:    'Escolhe estratégias diferentes por situação',
-          flower: 'Gere emoções em conflitos simples',
-          fruit:  'Gere conflitos de forma autónoma',
-          tree:   'Apoia outros a gerir emoções',
-          forest: 'Inteligência emocional madura',
-        },
-      },
       {
         id: 'c4-life',
         name: 'Autonomia e Vida Prática',
@@ -315,6 +297,130 @@ export const COMPETENCY_AREAS = {
           fruit:  'Planeia e executa tarefas multi-passo',
           tree:   'Avalia consequências antes de decidir',
           forest: 'Autonomia total na vida quotidiana',
+        },
+      },
+      {
+        id: 'c4-health',
+        name: 'Saúde e Bem-estar',
+        description: 'Escolhas saudáveis, higiene e planeamento',
+        activities: ['healthy-choices', 'time-planner'],
+        milestones: {
+          seed:   'Reconhece hábitos básicos de higiene',
+          root:   'Identifica alimentos saudáveis',
+          sprout: 'Segue rotinas de higiene com ajuda',
+          stem:   'Faz escolhas saudáveis simples',
+          leaf:   'Planeia refeições simples',
+          bud:    'Organiza o tempo com ajuda',
+          flower: 'Faz escolhas saudáveis sozinho',
+          fruit:  'Planeia o próprio dia',
+          tree:   'Gere bem-estar de forma autónoma',
+          forest: 'Autonomia total em saúde e planeamento',
+        },
+      },
+    ],
+  },
+
+  campo5: {
+    id: 'campo5',
+    name: 'Expressão e Criatividade',
+    icon: '🎨',
+    competencies: [
+      {
+        id: 'c5-narrative',
+        name: 'Narrativa e Imaginação',
+        description: 'Construir histórias e expressar ideias',
+        activities: ['story-builder', 'sound-story'],
+        milestones: {
+          seed:   'Escolhe imagens que lhe interessam',
+          root:   'Ordena 2-3 imagens numa sequência',
+          sprout: 'Conta uma história simples com ajuda',
+          stem:   'Cria histórias com início, meio e fim',
+          leaf:   'Adiciona detalhes e emoções às histórias',
+          bud:    'Cria histórias com conflito e resolução',
+          flower: 'Usa diferentes cenários e personagens',
+          fruit:  'Conta histórias com expressividade',
+          tree:   'Cria narrativas originais e complexas',
+          forest: 'Expressa ideias e sentimentos através de histórias',
+        },
+      },
+      {
+        id: 'c5-visual',
+        name: 'Expressão Visual',
+        description: 'Desenhar, pintar e criar padrões',
+        activities: ['color-canvas', 'pattern-art'],
+        milestones: {
+          seed:   'Explora cores e formas livremente',
+          root:   'Faz traços e formas intencionais',
+          sprout: 'Usa 3+ cores em composições',
+          stem:   'Cria padrões simples (AB)',
+          leaf:   'Desenha formas reconhecíveis',
+          bud:    'Cria composições com simetria',
+          flower: 'Usa cor e forma para expressar ideias',
+          fruit:  'Cria mandalas e padrões complexos',
+          tree:   'Desenvolve estilo visual próprio',
+          forest: 'Expressão visual rica e intencional',
+        },
+      },
+      {
+        id: 'c5-musical',
+        name: 'Expressão Musical',
+        description: 'Criar ritmos, melodias e paisagens sonoras',
+        activities: ['music-maker'],
+        milestones: {
+          seed:   'Explora sons com curiosidade',
+          root:   'Distingue sons altos e baixos',
+          sprout: 'Repete ritmos simples de 2 batidas',
+          stem:   'Cria sequências de 4 batidas',
+          leaf:   'Combina ritmo e melodia simples',
+          bud:    'Cria padrões rítmicos originais',
+          flower: 'Compõe melodias curtas',
+          fruit:  'Combina instrumentos e ritmos',
+          tree:   'Cria composições com estrutura',
+          forest: 'Expressão musical criativa e autónoma',
+        },
+      },
+    ],
+  },
+
+  campo6: {
+    id: 'campo6',
+    name: 'Social e Emocional',
+    icon: '💚',
+    competencies: [
+      {
+        id: 'c6-emotions',
+        name: 'Inteligência Emocional',
+        description: 'Identificar e gerir emoções',
+        activities: ['emotion-cards', 'calm-toolkit'],
+        milestones: {
+          seed:   'Expressa emoções básicas',
+          root:   'Nomeia 4 emoções (feliz, triste, zangado, medo)',
+          sprout: 'Identifica emoções nos outros',
+          stem:   'Descreve o que causa emoções',
+          leaf:   'Usa 1 estratégia para se acalmar',
+          bud:    'Escolhe estratégias diferentes por situação',
+          flower: 'Gere emoções em conflitos simples',
+          fruit:  'Gere conflitos de forma autónoma',
+          tree:   'Apoia outros a gerir emoções',
+          forest: 'Inteligência emocional madura',
+        },
+      },
+      {
+        id: 'c6-social',
+        name: 'Competências Sociais',
+        description: 'Comunicação, turnos de conversa e leitura social',
+        activities: ['fair-play', 'social-detective', 'turn-talk'],
+        milestones: {
+          seed:   'Observa interacções com curiosidade',
+          root:   'Responde a cumprimentos simples',
+          sprout: 'Espera a sua vez com ajuda',
+          stem:   'Identifica emoções básicas nos outros',
+          leaf:   'Espera a sua vez de falar',
+          bud:    'Interpreta expressões faciais',
+          flower: 'Lê linguagem corporal simples',
+          fruit:  'Adapta o comportamento ao contexto',
+          tree:   'Resolve conflitos sociais de forma autónoma',
+          forest: 'Competência social madura e empática',
         },
       },
     ],
@@ -428,6 +534,70 @@ export const DIAGNOSTIC_QUESTIONS = {
   campo4: [
     {
       tier: 'low',
+      question: 'O que fazes quando acordas de manhã?',
+      emoji: '⏰',
+      options: [
+        { text: 'Lavo os dentes e tomo o pequeno-almoço', correct: true },
+        { text: 'Vou logo brincar', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'mid',
+      question: 'Tens teste amanhã e os amigos chamam para jogar. O que decides?',
+      emoji: '📚',
+      options: [
+        { text: 'Estudo primeiro, jogo depois', correct: true },
+        { text: 'Vou jogar, não estudo', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'high',
+      question: 'Tens 3 tarefas para fazer e pouco tempo. O que fazes?',
+      emoji: '📋',
+      options: [
+        { text: 'Organizo por prioridade e começo pela mais importante', correct: true },
+        { text: 'Faço a mais fácil e deixo o resto', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+  ],
+  campo5: [
+    {
+      tier: 'low',
+      question: 'Que cor gostas mais de usar para desenhar?',
+      emoji: '🎨',
+      options: [
+        { text: 'Gosto de muitas cores!', correct: true },
+        { text: 'Não gosto de desenhar', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'mid',
+      question: 'Se pudesses inventar uma história, teria...',
+      emoji: '📖',
+      options: [
+        { text: 'Um herói, um problema e um final feliz', correct: true },
+        { text: 'Nada, não sei inventar histórias', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'high',
+      question: 'Qual destas sequências completa o padrão? 🔴🔵🔴🔵...',
+      emoji: '🔷',
+      options: [
+        { text: '🔴🔵', correct: true },
+        { text: '🔵🔵', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+  ],
+  campo6: [
+    {
+      tier: 'low',
       question: 'Como se chama esta emoção? 😢',
       emoji: '🎭',
       options: [
@@ -448,11 +618,11 @@ export const DIAGNOSTIC_QUESTIONS = {
     },
     {
       tier: 'high',
-      question: 'Tens teste amanhã e os amigos chamam para jogar. O que decides?',
-      emoji: '📚',
+      question: 'Alguém está a falar e tu queres dizer algo. O que fazes?',
+      emoji: '💬',
       options: [
-        { text: 'Estudo primeiro, jogo depois', correct: true },
-        { text: 'Vou jogar, não estudo', correct: false },
+        { text: 'Espero que acabe de falar e depois digo', correct: true },
+        { text: 'Interrompo logo', correct: false },
         { text: 'Não sei', correct: false, skip: true },
       ],
     },
@@ -471,7 +641,7 @@ export function calculateStartingLevels(diagnosticResults, profileInfo) {
   const age = profileInfo.age || 8
   const support = profileInfo.supportLevel || 'some'
 
-  for (const campoId of ['campo1', 'campo2', 'campo3', 'campo4']) {
+  for (const campoId of ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']) {
     const answers = diagnosticResults[campoId] || [false, false, false]
     const low = answers[0] === true
     const mid = answers[1] === true

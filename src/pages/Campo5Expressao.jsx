@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { CAMPO4_ACTIVITIES } from '../data/activities'
+import { CAMPO5_ACTIVITIES } from '../data/activities'
 import ActivityCard from '../components/ActivityCard'
 import ProgressBar from '../components/ProgressBar'
 import UpgradePrompt from '../components/UpgradePrompt'
 
-export default function Campo4Vida({ progress, subscription }) {
+export default function Campo5Expressao({ progress, subscription }) {
   const [showUpgrade, setShowUpgrade] = useState(false)
-  const cp = progress.campoProgress.campo4
+  const cp = progress.campoProgress.campo5
 
   return (
     <div style={styles.container} className="animate-fade-in">
@@ -15,16 +15,16 @@ export default function Campo4Vida({ progress, subscription }) {
       )}
 
       <header style={styles.header}>
-        <span style={styles.icon}>🏠</span>
+        <span style={styles.icon}>🎨</span>
         <div>
-          <h1 style={styles.title}>A Vida</h1>
-          <p style={styles.subtitle}>Autonomia e Vida Prática</p>
+          <h1 style={styles.title}>O Palco</h1>
+          <p style={styles.subtitle}>Expressão e Criatividade</p>
         </div>
       </header>
 
       <p style={styles.description}>
-        Saber viver é o jogo mais importante. Rotinas, saúde, planeamento
-        e resolução de problemas para o dia-a-dia.
+        Criar, imaginar e expressar — aqui tudo é possível. A criatividade é
+        o superpoder que transforma ideias em realidade.
       </p>
 
       <div style={styles.progressSection}>
@@ -34,19 +34,19 @@ export default function Campo4Vida({ progress, subscription }) {
             {cp.completed}/{cp.total}
           </span>
         </div>
-        <ProgressBar value={cp.completed} max={cp.total} color="var(--color-campo4)" />
+        <ProgressBar value={cp.completed} max={cp.total} color="var(--color-campo5)" />
       </div>
 
       <section style={styles.section}>
         <h2 style={styles.sectionTitle}>Actividades</h2>
         <div style={styles.activityList}>
-          {CAMPO4_ACTIVITIES.map((a) => (
+          {CAMPO5_ACTIVITIES.map((a) => (
             <ActivityCard
               key={a.id}
               activity={a}
-              basePath="/campo/4"
+              basePath="/campo/5"
               completed={progress.activitiesCompleted[a.id]}
-              locked={subscription?.isActivityLocked(a.id, 'campo4')}
+              locked={subscription?.isActivityLocked(a.id, 'campo5')}
               onLockedClick={() => setShowUpgrade(true)}
             />
           ))}
@@ -73,7 +73,7 @@ const styles = {
   title: {
     fontSize: 'var(--font-size-2xl)',
     fontWeight: 700,
-    color: 'var(--color-campo4)',
+    color: 'var(--color-campo5)',
   },
   subtitle: {
     fontSize: 'var(--font-size-base)',
@@ -96,7 +96,7 @@ const styles = {
     fontWeight: 600,
   },
   progressCount: {
-    color: 'var(--color-campo4)',
+    color: 'var(--color-campo5)',
   },
   section: {
     display: 'flex',

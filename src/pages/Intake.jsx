@@ -119,13 +119,15 @@ export default function Intake({ onComplete, onCancel }) {
   })
 
   // Diagnostic placement test
-  const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-3 for the 4 campos
+  const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-5 for the 6 campos
   const [diagnosticQ, setDiagnosticQ] = useState(0)          // 0-2 for 3 questions per campo
   const [diagnosticResults, setDiagnosticResults] = useState({
     campo1: [null, null, null],
     campo2: [null, null, null],
     campo3: [null, null, null],
     campo4: [null, null, null],
+    campo5: [null, null, null],
+    campo6: [null, null, null],
   })
   const [diagnosticDone, setDiagnosticDone] = useState(false)
 
@@ -568,10 +570,10 @@ export default function Intake({ onComplete, onCancel }) {
                 return copy
               })
               // Advance to next question or next campo
-              const campoIds = ['campo1', 'campo2', 'campo3', 'campo4']
+              const campoIds = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']
               if (qIdx < 2) {
                 setDiagnosticQ(qIdx + 1)
-              } else if (diagnosticCampo < 3) {
+              } else if (diagnosticCampo < 5) {
                 setDiagnosticCampo(diagnosticCampo + 1)
                 setDiagnosticQ(0)
               } else {
@@ -676,7 +678,9 @@ const CAMPO_LABELS = [
   { id: 'campo1', name: 'Linguagem', icon: '🗣️', color: '#1565C0' },
   { id: 'campo2', name: 'Matemática', icon: '🔢', color: '#E65100' },
   { id: 'campo3', name: 'Descoberta', icon: '🌍', color: '#2E7D32' },
-  { id: 'campo4', name: 'Autonomia', icon: '🤝', color: '#6A1B9A' },
+  { id: 'campo4', name: 'Autonomia', icon: '🏠', color: '#6A1B9A' },
+  { id: 'campo5', name: 'Criatividade', icon: '🎨', color: '#00838F' },
+  { id: 'campo6', name: 'Social', icon: '💚', color: '#AD1457' },
 ]
 
 function DiagnosticStep({
@@ -689,7 +693,7 @@ function DiagnosticStep({
   onAnswer,
   onSkipAll,
 }) {
-  const campoIds = ['campo1', 'campo2', 'campo3', 'campo4']
+  const campoIds = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']
 
   if (diagnosticDone && detectedLevels) {
     return (
@@ -733,7 +737,7 @@ function DiagnosticStep({
   const questions = DIAGNOSTIC_QUESTIONS[campoId]
   const current = questions[diagnosticQ]
   const totalAnswered = diagnosticCampo * 3 + diagnosticQ
-  const totalQuestions = 12
+  const totalQuestions = 18
 
   return (
     <div style={styles.stepContent}>

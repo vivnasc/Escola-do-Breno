@@ -11,7 +11,7 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: 'O que é o PITCH?',
-        a: 'PITCH (Play. Interact. Think. Challenge. Hone.) é uma plataforma de aprendizagem inclusiva desenhada para crianças neurodivergentes. Adapta-se ao ritmo, necessidades e interesses de cada criança, com 20 actividades em 4 campos de competência.',
+        a: 'PITCH (Play. Interact. Think. Challenge. Hone.) é uma plataforma de aprendizagem inclusiva desenhada para crianças neurodivergentes. Adapta-se ao ritmo, necessidades e interesses de cada criança, com 30 actividades em 6 campos de competência.',
       },
       {
         q: 'Para que idades é adequado?',
@@ -19,7 +19,7 @@ const FAQ_SECTIONS = [
       },
       {
         q: 'É gratuito?',
-        a: 'O plano Semente é gratuito para sempre — 4 actividades reais com 10 níveis completos, sem limites. Para famílias que queiram todas as 20 actividades, 5 universos e funcionalidades como fichas e desafios, há o plano Flor (5,99€/mês). Para terapeutas e escolas, o plano Floresta (14,99€/mês). Zero publicidade e zero dados vendidos em todos os planos.',
+        a: 'O plano Semente é gratuito para sempre — 6 actividades reais (1 por campo) com 10 níveis completos, sem limites. Para famílias que queiram todas as 30 actividades, 5 universos e funcionalidades como fichas e desafios, há o plano Flor (5,99€/mês). Para terapeutas e escolas, o plano Floresta (14,99€/mês). Zero publicidade e zero dados vendidos em todos os planos.',
       },
       {
         q: 'Que tipo de necessidades especiais suporta?',
@@ -32,11 +32,11 @@ const FAQ_SECTIONS = [
     items: [
       {
         q: 'Como começo?',
-        a: 'Cria uma "escola" para a criança — basta o nome, idade e interesses. Depois, a plataforma faz 12 perguntas diagnósticas para detectar o nível em cada campo. A partir daí, as actividades são adaptadas automaticamente.',
+        a: 'Cria uma "escola" para a criança — basta o nome, idade e interesses. Depois, a plataforma faz 18 perguntas diagnósticas (3 por campo) para detectar o nível em cada um dos 6 campos. A partir daí, as actividades são adaptadas automaticamente.',
       },
       {
-        q: 'O que são os 4 Campos?',
-        a: 'Os 4 campos organizam o currículo por áreas de competência: Linguagem e Comunicação (vocabulário, fonética, leitura), Matemática e Lógica (cálculo, padrões, lógica), Conhecimento e Descoberta (ciência, geografia, natureza), e Autonomia e Vida (rotinas, emoções, resolução de problemas).',
+        q: 'O que são os 6 Campos?',
+        a: 'Os 6 campos organizam o currículo por áreas de competência: Linguagem e Comunicação (vocabulário, fonética, leitura), Matemática e Lógica (cálculo, padrões, lógica), Conhecimento e Descoberta (ciência, geografia, natureza), Autonomia e Vida Prática (rotinas, saúde, resolução de problemas), Expressão e Criatividade (histórias, música, desenho), e Social e Emocional (emoções, comunicação, auto-regulação).',
       },
       {
         q: 'O que são os Universos?',

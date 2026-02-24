@@ -25,7 +25,7 @@ export const TIERS = {
     features: [
       '1 perfil',
       '1 universo (Futebol)',
-      '4 actividades (1 por campo)',
+      '6 actividades (1 por campo)',
       'Progressão completa (10 níveis)',
       'Mural familiar (mensagens)',
       'Detecção de frustração',
@@ -56,7 +56,7 @@ export const TIERS = {
     features: [
       'Até 5 perfis',
       '5 universos temáticos',
-      '20 actividades (todas)',
+      '30 actividades (todas)',
       'Fichas para impressão',
       'Desafios semanais',
       'Loja de cosméticos',
@@ -103,6 +103,8 @@ export const FREE_ACTIVITIES = {
   campo2: ['goal-math'],
   campo3: ['flag-match'],
   campo4: ['daily-routine'],
+  campo5: ['story-builder'],
+  campo6: ['emotion-cards'],
 }
 
 /**

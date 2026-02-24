@@ -159,12 +159,18 @@ export function useAdaptive(profile) {
       if (!priority.includes('campo1')) priority.push('campo1')
       priority.push('campo3')
     }
-    if (goals.some(g => ['social-skills', 'emotional-regulation', 'daily-living'].includes(g))) {
+    if (goals.some(g => ['daily-living'].includes(g))) {
       priority.push('campo4')
+    }
+    if (goals.some(g => ['creativity', 'expression'].includes(g))) {
+      priority.push('campo5')
+    }
+    if (goals.some(g => ['social-skills', 'emotional-regulation'].includes(g))) {
+      priority.push('campo6')
     }
 
     // If no goals set, show all equally
-    return priority.length > 0 ? priority : ['campo1', 'campo2', 'campo3', 'campo4']
+    return priority.length > 0 ? priority : ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']
   }, [profile?.goals])
 
   // === Session time management ===
