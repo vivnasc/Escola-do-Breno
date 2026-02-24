@@ -1,5 +1,5 @@
 /**
- * Activity definitions for all 4 Campos.
+ * Activity definitions for all 6 Campos.
  * Each activity has a type, difficulty, and configuration.
  */
 
@@ -37,12 +37,32 @@ export const CAMPO_INFO = [
   {
     id: 'campo4',
     name: 'A Vida',
-    subtitle: 'Autonomia e Competências Sociais',
-    icon: '🤝',
+    subtitle: 'Autonomia e Vida Prática',
+    icon: '🏠',
     emoji: '⚽',
     color: 'var(--color-campo4)',
     description: 'Saber viver é o jogo mais importante.',
     path: '/campo/4',
+  },
+  {
+    id: 'campo5',
+    name: 'O Palco',
+    subtitle: 'Expressão e Criatividade',
+    icon: '🎨',
+    emoji: '⚽',
+    color: 'var(--color-campo5)',
+    description: 'Criar, imaginar e expressar — aqui tudo é possível.',
+    path: '/campo/5',
+  },
+  {
+    id: 'campo6',
+    name: 'O Coração',
+    subtitle: 'Social e Emocional',
+    icon: '💚',
+    emoji: '⚽',
+    color: 'var(--color-campo6)',
+    description: 'Conhecer-se, entender os outros e construir relações.',
+    path: '/campo/6',
   },
 ]
 
@@ -185,22 +205,6 @@ export const CAMPO4_ACTIVITIES = [
     difficulty: 1,
   },
   {
-    id: 'fair-play',
-    name: 'Fair Play',
-    description: 'Escolhe a melhor resposta em situações sociais.',
-    icon: '🤝',
-    type: 'fair-play',
-    difficulty: 1,
-  },
-  {
-    id: 'emotion-cards',
-    name: 'Cartões das Emoções',
-    description: 'Identifica e gere emoções como um verdadeiro jogador.',
-    icon: '🟨',
-    type: 'emotion-cards',
-    difficulty: 1,
-  },
-  {
     id: 'real-world',
     name: 'No Mundo Real',
     description: 'Pratica habilidades para o dia-a-dia.',
@@ -215,5 +219,107 @@ export const CAMPO4_ACTIVITIES = [
     icon: '🧠',
     type: 'problem-solving',
     difficulty: 2,
+  },
+  {
+    id: 'healthy-choices',
+    name: 'Escolhas Saudáveis',
+    description: 'Aprende a fazer boas escolhas para a saúde e bem-estar.',
+    icon: '🥗',
+    type: 'healthy-choices',
+    difficulty: 1,
+  },
+  {
+    id: 'time-planner',
+    name: 'Planear o Meu Dia',
+    description: 'Organiza tarefas por prioridade e planeia o teu tempo.',
+    icon: '📅',
+    type: 'time-planner',
+    difficulty: 2,
+  },
+]
+
+export const CAMPO5_ACTIVITIES = [
+  {
+    id: 'story-builder',
+    name: 'Constrói uma História',
+    description: 'Escolhe personagens, cenários e eventos para criar a tua história.',
+    icon: '📖',
+    type: 'story-builder',
+    difficulty: 1,
+  },
+  {
+    id: 'music-maker',
+    name: 'Cria Música',
+    description: 'Cria batidas e melodias simples com sons.',
+    icon: '🎵',
+    type: 'music-maker',
+    difficulty: 1,
+  },
+  {
+    id: 'color-canvas',
+    name: 'Tela de Cores',
+    description: 'Desenha e pinta livremente na tua tela digital.',
+    icon: '🖌️',
+    type: 'color-canvas',
+    difficulty: 1,
+  },
+  {
+    id: 'pattern-art',
+    name: 'Arte de Padrões',
+    description: 'Cria padrões simétricos e mandalas com cores.',
+    icon: '🔷',
+    type: 'pattern-art',
+    difficulty: 2,
+  },
+  {
+    id: 'sound-story',
+    name: 'Histórias Sonoras',
+    description: 'Associa sons a cenários e cria paisagens sonoras.',
+    icon: '🔊',
+    type: 'sound-story',
+    difficulty: 2,
+  },
+]
+
+export const CAMPO6_ACTIVITIES = [
+  {
+    id: 'emotion-cards',
+    name: 'Cartões das Emoções',
+    description: 'Identifica e gere emoções em diferentes situações.',
+    icon: '🟨',
+    type: 'emotion-cards',
+    difficulty: 1,
+  },
+  {
+    id: 'fair-play',
+    name: 'Fair Play',
+    description: 'Escolhe a melhor resposta em situações sociais.',
+    icon: '🤝',
+    type: 'fair-play',
+    difficulty: 1,
+  },
+  {
+    id: 'social-detective',
+    name: 'Detetive Social',
+    description: 'Lê linguagem corporal, tom de voz e pistas sociais.',
+    icon: '🔍',
+    type: 'social-detective',
+    difficulty: 2,
+  },
+  {
+    id: 'turn-talk',
+    name: 'A Minha Vez',
+    description: 'Pratica turnos de conversa e escuta activa.',
+    icon: '💬',
+    type: 'turn-talk',
+    difficulty: 1,
+  },
+  {
+    id: 'calm-toolkit',
+    name: 'Kit da Calma',
+    description: 'Ferramentas para te conheceres e regulares as tuas emoções.',
+    icon: '🧘',
+    type: 'calm-toolkit',
+    difficulty: 1,
   },
 ]

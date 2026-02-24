@@ -117,7 +117,7 @@ export default function Planos({ currentTier, onSubscribed }) {
         <div style={styles.faqItem}>
           <h3 style={styles.faqQ}>O plano grátis é limitado?</h3>
           <p style={styles.faqA}>
-            Não. O plano Semente inclui 4 actividades reais (1 por campo) com progressão
+            Não. O plano Semente inclui 6 actividades reais (1 por campo) com progressão
             completa nos 10 níveis. A criança aprende de verdade, sem limites de tempo.
           </p>
         </div>

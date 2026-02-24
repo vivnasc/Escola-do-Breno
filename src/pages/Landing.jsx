@@ -47,7 +47,9 @@ const CAMPOS = [
   { icon: '📚', name: 'Linguagem', color: '#1565C0', desc: 'Vocabulário, fonética, leitura, cores' },
   { icon: '🔢', name: 'Matemática', color: '#E65100', desc: 'Cálculo, relógio, padrões, lógica' },
   { icon: '🌎', name: 'Descoberta', color: '#2E7D32', desc: 'Bandeiras, corpo, clima, natureza' },
-  { icon: '🏠', name: 'Autonomia', color: '#6A1B9A', desc: 'Rotinas, emoções, resolução de problemas' },
+  { icon: '🏠', name: 'Autonomia', color: '#6A1B9A', desc: 'Rotinas, saúde, resolução de problemas' },
+  { icon: '🎨', name: 'Criatividade', color: '#00838F', desc: 'Histórias, música, desenho, padrões' },
+  { icon: '💚', name: 'Social', color: '#AD1457', desc: 'Emoções, comunicação, auto-regulação' },
 ]
 
 const PHASES = [
@@ -291,18 +293,13 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
       <section style={styles.socialBar}>
         <div style={styles.socialInner}>
           <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>20</span>
-            <span style={styles.socialLabel}>Actividades</span>
+            <span style={styles.socialNumber}>800+</span>
+            <span style={styles.socialLabel}>Exercícios</span>
           </div>
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>4</span>
-            <span style={styles.socialLabel}>Campos</span>
-          </div>
-          <div style={styles.socialDivider} />
-          <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>5</span>
-            <span style={styles.socialLabel}>Universos</span>
+            <span style={styles.socialNumber}>30</span>
+            <span style={styles.socialLabel}>Tipos de Actividade</span>
           </div>
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
@@ -311,8 +308,13 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
           </div>
           <div style={styles.socialDivider} />
           <div style={styles.socialStat}>
-            <span style={styles.socialNumber}>👨‍👩‍👧‍👦</span>
-            <span style={styles.socialLabel}>Comunidade</span>
+            <span style={styles.socialNumber}>5</span>
+            <span style={styles.socialLabel}>Mundos</span>
+          </div>
+          <div style={styles.socialDivider} />
+          <div style={styles.socialStat}>
+            <span style={styles.socialNumber}>♾️</span>
+            <span style={styles.socialLabel}>Combinações</span>
           </div>
         </div>
       </section>
@@ -356,10 +358,10 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
         </div>
       </section>
 
-      {/* 4 Campos */}
+      {/* 6 Campos */}
       <section style={{ ...styles.section, backgroundColor: '#F5F5F5' }}>
         <div style={styles.sectionInner}>
-          <h2 style={styles.sectionTitle}>4 Campos de Aprendizagem</h2>
+          <h2 style={styles.sectionTitle}>6 Campos de Aprendizagem</h2>
           <p style={styles.sectionSubtitle}>
             Currículo completo organizado por áreas de competência, não por disciplinas.
           </p>
@@ -538,7 +540,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
         <div style={styles.sectionInner}>
           <h2 style={styles.ctaTitle}>Cada criança merece uma escola que a entenda.</h2>
           <p style={styles.ctaDesc}>
-            Construído por pais, para pais. Plano grátis com 4 actividades completas. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho está pronta.
+            Construído por pais, para pais. Plano grátis com 6 actividades completas (1 por campo), 10 níveis cada, conteúdo que nunca se repete. Sem publicidade, sem dados vendidos. Em menos de 2 minutos, a escola do teu filho está pronta.
           </p>
           <button style={styles.ctaBtn} onClick={onStart || (() => navigate('/'))}>
             Criar a Escola do Meu Filho

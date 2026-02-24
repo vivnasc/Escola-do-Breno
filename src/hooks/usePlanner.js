@@ -4,6 +4,8 @@ import {
   CAMPO2_ACTIVITIES,
   CAMPO3_ACTIVITIES,
   CAMPO4_ACTIVITIES,
+  CAMPO5_ACTIVITIES,
+  CAMPO6_ACTIVITIES,
 } from '../data/activities'
 
 const STORAGE_PREFIX = 'pitch-planner-'
@@ -13,6 +15,8 @@ const ALL_ACTIVITIES = [
   ...CAMPO2_ACTIVITIES.map((a) => ({ ...a, campo: 'campo2', path: `/campo/2/${a.id}` })),
   ...CAMPO3_ACTIVITIES.map((a) => ({ ...a, campo: 'campo3', path: `/campo/3/${a.id}` })),
   ...CAMPO4_ACTIVITIES.map((a) => ({ ...a, campo: 'campo4', path: `/campo/4/${a.id}` })),
+  ...CAMPO5_ACTIVITIES.map((a) => ({ ...a, campo: 'campo5', path: `/campo/5/${a.id}` })),
+  ...CAMPO6_ACTIVITIES.map((a) => ({ ...a, campo: 'campo6', path: `/campo/6/${a.id}` })),
 ]
 
 function todayKey() {
@@ -168,7 +172,7 @@ export function usePlanner(profileId, prioritisedCampos, progress) {
   const generateToday = useCallback(() => {
     const today = todayKey()
     const plan = generateDailyPlan(
-      prioritisedCampos || ['campo1', 'campo2', 'campo3', 'campo4'],
+      prioritisedCampos || ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6'],
       progress,
       data.preferences,
       data.weekHistory,

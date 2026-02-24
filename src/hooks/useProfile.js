@@ -61,6 +61,8 @@ const DEFAULT_PROFILE = {
     campo2: 1,
     campo3: 1,
     campo4: 1,
+    campo5: 1,
+    campo6: 1,
   },
 
   // Subscription tier: 'free', 'family', or 'therapist'
