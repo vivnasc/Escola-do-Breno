@@ -162,23 +162,36 @@ export function useProfile() {
   const updateProfile = useCallback(
     (updates) => {
       setProfiles((prev) =>
-        prev.map((p) => (p.id === activeId ? { ...p, ...updates, updatedAt: new Date().toISOString() } : p))
+        prev.map((p) => {
+          if (p.id !== activeId) return p
+          // Founder profile: never downgrade tier
+          const safeUpdates = { ...updates }
+          if (p.isFounder && safeUpdates.subscriptionTier && safeUpdates.subscriptionTier !== 'family') {
+            delete safeUpdates.subscriptionTier
+          }
+          return { ...p, ...safeUpdates, updatedAt: new Date().toISOString() }
+        })
       )
     },
     [activeId]
   )
 
   const completeOnboarding = useCallback((data) => {
-    const id = generateId()
+    // Use stable ID if provided (e.g. founder profile), otherwise generate
+    const id = data.id || generateId()
     const now = new Date().toISOString()
     const newProfile = deepMergeProfile({
       ...data,
       id,
       onboardingComplete: true,
-      createdAt: now,
+      createdAt: data.createdAt || now,
       updatedAt: now,
     })
-    setProfiles((prev) => [...prev, newProfile])
+    setProfiles((prev) => {
+      // If profile with this ID already exists, don't duplicate — just activate it
+      if (prev.find((p) => p.id === id)) return prev
+      return [...prev, newProfile]
+    })
     setActiveId(id)
   }, [])
 

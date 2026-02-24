@@ -2,19 +2,31 @@
  * Breno's pre-configured profile.
  * This is the child the platform was built for.
  * His mother (Vivianne) configured these needs.
- * He can go straight into the app without filling the intake.
+ *
+ * STABLE ID: 'breno-fundador' — never changes, same across all devices.
+ * This ensures cloud sync always recognises Breno's profile correctly.
+ *
+ * AUTO-CREATION: When VITE_FOUNDER=true is set on the deploy,
+ * Breno's profile is created automatically on first visit.
+ * No URL hacks, no easter eggs needed. He's a real user.
  */
+
+// Stable ID — same across all devices, survives sync/merge
+const FOUNDER_PROFILE_ID = 'breno-fundador'
+
 const BRENO_PROFILE = {
-  // Identity
+  // Identity — stable across all devices
+  id: FOUNDER_PROFILE_ID,
   name: 'Breno',
   age: 11, // born 1 October 2014, turns 12 in Oct 2026
   avatar: 'lion',
   onboardingComplete: true,
-  createdAt: '2025-01-01T00:00:00.000Z', // fixed date — avoids regeneration on import
+  createdAt: '2025-01-01T00:00:00.000Z',
   updatedAt: '2025-01-01T00:00:00.000Z',
 
   // Breno always has full access — built for him
   subscriptionTier: 'family',
+  isFounder: true, // protects against tier downgrade
 
   // Theme — Breno loves football
   universe: 'football',
@@ -38,8 +50,8 @@ const BRENO_PROFILE = {
     visualContrast: 'normal',
     fontSize: 'normal',
     reducedClutter: false,
-    timePressure: false, // no time pressure for Breno
-    ttsMode: 'on-demand', // only speaks when tapped, not automatically
+    timePressure: false,
+    ttsMode: 'on-demand',
   },
 
   attention: {
@@ -58,8 +70,6 @@ const BRENO_PROFILE = {
     'writing',
   ],
 
-  // Per-campo competency levels (1-10), starting at level 1
-  // Will be adjusted by the intake diagnostic if re-taken
   competencyLevels: {
     campo1: 1,
     campo2: 1,
@@ -73,7 +83,6 @@ const BRENO_PROFILE = {
     needsAudioInstructions: true,
   },
 
-  // Cosmetic defaults
   purchasedItems: [],
   equippedCelebration: 'confetti',
   equippedBadge: null,
@@ -82,10 +91,9 @@ const BRENO_PROFILE = {
   weeklyProgress: {},
   lastWeekReset: null,
 
-  // Worksheets & rewards
   worksheetSubmissions: [],
   realRewards: [],
   claimedRewards: [],
 }
 
-export { BRENO_PROFILE }
+export { BRENO_PROFILE, FOUNDER_PROFILE_ID }
