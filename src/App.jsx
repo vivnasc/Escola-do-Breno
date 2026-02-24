@@ -54,7 +54,10 @@ import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
 import { useProfileSharing } from './hooks/useProfileSharing'
 import { setTTSMode } from './hooks/useTTS'
-import { BRENO_PROFILE } from './data/brenoProfile'
+import { BRENO_PROFILE, FOUNDER_PROFILE_ID } from './data/brenoProfile'
+
+// Founder deploy: auto-creates Breno's profile on first visit
+const IS_FOUNDER_DEPLOY = import.meta.env.VITE_FOUNDER === 'true'
 
 // Public routes accessible without a profile
 const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
@@ -155,12 +158,19 @@ function AppContent() {
     setShowIntake(true)
   }, [])
 
-  // Auto-load founder profile when ?fundador param is present (skip intake entirely)
+  // Founder deploy: auto-create Breno's profile on first visit
+  // No URL hacks needed. If VITE_FOUNDER=true, Breno's profile exists automatically.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.has('fundador') && !profileData.profile) {
+    const hasBreno = profileData.profiles.some((p) => p.id === FOUNDER_PROFILE_ID)
+
+    if (IS_FOUNDER_DEPLOY && !hasBreno) {
       profileData.completeOnboarding(BRENO_PROFILE)
-      // Clean URL
+    }
+
+    // Legacy: still support ?fundador as backup
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('fundador') && !hasBreno) {
+      profileData.completeOnboarding(BRENO_PROFILE)
       window.history.replaceState({}, '', window.location.pathname)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
