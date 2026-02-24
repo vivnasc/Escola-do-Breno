@@ -163,80 +163,109 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
           <p style={styles.heroDesc}>
             Nasceu de uma necessidade real: o nosso filho precisava de uma escola que se adaptasse a ele, não o contrário. Não encontrámos. Então construímos.
           </p>
-          <div style={styles.heroBtns}>
-            <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
-              Criar a Escola do Meu Filho
-            </button>
-            <button style={styles.heroSecondary} onClick={() => {
-              document.getElementById('nossa-historia')?.scrollIntoView({ behavior: 'smooth' })
-            }}>
-              A Nossa História
-            </button>
-          </div>
-          <p style={styles.heroNote}>
-            Plano grátis disponível. Família conectada. Sem publicidade. Sem dados vendidos.
-          </p>
-
-          {/* Login for returning users on a new device */}
-          {auth?.configured && !auth?.user && (
-            <div style={landingAuthStyles.container}>
-              {!authMode ? (
-                <div style={landingAuthStyles.prompt}>
-                  <span style={landingAuthStyles.promptText}>Já tens conta?</span>
-                  <button style={landingAuthStyles.linkBtn} onClick={() => setAuthMode('login')}>
-                    Entrar e recuperar perfis
-                  </button>
-                  <span style={landingAuthStyles.sep}>|</span>
-                  <button style={landingAuthStyles.linkBtn} onClick={() => setAuthMode('register')}>
-                    Criar conta
-                  </button>
-                </div>
-              ) : (
-                <div style={landingAuthStyles.form}>
-                  <p style={landingAuthStyles.formTitle}>
-                    {authMode === 'register' ? 'Criar conta' : 'Entrar e recuperar perfis'}
-                  </p>
-                  <input
-                    style={landingAuthStyles.input}
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    autoComplete="email"
-                  />
-                  <input
-                    style={landingAuthStyles.input}
-                    type="password"
-                    placeholder={authMode === 'login' ? 'Password (ou vazio para magic link)' : 'Password'}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
-                  />
-                  {authMsg && <p style={landingAuthStyles.msg}>{authMsg}</p>}
-                  <button
-                    style={landingAuthStyles.submitBtn}
-                    onClick={handleAuth}
-                    disabled={authLoading || !email.trim()}
-                  >
-                    {authLoading ? 'A processar...' : authMode === 'register' ? 'Registar' : 'Entrar'}
-                  </button>
-                  <button
-                    style={landingAuthStyles.backBtn}
-                    onClick={() => { setAuthMode(null); setAuthMsg(null) }}
-                  >
-                    Cancelar
-                  </button>
-                </div>
-              )}
+          {/* Auth: primary action for families */}
+          {auth?.configured && !auth?.user && !authMode && (
+            <div style={landingAuthStyles.primaryAuth}>
+              <div style={landingAuthStyles.primaryAuthBtns}>
+                <button style={styles.heroPrimary} onClick={() => setAuthMode('register')}>
+                  Criar Conta da Familia
+                </button>
+                <button style={styles.heroSecondary} onClick={() => setAuthMode('login')}>
+                  Ja Tenho Conta
+                </button>
+              </div>
+              <p style={landingAuthStyles.familyHint}>
+                Uma conta, toda a familia. Mae, pai, terapeuta — todos acedem ao mesmo perfil, de qualquer dispositivo.
+              </p>
             </div>
           )}
-          {auth?.configured && auth?.user && (
-            <div style={landingAuthStyles.synced}>
-              <span>
-                {syncStatus === 'pulling' ? '🔄 A sincronizar...' : `☁️ Sincronizado como ${auth.user.email}`}
-              </span>
-              <button style={landingAuthStyles.signOutBtn} onClick={auth.signOut}>Sair</button>
+
+          {/* Auth form */}
+          {auth?.configured && !auth?.user && authMode && (
+            <div style={landingAuthStyles.form}>
+              <p style={landingAuthStyles.formTitle}>
+                {authMode === 'register' ? 'Criar conta da familia' : 'Entrar na minha conta'}
+              </p>
+              <p style={landingAuthStyles.formHint}>
+                {authMode === 'register'
+                  ? 'Depois de criar conta, vai configurar o perfil da crianca.'
+                  : 'Entra para aceder aos perfis da tua familia.'}
+              </p>
+              <input
+                style={landingAuthStyles.input}
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
+              />
+              <input
+                style={landingAuthStyles.input}
+                type="password"
+                placeholder={authMode === 'login' ? 'Password (ou vazio para magic link)' : 'Password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+              />
+              {authMsg && <p style={landingAuthStyles.msg}>{authMsg}</p>}
+              <button
+                style={landingAuthStyles.submitBtn}
+                onClick={handleAuth}
+                disabled={authLoading || !email.trim()}
+              >
+                {authLoading ? 'A processar...' : authMode === 'register' ? 'Criar Conta' : 'Entrar'}
+              </button>
+              <button
+                style={landingAuthStyles.backBtn}
+                onClick={() => { setAuthMode(null); setAuthMsg(null) }}
+              >
+                Cancelar
+              </button>
             </div>
+          )}
+
+          {/* Logged in — show status and proceed */}
+          {auth?.configured && auth?.user && (
+            <div style={landingAuthStyles.loggedInBox}>
+              <span style={landingAuthStyles.loggedInText}>
+                {syncStatus === 'pulling' ? '🔄 A sincronizar perfis...' : `Bem-vindo(a)! ${auth.user.email}`}
+              </span>
+              <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
+                Criar o Perfil da Crianca
+              </button>
+              <button style={landingAuthStyles.signOutBtn} onClick={auth.signOut}>Sair da conta</button>
+            </div>
+          )}
+
+          {/* No Supabase: offline mode */}
+          {!auth?.configured && (
+            <div style={styles.heroBtns}>
+              <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
+                Criar a Escola do Meu Filho
+              </button>
+              <button style={styles.heroSecondary} onClick={() => {
+                document.getElementById('nossa-historia')?.scrollIntoView({ behavior: 'smooth' })
+              }}>
+                A Nossa Historia
+              </button>
+            </div>
+          )}
+
+          {/* Offline note when no auth */}
+          {!auth?.configured && (
+            <p style={styles.heroNote}>
+              Plano gratis disponivel. Sem publicidade. Sem dados vendidos.
+            </p>
+          )}
+
+          {/* Try without account link */}
+          {auth?.configured && !auth?.user && !authMode && (
+            <button
+              style={landingAuthStyles.tryWithoutBtn}
+              onClick={onStart || (() => navigate('/'))}
+            >
+              Experimentar sem conta (dados ficam so neste dispositivo)
+            </button>
           )}
         </div>
       </section>
@@ -1153,61 +1182,74 @@ const styles = {
 }
 
 const landingAuthStyles = {
-  container: {
+  primaryAuth: {
     width: '100%',
-    maxWidth: '360px',
+    maxWidth: '400px',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '12px',
     marginTop: '8px',
   },
-  prompt: {
+  primaryAuthBtns: {
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: '8px',
+    gap: '12px',
     flexWrap: 'wrap',
+    justifyContent: 'center',
+    width: '100%',
   },
-  promptText: {
-    fontSize: '0.9rem',
+  familyHint: {
+    fontSize: '0.85rem',
     color: '#37474F',
     fontWeight: 600,
+    textAlign: 'center',
+    lineHeight: 1.5,
+    padding: '0 12px',
   },
-  linkBtn: {
+  tryWithoutBtn: {
     fontFamily: 'inherit',
-    fontSize: '0.9rem',
-    fontWeight: 700,
-    color: '#1B5E20',
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    color: '#616161',
     cursor: 'pointer',
-    padding: '4px',
+    padding: '8px',
     textDecoration: 'underline',
     minHeight: '44px',
     display: 'inline-flex',
     alignItems: 'center',
-  },
-  sep: {
-    color: '#9E9E9E',
-    fontSize: '0.8rem',
+    marginTop: '-4px',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
     gap: '10px',
-    padding: '20px',
-    backgroundColor: 'rgba(255,255,255,0.9)',
+    padding: '24px',
+    backgroundColor: 'rgba(255,255,255,0.95)',
     borderRadius: '16px',
     border: '2px solid #A5D6A7',
+    width: '100%',
+    maxWidth: '360px',
   },
   formTitle: {
     fontWeight: 700,
-    fontSize: '1rem',
+    fontSize: '1.1rem',
     color: '#1B5E20',
     textAlign: 'center',
   },
+  formHint: {
+    fontSize: '0.85rem',
+    color: '#616161',
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
   input: {
-    padding: '10px 14px',
-    border: '1px solid #C8E6C9',
+    padding: '12px 14px',
+    border: '2px solid #C8E6C9',
     borderRadius: '10px',
     fontFamily: 'inherit',
-    fontSize: '0.9rem',
+    fontSize: '1rem',
     outline: 'none',
+    minHeight: '44px',
   },
   msg: {
     fontSize: '0.85rem',
@@ -1216,7 +1258,7 @@ const landingAuthStyles = {
     textAlign: 'center',
   },
   submitBtn: {
-    padding: '10px',
+    padding: '12px',
     backgroundColor: '#2E7D32',
     color: 'white',
     border: 'none',
@@ -1224,11 +1266,11 @@ const landingAuthStyles = {
     cursor: 'pointer',
     fontWeight: 700,
     fontFamily: 'inherit',
-    fontSize: '0.95rem',
-    minHeight: '44px',
+    fontSize: '1rem',
+    minHeight: '48px',
   },
   backBtn: {
-    padding: '4px',
+    padding: '8px',
     backgroundColor: 'transparent',
     border: 'none',
     color: '#616161',
@@ -1236,21 +1278,25 @@ const landingAuthStyles = {
     fontFamily: 'inherit',
     fontSize: '0.85rem',
     textDecoration: 'underline',
+    minHeight: '44px',
   },
-  synced: {
+  loggedInBox: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
     gap: '12px',
     width: '100%',
     maxWidth: '360px',
-    padding: '10px 16px',
-    backgroundColor: 'rgba(255,255,255,0.85)',
-    borderRadius: '12px',
-    fontSize: '0.85rem',
+    padding: '20px',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: '16px',
+    border: '2px solid #A5D6A7',
+  },
+  loggedInText: {
+    fontSize: '0.9rem',
     fontWeight: 600,
     color: '#1B5E20',
-    marginTop: '8px',
+    textAlign: 'center',
   },
   signOutBtn: {
     padding: '4px 10px',
@@ -1261,5 +1307,8 @@ const landingAuthStyles = {
     fontFamily: 'inherit',
     fontSize: '0.8rem',
     color: '#616161',
+    minHeight: '44px',
+    display: 'flex',
+    alignItems: 'center',
   },
 }
