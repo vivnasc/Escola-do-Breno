@@ -180,6 +180,182 @@ const POEMS = [
       ],
     },
   },
+  {
+    id: 'garden',
+    title: 'O Jardim Secreto',
+    lines: [
+      { text: 'Atrás do muro há um jardim', pause: false },
+      { text: 'com flores de todas as cores.', pause: false },
+      { text: 'Que guarda um segredo só para mim:', pause: false },
+      { text: 'o cheiro dos seus mil sabores.', pause: true },
+      { text: 'As borboletas vêm dançar,', pause: false },
+      { text: 'as joaninhas vêm cantar.', pause: false },
+      { text: 'É o meu lugar para sonhar,', pause: false },
+      { text: 'onde tudo pode começar.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "jardim"?',
+      options: [
+        { text: 'Mim', correct: true },
+        { text: 'Flor', correct: false },
+        { text: 'Verde', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'moon',
+    title: 'A Lua Curiosa',
+    lines: [
+      { text: 'A lua espreita pela janela,', pause: false },
+      { text: 'curiosa para me ver dormir.', pause: false },
+      { text: 'Redonda, branca, tão bela,', pause: false },
+      { text: 'parece que me quer sorrir.', pause: true },
+      { text: 'Pergunto-lhe o que vê lá de cima,', pause: false },
+      { text: 'ela pisca com emoção.', pause: false },
+      { text: 'E manda uma luz tão fina', pause: false },
+      { text: 'que me aquece o coração.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "janela"?',
+      options: [
+        { text: 'Bela', correct: true },
+        { text: 'Noite', correct: false },
+        { text: 'Lunar', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'friends',
+    title: 'Os Amigos',
+    lines: [
+      { text: 'Um amigo é um tesouro', pause: false },
+      { text: 'que não se compra na loja.', pause: false },
+      { text: 'Vale mais do que o ouro,', pause: false },
+      { text: 'venha a chuva ou venha a soja.', pause: true },
+      { text: 'Não importa ser diferente,', pause: false },
+      { text: 'ser mais alto ou mais baixinho.', pause: false },
+      { text: 'Um amigo é sempre presente', pause: false },
+      { text: 'e faz do mundo um cantinho.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "tesouro"?',
+      options: [
+        { text: 'Ouro', correct: true },
+        { text: 'Amigo', correct: false },
+        { text: 'Presente', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'river',
+    title: 'O Rio que Viaja',
+    lines: [
+      { text: 'O rio corre sem parar,', pause: false },
+      { text: 'por montes, vales e aldeias.', pause: false },
+      { text: 'Vai cantando até ao mar,', pause: false },
+      { text: 'desenhando curvas cheias.', pause: true },
+      { text: 'Não tem pressa de chegar,', pause: false },
+      { text: 'vai levando pedras e areia.', pause: false },
+      { text: 'Ensina-nos a caminhar:', pause: false },
+      { text: 'devagar, a vida é uma aldeia.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "parar"?',
+      options: [
+        { text: 'Mar', correct: true },
+        { text: 'Rio', correct: false },
+        { text: 'Água', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'bird',
+    title: 'O Pássaro Pintor',
+    lines: [
+      { text: 'Havia um pássaro pintor', pause: false },
+      { text: 'que pintava com as asas.', pause: false },
+      { text: 'Usava tintas de sabor', pause: false },
+      { text: 'e coloria todas as casas.', pause: true },
+      { text: 'Com azul fazia o céu,', pause: false },
+      { text: 'com verde pintava o chão.', pause: false },
+      { text: 'Deixava em cada papel seu', pause: false },
+      { text: 'um pedaço de imaginação.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "pintor"?',
+      options: [
+        { text: 'Sabor', correct: true },
+        { text: 'Pássaro', correct: false },
+        { text: 'Tinta', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'tree',
+    title: 'A Árvore Sábia',
+    lines: [
+      { text: 'A árvore velha do quintal', pause: false },
+      { text: 'conhece histórias sem fim.', pause: false },
+      { text: 'Já viu o bem e já viu o mal,', pause: false },
+      { text: 'e continua a crescer assim.', pause: true },
+      { text: 'As raízes falam baixinho:', pause: false },
+      { text: '"Tem calma, vai devagar."', pause: false },
+      { text: 'Cada ramo é um caminho,', pause: false },
+      { text: 'cada folha um lugar.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "quintal"?',
+      options: [
+        { text: 'Mal', correct: true },
+        { text: 'Folha', correct: false },
+        { text: 'Raiz', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'dream',
+    title: 'O Sonho Acordado',
+    lines: [
+      { text: 'Fecho os olhos e já estou', pause: false },
+      { text: 'a voar sobre o telhado.', pause: false },
+      { text: 'Vou a onde a mente levou,', pause: false },
+      { text: 'num sonho todo inventado.', pause: true },
+      { text: 'Vejo castelos no algodão,', pause: false },
+      { text: 'dragões que comem gelado.', pause: false },
+      { text: 'Tudo cabe na imaginação', pause: false },
+      { text: 'do meu sonho acordado.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "telhado"?',
+      options: [
+        { text: 'Inventado', correct: true },
+        { text: 'Castelo', correct: false },
+        { text: 'Voar', correct: false },
+      ],
+    },
+  },
+  {
+    id: 'home',
+    title: 'A Minha Casa',
+    lines: [
+      { text: 'A minha casa é pequenina,', pause: false },
+      { text: 'mas cabe tudo lá dentro.', pause: false },
+      { text: 'Tem cheiro a sopa da cozinha', pause: false },
+      { text: 'e um abraço em cada canto.', pause: true },
+      { text: 'É onde me sinto seguro,', pause: false },
+      { text: 'onde o medo vai embora.', pause: false },
+      { text: 'Mesmo quando o dia é escuro,', pause: false },
+      { text: 'a minha casa me adora.', pause: true },
+    ],
+    rhymeChallenge: {
+      prompt: 'Que palavra rima com "seguro"?',
+      options: [
+        { text: 'Escuro', correct: true },
+        { text: 'Medo', correct: false },
+        { text: 'Porta', correct: false },
+      ],
+    },
+  },
 ]
 
 export default function PoesiaSonora({
