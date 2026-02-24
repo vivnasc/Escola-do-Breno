@@ -64,6 +64,16 @@ export const CAMPO_INFO = [
     description: 'Conhecer-se, entender os outros e construir relações.',
     path: '/campo/6',
   },
+  {
+    id: 'campo7',
+    name: 'A Biblioteca',
+    subtitle: 'Literatura e Imaginação',
+    icon: '📚',
+    emoji: '⚽',
+    color: 'var(--color-campo7)',
+    description: 'Ouvir, sentir e viver histórias — mesmo sem saber ler.',
+    path: '/campo/7',
+  },
 ]
 
 export const CAMPO1_ACTIVITIES = [
@@ -278,6 +288,49 @@ export const CAMPO5_ACTIVITIES = [
     icon: '🔊',
     type: 'sound-story',
     difficulty: 2,
+  },
+]
+
+export const CAMPO7_ACTIVITIES = [
+  {
+    id: 'contos-vivos',
+    name: 'Contos Vivos',
+    description: 'Ouve e vive histórias narradas com sons, emoções e escolhas.',
+    icon: '📖',
+    type: 'contos-vivos',
+    difficulty: 1,
+  },
+  {
+    id: 'poesia-sonora',
+    name: 'Poesia Sonora',
+    description: 'Descobre poemas com ritmo, rima e voz.',
+    icon: '🎙️',
+    type: 'poesia-sonora',
+    difficulty: 1,
+  },
+  {
+    id: 'teatro-vozes',
+    name: 'Teatro de Vozes',
+    description: 'Vive diálogos entre personagens e escolhe o que dizem.',
+    icon: '🎭',
+    type: 'teatro-vozes',
+    difficulty: 2,
+  },
+  {
+    id: 'fabulas-mundo',
+    name: 'Fábulas do Mundo',
+    description: 'Ouve fábulas de todo o mundo e descobre a sua lição.',
+    icon: '🌍',
+    type: 'fabulas-mundo',
+    difficulty: 2,
+  },
+  {
+    id: 'meu-conto',
+    name: 'O Meu Conto',
+    description: 'Cria a tua própria história com a tua voz e imaginação.',
+    icon: '✍️',
+    type: 'meu-conto',
+    difficulty: 1,
   },
 ]
 

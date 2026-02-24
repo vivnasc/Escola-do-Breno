@@ -425,6 +425,68 @@ export const COMPETENCY_AREAS = {
       },
     ],
   },
+
+  campo7: {
+    id: 'campo7',
+    name: 'Literatura e Imaginação',
+    icon: '📚',
+    competencies: [
+      {
+        id: 'c7-listening',
+        name: 'Compreensão Narrativa',
+        description: 'Compreender e seguir histórias narradas',
+        activities: ['contos-vivos', 'fabulas-mundo'],
+        milestones: {
+          seed:   'Ouve histórias curtas com atenção',
+          root:   'Reconhece personagens principais',
+          sprout: 'Segue uma história de 5 cenas',
+          stem:   'Identifica início, meio e fim',
+          leaf:   'Compreende motivações das personagens',
+          bud:    'Antecipa o que vai acontecer',
+          flower: 'Compreende metáforas simples',
+          fruit:  'Interpreta mensagens implícitas',
+          tree:   'Analisa histórias com pensamento crítico',
+          forest: 'Compreensão literária madura',
+        },
+      },
+      {
+        id: 'c7-emotion',
+        name: 'Empatia Literária',
+        description: 'Reconhecer e sentir emoções das personagens',
+        activities: ['contos-vivos', 'teatro-vozes'],
+        milestones: {
+          seed:   'Reage a tons de voz (feliz, triste)',
+          root:   'Identifica se personagem está feliz ou triste',
+          sprout: 'Nomeia 4 emoções em personagens',
+          stem:   'Explica porque a personagem se sente assim',
+          leaf:   'Relaciona emoções a situações da história',
+          bud:    'Compara sentimentos de personagens diferentes',
+          flower: 'Compreende emoções complexas (saudade, orgulho)',
+          fruit:  'Debate escolhas morais das personagens',
+          tree:   'Perspectiva-se no lugar das personagens',
+          forest: 'Empatia literária profunda e autónoma',
+        },
+      },
+      {
+        id: 'c7-creative',
+        name: 'Expressão Narrativa',
+        description: 'Criar e recontar histórias com voz própria',
+        activities: ['meu-conto', 'poesia-sonora'],
+        milestones: {
+          seed:   'Escolhe elementos para uma história',
+          root:   'Ordena 3 eventos numa sequência',
+          sprout: 'Cria uma história curta com ajuda',
+          stem:   'Reconta uma história ouvida',
+          leaf:   'Adiciona detalhes próprios a histórias',
+          bud:    'Cria histórias com conflito e resolução',
+          flower: 'Usa vocabulário expressivo',
+          fruit:  'Cria narrativas originais com voz própria',
+          tree:   'Experimenta estilos narrativos diferentes',
+          forest: 'Expressão narrativa rica e autónoma',
+        },
+      },
+    ],
+  },
 }
 
 /**
@@ -627,6 +689,38 @@ export const DIAGNOSTIC_QUESTIONS = {
       ],
     },
   ],
+  campo7: [
+    {
+      tier: 'low',
+      question: 'O lobo soprou e a casa caiu. Como se sentiu o porquinho?',
+      emoji: '🐷',
+      options: [
+        { text: 'Assustado', correct: true },
+        { text: 'Contente', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'mid',
+      question: 'O Capuchinho Vermelho foi avisar a avó. Porque achas que foi?',
+      emoji: '🧒',
+      options: [
+        { text: 'Porque se preocupava com ela', correct: true },
+        { text: 'Porque queria brincar', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+    {
+      tier: 'high',
+      question: 'Numa história, a personagem diz "o meu coração ficou pequenino". O que significa?',
+      emoji: '💔',
+      options: [
+        { text: 'Ficou muito triste', correct: true },
+        { text: 'O coração encolheu de verdade', correct: false },
+        { text: 'Não sei', correct: false, skip: true },
+      ],
+    },
+  ],
 }
 
 /**
@@ -641,7 +735,7 @@ export function calculateStartingLevels(diagnosticResults, profileInfo) {
   const age = profileInfo.age || 8
   const support = profileInfo.supportLevel || 'some'
 
-  for (const campoId of ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']) {
+  for (const campoId of ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7']) {
     const answers = diagnosticResults[campoId] || [false, false, false]
     const low = answers[0] === true
     const mid = answers[1] === true

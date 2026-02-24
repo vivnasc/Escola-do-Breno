@@ -12,6 +12,7 @@ import Campo3Mundo from './pages/Campo3Mundo'
 import Campo4Vida from './pages/Campo4Vida'
 import Campo5Expressao from './pages/Campo5Expressao'
 import Campo6Social from './pages/Campo6Social'
+import Campo7Biblioteca from './pages/Campo7Biblioteca'
 import Progress from './pages/Progress'
 import Intake from './pages/Intake'
 import Fichas from './pages/Fichas'
@@ -54,6 +55,11 @@ import FairPlay from './activities/campo6/FairPlay'
 import SocialDetective from './activities/campo6/SocialDetective'
 import TurnTalk from './activities/campo6/TurnTalk'
 import CalmToolkit from './activities/campo6/CalmToolkit'
+import ContoVivo from './activities/campo7/ContoVivo'
+import PoesiaSonora from './activities/campo7/PoesiaSonora'
+import TeatroVozes from './activities/campo7/TeatroVozes'
+import FabulasMundo from './activities/campo7/FabulasMundo'
+import MeuConto from './activities/campo7/MeuConto'
 import Planos from './pages/Planos'
 import SharedProfile from './pages/SharedProfile'
 import { useProgress } from './hooks/useProgress'
@@ -446,6 +452,7 @@ function AppContent() {
           <Route path="/campo/4" element={<Campo4Vida {...activityProps} />} />
           <Route path="/campo/5" element={<Campo5Expressao {...activityProps} />} />
           <Route path="/campo/6" element={<Campo6Social {...activityProps} />} />
+          <Route path="/campo/7" element={<Campo7Biblioteca {...activityProps} />} />
           <Route path="/progresso" element={
             <Progress
               progress={progressData.progress}
@@ -561,6 +568,13 @@ function AppContent() {
           <Route path="/campo/6/social-detective" element={<SocialDetective {...activityProps} />} />
           <Route path="/campo/6/turn-talk" element={<TurnTalk {...activityProps} />} />
           <Route path="/campo/6/calm-toolkit" element={<CalmToolkit {...activityProps} />} />
+
+          {/* Campo 7 activities */}
+          <Route path="/campo/7/contos-vivos" element={<ContoVivo {...activityProps} />} />
+          <Route path="/campo/7/poesia-sonora" element={<PoesiaSonora {...activityProps} />} />
+          <Route path="/campo/7/teatro-vozes" element={<TeatroVozes {...activityProps} />} />
+          <Route path="/campo/7/fabulas-mundo" element={<FabulasMundo {...activityProps} />} />
+          <Route path="/campo/7/meu-conto" element={<MeuConto {...activityProps} />} />
         </Route>
       </Routes>
     </>

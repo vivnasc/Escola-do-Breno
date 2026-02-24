@@ -25,6 +25,7 @@ function getDefaultProgress() {
       campo4: { completed: 0, total: 20 },
       campo5: { completed: 0, total: 20 },
       campo6: { completed: 0, total: 20 },
+      campo7: { completed: 0, total: 20 },
     },
     trophies: [],
   }
