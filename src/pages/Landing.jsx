@@ -3,6 +3,7 @@
  * Core narrative: "De pais para pais" — universal platform, individual for each child.
  */
 import { useNavigate } from 'react-router-dom'
+import { useRef } from 'react'
 
 const FEATURES = [
   {
@@ -76,13 +77,26 @@ const TESTIMONIALS = [
 
 export default function Landing({ onStart }) {
   const navigate = useNavigate()
+  const tapRef = useRef({ count: 0, timer: null })
+
+  const handleLogoTap = () => {
+    const t = tapRef.current
+    t.count++
+    clearTimeout(t.timer)
+    if (t.count >= 5) {
+      t.count = 0
+      window.location.href = '/?fundador'
+    } else {
+      t.timer = setTimeout(() => { t.count = 0 }, 2000)
+    }
+  }
 
   return (
     <div style={styles.page}>
       {/* Header / Navigation */}
       <header style={styles.header}>
         <div style={styles.headerInner}>
-          <div style={styles.headerLogo}>
+          <div style={styles.headerLogo} onClick={handleLogoTap}>
             <img src="/logos/pitch-robo.png" alt="" style={styles.headerLogoImg} />
             <span style={styles.headerLogoText}>PITCH</span>
           </div>
@@ -428,12 +442,6 @@ export default function Landing({ onStart }) {
             <button style={styles.footerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.footerLink} onClick={() => navigate('/landing')}>Sobre</button>
           </div>
-          <button
-            style={styles.footerLink}
-            onClick={() => { window.location.href = '/?fundador' }}
-          >
-            Perfil Demo
-          </button>
           <p style={styles.footerCopy}>
             PITCH — Plataforma de aprendizagem inclusiva para crianças neurodivergentes.
           </p>
