@@ -224,12 +224,15 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           )}
         </div>
 
-        {/* Cloud sync auth — only when Supabase is configured */}
+        {/* Auth: primary for family access */}
         {auth?.configured && !auth?.user && (
           <div style={styles.authSection}>
             {!authMode ? (
               <>
-                <p style={styles.authHint}>Sincronizar entre dispositivos?</p>
+                <p style={styles.authTitle}>Acesso familiar</p>
+                <p style={styles.authHint}>
+                  Entra na tua conta para que toda a familia aceda aos mesmos perfis, de qualquer dispositivo.
+                </p>
                 <div style={styles.authBtns}>
                   <button style={styles.authLoginBtn} onClick={() => setAuthMode('login')}>
                     Entrar
@@ -242,7 +245,12 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
             ) : (
               <div style={styles.authForm}>
                 <p style={styles.authFormTitle}>
-                  {authMode === 'register' ? 'Criar conta' : 'Entrar'}
+                  {authMode === 'register' ? 'Criar conta da familia' : 'Entrar na conta'}
+                </p>
+                <p style={styles.authFormHint}>
+                  {authMode === 'register'
+                    ? 'Mae, pai e terapeuta podem usar a mesma conta para aceder aos perfis.'
+                    : 'Entra para recuperar os perfis guardados na cloud.'}
                 </p>
                 <input
                   style={styles.authInput}
@@ -266,7 +274,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
                   onClick={handleAuth}
                   disabled={authLoading || !email.trim()}
                 >
-                  {authLoading ? 'A processar...' : authMode === 'register' ? 'Registar' : 'Entrar'}
+                  {authLoading ? 'A processar...' : authMode === 'register' ? 'Criar Conta' : 'Entrar'}
                 </button>
                 <button
                   style={styles.authBackBtn}
@@ -283,7 +291,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           <div style={styles.authSynced}>
             <span>
               {syncStatus === 'pulling' ? '🔄' : syncStatus === 'pushing' ? '📤' : '☁️'}{' '}
-              {syncStatus === 'pulling' ? 'A sincronizar...' : `Sincronizado como ${auth.user.email}`}
+              {syncStatus === 'pulling' ? 'A sincronizar...' : `Conta: ${auth.user.email}`}
             </span>
             <button style={styles.authSignOutBtn} onClick={auth.signOut}>Sair</button>
           </div>
@@ -555,13 +563,30 @@ const styles = {
   // Auth styles
   authSection: {
     width: '100%',
-    borderTop: '1px solid var(--color-border)',
-    paddingTop: 'var(--space-md)',
+    padding: 'var(--space-lg)',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 'var(--radius-lg)',
+    border: '2px solid var(--color-primary)',
+  },
+  authTitle: {
+    fontWeight: 700,
+    fontSize: 'var(--font-size-base)',
+    color: 'var(--color-primary-dark)',
+    textAlign: 'center',
+    marginBottom: '4px',
   },
   authHint: {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
     marginBottom: 'var(--space-sm)',
+    textAlign: 'center',
+    lineHeight: 1.4,
+  },
+  authFormHint: {
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-text-secondary)',
+    textAlign: 'center',
+    lineHeight: 1.4,
   },
   authBtns: {
     display: 'flex',

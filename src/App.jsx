@@ -70,6 +70,119 @@ function SharedProfileRoute({ sharing }) {
   )
 }
 
+function AccountNudge({ auth, onLoginSync, onDismiss }) {
+  const [mode, setMode] = useState(null) // null | 'register' | 'login'
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [msg, setMsg] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async () => {
+    if (!email.trim()) return
+    setLoading(true)
+    setMsg(null)
+
+    let result
+    if (mode === 'register') {
+      result = await auth.signUp(email.trim(), password)
+      if (!result.error) {
+        setMsg('Conta criada! Verifica o email para confirmar.')
+        setTimeout(onDismiss, 3000)
+      }
+    } else {
+      if (password) {
+        result = await auth.signIn(email.trim(), password)
+        if (!result.error && onLoginSync) {
+          setMsg('A sincronizar...')
+          await onLoginSync()
+          onDismiss()
+        }
+      } else {
+        result = await auth.signInWithMagicLink(email.trim())
+        if (!result.error) {
+          setMsg('Link enviado! Verifica o email.')
+          setTimeout(onDismiss, 3000)
+        }
+      }
+    }
+
+    if (result?.error) setMsg(result.error)
+    setLoading(false)
+  }
+
+  const nudgeStyles = {
+    overlay: { position: 'fixed', inset: 0, zIndex: 1000, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' },
+    card: { backgroundColor: 'white', borderRadius: '16px', padding: '24px', maxWidth: '400px', width: '100%', display: 'flex', flexDirection: 'column', gap: '12px', textAlign: 'center' },
+    title: { fontSize: '1.2rem', fontWeight: 700, color: '#1B5E20' },
+    desc: { fontSize: '0.9rem', color: '#616161', lineHeight: 1.5 },
+    btns: { display: 'flex', gap: '8px' },
+    primaryBtn: { flex: 1, padding: '12px', backgroundColor: '#2E7D32', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 700, fontFamily: 'inherit', fontSize: '0.95rem', cursor: 'pointer', minHeight: '44px' },
+    secondaryBtn: { flex: 1, padding: '12px', backgroundColor: 'white', color: '#2E7D32', border: '2px solid #2E7D32', borderRadius: '10px', fontWeight: 700, fontFamily: 'inherit', fontSize: '0.95rem', cursor: 'pointer', minHeight: '44px' },
+    input: { padding: '12px', border: '2px solid #C8E6C9', borderRadius: '10px', fontFamily: 'inherit', fontSize: '1rem', outline: 'none', width: '100%', boxSizing: 'border-box' },
+    skipBtn: { padding: '8px', backgroundColor: 'transparent', border: 'none', color: '#9E9E9E', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem', textDecoration: 'underline', minHeight: '44px' },
+    msg: { fontSize: '0.85rem', color: '#E65100', fontWeight: 600 },
+  }
+
+  return (
+    <div style={nudgeStyles.overlay}>
+      <div style={nudgeStyles.card}>
+        {!mode ? (
+          <>
+            <p style={nudgeStyles.title}>Perfil criado!</p>
+            <p style={nudgeStyles.desc}>
+              Cria uma conta para que a mae, o pai e o terapeuta possam aceder ao mesmo perfil, de qualquer dispositivo.
+            </p>
+            <div style={nudgeStyles.btns}>
+              <button style={nudgeStyles.primaryBtn} onClick={() => setMode('register')}>
+                Criar Conta
+              </button>
+              <button style={nudgeStyles.secondaryBtn} onClick={() => setMode('login')}>
+                Ja Tenho Conta
+              </button>
+            </div>
+            <button style={nudgeStyles.skipBtn} onClick={onDismiss}>
+              Continuar sem conta (dados so neste dispositivo)
+            </button>
+          </>
+        ) : (
+          <>
+            <p style={nudgeStyles.title}>
+              {mode === 'register' ? 'Criar conta da familia' : 'Entrar'}
+            </p>
+            <input
+              style={nudgeStyles.input}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email"
+            />
+            <input
+              style={nudgeStyles.input}
+              type="password"
+              placeholder={mode === 'login' ? 'Password (ou vazio para magic link)' : 'Password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete={mode === 'register' ? 'new-password' : 'current-password'}
+            />
+            {msg && <p style={nudgeStyles.msg}>{msg}</p>}
+            <button
+              style={nudgeStyles.primaryBtn}
+              onClick={handleSubmit}
+              disabled={loading || !email.trim()}
+            >
+              {loading ? 'A processar...' : mode === 'register' ? 'Criar Conta' : 'Entrar'}
+            </button>
+            <button style={nudgeStyles.skipBtn} onClick={() => setMode(null)}>
+              Voltar
+            </button>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function AppContent() {
   const location = useLocation()
   const [showCalma, setShowCalma] = useState(false)
@@ -170,12 +283,19 @@ function AppContent() {
     profileData.switchProfile(id)
   }, [profileData])
 
+  // Post-onboarding nudge for account creation
+  const [showAccountNudge, setShowAccountNudge] = useState(false)
+
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
     setShowIntake(false)
     setShowCalma(false)
     calmDown()
-  }, [profileData, calmDown])
+    // If Supabase is configured but user isn't logged in, nudge to create account
+    if (auth.configured && !auth.user) {
+      setShowAccountNudge(true)
+    }
+  }, [profileData, calmDown, auth.configured, auth.user])
 
   // Reset profile (from settings page)
   const handleResetProfile = useCallback((type) => {
@@ -269,6 +389,13 @@ function AppContent() {
   return (
     <>
       {showCalma && <BancoDaCalma onClose={handleCloseCalma} />}
+      {showAccountNudge && (
+        <AccountNudge
+          auth={auth}
+          onLoginSync={handleLoginSync}
+          onDismiss={() => setShowAccountNudge(false)}
+        />
+      )}
       {adaptive.showBreakReminder && (
         <BreakReminder
           name={profileData.profile.name}
