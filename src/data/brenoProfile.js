@@ -7,10 +7,11 @@
 const BRENO_PROFILE = {
   // Identity
   name: 'Breno',
-  age: 11, // born 1 October 2014
+  age: 12, // born 1 October 2014, turns 12 in Oct 2026
   avatar: 'lion',
   onboardingComplete: true,
-  createdAt: new Date().toISOString(),
+  createdAt: '2025-01-01T00:00:00.000Z', // fixed date — avoids regeneration on import
+  updatedAt: '2025-01-01T00:00:00.000Z',
 
   // Breno always has full access — built for him
   subscriptionTier: 'family',

@@ -3,6 +3,7 @@
  * Core narrative: "De pais para pais" — universal platform, individual for each child.
  */
 import { useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react'
 
 const FEATURES = [
   {
@@ -74,15 +75,66 @@ const TESTIMONIALS = [
   },
 ]
 
-export default function Landing({ onStart }) {
+export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
   const navigate = useNavigate()
+  const tapRef = useRef({ count: 0, timer: null })
+  const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [authMsg, setAuthMsg] = useState(null)
+  const [authLoading, setAuthLoading] = useState(false)
+
+  const handleAuth = async () => {
+    if (!auth?.configured || !email.trim()) return
+    setAuthLoading(true)
+    setAuthMsg(null)
+
+    let result
+    if (authMode === 'register') {
+      result = await auth.signUp(email.trim(), password)
+      if (!result.error) {
+        setAuthMsg('Conta criada! Verifica o email para confirmar.')
+      }
+    } else {
+      if (password) {
+        result = await auth.signIn(email.trim(), password)
+        if (!result.error && onLoginSync) {
+          setAuthMsg('A sincronizar dados da cloud...')
+          await onLoginSync()
+          setAuthMsg('Sincronizado! Os teus perfis foram recuperados.')
+        }
+      } else {
+        result = await auth.signInWithMagicLink(email.trim())
+        if (!result.error) {
+          setAuthMsg('Link enviado! Verifica o email.')
+        }
+      }
+    }
+
+    if (result?.error) {
+      setAuthMsg(result.error)
+    }
+    setAuthLoading(false)
+  }
+
+  const handleLogoTap = () => {
+    const t = tapRef.current
+    t.count++
+    clearTimeout(t.timer)
+    if (t.count >= 5) {
+      t.count = 0
+      window.location.href = '/?fundador'
+    } else {
+      t.timer = setTimeout(() => { t.count = 0 }, 2000)
+    }
+  }
 
   return (
     <div style={styles.page}>
       {/* Header / Navigation */}
       <header style={styles.header}>
         <div style={styles.headerInner}>
-          <div style={styles.headerLogo}>
+          <div style={styles.headerLogo} onClick={handleLogoTap}>
             <img src="/logos/pitch-robo.png" alt="" style={styles.headerLogoImg} />
             <span style={styles.headerLogoText}>PITCH</span>
           </div>
@@ -124,6 +176,68 @@ export default function Landing({ onStart }) {
           <p style={styles.heroNote}>
             Plano grátis disponível. Família conectada. Sem publicidade. Sem dados vendidos.
           </p>
+
+          {/* Login for returning users on a new device */}
+          {auth?.configured && !auth?.user && (
+            <div style={landingAuthStyles.container}>
+              {!authMode ? (
+                <div style={landingAuthStyles.prompt}>
+                  <span style={landingAuthStyles.promptText}>Já tens conta?</span>
+                  <button style={landingAuthStyles.linkBtn} onClick={() => setAuthMode('login')}>
+                    Entrar e recuperar perfis
+                  </button>
+                  <span style={landingAuthStyles.sep}>|</span>
+                  <button style={landingAuthStyles.linkBtn} onClick={() => setAuthMode('register')}>
+                    Criar conta
+                  </button>
+                </div>
+              ) : (
+                <div style={landingAuthStyles.form}>
+                  <p style={landingAuthStyles.formTitle}>
+                    {authMode === 'register' ? 'Criar conta' : 'Entrar e recuperar perfis'}
+                  </p>
+                  <input
+                    style={landingAuthStyles.input}
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                  <input
+                    style={landingAuthStyles.input}
+                    type="password"
+                    placeholder={authMode === 'login' ? 'Password (ou vazio para magic link)' : 'Password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    autoComplete={authMode === 'register' ? 'new-password' : 'current-password'}
+                  />
+                  {authMsg && <p style={landingAuthStyles.msg}>{authMsg}</p>}
+                  <button
+                    style={landingAuthStyles.submitBtn}
+                    onClick={handleAuth}
+                    disabled={authLoading || !email.trim()}
+                  >
+                    {authLoading ? 'A processar...' : authMode === 'register' ? 'Registar' : 'Entrar'}
+                  </button>
+                  <button
+                    style={landingAuthStyles.backBtn}
+                    onClick={() => { setAuthMode(null); setAuthMsg(null) }}
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+          {auth?.configured && auth?.user && (
+            <div style={landingAuthStyles.synced}>
+              <span>
+                {syncStatus === 'pulling' ? '🔄 A sincronizar...' : `☁️ Sincronizado como ${auth.user.email}`}
+              </span>
+              <button style={landingAuthStyles.signOutBtn} onClick={auth.signOut}>Sair</button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -428,12 +542,6 @@ export default function Landing({ onStart }) {
             <button style={styles.footerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.footerLink} onClick={() => navigate('/landing')}>Sobre</button>
           </div>
-          <button
-            style={styles.footerLink}
-            onClick={() => { window.location.href = '/?fundador' }}
-          >
-            Perfil Demo
-          </button>
           <p style={styles.footerCopy}>
             PITCH — Plataforma de aprendizagem inclusiva para crianças neurodivergentes.
           </p>
@@ -1041,5 +1149,117 @@ const styles = {
     fontSize: '0.7rem',
     color: 'rgba(255,255,255,0.4)',
     marginTop: '8px',
+  },
+}
+
+const landingAuthStyles = {
+  container: {
+    width: '100%',
+    maxWidth: '360px',
+    marginTop: '8px',
+  },
+  prompt: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    flexWrap: 'wrap',
+  },
+  promptText: {
+    fontSize: '0.9rem',
+    color: '#37474F',
+    fontWeight: 600,
+  },
+  linkBtn: {
+    fontFamily: 'inherit',
+    fontSize: '0.9rem',
+    fontWeight: 700,
+    color: '#1B5E20',
+    cursor: 'pointer',
+    padding: '4px',
+    textDecoration: 'underline',
+    minHeight: '44px',
+    display: 'inline-flex',
+    alignItems: 'center',
+  },
+  sep: {
+    color: '#9E9E9E',
+    fontSize: '0.8rem',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    padding: '20px',
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: '16px',
+    border: '2px solid #A5D6A7',
+  },
+  formTitle: {
+    fontWeight: 700,
+    fontSize: '1rem',
+    color: '#1B5E20',
+    textAlign: 'center',
+  },
+  input: {
+    padding: '10px 14px',
+    border: '1px solid #C8E6C9',
+    borderRadius: '10px',
+    fontFamily: 'inherit',
+    fontSize: '0.9rem',
+    outline: 'none',
+  },
+  msg: {
+    fontSize: '0.85rem',
+    color: '#E65100',
+    fontWeight: 600,
+    textAlign: 'center',
+  },
+  submitBtn: {
+    padding: '10px',
+    backgroundColor: '#2E7D32',
+    color: 'white',
+    border: 'none',
+    borderRadius: '10px',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: '0.95rem',
+    minHeight: '44px',
+  },
+  backBtn: {
+    padding: '4px',
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: '#616161',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: '0.85rem',
+    textDecoration: 'underline',
+  },
+  synced: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '12px',
+    width: '100%',
+    maxWidth: '360px',
+    padding: '10px 16px',
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    borderRadius: '12px',
+    fontSize: '0.85rem',
+    fontWeight: 600,
+    color: '#1B5E20',
+    marginTop: '8px',
+  },
+  signOutBtn: {
+    padding: '4px 10px',
+    backgroundColor: 'transparent',
+    border: '1px solid #616161',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: '0.8rem',
+    color: '#616161',
   },
 }

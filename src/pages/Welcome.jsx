@@ -3,13 +3,26 @@
  * Shows existing profiles for switching, plus Breno quick-start and new profile.
  * When Supabase is configured, shows login/register for cloud sync.
  */
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
-export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing }) {
+export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing, onLoginSync, syncStatus }) {
   const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
+  const tapRef = useRef({ count: 0, timer: null })
+
+  const handleLogoTap = () => {
+    const t = tapRef.current
+    t.count++
+    clearTimeout(t.timer)
+    if (t.count >= 5) {
+      t.count = 0
+      window.location.href = '/?fundador'
+    } else {
+      t.timer = setTimeout(() => { t.count = 0 }, 2000)
+    }
+  }
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -34,6 +47,12 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
     } else {
       if (password) {
         result = await auth.signIn(email.trim(), password)
+        // On successful login, pull profiles from cloud
+        if (!result.error && onLoginSync) {
+          setAuthMsg('A sincronizar dados da cloud...')
+          await onLoginSync()
+          setAuthMsg('Sincronizado!')
+        }
       } else {
         result = await auth.signInWithMagicLink(email.trim())
         if (!result.error) {
@@ -55,6 +74,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           src="/logos/pitch-robo.png"
           alt="PITCH Robot"
           style={styles.mascot}
+          onClick={handleLogoTap}
         />
 
         <img
@@ -261,7 +281,10 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
 
         {auth?.configured && auth?.user && (
           <div style={styles.authSynced}>
-            <span>☁️ Sincronizado como {auth.user.email}</span>
+            <span>
+              {syncStatus === 'pulling' ? '🔄' : syncStatus === 'pushing' ? '📤' : '☁️'}{' '}
+              {syncStatus === 'pulling' ? 'A sincronizar...' : `Sincronizado como ${auth.user.email}`}
+            </span>
             <button style={styles.authSignOutBtn} onClick={auth.signOut}>Sair</button>
           </div>
         )}
@@ -282,10 +305,6 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           <span style={styles.publicLinkSep}>|</span>
           <button style={styles.publicLink} onClick={() => navigate('/suporte')}>
             Suporte
-          </button>
-          <span style={styles.publicLinkSep}>|</span>
-          <button style={styles.publicLink} onClick={() => { window.location.href = '/?fundador' }}>
-            Perfil Demo
           </button>
         </div>
 

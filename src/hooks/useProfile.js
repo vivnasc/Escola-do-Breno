@@ -162,7 +162,7 @@ export function useProfile() {
   const updateProfile = useCallback(
     (updates) => {
       setProfiles((prev) =>
-        prev.map((p) => (p.id === activeId ? { ...p, ...updates } : p))
+        prev.map((p) => (p.id === activeId ? { ...p, ...updates, updatedAt: new Date().toISOString() } : p))
       )
     },
     [activeId]
@@ -170,11 +170,13 @@ export function useProfile() {
 
   const completeOnboarding = useCallback((data) => {
     const id = generateId()
+    const now = new Date().toISOString()
     const newProfile = deepMergeProfile({
       ...data,
       id,
       onboardingComplete: true,
-      createdAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
     })
     setProfiles((prev) => [...prev, newProfile])
     setActiveId(id)
@@ -406,6 +408,40 @@ export function useProfile() {
     [activeId]
   )
 
+  // Import profiles from cloud — merges with local, newer wins per profile
+  const importFromCloud = useCallback((cloudProfiles, cloudActiveId) => {
+    if (!cloudProfiles || !Array.isArray(cloudProfiles)) return
+
+    setProfiles((local) => {
+      const merged = [...local]
+      const localById = new Map(local.map((p) => [p.id, p]))
+
+      for (const cloudProfile of cloudProfiles) {
+        if (!cloudProfile.id) continue
+        const localProfile = localById.get(cloudProfile.id)
+
+        if (!localProfile) {
+          // Profile only exists in cloud — add it
+          merged.push(deepMergeProfile(cloudProfile))
+        } else {
+          // Both exist — keep the one with newer updatedAt
+          const cloudTime = new Date(cloudProfile.updatedAt || cloudProfile.createdAt || 0).getTime()
+          const localTime = new Date(localProfile.updatedAt || localProfile.createdAt || 0).getTime()
+          if (cloudTime > localTime) {
+            const idx = merged.findIndex((p) => p.id === cloudProfile.id)
+            if (idx >= 0) merged[idx] = deepMergeProfile(cloudProfile)
+          }
+        }
+      }
+      return merged
+    })
+
+    // Restore active profile from cloud if no local active
+    if (cloudActiveId && !activeId) {
+      setActiveId(cloudActiveId)
+    }
+  }, [activeId])
+
   const resetAll = useCallback(() => {
     if (activeId) {
       setProfiles((prev) => prev.filter((p) => p.id !== activeId))
@@ -435,6 +471,7 @@ export function useProfile() {
     addEncouragement,
     updateWeeklyProgress,
     resetWeekly,
+    importFromCloud,
     resetAll,
     resetEverything,
     submitWorksheet,
