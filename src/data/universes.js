@@ -16,6 +16,7 @@ export const UNIVERSES = [
       campo2: { name: 'O Marcador', subtitle: 'Matemática e Lógica', icon: '🔢' },
       campo3: { name: 'O Mundo', subtitle: 'Conhecimento e Descoberta', icon: '🌍' },
       campo4: { name: 'A Vida', subtitle: 'Autonomia e Competências Sociais', icon: '🤝' },
+      campo7: { name: 'A Biblioteca', subtitle: 'Literatura e Imaginação', icon: '📚' },
     },
     // Context words used across activities
     vocabulary: {
@@ -40,6 +41,7 @@ export const UNIVERSES = [
       campo2: { name: 'Os Fósseis', subtitle: 'Matemática e Lógica', icon: '🔢' },
       campo3: { name: 'O Jurássico', subtitle: 'Conhecimento e Descoberta', icon: '🌍' },
       campo4: { name: 'A Manada', subtitle: 'Autonomia e Competências Sociais', icon: '🤝' },
+      campo7: { name: 'A Gruta dos Contos', subtitle: 'Literatura e Imaginação', icon: '📚' },
     },
     vocabulary: {
       place: 'museu',
@@ -63,6 +65,7 @@ export const UNIVERSES = [
       campo2: { name: 'O Painel', subtitle: 'Matemática e Lógica', icon: '🔢' },
       campo3: { name: 'As Galáxias', subtitle: 'Conhecimento e Descoberta', icon: '🌍' },
       campo4: { name: 'A Tripulação', subtitle: 'Autonomia e Competências Sociais', icon: '🤝' },
+      campo7: { name: 'O Diário de Bordo', subtitle: 'Literatura e Imaginação', icon: '📚' },
     },
     vocabulary: {
       place: 'estação espacial',
@@ -86,6 +89,7 @@ export const UNIVERSES = [
       campo2: { name: 'As Pegadas', subtitle: 'Matemática e Lógica', icon: '🔢' },
       campo3: { name: 'A Selva', subtitle: 'Conhecimento e Descoberta', icon: '🌍' },
       campo4: { name: 'A Matilha', subtitle: 'Autonomia e Competências Sociais', icon: '🤝' },
+      campo7: { name: 'A Toca dos Contos', subtitle: 'Literatura e Imaginação', icon: '📚' },
     },
     vocabulary: {
       place: 'reserva natural',
@@ -109,6 +113,7 @@ export const UNIVERSES = [
       campo2: { name: 'O Ritmo', subtitle: 'Matemática e Lógica', icon: '🔢' },
       campo3: { name: 'O Concerto', subtitle: 'Conhecimento e Descoberta', icon: '🌍' },
       campo4: { name: 'A Banda', subtitle: 'Autonomia e Competências Sociais', icon: '🤝' },
+      campo7: { name: 'O Caderno de Letras', subtitle: 'Literatura e Imaginação', icon: '📚' },
     },
     vocabulary: {
       place: 'sala de concertos',
