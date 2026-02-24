@@ -428,6 +428,12 @@ export default function Landing({ onStart }) {
             <button style={styles.footerLink} onClick={() => navigate('/suporte')}>Suporte</button>
             <button style={styles.footerLink} onClick={() => navigate('/landing')}>Sobre</button>
           </div>
+          <button
+            style={styles.footerLink}
+            onClick={() => { window.location.href = '/?fundador' }}
+          >
+            Perfil Demo
+          </button>
           <p style={styles.footerCopy}>
             PITCH — Plataforma de aprendizagem inclusiva para crianças neurodivergentes.
           </p>
