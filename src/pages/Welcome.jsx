@@ -7,7 +7,7 @@ import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
-export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing }) {
+export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing, onLoginSync, syncStatus }) {
   const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
   const tapRef = useRef({ count: 0, timer: null })
@@ -47,6 +47,12 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
     } else {
       if (password) {
         result = await auth.signIn(email.trim(), password)
+        // On successful login, pull profiles from cloud
+        if (!result.error && onLoginSync) {
+          setAuthMsg('A sincronizar dados da cloud...')
+          await onLoginSync()
+          setAuthMsg('Sincronizado!')
+        }
       } else {
         result = await auth.signInWithMagicLink(email.trim())
         if (!result.error) {
@@ -275,7 +281,10 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
 
         {auth?.configured && auth?.user && (
           <div style={styles.authSynced}>
-            <span>☁️ Sincronizado como {auth.user.email}</span>
+            <span>
+              {syncStatus === 'pulling' ? '🔄' : syncStatus === 'pushing' ? '📤' : '☁️'}{' '}
+              {syncStatus === 'pulling' ? 'A sincronizar...' : `Sincronizado como ${auth.user.email}`}
+            </span>
             <button style={styles.authSignOutBtn} onClick={auth.signOut}>Sair</button>
           </div>
         )}

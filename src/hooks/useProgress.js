@@ -108,6 +108,49 @@ export function useProgress() {
     })
   }, [])
 
+  // Import progress from cloud — merges keeping the best values
+  const importFromCloud = useCallback((cloudProgress) => {
+    if (!cloudProgress) return
+    setProgress((local) => {
+      const mergedWords = [...new Set([...(local.wordsLearned || []), ...(cloudProgress.wordsLearned || [])])]
+      const mergedActivities = { ...local.activitiesCompleted }
+      for (const [id, stars] of Object.entries(cloudProgress.activitiesCompleted || {})) {
+        mergedActivities[id] = Math.max(mergedActivities[id] || 0, stars)
+      }
+      const mergedTrophies = [...(local.trophies || [])]
+      const trophyIds = new Set(mergedTrophies.map((t) => t.id))
+      for (const trophy of (cloudProgress.trophies || [])) {
+        if (!trophyIds.has(trophy.id)) mergedTrophies.push(trophy)
+      }
+      const mergedCampo = { ...local.campoProgress }
+      for (const [key, val] of Object.entries(cloudProgress.campoProgress || {})) {
+        if (mergedCampo[key]) {
+          mergedCampo[key] = {
+            ...mergedCampo[key],
+            completed: Math.max(mergedCampo[key].completed || 0, val.completed || 0),
+          }
+        } else {
+          mergedCampo[key] = val
+        }
+      }
+      let totalStars = 0
+      for (const s of Object.values(mergedActivities)) totalStars += s
+
+      return {
+        ...local,
+        wordsLearned: mergedWords,
+        activitiesCompleted: mergedActivities,
+        trophies: mergedTrophies,
+        campoProgress: mergedCampo,
+        totalStars,
+        streakDays: Math.max(local.streakDays || 0, cloudProgress.streakDays || 0),
+        lastActiveDate: local.lastActiveDate && cloudProgress.lastActiveDate
+          ? (new Date(local.lastActiveDate) > new Date(cloudProgress.lastActiveDate) ? local.lastActiveDate : cloudProgress.lastActiveDate)
+          : local.lastActiveDate || cloudProgress.lastActiveDate,
+      }
+    })
+  }, [])
+
   const resetAll = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY)
     setProgress(getDefaultProgress())
@@ -120,6 +163,7 @@ export function useProgress() {
     updateCampoProgress,
     addTrophy,
     updateStreak,
+    importFromCloud,
     resetAll,
   }
 }

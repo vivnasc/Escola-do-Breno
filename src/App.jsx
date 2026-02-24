@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation, useParams } from 'react-router-dom'
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Welcome from './pages/Welcome'
@@ -83,6 +83,32 @@ function AppContent() {
     progressData.progress,
     profileData.activeId,
   )
+
+  // Pull from cloud on login — bidirectional sync
+  const prevUserRef = useRef(null)
+  useEffect(() => {
+    const wasLoggedOut = !prevUserRef.current
+    const isLoggedIn = !!auth.user
+    prevUserRef.current = auth.user
+
+    if (wasLoggedOut && isLoggedIn) {
+      sync.syncOnLogin().then((cloudData) => {
+        if (cloudData) {
+          profileData.importFromCloud(cloudData.profiles, cloudData.active_profile_id)
+          progressData.importFromCloud(cloudData.progress)
+        }
+      })
+    }
+  }, [auth.user]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Manual sync trigger for Welcome/Landing login flows
+  const handleLoginSync = useCallback(async () => {
+    const cloudData = await sync.syncOnLogin()
+    if (cloudData) {
+      profileData.importFromCloud(cloudData.profiles, cloudData.active_profile_id)
+      progressData.importFromCloud(cloudData.progress)
+    }
+  }, [sync, profileData, progressData])
   const adaptive = useAdaptive(profileData.profile)
   const subscription = useSubscription(profileData.profile)
   const sharing = useProfileSharing(
@@ -220,7 +246,7 @@ function AppContent() {
   if (!profileData.profile && !showIntake) {
     const hasProfiles = profileData.profiles && profileData.profiles.length > 0
     if (!hasProfiles) {
-      return <Landing onStart={handleNewProfile} />
+      return <Landing onStart={handleNewProfile} auth={auth} onLoginSync={handleLoginSync} syncStatus={sync.syncStatus} />
     }
     return (
       <Welcome
@@ -229,6 +255,8 @@ function AppContent() {
         onSwitchProfile={handleSwitchProfile}
         auth={auth}
         sharing={sharing}
+        onLoginSync={handleLoginSync}
+        syncStatus={sync.syncStatus}
       />
     )
   }
