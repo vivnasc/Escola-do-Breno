@@ -1,34 +1,23 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { useState, useCallback, useRef } from 'react'
 
-const RAPID_CLICK_THRESHOLD = 5
+const RAPID_CLICK_THRESHOLD = 6
 const RAPID_CLICK_WINDOW = 3000
 const CONSECUTIVE_ERRORS = 3
-const INACTIVITY_TIMEOUT = 60000
 
+/**
+ * Frustration detection — triggers Banco da Calma when the child
+ * shows signs of frustration (rapid clicking or consecutive errors).
+ *
+ * Inactivity is NOT treated as frustration — a child looking at the
+ * screen, navigating, or thinking is not frustrated.
+ */
 export function useFrustration(onFrustrationDetected, { paused = false } = {}) {
   const [isCalm, setIsCalm] = useState(true)
   const clickTimestamps = useRef([])
   const errorCount = useRef(0)
-  const inactivityTimer = useRef(null)
-
-  // Clear timers and reset state when paused (e.g. during Intake)
-  useEffect(() => {
-    if (paused && inactivityTimer.current) {
-      clearTimeout(inactivityTimer.current)
-      inactivityTimer.current = null
-    }
-  }, [paused])
-
-  const resetInactivityTimer = useCallback(() => {
-    if (inactivityTimer.current) clearTimeout(inactivityTimer.current)
-    if (paused) return
-    inactivityTimer.current = setTimeout(() => {
-      setIsCalm(false)
-      onFrustrationDetected?.('inactivity')
-    }, INACTIVITY_TIMEOUT)
-  }, [onFrustrationDetected, paused])
 
   const registerClick = useCallback(() => {
+    if (paused) return
     const now = Date.now()
     clickTimestamps.current.push(now)
     clickTimestamps.current = clickTimestamps.current.filter(
@@ -40,39 +29,28 @@ export function useFrustration(onFrustrationDetected, { paused = false } = {}) {
       onFrustrationDetected?.('rapid-clicks')
       clickTimestamps.current = []
     }
-
-    resetInactivityTimer()
-  }, [onFrustrationDetected, resetInactivityTimer])
+  }, [onFrustrationDetected, paused])
 
   const registerError = useCallback(() => {
+    if (paused) return
     errorCount.current++
     if (errorCount.current >= CONSECUTIVE_ERRORS) {
       setIsCalm(false)
       onFrustrationDetected?.('consecutive-errors')
       errorCount.current = 0
     }
-    resetInactivityTimer()
-  }, [onFrustrationDetected, resetInactivityTimer])
+  }, [onFrustrationDetected, paused])
 
   const registerSuccess = useCallback(() => {
     errorCount.current = 0
     clickTimestamps.current = []
-    resetInactivityTimer()
-  }, [resetInactivityTimer])
+  }, [])
 
   const calmDown = useCallback(() => {
     setIsCalm(true)
     errorCount.current = 0
     clickTimestamps.current = []
-    resetInactivityTimer()
-  }, [resetInactivityTimer])
-
-  useEffect(() => {
-    resetInactivityTimer()
-    return () => {
-      if (inactivityTimer.current) clearTimeout(inactivityTimer.current)
-    }
-  }, [resetInactivityTimer])
+  }, [])
 
   return {
     isCalm,
