@@ -392,6 +392,165 @@ export const STORIES = [
       ],
     },
   },
+
+  // ═════════════════════════════════════════════════════════
+  // ANIMAIS (Nível 2) — A Raposa que Tinha Medo do Escuro
+  // Tema: enfrentar medos com ajuda, ter medo não impede ser corajoso
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'afraid-fox',
+    level: 2,
+    universes: {
+      animals: { title: 'A Raposa que Tinha Medo do Escuro', coverEmoji: '🦊' },
+    },
+    scenes: {
+      animals: [
+        { text: 'No fundo de uma floresta antiga, onde as árvores eram tão altas que pareciam tocar as nuvens, vivia uma família de raposas. Todas as raposas caçavam à noite, quando a lua iluminava os caminhos entre as árvores.', mood: 'warm', sound: 'wind', visual: '🦊' },
+        { text: 'Todas menos uma. A Rubi, a raposa mais nova, tinha medo do escuro. Quando o sol se punha e as sombras cresciam, a Rubi encolhia-se na toca e tapava os olhos com a cauda fofa.', mood: 'sad', sound: null, visual: '🙈' },
+        {
+          text: '"Rubi, vem connosco!", chamava a mãe todas as noites. Mas a Rubi abanava a cabeça. O escuro parecia-lhe enorme, cheio de sons estranhos e formas assustadoras.',
+          mood: 'tense', sound: 'wind', visual: '🌑',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Rubi não consegue sair à noite como as outras raposas. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Medo e vergonha', emoji: '😰', response: 'Sim. A Rubi tem medo do escuro e sente vergonha por ser diferente das outras raposas.' },
+              { text: 'Preguiça', emoji: '😴', response: 'Não é preguiça! A Rubi queria ir, mas o medo é maior. É um sentimento muito real.' },
+              { text: 'Felicidade', emoji: '😊', response: 'Na verdade, a Rubi está assustada e triste. Gostava de ser corajosa como as outras.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Numa noite quente de verão, enquanto a família saía para caçar, a Rubi espreitou pela entrada da toca. Foi então que viu algo que nunca tinha visto: um pontinho de luz a dançar no ar.', mood: 'mysterious', sound: null, visual: '✨' },
+        { text: 'O pontinho aproximou-se. Era um pirilampo! Tinha uma barriga que brilhava como uma pequena lanterna verde. "Olá!", disse o pirilampo. "Chamo-me Lume. E tu, porque estás aqui sozinha?"', mood: 'joyful', sound: null, visual: '🪲' },
+        {
+          text: '"Tenho medo do escuro", disse a Rubi, com a voz baixinha. O Lume pousou no nariz dela e disse: "Queres que te mostre uma coisa? O escuro não é o que tu pensas."',
+          mood: 'warm', sound: null, visual: '💡',
+          interaction: {
+            type: 'choice',
+            prompt: 'O Lume ofereceu-se para guiar a Rubi pela noite. O que achas que ela deve fazer?',
+            options: [
+              { text: 'Aceitar e ir devagar', emoji: '🐾', response: 'A Rubi respirou fundo e deu o primeiro passo para fora da toca. Com o Lume ao seu lado, sentia-se um pouco mais segura.' },
+              { text: 'Dizer que não', emoji: '🙅', response: 'O Lume esperou. Sem pressas. A Rubi olhou para aquela luzinha amiga e decidiu tentar. Um passo de cada vez.' },
+              { text: 'Pedir para ficar perto', emoji: '🤝', response: '"Fico sempre ao pé de ti", prometeu o Lume. E a Rubi, com o coração a bater muito rápido, saiu da toca.' },
+            ],
+          },
+        },
+        { text: 'O Lume voou à frente e a Rubi seguiu-o. A cada passo, o mundo da noite revelava-se. Os cogumelos brilhavam com um tom azulado. As gotas de orvalho cintilavam como diamantes nas folhas. As estrelas pintavam o céu de prata.', mood: 'dreamy', sound: 'wind', visual: '🌌' },
+        { text: '"Ouve", sussurrou o Lume. A Rubi parou e ouviu. O canto suave dos grilos. O murmúrio do riacho. Uma coruja a chamar ao longe. A noite tinha a sua própria música, e era bonita.', mood: 'warm', sound: 'birds', visual: '🎵' },
+        {
+          text: 'De repente, ouviram um som aflito. Perto do riacho, uma traça estava presa numa teia de aranha abandonada. Debatia-se, mas quanto mais se mexia, mais presa ficava. "Socorro! Alguém me ajude!", chorava a traça.',
+          mood: 'tense', sound: null, visual: '🦋',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A traça está presa e assustada. O que achas que a Rubi está a sentir ao ver isto?',
+            options: [
+              { text: 'Vontade de ajudar', emoji: '💪', response: 'Sim! A Rubi sabe o que é ter medo. E isso faz com que queira ajudar quem também está assustado.' },
+              { text: 'Medo de se aproximar', emoji: '😨', response: 'Talvez um pouco, mas a Rubi conhece bem o medo. E por isso sente empatia pela traça.' },
+              { text: 'Indiferença', emoji: '😐', response: 'Não, a Rubi importa-se! Sabe muito bem o que é sentir medo. Quer ajudar.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'A Rubi aproximou-se com cuidado. Com as suas patas ágeis, afastou os fios da teia, um por um. A traça libertou-se e voou à volta da Rubi, feliz. "Obrigada, obrigada! És muito corajosa!"', mood: 'triumphant', sound: null, visual: '🌟' },
+        {
+          text: '"Corajosa? Eu?", disse a Rubi, espantada. O Lume pousou no seu ombro e disse: "Coragem não é não ter medo, Rubi. Coragem é ter medo e mesmo assim ajudar."',
+          mood: 'warm', sound: null, visual: '💛',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Rubi salvou a traça mesmo com medo do escuro. O que achas que ela descobriu sobre si mesma?',
+            options: [
+              { text: 'Que é mais corajosa do que pensava', emoji: '🦁', response: 'Exactamente! A Rubi descobriu que ter medo não a impede de ser corajosa. O medo e a coragem podem existir juntos.' },
+              { text: 'Que o escuro já não mete medo', emoji: '😊', response: 'O escuro ainda a assusta um pouco, mas agora sabe que consegue enfrentá-lo. E isso é ser corajosa.' },
+              { text: 'Que não precisa dos outros', emoji: '💪', response: 'Na verdade, foi graças ao Lume que ela saiu da toca. Pedir ajuda também é coragem!' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'A Rubi voltou para casa com o Lume a iluminar o caminho. A mãe esperava à entrada da toca. "Onde foste?", perguntou, surpresa. A Rubi sorriu. "Fui descobrir que a noite é bonita. E que sou corajosa, mesmo quando tenho medo."', mood: 'triumphant', sound: 'birds', visual: '🦊' },
+        { text: 'A partir daquela noite, a Rubi começou a sair com a família. Ainda tinha medo às vezes — e não faz mal. O Lume aparecia sempre que ela precisava. Porque ter um amigo que nos ajuda a enfrentar o escuro faz toda a diferença. E ter medo não significa que não possamos ser os mais corajosos de todos.', mood: 'warm', sound: null, visual: '🌙', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // MÚSICA (Nível 2) — O Tambor do Avô
+  // Tema: memória, ligação entre gerações, o ritmo da vida
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'grandpa-drum',
+    level: 2,
+    universes: {
+      music: { title: 'O Tambor do Avô', coverEmoji: '🥁' },
+    },
+    scenes: {
+      music: [
+        { text: 'O Kiko tinha sete anos quando o avô partiu. O avô Manuel era grande, com mãos fortes e um sorriso que aquecia qualquer dia frio. Tocava tambor nas festas da aldeia e toda a gente dançava.', mood: 'warm', sound: null, visual: '👴' },
+        { text: 'Depois do funeral, a avó deu ao Kiko uma caixa de madeira. "O teu avô queria que ficasses com isto." Dentro da caixa estava o tambor. Velho, gasto, com a pele esticada e marcas de muitos anos de música.', mood: 'sad', sound: null, visual: '🥁' },
+        {
+          text: 'O Kiko levou o tambor para o quarto e tentou tocar. Bateu com força. Pum! O som foi seco, feio, sem vida. Bateu outra vez, mais forte. Pum! Nada. O tambor parecia mudo.',
+          mood: 'tense', sound: null, visual: '😤',
+          interaction: {
+            type: 'emotion',
+            prompt: 'O Kiko bate com força no tambor e ele não faz um som bonito. O que achas que ele está a sentir?',
+            options: [
+              { text: 'Frustrado e triste', emoji: '😞', response: 'Sim. O Kiko queria ouvir o som que o avô fazia, mas não consegue. Sente frustração e saudade.' },
+              { text: 'Zangado com o tambor', emoji: '😡', response: 'Talvez um pouco, mas mais do que raiva, o Kiko sente saudade do avô e frustração consigo mesmo.' },
+              { text: 'Indiferente', emoji: '😐', response: 'Na verdade, o Kiko importa-se muito. O tambor é a última coisa que tem do avô.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O Kiko pôs o tambor debaixo da cama e tentou esquecê-lo. Mas todas as noites, antes de adormecer, pensava no avô. Nas suas mãos grandes a tocarem suavemente. Suavemente? Sim! O avô nunca batia com força.', mood: 'dreamy', sound: null, visual: '💭' },
+        {
+          text: 'No sábado seguinte, o Kiko tirou o tambor de debaixo da cama. Desta vez, em vez de bater, tocou com as pontas dos dedos. Muito de leve. Toc... toc... toc.',
+          mood: 'mysterious', sound: null, visual: '🤲',
+          interaction: {
+            type: 'choice',
+            prompt: 'O Kiko está a tentar tocar com suavidade. O que achas que vai acontecer?',
+            options: [
+              { text: 'O tambor vai responder', emoji: '🎵', response: 'Sim! Quando o Kiko tocou com delicadeza, o tambor respondeu com um som quente e profundo.' },
+              { text: 'Vai ser igual', emoji: '😕', response: 'Desta vez é diferente! O toque suave fez o tambor vibrar com um som bonito e profundo.' },
+              { text: 'O tambor vai partir-se', emoji: '💔', response: 'Não! Pelo contrário. O toque suave acordou o tambor. Ele respondeu com um som lindo.' },
+            ],
+          },
+        },
+        { text: 'O tambor vibrou. Um som quente e profundo encheu o quarto, como se viesse de muito longe. O Kiko sentiu um arrepio. Tocou outra vez. Toc-toc... toc. E de repente, com os olhos fechados, viu algo.', mood: 'dreamy', sound: null, visual: '✨' },
+        { text: 'Viu o avô. Não a sério — mais como um sonho acordado. O avô estava sentado na varanda da casa da aldeia, com o tambor no colo, a tocar para as estrelas. O ritmo era como uma canção de embalar. Toc-toc-tá... toc-toc-tá.', mood: 'warm', sound: null, visual: '🌟' },
+        {
+          text: 'O Kiko abriu os olhos. O coração batia-lhe depressa. Tinha acabado de ouvir uma memória. O tambor guardava os ritmos do avô, e quando o Kiko tocava com carinho, os ritmos voltavam.',
+          mood: 'joyful', sound: null, visual: '💛',
+          interaction: {
+            type: 'emotion',
+            prompt: 'O Kiko descobriu que o tambor guarda memórias do avô. O que achas que ele está a sentir?',
+            options: [
+              { text: 'Emocionado e feliz', emoji: '🥹', response: 'Sim! O Kiko sente uma alegria misturada com saudade. O avô deixou-lhe algo mágico.' },
+              { text: 'Assustado', emoji: '😨', response: 'Talvez um pouco surpreso, mas não assustado. É uma sensação boa, como um abraço.' },
+              { text: 'Confuso', emoji: '🤔', response: 'Pode estar um pouco surpreendido, mas acima de tudo sente-se emocionado e perto do avô.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Nos dias seguintes, o Kiko tocava o tambor todas as tardes. Com delicadeza, sem pressa. Cada ritmo novo trazia uma memória diferente. O avô a pescar no rio. O avô a contar histórias. O avô a rir com a boca toda.', mood: 'warm', sound: 'sea', visual: '🎶' },
+        {
+          text: 'Um dia, a avó ouviu o tambor e veio ao quarto. Tinha os olhos brilhantes. "Esse ritmo...", disse ela, com a voz a tremer. "O teu avô tocava esse ritmo no dia em que nos casámos."',
+          mood: 'warm', sound: null, visual: '👵',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A avó reconheceu o ritmo do dia do casamento. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Saudade e ternura', emoji: '🥹', response: 'Sim. A avó sente saudade, mas também uma ternura enorme. O neto está a trazer de volta algo precioso.' },
+              { text: 'Tristeza profunda', emoji: '😢', response: 'Há tristeza sim, mas também há alegria. Ouvir aquele ritmo é como receber um abraço do avô.' },
+              { text: 'Surpresa', emoji: '😲', response: 'Está surpresa sim, mas o sentimento mais forte é a saudade misturada com ternura.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O Kiko pegou na mão da avó e sentou-a ao seu lado. Tocou o ritmo outra vez, devagarinho. A avó fechou os olhos e sorriu. As lágrimas que caíram não eram de tristeza — eram de amor, do tipo que não acaba.', mood: 'warm', sound: null, visual: '💕' },
+        { text: 'O Kiko aprendeu algo que os livros não ensinam. Há coisas que não respondem à força — respondem à paciência. O tambor do avô não estava mudo. Estava à espera de mãos gentis. E agora, sempre que o Kiko toca, o avô está ali — no ritmo, na vibração, no amor que ficou. Porque as pessoas que amamos nunca desaparecem de verdade. Vivem no ritmo que deixaram em nós.', mood: 'warm', sound: null, visual: '🥁', isEnding: true },
+      ],
+    },
+  },
 ]
 
 /**

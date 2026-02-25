@@ -177,6 +177,165 @@ const DIALOGUES = [
       { char: 0, text: 'Amanhã podemos brincar outra vez as duas. Combinado?' },
     ],
   },
+  {
+    id: 'lost-toy',
+    title: 'O Brinquedo Perdido',
+    setting: 'No jardim, a Marta perdeu o seu peluche favorito e não o encontra.',
+    characters: [
+      { name: 'Marta', emoji: '👧', color: '#E91E63' },
+      { name: 'Pedro', emoji: '👦', color: '#1565C0' },
+    ],
+    lines: [
+      { char: 0, text: 'Não encontro o meu peluche! O Estrelinha desapareceu...' },
+      { char: 0, text: 'Procurei no quarto, na sala... Ele não está em lado nenhum.' },
+      { char: 1, text: 'Marta, o que se passa? Pareces triste.' },
+      { char: 0, text: 'Perdi o Estrelinha. É o meu peluche preferido. Tenho-o desde bebé.' },
+      {
+        char: 1,
+        text: null,
+        choice: {
+          prompt: 'O que achas que o Pedro deve dizer?',
+          options: [
+            { text: '"Eu ajudo-te a procurar! Vamos pensar nos sítios onde estiveste."', response: 'O Pedro ofereceu-se para ajudar. Quando um amigo está triste, podemos fazer algo concreto para ajudar!' },
+            { text: '"Ah, não faz mal, é só um peluche."', response: 'O Pedro tentou animar a Marta, mas para ela o peluche é muito importante. Às vezes é melhor ouvir antes de dizer que não faz mal.' },
+            { text: '"Não te preocupes, ele vai aparecer."', response: 'O Pedro quis dar esperança. Palavras de conforto são boas, mas ajudar a procurar seria ainda melhor!' },
+          ],
+        },
+      },
+      { char: 0, text: 'Obrigada, Pedro! Eu estive a brincar no jardim depois do almoço.' },
+      { char: 1, text: 'Então vamos olhar perto do banco e dos arbustos. Com calma.' },
+      { char: 0, text: 'Ali! Está debaixo do banco! O Estrelinha! Encontrámo-lo!' },
+      { char: 1, text: 'Que bom! Estás mais contente agora?' },
+      { char: 0, text: 'Muito! Obrigada por me ajudares. É bom ter amigos assim.' },
+    ],
+  },
+  {
+    id: 'new-school',
+    title: 'A Escola Nova',
+    setting: 'É o primeiro dia do Lucas numa escola nova. Ele está nervoso à porta da sala.',
+    characters: [
+      { name: 'Lucas', emoji: '👦', color: '#E65100' },
+      { name: 'Professora Ana', emoji: '👩‍🏫', color: '#2E7D32' },
+    ],
+    lines: [
+      { char: 0, text: 'A minha barriga está a doer. Não quero entrar. E se ninguém gostar de mim?' },
+      { char: 1, text: 'Olá! Tu deves ser o Lucas. Bem-vindo à nossa turma!' },
+      { char: 0, text: 'Olá... Eu sou o Lucas. É que... eu não conheço ninguém aqui.' },
+      {
+        char: 1,
+        text: null,
+        choice: {
+          prompt: 'O que achas que a Professora Ana deve dizer?',
+          options: [
+            { text: '"É normal sentires-te nervoso. Vou apresentar-te à turma com calma."', response: 'A professora reconheceu o que o Lucas sente. Validar os sentimentos de alguém é o primeiro passo para ajudar!' },
+            { text: '"Não sejas tímido! Vai lá e faz amigos."', response: 'A professora tentou encorajar, mas dizer "não sejas tímido" pode fazer a pessoa sentir que o que sente está errado.' },
+            { text: '"Entra e senta-te ali ao fundo."', response: 'A professora deu instruções, mas o Lucas precisava de mais apoio. Às vezes um gesto de carinho faz toda a diferença.' },
+          ],
+        },
+      },
+      { char: 0, text: 'Obrigado, professora. Estou mesmo nervoso. As mãos estão a tremer.' },
+      { char: 1, text: 'Sabes, quase todos os alunos se sentiram assim no primeiro dia. É perfeitamente normal.' },
+      { char: 0, text: 'A sério? Eles também tinham medo?' },
+      { char: 1, text: 'Claro! E agora são todos amigos. Daqui a uma semana vais sentir-te em casa.' },
+      { char: 0, text: 'Está bem. Vou tentar. Obrigado por ser simpática comigo, professora.' },
+      { char: 1, text: 'Estou aqui sempre que precisares, Lucas. Vamos entrar juntos?' },
+    ],
+  },
+  {
+    id: 'sorry',
+    title: 'Pedir Desculpa',
+    setting: 'Na sala de artes, a Rita vê que o seu desenho favorito foi rasgado sem querer.',
+    characters: [
+      { name: 'Rita', emoji: '👧', color: '#6A1B9A' },
+      { name: 'João', emoji: '👦', color: '#1565C0' },
+    ],
+    lines: [
+      { char: 0, text: 'O meu desenho! Estava aqui em cima da mesa e agora está rasgado!' },
+      { char: 1, text: 'Rita... fui eu. Estava a correr e bati na mesa. Os papéis caíram e o teu rasgou-se.' },
+      { char: 0, text: 'O quê?! Era o meu desenho preferido! Demorei dois dias a fazer!' },
+      {
+        char: 1,
+        text: null,
+        choice: {
+          prompt: 'O que achas que o João deve dizer?',
+          options: [
+            { text: '"Desculpa mesmo, Rita. Não foi de propósito. Posso ajudar-te a fazer outro?"', response: 'O João pediu desculpa e ofereceu ajuda. Pedir desculpa com sinceridade e tentar reparar o erro é muito corajoso!' },
+            { text: '"Não foi assim tão mau, podes fazer outro..."', response: 'O João minimizou o problema. Quando estragamos algo importante para alguém, é melhor reconhecer que a pessoa tem razão para estar chateada.' },
+            { text: '"Desculpa... mas também não devias ter deixado ali."', response: 'O João pediu desculpa mas culpou a Rita. Pedir desculpa a sério significa não pôr a culpa no outro.' },
+          ],
+        },
+      },
+      { char: 0, text: 'Estou muito chateada... mas sei que não fizeste de propósito.' },
+      { char: 1, text: 'Eu sei que era importante para ti. Vou ter mais cuidado a correr na sala.' },
+      { char: 0, text: 'E se fizéssemos um desenho juntos? Talvez até fique melhor.' },
+      { char: 1, text: 'A sério? Adorava! Obrigado por me perdoares, Rita.' },
+      { char: 0, text: 'Toda a gente comete erros. O importante é pedir desculpa de verdade.' },
+    ],
+  },
+  {
+    id: 'different',
+    title: 'Somos Diferentes',
+    setting: 'No recreio, o Tiago e a Sara descobrem que gostam de brincar de formas diferentes.',
+    characters: [
+      { name: 'Tiago', emoji: '👦', color: '#5D4037' },
+      { name: 'Sara', emoji: '👧', color: '#00838F' },
+    ],
+    lines: [
+      { char: 1, text: 'Queres vir jogar apanhada connosco, Tiago?' },
+      { char: 0, text: 'Hmm... eu não gosto muito de apanhada. Há muita confusão e barulho.' },
+      { char: 1, text: 'Mas toda a gente gosta de apanhada! É o mais divertido!' },
+      {
+        char: 0,
+        text: null,
+        choice: {
+          prompt: 'O que achas que o Tiago deve dizer?',
+          options: [
+            { text: '"Cada pessoa gosta de coisas diferentes. Eu prefiro jogos mais calmos."', response: 'O Tiago explicou o que sente com calma. Todos temos formas diferentes de nos divertirmos, e isso é perfeitamente normal!' },
+            { text: '"Está bem, eu vou, mesmo que não queira..."', response: 'O Tiago cedeu para agradar. Às vezes fazemos isso, mas é importante saber dizer o que realmente queremos.' },
+            { text: '"Deixa-me em paz. Não quero brincar."', response: 'O Tiago ficou irritado. Quando nos sentimos pressionados, é difícil responder com calma, mas podemos tentar.' },
+          ],
+        },
+      },
+      { char: 1, text: 'Oh, desculpa. Não sabia. E do que é que gostas então?' },
+      { char: 0, text: 'Gosto de construir coisas, de puzzles, e de observar insectos no jardim.' },
+      { char: 1, text: 'Insectos?! Isso é fixe! Eu nunca observei insectos a sério.' },
+      { char: 0, text: 'Queres vir ver? Ali perto da árvore há formigas a carregar folhas. É incrível!' },
+      { char: 1, text: 'Vamos! Sabes, Tiago, somos diferentes mas podemos brincar juntos na mesma.' },
+      { char: 0, text: 'Pois é! Não precisamos de gostar das mesmas coisas para ser amigos.' },
+    ],
+  },
+  {
+    id: 'team-work',
+    title: 'Trabalho de Equipa',
+    setting: 'Na sala de aula, o Miguel e a Beatriz têm de construir uma torre com blocos para um trabalho de grupo.',
+    characters: [
+      { name: 'Miguel', emoji: '👦', color: '#E65100' },
+      { name: 'Beatriz', emoji: '👧', color: '#6A1B9A' },
+    ],
+    lines: [
+      { char: 0, text: 'Eu acho que a torre devia ser super alta! Vou pôr todos os blocos em cima uns dos outros.' },
+      { char: 1, text: 'Espera, Miguel! Se fizermos assim, vai cair. Precisamos de uma base larga.' },
+      { char: 0, text: 'Não vai não! Olha, eu faço sozinho e...' },
+      { char: 0, text: '...Oh não. Caiu tudo. Outra vez.' },
+      {
+        char: 1,
+        text: null,
+        choice: {
+          prompt: 'O que achas que a Beatriz deve dizer?',
+          options: [
+            { text: '"Não faz mal. Vamos tentar juntos desta vez. Eu seguro a base e tu pões os de cima."', response: 'A Beatriz não criticou o Miguel. Ofereceu uma forma de trabalharem juntos. Trabalho de equipa é usar o melhor de cada um!' },
+            { text: '"Eu bem te disse que ia cair."', response: 'A Beatriz tinha razão, mas dizer "eu avisei" quando alguém falha não ajuda. É melhor focar na solução!' },
+            { text: '"Deixa, eu faço sozinha."', response: 'A Beatriz quis resolver sozinha. Mas num trabalho de grupo, o objectivo é fazerem as coisas juntos, mesmo que seja mais difícil.' },
+          ],
+        },
+      },
+      { char: 0, text: 'Tens razão. Desculpa, Beatriz. Eu estava a querer fazer tudo à minha maneira.' },
+      { char: 1, text: 'Não faz mal! As tuas ideias são boas, só precisamos de as juntar. Tu és bom a empilhar alto.' },
+      { char: 0, text: 'E tu és boa a pensar na estrutura. Juntos conseguimos!' },
+      { char: 1, text: 'Olha, está a ficar enorme! E não cai!' },
+      { char: 0, text: 'É a torre mais fixe da sala! Trabalhar em equipa é mesmo melhor.' },
+    ],
+  },
 ]
 
 export default function TeatroVozes({
