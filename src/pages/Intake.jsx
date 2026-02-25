@@ -78,18 +78,18 @@ export default function Intake({ onComplete, onCancel }) {
   }
 
 
-  // Diagnostic placement test
-  const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-5 for the 6 campos
-  const [diagnosticQ, setDiagnosticQ] = useState(0)          // 0-2 for 3 questions per campo
+  // Adaptive diagnostic — progressive per campo, stops on 2 consecutive wrong
+  const DIAGNOSTIC_CAMPOS = ['campo2', 'campo1', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7']
+  const [diagnosticCampoIdx, setDiagnosticCampoIdx] = useState(0)
+  const [diagnosticQ, setDiagnosticQ] = useState(0)
+  const [consecutiveWrong, setConsecutiveWrong] = useState(0)
   const [diagnosticResults, setDiagnosticResults] = useState({
-    campo1: [null, null, null],
-    campo2: [null, null, null],
-    campo3: [null, null, null],
-    campo4: [null, null, null],
-    campo5: [null, null, null],
-    campo6: [null, null, null],
+    campo1: [], campo2: [], campo3: [], campo4: [],
+    campo5: [], campo6: [], campo7: [],
   })
   const [diagnosticDone, setDiagnosticDone] = useState(false)
+  // Legacy aliases for DiagnosticStep
+  const diagnosticCampo = diagnosticCampoIdx
 
   // Calculate levels from diagnostic results
   const detectedLevels = useMemo(() => {
@@ -507,31 +507,40 @@ export default function Intake({ onComplete, onCancel }) {
           </div>
         )}
 
-        {/* STEP 8: Diagnostic placement test */}
+        {/* STEP 8: Adaptive diagnostic placement test */}
         {step === 8 && (
           <DiagnosticStep
             filledBy={filledBy}
-            diagnosticCampo={diagnosticCampo}
+            diagnosticCampo={diagnosticCampoIdx}
             diagnosticQ={diagnosticQ}
             diagnosticResults={diagnosticResults}
             diagnosticDone={diagnosticDone}
             detectedLevels={detectedLevels}
-            onAnswer={(campoId, qIdx, correct) => {
-              setDiagnosticResults((prev) => {
-                const copy = { ...prev }
-                copy[campoId] = [...copy[campoId]]
-                copy[campoId][qIdx] = correct
-                return copy
-              })
-              // Advance to next question or next campo
-              const campoIds = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']
-              if (qIdx < 2) {
-                setDiagnosticQ(qIdx + 1)
-              } else if (diagnosticCampo < 5) {
-                setDiagnosticCampo(diagnosticCampo + 1)
-                setDiagnosticQ(0)
+            campoOrder={DIAGNOSTIC_CAMPOS}
+            onAnswer={(campoId, qIdx, correct, questionLevel) => {
+              // Record answer with level info
+              setDiagnosticResults((prev) => ({
+                ...prev,
+                [campoId]: [...prev[campoId], { level: questionLevel, correct }],
+              }))
+
+              const questions = DIAGNOSTIC_QUESTIONS[campoId] || []
+              const nextQ = qIdx + 1
+              const newConsecutive = correct ? 0 : consecutiveWrong + 1
+
+              // Stop this campo if: 2 consecutive wrong OR no more questions
+              if (newConsecutive >= 2 || nextQ >= questions.length) {
+                // Move to next campo
+                setConsecutiveWrong(0)
+                if (diagnosticCampoIdx < DIAGNOSTIC_CAMPOS.length - 1) {
+                  setDiagnosticCampoIdx(diagnosticCampoIdx + 1)
+                  setDiagnosticQ(0)
+                } else {
+                  setDiagnosticDone(true)
+                }
               } else {
-                setDiagnosticDone(true)
+                setConsecutiveWrong(newConsecutive)
+                setDiagnosticQ(nextQ)
               }
             }}
             onSkipAll={() => setDiagnosticDone(true)}
@@ -635,6 +644,7 @@ const CAMPO_LABELS = [
   { id: 'campo4', name: 'Autonomia', icon: '🏠', color: '#6A1B9A' },
   { id: 'campo5', name: 'Criatividade', icon: '🎨', color: '#00838F' },
   { id: 'campo6', name: 'Social', icon: '💚', color: '#AD1457' },
+  { id: 'campo7', name: 'Literatura', icon: '📚', color: '#4E342E' },
 ]
 
 function DiagnosticStep({
@@ -644,10 +654,11 @@ function DiagnosticStep({
   diagnosticResults,
   diagnosticDone,
   detectedLevels,
+  campoOrder,
   onAnswer,
   onSkipAll,
 }) {
-  const campoIds = ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6']
+  const campoIds = campoOrder || ['campo2', 'campo1', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7']
 
   if (diagnosticDone && detectedLevels) {
     return (
@@ -656,6 +667,7 @@ function DiagnosticStep({
         <h1 style={styles.title}>Níveis detectados!</h1>
         <p style={styles.desc}>
           Com base nas respostas, detectámos o nível inicial para cada área.
+          As actividades vão começar exactamente no nível certo.
           Isto pode ser ajustado a qualquer momento nas definições.
         </p>
         <div style={dStyles.resultsGrid}>
@@ -687,20 +699,27 @@ function DiagnosticStep({
   }
 
   const campoId = campoIds[diagnosticCampo]
-  const campo = CAMPO_LABELS[diagnosticCampo]
-  const questions = DIAGNOSTIC_QUESTIONS[campoId]
+  const campo = CAMPO_LABELS.find((c) => c.id === campoId) || CAMPO_LABELS[diagnosticCampo]
+  const questions = DIAGNOSTIC_QUESTIONS[campoId] || []
   const current = questions[diagnosticQ]
-  const totalAnswered = diagnosticCampo * 3 + diagnosticQ
-  const totalQuestions = 18
+
+  // Count total answered across all campos
+  const totalAnswered = Object.values(diagnosticResults).reduce((s, arr) => s + arr.length, 0)
+  const totalQuestions = Object.values(DIAGNOSTIC_QUESTIONS).reduce((s, arr) => s + arr.length, 0)
+
+  if (!current) {
+    // No more questions for this campo (shouldn't happen, but safety)
+    return null
+  }
 
   return (
     <div style={styles.stepContent}>
       <span style={styles.bigEmoji}>🧪</span>
-      <h1 style={styles.title}>Mini-avaliação</h1>
+      <h1 style={styles.title}>Avaliação de Nível</h1>
       <p style={styles.desc}>
         {filledBy === 'self'
-          ? 'Responde a estas perguntas rápidas para sabermos por onde começar. Não te preocupes se não souberes!'
-          : 'Perguntas rápidas para detectar o nível inicial. Pode responder "Não sei" sem problema.'}
+          ? 'Responde até onde conseguires. Quando não souberes, carrega "Não sei" — é normal!'
+          : 'As perguntas sobem de dificuldade. Quando a criança não souber, avançamos para a área seguinte.'}
       </p>
 
       <div style={dStyles.progressRow}>
@@ -708,7 +727,7 @@ function DiagnosticStep({
           {campo.icon} {campo.name}
         </span>
         <span style={dStyles.progressCount}>
-          {totalAnswered + 1} / {totalQuestions}
+          Nível {current.level}
         </span>
       </div>
       <div style={dStyles.progressBar}>
@@ -720,7 +739,23 @@ function DiagnosticStep({
       </div>
 
       <div style={{ ...dStyles.questionCard, borderColor: campo.color }}>
-        <span style={dStyles.questionEmoji}>{current.emoji}</span>
+        {/* Visual element — big letter, sentence, flag, or emoji */}
+        {current.visual && current.visualStyle === 'bigLetter' && (
+          <span style={dStyles.bigLetterVisual}>{current.visual}</span>
+        )}
+        {current.visual && current.visualStyle === 'sentence' && (
+          <span style={dStyles.sentenceVisual}>{current.visual}</span>
+        )}
+        {current.flagCode && (
+          <img
+            src={`https://flagcdn.com/w160/${current.flagCode.toLowerCase()}.png`}
+            alt="bandeira"
+            style={dStyles.flagImage}
+          />
+        )}
+        {current.visual && !current.visualStyle && !current.flagCode && (
+          <span style={dStyles.questionEmoji}>{current.visual}</span>
+        )}
         <p style={dStyles.questionText}>{current.question}</p>
         {current.hint && <p style={dStyles.questionHint}>{current.hint}</p>}
       </div>
@@ -733,7 +768,7 @@ function DiagnosticStep({
               ...dStyles.optionBtn,
               ...(opt.skip ? dStyles.optionSkip : {}),
             }}
-            onClick={() => onAnswer(campoId, diagnosticQ, opt.correct)}
+            onClick={() => onAnswer(campoId, diagnosticQ, opt.correct, current.level)}
           >
             {opt.text}
           </button>
@@ -784,6 +819,28 @@ const dStyles = {
     border: '2px solid',
   },
   questionEmoji: { fontSize: '3rem' },
+  bigLetterVisual: {
+    fontSize: '5rem',
+    fontWeight: 900,
+    color: 'var(--color-primary)',
+    fontFamily: 'serif',
+    lineHeight: 1,
+  },
+  sentenceVisual: {
+    fontSize: 'var(--font-size-xl)',
+    fontWeight: 700,
+    fontStyle: 'italic',
+    color: '#1565C0',
+    padding: '8px 16px',
+    backgroundColor: '#E3F2FD',
+    borderRadius: 'var(--radius-sm)',
+  },
+  flagImage: {
+    width: '120px',
+    height: 'auto',
+    borderRadius: '4px',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+  },
   questionText: {
     fontSize: 'var(--font-size-lg)',
     fontWeight: 700,

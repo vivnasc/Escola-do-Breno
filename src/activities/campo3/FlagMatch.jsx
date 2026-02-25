@@ -5,36 +5,40 @@ import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const COUNTRIES = [
-  { name: 'Brasil', flag: '🇧🇷', continent: 'América do Sul', capital: 'Brasília' },
-  { name: 'Espanha', flag: '🇪🇸', continent: 'Europa', capital: 'Madrid' },
-  { name: 'Argentina', flag: '🇦🇷', continent: 'América do Sul', capital: 'Buenos Aires' },
-  { name: 'França', flag: '🇫🇷', continent: 'Europa', capital: 'Paris' },
-  { name: 'Japão', flag: '🇯🇵', continent: 'Ásia', capital: 'Tóquio' },
-  { name: 'Egipto', flag: '🇪🇬', continent: 'África', capital: 'Cairo' },
-  { name: 'Inglaterra', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', continent: 'Europa', capital: 'Londres' },
-  { name: 'Austrália', flag: '🇦🇺', continent: 'Oceânia', capital: 'Canberra' },
-  { name: 'México', flag: '🇲🇽', continent: 'América do Norte', capital: 'Cidade do México' },
-  { name: 'África do Sul', flag: '🇿🇦', continent: 'África', capital: 'Pretória' },
-  { name: 'Moçambique', flag: '🇲🇿', continent: 'África', capital: 'Maputo' },
-  { name: 'Portugal', flag: '🇵🇹', continent: 'Europa', capital: 'Lisboa' },
-  { name: 'Alemanha', flag: '🇩🇪', continent: 'Europa', capital: 'Berlim' },
-  { name: 'Itália', flag: '🇮🇹', continent: 'Europa', capital: 'Roma' },
-  { name: 'China', flag: '🇨🇳', continent: 'Ásia', capital: 'Pequim' },
-  { name: 'Índia', flag: '🇮🇳', continent: 'Ásia', capital: 'Nova Déli' },
-  { name: 'Nigéria', flag: '🇳🇬', continent: 'África', capital: 'Abuja' },
-  { name: 'Canadá', flag: '🇨🇦', continent: 'América do Norte', capital: 'Otava' },
-  { name: 'Colômbia', flag: '🇨🇴', continent: 'América do Sul', capital: 'Bogotá' },
-  { name: 'Coreia do Sul', flag: '🇰🇷', continent: 'Ásia', capital: 'Seul' },
-  { name: 'Tailândia', flag: '🇹🇭', continent: 'Ásia', capital: 'Banguecoque' },
-  { name: 'Suécia', flag: '🇸🇪', continent: 'Europa', capital: 'Estocolmo' },
-  { name: 'Quénia', flag: '🇰🇪', continent: 'África', capital: 'Nairobi' },
-  { name: 'Peru', flag: '🇵🇪', continent: 'América do Sul', capital: 'Lima' },
-  { name: 'Turquia', flag: '🇹🇷', continent: 'Europa/Ásia', capital: 'Ancara' },
-  { name: 'Grécia', flag: '🇬🇷', continent: 'Europa', capital: 'Atenas' },
-  { name: 'Marrocos', flag: '🇲🇦', continent: 'África', capital: 'Rabat' },
-  { name: 'Nova Zelândia', flag: '🇳🇿', continent: 'Oceânia', capital: 'Wellington' },
-  { name: 'Chile', flag: '🇨🇱', continent: 'América do Sul', capital: 'Santiago' },
+  { name: 'Brasil', code: 'br', continent: 'América do Sul', capital: 'Brasília' },
+  { name: 'Espanha', code: 'es', continent: 'Europa', capital: 'Madrid' },
+  { name: 'Argentina', code: 'ar', continent: 'América do Sul', capital: 'Buenos Aires' },
+  { name: 'França', code: 'fr', continent: 'Europa', capital: 'Paris' },
+  { name: 'Japão', code: 'jp', continent: 'Ásia', capital: 'Tóquio' },
+  { name: 'Egipto', code: 'eg', continent: 'África', capital: 'Cairo' },
+  { name: 'Inglaterra', code: 'gb-eng', continent: 'Europa', capital: 'Londres' },
+  { name: 'Austrália', code: 'au', continent: 'Oceânia', capital: 'Canberra' },
+  { name: 'México', code: 'mx', continent: 'América do Norte', capital: 'Cidade do México' },
+  { name: 'África do Sul', code: 'za', continent: 'África', capital: 'Pretória' },
+  { name: 'Moçambique', code: 'mz', continent: 'África', capital: 'Maputo' },
+  { name: 'Portugal', code: 'pt', continent: 'Europa', capital: 'Lisboa' },
+  { name: 'Alemanha', code: 'de', continent: 'Europa', capital: 'Berlim' },
+  { name: 'Itália', code: 'it', continent: 'Europa', capital: 'Roma' },
+  { name: 'China', code: 'cn', continent: 'Ásia', capital: 'Pequim' },
+  { name: 'Índia', code: 'in', continent: 'Ásia', capital: 'Nova Déli' },
+  { name: 'Nigéria', code: 'ng', continent: 'África', capital: 'Abuja' },
+  { name: 'Canadá', code: 'ca', continent: 'América do Norte', capital: 'Otava' },
+  { name: 'Colômbia', code: 'co', continent: 'América do Sul', capital: 'Bogotá' },
+  { name: 'Coreia do Sul', code: 'kr', continent: 'Ásia', capital: 'Seul' },
+  { name: 'Tailândia', code: 'th', continent: 'Ásia', capital: 'Banguecoque' },
+  { name: 'Suécia', code: 'se', continent: 'Europa', capital: 'Estocolmo' },
+  { name: 'Quénia', code: 'ke', continent: 'África', capital: 'Nairobi' },
+  { name: 'Peru', code: 'pe', continent: 'América do Sul', capital: 'Lima' },
+  { name: 'Turquia', code: 'tr', continent: 'Europa/Ásia', capital: 'Ancara' },
+  { name: 'Grécia', code: 'gr', continent: 'Europa', capital: 'Atenas' },
+  { name: 'Marrocos', code: 'ma', continent: 'África', capital: 'Rabat' },
+  { name: 'Nova Zelândia', code: 'nz', continent: 'Oceânia', capital: 'Wellington' },
+  { name: 'Chile', code: 'cl', continent: 'América do Sul', capital: 'Santiago' },
 ]
+
+function getFlagUrl(code) {
+  return `https://flagcdn.com/w160/${code}.png`
+}
 
 function shuffle(arr) {
   const a = [...arr]
@@ -128,7 +132,13 @@ export default function FlagMatch({
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.flagDisplay}>
-        <span style={styles.flag}>{country.flag}</span>
+        <img
+          src={getFlagUrl(country.code)}
+          alt={`Bandeira de ${country.name}`}
+          style={styles.flagImg}
+          width={120}
+          draggable={false}
+        />
         <span style={styles.continent}>{country.continent}</span>
       </div>
 
@@ -166,8 +176,12 @@ const styles = {
     backgroundColor: 'var(--color-bg)',
     borderRadius: 'var(--radius-lg)',
   },
-  flag: {
-    fontSize: '6rem',
+  flagImg: {
+    width: 120,
+    height: 'auto',
+    borderRadius: 'var(--radius-sm)',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+    userSelect: 'none',
   },
   continent: {
     fontSize: 'var(--font-size-sm)',
