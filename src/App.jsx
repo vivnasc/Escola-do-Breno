@@ -72,7 +72,6 @@ import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
 import { useProfileSharing } from './hooks/useProfileSharing'
 import { setTTSMode } from './hooks/useTTS'
-import { BRENO_PROFILE } from './data/brenoProfile'
 
 // Public routes accessible without a profile
 const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
@@ -286,13 +285,16 @@ function AppContent() {
     setShowIntake(true)
   }, [])
 
-  // Auto-load founder profile when ?fundador param is present (skip intake entirely)
+  // ?fundador opens Intake with pre-filled data (never auto-creates profile)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     if (params.has('fundador') && !profileData.profile) {
-      profileData.completeOnboarding(BRENO_PROFILE)
-      // Clean URL
-      window.history.replaceState({}, '', window.location.pathname)
+      setShowIntake(true)
+      // Keep ?fundador in URL so Intake can read it for pre-fill,
+      // then clean after a tick
+      setTimeout(() => {
+        window.history.replaceState({}, '', window.location.pathname)
+      }, 100)
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
