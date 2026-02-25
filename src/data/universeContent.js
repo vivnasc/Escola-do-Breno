@@ -19,29 +19,29 @@ const CONTENT = {
       subContext: (a, b) =>
         `A equipa tinha ${a} pontos e perdeu ${b}. Quantos ficaram?`,
       mulContext: (a, b) =>
-        `Sao ${a} jogos e cada jogo vale ${b} pontos.`,
+        `São ${a} jogos e cada jogo vale ${b} pontos.`,
     },
 
     emotions: [
       {
-        situation: 'O arbitro da-te um cartao amarelo injusto.',
+        situation: 'O árbitro dá-te um cartão amarelo injusto.',
         emoji: '🟨',
         emotions: [
           { name: 'Zangado', emoji: '😠', correct: true },
           { name: 'Feliz', emoji: '😊', correct: false },
           { name: 'Com sono', emoji: '😴', correct: false },
         ],
-        strategy: 'Respira fundo 3 vezes. Fala com calma com o treinador. Nao e preciso gritar.',
+        strategy: 'Respira fundo 3 vezes. Fala com calma com o treinador. Não é preciso gritar.',
       },
       {
-        situation: 'Marcas o golo da vitoria no ultimo minuto!',
+        situation: 'Marcas o golo da vitória no último minuto!',
         emoji: '⚽',
         emotions: [
           { name: 'Alegre', emoji: '😄', correct: true },
           { name: 'Triste', emoji: '😢', correct: false },
           { name: 'Assustado', emoji: '😨', correct: false },
         ],
-        strategy: 'Celebra com a equipa! Abraca os teus colegas. Partilha a alegria!',
+        strategy: 'Celebra com a equipa! Abraça os teus colegas. Partilha a alegria!',
       },
       {
         situation: 'Falhas um penalti importante.',
@@ -51,17 +51,17 @@ const CONTENT = {
           { name: 'Alegre', emoji: '😄', correct: false },
           { name: 'Surpreso', emoji: '😲', correct: false },
         ],
-        strategy: 'Todos falham penaltis, ate o Ronaldo! Levanta a cabeca, respira e pensa no proximo.',
+        strategy: 'Todos falham penaltis, até o Ronaldo! Levanta a cabeça, respira e pensa no próximo.',
       },
       {
-        situation: 'Vais jogar no estadio pela primeira vez.',
+        situation: 'Vais jogar no estádio pela primeira vez.',
         emoji: '🏟️',
         emotions: [
           { name: 'Nervoso', emoji: '😰', correct: true },
           { name: 'Zangado', emoji: '😠', correct: false },
           { name: 'Aborrecido', emoji: '😐', correct: false },
         ],
-        strategy: 'E normal sentir nervos! Respira devagar, concentra-te no jogo e diverte-te.',
+        strategy: 'É normal sentir nervos! Respira devagar, concentra-te no jogo e diverte-te.',
       },
       {
         situation: 'O teu melhor amigo da equipa vai mudar de clube.',
@@ -71,7 +71,7 @@ const CONTENT = {
           { name: 'Com fome', emoji: '🤤', correct: false },
           { name: 'Divertido', emoji: '🤣', correct: false },
         ],
-        strategy: 'E normal ficar triste. Podes continuar a ser amigo! Combina encontros e fala com ele.',
+        strategy: 'É normal ficar triste. Podes continuar a ser amigo! Combina encontros e fala com ele.',
       },
       {
         situation: 'Ganhas um trofeu no final do torneio.',
