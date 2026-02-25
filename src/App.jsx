@@ -148,24 +148,24 @@ function AccountNudge({ auth, onLoginSync, onDismiss }) {
           <>
             <p style={nudgeStyles.title}>Perfil criado!</p>
             <p style={nudgeStyles.desc}>
-              Cria uma conta para que a mae, o pai e o terapeuta possam aceder ao mesmo perfil, de qualquer dispositivo.
+              Cria uma conta para que a mãe, o pai e o terapeuta possam aceder ao mesmo perfil, de qualquer dispositivo.
             </p>
             <div style={nudgeStyles.btns}>
               <button style={nudgeStyles.primaryBtn} onClick={() => setMode('register')}>
                 Criar Conta
               </button>
               <button style={nudgeStyles.secondaryBtn} onClick={() => setMode('login')}>
-                Ja Tenho Conta
+                Já Tenho Conta
               </button>
             </div>
             <button style={nudgeStyles.skipBtn} onClick={onDismiss}>
-              Continuar sem conta (dados so neste dispositivo)
+              Continuar sem conta (dados só neste dispositivo)
             </button>
           </>
         ) : (
           <>
             <p style={nudgeStyles.title}>
-              {mode === 'register' ? 'Criar conta da familia' : 'Entrar'}
+              {mode === 'register' ? 'Criar conta da família' : 'Entrar'}
             </p>
             <input
               style={nudgeStyles.input}

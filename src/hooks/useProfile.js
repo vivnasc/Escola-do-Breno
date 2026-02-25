@@ -6,12 +6,12 @@ const LEGACY_KEY = 'pitch-profile'
 
 const AVATARS = [
   { id: 'star', emoji: '⭐', label: 'Estrela' },
-  { id: 'eagle', emoji: '🦅', label: 'Aguia' },
-  { id: 'lion', emoji: '🦁', label: 'Leao' },
-  { id: 'dragon', emoji: '🐉', label: 'Dragao' },
-  { id: 'rocket', emoji: '🚀', label: 'Foguetao' },
+  { id: 'eagle', emoji: '🦅', label: 'Águia' },
+  { id: 'lion', emoji: '🦁', label: 'Leão' },
+  { id: 'dragon', emoji: '🐉', label: 'Dragão' },
+  { id: 'rocket', emoji: '🚀', label: 'Foguetão' },
   { id: 'crown', emoji: '👑', label: 'Coroa' },
-  { id: 'lightning', emoji: '⚡', label: 'Relampago' },
+  { id: 'lightning', emoji: '⚡', label: 'Relâmpago' },
   { id: 'fire', emoji: '🔥', label: 'Fogo' },
 ]
 

@@ -170,14 +170,14 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
             <div style={landingAuthStyles.primaryAuth}>
               <div style={landingAuthStyles.primaryAuthBtns}>
                 <button style={styles.heroPrimary} onClick={() => setAuthMode('register')}>
-                  Criar Conta da Familia
+                  Criar Conta da Família
                 </button>
                 <button style={styles.heroSecondary} onClick={() => setAuthMode('login')}>
-                  Ja Tenho Conta
+                  Já Tenho Conta
                 </button>
               </div>
               <p style={landingAuthStyles.familyHint}>
-                Uma conta, toda a familia. Mae, pai, terapeuta — todos acedem ao mesmo perfil, de qualquer dispositivo.
+                Uma conta, toda a família. Mãe, pai, terapeuta — todos acedem ao mesmo perfil, de qualquer dispositivo.
               </p>
             </div>
           )}
@@ -186,12 +186,12 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
           {auth?.configured && !auth?.user && authMode && (
             <div style={landingAuthStyles.form}>
               <p style={landingAuthStyles.formTitle}>
-                {authMode === 'register' ? 'Criar conta da familia' : 'Entrar na minha conta'}
+                {authMode === 'register' ? 'Criar conta da família' : 'Entrar na minha conta'}
               </p>
               <p style={landingAuthStyles.formHint}>
                 {authMode === 'register'
-                  ? 'Depois de criar conta, vai configurar o perfil da crianca.'
-                  : 'Entra para aceder aos perfis da tua familia.'}
+                  ? 'Depois de criar conta, vai configurar o perfil da criança.'
+                  : 'Entra para aceder aos perfis da tua família.'}
               </p>
               <input
                 style={landingAuthStyles.input}
@@ -233,7 +233,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
                 {syncStatus === 'pulling' ? '🔄 A sincronizar perfis...' : `Bem-vindo(a)! ${auth.user.email}`}
               </span>
               <button style={styles.heroPrimary} onClick={onStart || (() => navigate('/'))}>
-                Criar o Perfil da Crianca
+                Criar o Perfil da Criança
               </button>
               <button style={landingAuthStyles.signOutBtn} onClick={auth.signOut}>Sair da conta</button>
             </div>
@@ -248,7 +248,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
               <button style={styles.heroSecondary} onClick={() => {
                 document.getElementById('nossa-historia')?.scrollIntoView({ behavior: 'smooth' })
               }}>
-                A Nossa Historia
+                A Nossa História
               </button>
             </div>
           )}
@@ -256,7 +256,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
           {/* Offline note when no auth */}
           {!auth?.configured && (
             <p style={styles.heroNote}>
-              Plano gratis disponivel. Sem publicidade. Sem dados vendidos.
+              Plano grátis disponível. Sem publicidade. Sem dados vendidos.
             </p>
           )}
 
@@ -266,7 +266,7 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
               style={landingAuthStyles.tryWithoutBtn}
               onClick={onStart || (() => navigate('/'))}
             >
-              Experimentar sem conta (dados ficam so neste dispositivo)
+              Experimentar sem conta (dados ficam só neste dispositivo)
             </button>
           )}
         </div>

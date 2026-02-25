@@ -76,14 +76,14 @@ Aluno: ${name}
 Idade: ${profile?.age || '?'} anos
 Data do relatório: ${date}
 Universo: ${profile?.universe || 'football'}
-Preenchido por: ${profile?.filledBy || 'pai/mae'}
+Preenchido por: ${profile?.filledBy || 'pai/mãe'}
 
 --- Resumo ---
 Estrelas: ${totalStars}
 Actividades completadas: ${totalActivities}/20
 Palavras aprendidas: ${wordsLearned.length}/${VOCABULARY_WORDS.length}
 Dias consecutivos: ${progress?.streakDays || 0}
-Trofeus: ${progress?.trophies?.length || 0}
+Troféus: ${progress?.trophies?.length || 0}
 
 --- Fases de Competência ---
 ${phaseLines}
