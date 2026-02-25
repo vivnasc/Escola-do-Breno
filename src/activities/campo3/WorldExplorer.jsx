@@ -19,7 +19,7 @@ const FACTS = [
   },
   {
     question: 'Qual é o maior rio de África?',
-    options: ['Nilo', 'Amazonas', 'Danubio', 'Zambeze'],
+    options: ['Nilo', 'Amazonas', 'Danúbio', 'Zambeze'],
     correct: 'Nilo',
     fact: 'O Nilo é o rio mais comprido de África, com cerca de 6.650 km!',
   },
@@ -145,7 +145,7 @@ const FACTS = [
   },
   {
     question: 'Qual é o ponto mais fundo do oceano?',
-    options: ['Fossa das Marianas', 'Fossa do Atlantico', 'Mar Morto', 'Lago Baikal'],
+    options: ['Fossa das Marianas', 'Fossa do Atlântico', 'Mar Morto', 'Lago Baikal'],
     correct: 'Fossa das Marianas',
     fact: 'A Fossa das Marianas, no Oceano Pacífico, tem quase 11.000 metros de profundidade. Se lá colocássemos o Monte Evereste, ainda faltava mais de 2 km para chegar à superfície!',
   },

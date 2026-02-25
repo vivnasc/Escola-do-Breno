@@ -85,7 +85,7 @@ const QUESTIONS = [
   },
   {
     question: 'Que líquido vermelho circula no nosso corpo?',
-    options: ['Sangue', 'Sumo de tomate', 'Agua vermelha'],
+    options: ['Sangue', 'Sumo de tomate', 'Água vermelha'],
     correct: 0,
     fact: 'O sangue transporta oxigénio a todas as células. Um adulto tem cerca de 5 litros!',
   },
@@ -93,7 +93,7 @@ const QUESTIONS = [
     question: 'Porque suamos quando fazemos exercício?',
     options: [
       'Para arrefecer o corpo',
-      'Porque bebemos muita agua',
+      'Porque bebemos muita água',
       'Porque temos medo',
     ],
     correct: 0,
@@ -151,7 +151,7 @@ const QUESTIONS = [
     question: 'Porque é que o cabelo e as unhas crescem?',
     options: [
       'Porque as células na raiz se multiplicam constantemente',
-      'Porque bebemos agua',
+      'Porque bebemos água',
       'Porque dormimos muito',
     ],
     correct: 0,
