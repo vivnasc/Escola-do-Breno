@@ -285,7 +285,6 @@ function AppContent() {
     setShowIntake(true)
   }, [])
 
-  // ?fundador opens Intake with pre-filled data (never auto-creates profile)
 
   // Switch to existing profile
   const handleSwitchProfile = useCallback((id) => {

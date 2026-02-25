@@ -1,21 +1,18 @@
 /**
- * Breno's pre-configured profile.
- * This is the child the platform was built for.
- * His mother (Vivianne) configured these needs.
- * He can go straight into the app without filling the intake.
+ * Breno's pre-configured profile data.
+ * Reference for the needs/settings of the child the platform was built for.
+ * Not auto-loaded — Vivianne creates the profile through the normal Intake.
  */
 const BRENO_PROFILE = {
-  // Identity
   name: 'Breno',
   age: 11, // born 1 October 2014, turns 12 in Oct 2026
   avatar: 'lion',
   onboardingComplete: true,
-  createdAt: '2025-01-01T00:00:00.000Z', // fixed date — avoids regeneration on import
+  createdAt: '2025-01-01T00:00:00.000Z',
   updatedAt: '2025-01-01T00:00:00.000Z',
 
   // Breno always has full access — built for him
   subscriptionTier: 'family',
-
   // Theme — Breno loves football
   universe: 'football',
   favoriteTeam: 'Benfica',
@@ -38,8 +35,8 @@ const BRENO_PROFILE = {
     visualContrast: 'normal',
     fontSize: 'normal',
     reducedClutter: false,
-    timePressure: false, // no time pressure for Breno
-    ttsMode: 'on-demand', // only speaks when tapped, not automatically
+    timePressure: false,
+    ttsMode: 'on-demand',
   },
 
   attention: {
@@ -58,8 +55,6 @@ const BRENO_PROFILE = {
     'writing',
   ],
 
-  // Per-campo competency levels (1-10), starting at level 1
-  // Will be adjusted by the intake diagnostic if re-taken
   competencyLevels: {
     campo1: 1,
     campo2: 1,
@@ -75,7 +70,6 @@ const BRENO_PROFILE = {
     needsAudioInstructions: true,
   },
 
-  // Cosmetic defaults
   purchasedItems: [],
   equippedCelebration: 'confetti',
   equippedBadge: null,
@@ -84,7 +78,6 @@ const BRENO_PROFILE = {
   weeklyProgress: {},
   lastWeekReset: null,
 
-  // Worksheets & rewards
   worksheetSubmissions: [],
   realRewards: [],
   claimedRewards: [],
