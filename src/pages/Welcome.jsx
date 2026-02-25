@@ -1,28 +1,16 @@
 /**
  * Welcome screen — shown when no active profile.
- * Shows existing profiles for switching, plus Breno quick-start and new profile.
+ * Shows existing profiles for switching, plus new profile creation.
  * When Supabase is configured, shows login/register for cloud sync.
  */
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AVATARS } from '../hooks/useProfile'
 
 export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth, sharing, onLoginSync, syncStatus }) {
   const navigate = useNavigate()
   const hasProfiles = profiles && profiles.length > 0
-  const tapRef = useRef({ count: 0, timer: null })
 
-  const handleLogoTap = () => {
-    const t = tapRef.current
-    t.count++
-    clearTimeout(t.timer)
-    if (t.count >= 5) {
-      t.count = 0
-      window.location.href = '/?fundador'
-    } else {
-      t.timer = setTimeout(() => { t.count = 0 }, 2000)
-    }
-  }
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -74,7 +62,6 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
           src="/logos/pitch-robo.png"
           alt="PITCH Robot"
           style={styles.mascot}
-          onClick={handleLogoTap}
         />
 
         <img

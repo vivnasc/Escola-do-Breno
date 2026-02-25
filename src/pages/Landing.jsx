@@ -3,7 +3,7 @@
  * Core narrative: "De pais para pais" — universal platform, individual for each child.
  */
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 const FEATURES = [
   {
@@ -79,7 +79,6 @@ const TESTIMONIALS = [
 
 export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
   const navigate = useNavigate()
-  const tapRef = useRef({ count: 0, timer: null })
   const [authMode, setAuthMode] = useState(null) // null | 'login' | 'register'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -119,24 +118,12 @@ export default function Landing({ onStart, auth, onLoginSync, syncStatus }) {
     setAuthLoading(false)
   }
 
-  const handleLogoTap = () => {
-    const t = tapRef.current
-    t.count++
-    clearTimeout(t.timer)
-    if (t.count >= 5) {
-      t.count = 0
-      window.location.href = '/?fundador'
-    } else {
-      t.timer = setTimeout(() => { t.count = 0 }, 2000)
-    }
-  }
-
   return (
     <div style={styles.page}>
       {/* Header / Navigation */}
       <header style={styles.header}>
         <div style={styles.headerInner}>
-          <div style={styles.headerLogo} onClick={handleLogoTap}>
+          <div style={styles.headerLogo}>
             <img src="/logos/pitch-robo.png" alt="" style={styles.headerLogoImg} />
             <span style={styles.headerLogoText}>PITCH</span>
           </div>

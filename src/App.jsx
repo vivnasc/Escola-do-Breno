@@ -286,17 +286,6 @@ function AppContent() {
   }, [])
 
   // ?fundador opens Intake with pre-filled data (never auto-creates profile)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.has('fundador') && !profileData.profile) {
-      setShowIntake(true)
-      // Keep ?fundador in URL so Intake can read it for pre-fill,
-      // then clean after a tick
-      setTimeout(() => {
-        window.history.replaceState({}, '', window.location.pathname)
-      }, 100)
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Switch to existing profile
   const handleSwitchProfile = useCallback((id) => {
