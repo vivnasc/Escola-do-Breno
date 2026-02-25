@@ -551,6 +551,568 @@ export const STORIES = [
       ],
     },
   },
+
+  // ═════════════════════════════════════════════════════════
+  // FUTEBOL (Nível 2) — O Treinador Invisível
+  // Tema: aprender com o fracasso, persistência após derrota
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'invisible-coach',
+    level: 2,
+    universes: {
+      football: { title: 'O Treinador Invisível', coverEmoji: '📋' },
+    },
+    scenes: {
+      football: [
+        { text: 'O Pedro era o capitão da equipa dos Falcões. Treinava todos os dias, dava tudo em cada jogo. Mas naquela tarde, o apito final trouxe o resultado mais duro da temporada: tinham perdido a final por três golos.', mood: 'sad', sound: null, visual: '⚽' },
+        { text: 'No balneário, ninguém falava. O Pedro sentou-se no banco com a cabeça entre as mãos. Sentia que tinha falhado — não só a ele, mas a toda a equipa. As lágrimas vieram devagar, sem som.', mood: 'sad', sound: 'rain', visual: '😢' },
+        {
+          text: 'No dia seguinte, o Pedro não queria ir ao treino. Olhou para as chuteiras ao pé da porta e pensou em deixá-las ali. Para quê continuar se não era suficientemente bom?',
+          mood: 'tense', sound: null, visual: '👟',
+          interaction: {
+            type: 'emotion',
+            prompt: 'O Pedro perdeu um jogo importante. O que achas que ele está a sentir?',
+            options: [
+              { text: 'Desiludido consigo mesmo', emoji: '😞', response: 'Sim. O Pedro sente que deu tudo e não foi suficiente. Essa desilusão é pesada, mas é humana.' },
+              { text: 'Indiferente', emoji: '😐', response: 'Na verdade, o Pedro importa-se muito. A derrota deixou-o muito desiludido consigo mesmo.' },
+              { text: 'Aliviado', emoji: '😮‍💨', response: 'Não... o Pedro não está aliviado. Está desiludido porque queria muito ganhar.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Mesmo assim, o Pedro foi ao treino. Quando chegou, encontrou algo estranho no seu banco: um papel dobrado. Dentro, com letra cuidadosa, alguém tinha escrito: "O fracasso não é o oposto do sucesso. É parte do caminho."', mood: 'mysterious', sound: null, visual: '📝' },
+        { text: 'No dia seguinte, outro papel. Este dizia: "Treina o pé esquerdo durante dez minutos. Só o pé esquerdo. Amanhã vais perceber porquê." O Pedro achou estranho, mas fez o que dizia.', mood: 'mysterious', sound: null, visual: '📋' },
+        {
+          text: 'Os papéis continuaram a aparecer. Todos os dias, um novo conselho. "Observa o guarda-redes antes de chutar." "Respira três vezes antes de um livre." O Pedro seguia cada instrução.',
+          mood: 'warm', sound: 'birds', visual: '✨',
+          interaction: {
+            type: 'choice',
+            prompt: 'O Pedro está a seguir conselhos de alguém que não conhece. O que achas que ele deve fazer?',
+            options: [
+              { text: 'Continuar a seguir os conselhos', emoji: '📝', response: 'Os conselhos estão a resultar. O Pedro decidiu confiar e continuar a praticar.' },
+              { text: 'Tentar descobrir quem é', emoji: '🔍', response: 'A curiosidade é natural! Mas por agora, o Pedro decidiu focar-se nos treinos. O mistério pode esperar.' },
+              { text: 'Ignorar os papéis', emoji: '🗑️', response: 'Hmm... mas os conselhos são bons. O Pedro decidiu continuar a segui-los. Estava a melhorar!' },
+            ],
+          },
+        },
+        { text: 'Semanas passaram. O Pedro treinava com uma energia nova. O pé esquerdo ficou mais forte. A leitura de jogo melhorou. Os colegas notaram a diferença. "Pedro, estás diferente", disse o Rafa, admirado.', mood: 'joyful', sound: null, visual: '💪' },
+        {
+          text: 'Chegou o dia do grande jogo seguinte. O Pedro fez dois golos — um deles com o pé esquerdo! No final, a equipa ganhou. Mas em vez de festejar, o Pedro olhou para as bancadas, à procura de alguém.',
+          mood: 'triumphant', sound: null, visual: '🏆',
+          interaction: {
+            type: 'emotion',
+            prompt: 'O Pedro ganhou o jogo, mas em vez de festejar está a procurar alguém. O que achas que ele está a sentir?',
+            options: [
+              { text: 'Gratidão', emoji: '🙏', response: 'Exactamente. O Pedro sabe que esta vitória não é só dele. Quer agradecer a quem o ajudou.' },
+              { text: 'Orgulho', emoji: '😤', response: 'Há orgulho sim, mas acima de tudo há gratidão. O Pedro quer agradecer a quem o ajudou.' },
+              { text: 'Indiferença', emoji: '😐', response: 'Não, o Pedro importa-se muito. Sente gratidão e quer encontrar quem o ajudou em segredo.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Depois do jogo, o Pedro esperou no campo até todos irem embora. E então viu: um senhor idoso, sentado sozinho na última fila da bancada, com um cachecol dos Falcões ao pescoço.', mood: 'mysterious', sound: 'wind', visual: '👴' },
+        {
+          text: 'O Pedro subiu as bancadas e sentou-se ao lado do senhor. "Foi o senhor, não foi? Os papéis no banco." O senhor sorriu. "Chamo-me Augusto. Joguei neste campo há quarenta anos."',
+          mood: 'warm', sound: null, visual: '🤝',
+          interaction: {
+            type: 'choice',
+            prompt: 'O Pedro descobriu quem escrevia os papéis. O que achas que ele deve dizer ao senhor Augusto?',
+            options: [
+              { text: 'Obrigado por acreditar em mim', emoji: '🙏', response: 'O Pedro disse exactamente isso. O senhor Augusto sorriu e respondeu: "Eu vi em ti o que tu ainda não vias."' },
+              { text: 'Porque não me disse quem era?', emoji: '🤔', response: 'Boa pergunta! O senhor Augusto respondeu: "Porque precisavas de acreditar em ti, não em mim." O Pedro entendeu.' },
+              { text: 'Quer vir ao próximo jogo?', emoji: '😊', response: 'O senhor Augusto riu-se. "Eu venho a todos os jogos, rapaz. Só que tu nunca olhavas para cima."' },
+            ],
+          },
+        },
+        { text: 'O senhor Augusto contou que tinha sido avançado dos Falcões, há muitos anos. Uma lesão acabou com a sua carreira. Mas nunca deixou de amar o jogo. "Não podia correr, mas podia ensinar", disse ele.', mood: 'warm', sound: null, visual: '💛' },
+        { text: 'Desde esse dia, o Pedro e o senhor Augusto encontravam-se antes de cada jogo. E o Pedro aprendeu a lição mais importante de todas: a ajuda nem sempre vem de quem esperamos. Às vezes, quem mais nos ensina é quem nos observa em silêncio, à espera do momento certo para estender a mão.', mood: 'warm', sound: 'birds', visual: '⚽', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // DINOSSAUROS (Nível 2) — A Floresta dos Gigantes
+  // Tema: coragem de explorar, respeitar a natureza
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'giant-forest',
+    level: 2,
+    universes: {
+      dinosaurs: { title: 'A Floresta dos Gigantes', coverEmoji: '🌿' },
+    },
+    scenes: {
+      dinosaurs: [
+        { text: 'A Sofia adorava explorar. Enquanto as outras crianças brincavam no recreio, ela desenhava mapas imaginários no caderno. Mapas de lugares que ainda ninguém tinha descoberto.', mood: 'warm', sound: null, visual: '🗺️' },
+        { text: 'Num domingo de outono, a Sofia foi passear com o avô à serra. Enquanto ele descansava debaixo de um carvalho, a Sofia viu algo entre as árvores: um brilho verde, intenso, que não parecia natural.', mood: 'mysterious', sound: 'wind', visual: '✨' },
+        {
+          text: 'O coração da Sofia batia depressa. Olhou para o avô, que dormitava tranquilo. O brilho verde pulsava entre as árvores, como se a chamasse. Ir ou ficar?',
+          mood: 'tense', sound: null, visual: '💚',
+          interaction: {
+            type: 'choice',
+            prompt: 'A Sofia viu algo estranho na floresta. O que achas que ela deve fazer?',
+            options: [
+              { text: 'Ir investigar com cuidado', emoji: '🔍', response: 'A Sofia decidiu ir, devagar, sem perder o caminho de volta. A curiosidade era mais forte que o medo.' },
+              { text: 'Acordar o avô primeiro', emoji: '👴', response: 'Boa ideia! Mas o brilho parecia estar a desaparecer. A Sofia decidiu ir depressa, marcando o caminho.' },
+              { text: 'Ignorar e ficar', emoji: '🏠', response: 'Hmm... mas a Sofia é exploradora de coração. Não ia conseguir esquecer aquele brilho. Decidiu ir ver.' },
+            ],
+          },
+        },
+        { text: 'A Sofia seguiu o brilho por um trilho estreito entre fetos gigantes. As plantas iam ficando maiores a cada passo. Os fetos chegavam-lhe à cintura. Depois ao peito. Depois acima da cabeça.', mood: 'mysterious', sound: 'birds', visual: '🌿' },
+        { text: 'De repente, o trilho acabou e a Sofia ficou de boca aberta. À sua frente estendia-se um vale escondido, cheio de plantas enormes. Árvores tão altas que pareciam tocar as nuvens. Flores do tamanho de guarda-chuvas. Era como voltar atrás no tempo, milhões de anos.', mood: 'dreamy', sound: 'birds', visual: '🌳' },
+        {
+          text: 'E no meio daquele vale impossível, a Sofia viu uma criatura. Era enorme — do tamanho de um autocarro — com pescoço longo e pele verde-azulada. Um dinossauro. Um dinossauro verdadeiro, a comer folhas de uma árvore gigante.',
+          mood: 'mysterious', sound: null, visual: '🦕',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Sofia está a ver um dinossauro verdadeiro. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Espanto e maravilha', emoji: '🤩', response: 'Sim! A Sofia sente que o mundo é muito maior e mais mágico do que imaginava. É puro espanto.' },
+              { text: 'Terror', emoji: '😱', response: 'O dinossauro é herbívoro e parece gentil. Mais do que medo, a Sofia sente espanto e maravilha.' },
+              { text: 'Descrença', emoji: '🤔', response: 'É difícil de acreditar, sim! Mas os olhos da Sofia não mentem. E o espanto é mais forte que a dúvida.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O dinossauro virou a cabeça lentamente e olhou para a Sofia. Tinha olhos castanhos, grandes e mansos, como os de uma vaca. Inclinou o pescoço na direção dela e soprou um ar quente pelo nariz. Não era uma ameaça. Era um olá.', mood: 'warm', sound: null, visual: '💛' },
+        { text: 'A Sofia passou a tarde no vale. Observou o dinossauro comer, beber água de um riacho cristalino e deitar-se à sombra de uma árvore colossal. Reparou que o vale estava cheio de plantas que já não existiam no mundo lá fora. Era um pedaço de história viva.', mood: 'dreamy', sound: 'sea', visual: '🌺' },
+        {
+          text: 'Quando o sol começou a descer, a Sofia soube que tinha de voltar. Mas um pensamento pesava-lhe na mente: se contasse às pessoas, viriam cientistas, câmaras, multidões. O vale deixaria de ser seguro. O dinossauro deixaria de ser livre.',
+          mood: 'tense', sound: 'wind', visual: '🤔',
+          interaction: {
+            type: 'choice',
+            prompt: 'A Sofia tem de decidir: contar ao mundo ou guardar o segredo. O que achas que ela deve fazer?',
+            options: [
+              { text: 'Guardar o segredo', emoji: '🤫', response: 'A Sofia pensou o mesmo. Nem todos os tesouros precisam de ser mostrados. Alguns precisam de ser protegidos.' },
+              { text: 'Contar a toda a gente', emoji: '📢', response: 'Hmm... mas se toda a gente soubesse, o vale podia ser destruído. A Sofia decidiu proteger o segredo.' },
+              { text: 'Contar só ao avô', emoji: '👴', response: 'Boa escolha! O avô é de confiança. A Sofia decidiu partilhar o segredo com ele e mais ninguém.' },
+            ],
+          },
+        },
+        { text: 'A Sofia voltou pelo trilho, gravando cada passo na memória. Quando chegou ao carvalho, o avô estava a acordar. "Onde foste, pequena exploradora?", perguntou. A Sofia sorriu. "Fui descobrir um lugar especial, avô. Um dia levo-te lá."', mood: 'warm', sound: 'birds', visual: '😊' },
+        {
+          text: 'Nos meses seguintes, a Sofia voltou ao vale muitas vezes. O dinossauro já a reconhecia — baixava o pescoço para ela lhe tocar no focinho. Eram amigos, sem precisarem de palavras.',
+          mood: 'joyful', sound: 'birds', visual: '🦕',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Sofia tem um amigo que ninguém conhece. O que achas que ela sente quando o visita?',
+            options: [
+              { text: 'Responsabilidade e carinho', emoji: '🛡️', response: 'Sim! A Sofia sente que proteger o vale é a sua missão. E o carinho pelo dinossauro cresce a cada visita.' },
+              { text: 'Solidão', emoji: '😢', response: 'Não, a Sofia não se sente sozinha. Tem o dinossauro e o seu segredo. Sente-se responsável e feliz.' },
+              { text: 'Aborrecimento', emoji: '😒', response: 'De todo! A Sofia adora cada visita. Sente responsabilidade e um carinho profundo pelo seu amigo.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'A Sofia nunca contou o segredo do vale a mais ninguém. Porque aprendeu que a verdadeira coragem nem sempre é gritar o que sabemos — às vezes é guardar em silêncio aquilo que amamos, para que continue a existir. Há tesouros que valem mais quando protegidos do que quando mostrados ao mundo inteiro.', mood: 'warm', sound: null, visual: '🌿', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // ESPAÇO (Nível 2) — O Planeta das Cores
+  // Tema: diversidade, cada perspectiva importa
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'color-planet',
+    level: 2,
+    universes: {
+      space: { title: 'O Planeta das Cores', coverEmoji: '🎨' },
+    },
+    scenes: {
+      space: [
+        { text: 'A astronauta Luna viajava sozinha há meses. A sua nave, a Íris, deslizava silenciosa pelo espaço. Um dia, os sensores detectaram algo inesperado: um planeta que não estava em nenhum mapa.', mood: 'mysterious', sound: null, visual: '🚀' },
+        { text: 'Quando a nave se aproximou, a Luna franziu a testa. O planeta era completamente cinzento. Não havia azul de oceanos, nem verde de florestas, nem branco de nuvens. Tudo cinzento, como um desenho a lápis antes de ser pintado.', mood: 'dreamy', sound: null, visual: '🌍' },
+        {
+          text: 'A Luna aterrou numa planície suave. Quando saiu da nave, o chão era cinzento, o céu era cinzento, até o ar parecia cinzento. Sentiu uma tristeza estranha, como se o mundo à sua volta estivesse incompleto.',
+          mood: 'sad', sound: 'wind', visual: '🌫️',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Luna chegou a um planeta completamente cinzento. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Curiosidade e tristeza', emoji: '🤔', response: 'Sim. A Luna sente curiosidade pelo mistério, mas também tristeza. Um mundo sem cor parece tão vazio.' },
+              { text: 'Entusiasmo', emoji: '🤩', response: 'Há curiosidade sim, mas o cinzento traz uma certa tristeza. A Luna sente que algo falta neste mundo.' },
+              { text: 'Indiferença', emoji: '😐', response: 'A Luna não é indiferente. Sente curiosidade pelo mistério e tristeza pela falta de cor.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'De repente, uma figura apareceu. Tinha forma humana, mas era feita de luz suave. "Bem-vinda ao Cromia", disse a figura. "O meu nome é Rubi." Os olhos de Rubi brilhavam num vermelho intenso — a única cor em todo o planeta.', mood: 'mysterious', sound: null, visual: '🔴' },
+        { text: '"Eu vejo vermelho", explicou Rubi. "Só vermelho. Quando olho para uma flor, vejo o vermelho das pétalas. Mas o resto... é cinzento para mim." A Luna ficou em silêncio, a tentar compreender.', mood: 'warm', sound: null, visual: '🌹' },
+        {
+          text: 'Rubi levou a Luna pela cidade. Encontraram mais habitantes: Celeste, que só via azul. Solaris, que só via amarelo. Flora, que só via verde. Cada um vivia no seu mundo de uma só cor.',
+          mood: 'warm', sound: null, visual: '🏘️',
+          interaction: {
+            type: 'emotion',
+            prompt: 'Cada habitante vê apenas uma cor. O que achas que os habitantes sentem?',
+            options: [
+              { text: 'Estão acostumados mas incompletos', emoji: '💭', response: 'Sim. Para eles é normal, mas sentem que falta algo. Cada um vê um pedaço da realidade, nunca o todo.' },
+              { text: 'Estão felizes assim', emoji: '😊', response: 'Estão habituados, sim, mas há uma inquietação. Sabem que existe mais do que aquilo que veem.' },
+              { text: 'Estão zangados', emoji: '😡', response: 'Não estão zangados. Estão habituados, mas sentem que lhes falta algo — como uma canção sem algumas notas.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: '"Há muito tempo, o nosso planeta tinha todas as cores", contou Celeste, com os seus olhos azuis. "Mas houve uma grande tempestade e as cores partiram-se. Cada família ficou com apenas um fragmento."', mood: 'sad', sound: 'wind', visual: '💔' },
+        {
+          text: 'A Luna teve uma ideia. "E se juntássemos as vossas cores? Se cada um partilhar o que vê, talvez consigam ver tudo juntos!" Os habitantes olharam uns para os outros, desconfiados. Nunca tinham tentado.',
+          mood: 'warm', sound: null, visual: '💡',
+          interaction: {
+            type: 'choice',
+            prompt: 'A Luna sugeriu que os habitantes juntem as suas cores. Como achas que devem fazer isso?',
+            options: [
+              { text: 'Darem as mãos e fecharem os olhos', emoji: '🤝', response: 'A Luna pensou o mesmo! Quando se ligam uns aos outros, podem partilhar o que cada um vê.' },
+              { text: 'Pintarem um quadro juntos', emoji: '🎨', response: 'Bonita ideia! Mas primeiro precisam de se ligar uns aos outros. A Luna sugeriu darem as mãos.' },
+              { text: 'Pedirem à Luna para descrever as cores', emoji: '🗣️', response: 'Descrever ajuda, mas não é suficiente. A Luna sugeriu algo mais poderoso: darem as mãos e partilharem o que veem.' },
+            ],
+          },
+        },
+        { text: 'Rubi, Celeste, Solaris e Flora deram as mãos num círculo. A Luna ficou no centro. "Agora fechem os olhos", disse ela. "E pensem na vossa cor com toda a força."', mood: 'dreamy', sound: null, visual: '🫂' },
+        { text: 'Aconteceu devagar. Primeiro, uma luz vermelha saiu de Rubi. Depois, azul de Celeste. Amarelo de Solaris. Verde de Flora. As luzes giraram no ar, misturaram-se, fundiram-se. E de repente — cor. Cor por todo o lado!', mood: 'triumphant', sound: null, visual: '🌈' },
+        {
+          text: 'O céu ficou azul. A relva ficou verde. As flores ganharam vermelho, amarelo, laranja, violeta. Os habitantes abriram os olhos e, pela primeira vez, viram o mundo inteiro. Rubi viu o azul do céu e chorou. Celeste viu o verde da relva e riu. Estavam todos espantados.',
+          mood: 'joyful', sound: 'birds', visual: '✨',
+          interaction: {
+            type: 'emotion',
+            prompt: 'Os habitantes veem todas as cores pela primeira vez. O que achas que estão a sentir?',
+            options: [
+              { text: 'Alegria imensa', emoji: '🥹', response: 'Sim! É uma alegria que nunca sentiram. Finalmente veem o mundo como ele realmente é — cheio de cores.' },
+              { text: 'Confusão', emoji: '😵', response: 'Talvez um pouco, com tantas cores novas! Mas a alegria é muito maior que a confusão.' },
+              { text: 'Medo da mudança', emoji: '😨', response: 'A mudança pode assustar, mas esta é tão bonita que o medo desaparece. Sentem alegria imensa.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'A Luna sorriu e olhou para o céu colorido de Cromia. Antes de voltar à sua nave, Rubi abraçou-a. "Obrigado. Nós tínhamos as cores todas, mas cada um só via a sua. Precisámos de alguém de fora para nos lembrar de olhar juntos."', mood: 'warm', sound: null, visual: '💛' },
+        { text: 'A Luna partiu naquela noite, com Cromia a brilhar atrás de si como uma joia colorida no escuro do espaço. E levou consigo a maior lição da viagem: sozinhos, vemos apenas uma parte do mundo. Juntos, vemos tudo. Cada pessoa carrega uma cor que mais ninguém tem — e é por isso que precisamos uns dos outros.', mood: 'warm', sound: null, visual: '🌈', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // FUTEBOL (Nível 3) — O Estádio dos Sonhos
+  // Tema: lidar com a pressão, o valor do esforço vs resultado
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'dream-stadium',
+    level: 3,
+    universes: {
+      football: { title: 'O Estádio dos Sonhos', coverEmoji: '🏟️' },
+    },
+    scenes: {
+      football: [
+        { text: 'A Mariana adorava futebol. Treinava todos os dias no quintal, com uma baliza feita de duas mochilas. Sonhava com o dia em que jogaria num estádio a sério.', mood: 'warm', sound: null, visual: '⚽' },
+        { text: 'Um dia, a treinadora disse: "Mariana, foste selecionada para o torneio da cidade! Vamos jogar no Estádio Municipal." A Mariana não acreditou.', mood: 'joyful', sound: null, visual: '✨' },
+        { text: 'Nos treinos, tudo corria bem. A Mariana driblava, passava, marcava. Mas a cada dia que passava, o torneio ficava mais perto e o estômago da Mariana apertava mais.', mood: 'tense', sound: null, visual: '😰' },
+        {
+          text: 'Na véspera do jogo, a Mariana não conseguiu dormir. Pensava: "E se eu falhar? E se fizer asneira à frente de toda a gente?"',
+          mood: 'sad', sound: 'rain', visual: '🌙',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Mariana não consegue dormir antes do grande jogo. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Ansiedade', emoji: '😰', response: 'Sim. A Mariana tem ansiedade. É normal sentir isso antes de algo importante. O corpo reage ao medo de falhar.' },
+              { text: 'Preguiça', emoji: '😴', response: 'Não é preguiça. A Mariana quer muito jogar, mas tem medo de não ser boa o suficiente.' },
+              { text: 'Indiferença', emoji: '😐', response: 'A Mariana não está indiferente. Importa-se tanto que a preocupação não a deixa descansar.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'No dia do jogo, o estádio parecia enorme. Havia bancadas, luzes, um relvado verde perfeito. A Mariana olhou à volta e sentiu as pernas a tremer.', mood: 'tense', sound: null, visual: '🏟️' },
+        { text: 'O jogo começou. A Mariana estava tão nervosa que errou o primeiro passe. Depois o segundo. A bola não ia para onde ela queria.', mood: 'sad', sound: null, visual: '😣' },
+        {
+          text: 'Ao intervalo, a treinadora sentou-se ao lado dela. "Mariana, estás a jogar para quem? Para as bancadas ou para ti?"',
+          mood: 'warm', sound: null, visual: '🤔',
+          interaction: {
+            type: 'choice',
+            prompt: 'A treinadora fez uma pergunta importante. O que achas que a Mariana deve responder?',
+            options: [
+              { text: '"Para as bancadas... tenho medo de desiludir."', emoji: '😟', response: 'A Mariana foi honesta. Muitas vezes jogamos para agradar aos outros em vez de jogarmos por nós.' },
+              { text: '"Para mim! Eu adoro futebol!"', emoji: '😊', response: 'A Mariana lembrou-se do que importa: ela joga porque ama o jogo.' },
+              { text: '"Já não sei..."', emoji: '😢', response: 'Às vezes a pressão faz-nos esquecer porque começámos. A treinadora vai ajudar a Mariana a lembrar-se.' },
+            ],
+          },
+        },
+        { text: 'A treinadora sorriu. "Lembras-te de quando treinávamos no quintal? Não havia ninguém a ver. E tu rias-te sempre. Joga assim. Joga como no quintal."', mood: 'warm', sound: null, visual: '💛' },
+        { text: 'A segunda parte começou. A Mariana respirou fundo e pensou no quintal. Correu, driblou, passou. Não estava a pensar nas bancadas. Estava a divertir-se.', mood: 'joyful', sound: 'birds', visual: '⚽' },
+        {
+          text: 'Nos últimos minutos, a Mariana teve a bola nos pés à frente da baliza. Chutou com força... e a bola bateu no poste. Não entrou.',
+          mood: 'tense', sound: null, visual: '😮',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Mariana falhou o golo no último minuto. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Desiludida, mas orgulhosa', emoji: '🥹', response: 'Exactamente. Dói falhar, mas a Mariana sabe que deu tudo. E isso é o mais importante.' },
+              { text: 'Furiosa consigo mesma', emoji: '😡', response: 'Talvez um pouco, mas a Mariana aprendeu algo hoje: o resultado não define o esforço.' },
+              { text: 'Indiferente', emoji: '😐', response: 'A Mariana importa-se, sim. Mas aprendeu que dar o melhor é mais importante do que o resultado.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'A equipa perdeu por 1-0. Mas quando a Mariana saiu do campo, a treinadora abraçou-a. "Na segunda parte, jogaste o melhor futebol que já te vi jogar."', mood: 'warm', sound: null, visual: '🤗' },
+        { text: 'Naquela noite, a Mariana dormiu como um bebé. Não tinha ganho o jogo, mas tinha ganho algo maior: a certeza de que o importante não é ser perfeita, mas ser verdadeira.', mood: 'warm', sound: null, visual: '⭐', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // DINOSSAUROS (Nível 3) — O Mapa dos Ossos
+  // Tema: paciência, descoberta, valor do processo
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'bone-map',
+    level: 3,
+    universes: {
+      dinosaurs: { title: 'O Mapa dos Ossos', coverEmoji: '🗺️' },
+    },
+    scenes: {
+      dinosaurs: [
+        { text: 'A avó da Mafalda tinha sido paleontóloga — alguém que estuda ossos de dinossauros. Quando morreu, deixou à Mafalda uma caixa de madeira com um mapa antigo dentro.', mood: 'warm', sound: null, visual: '📦' },
+        { text: 'O mapa mostrava um lugar na serra, com um X vermelho e uma nota: "Aqui dorme algo maravilhoso. Tem paciência, Mafalda."', mood: 'mysterious', sound: null, visual: '🗺️' },
+        { text: 'No sábado seguinte, a Mafalda e o pai foram à serra. Levavam pás, pincéis, e o mapa. O X ficava perto de umas rochas grandes, junto a um ribeiro.', mood: 'joyful', sound: 'birds', visual: '🏔️' },
+        {
+          text: 'Escavaram durante uma hora. Nada. Duas horas. Nada. A Mafalda estava a ficar cansada e frustrada. "Se calhar o mapa está errado", disse.',
+          mood: 'sad', sound: null, visual: '😤',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Mafalda está frustrada depois de escavar sem encontrar nada. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Frustração e dúvida', emoji: '😤', response: 'Sim. Quando trabalhamos muito e não vemos resultado, é normal sentir frustração. A paciência é difícil.' },
+              { text: 'Raiva da avó', emoji: '😡', response: 'A Mafalda não está zangada com a avó. Está frustrada com a espera. A paciência é das coisas mais difíceis.' },
+              { text: 'Tédio', emoji: '😒', response: 'Mais do que tédio, é frustração. A Mafalda quer muito encontrar algo, mas a espera é difícil.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O pai sentou-se ao lado dela. "A tua avó passava semanas a escavar sem encontrar nada. Sabes o que ela dizia? Que a terra fala, mas fala devagar."', mood: 'warm', sound: 'wind', visual: '👨' },
+        {
+          text: 'A Mafalda olhou para o mapa outra vez. Depois olhou para a terra. Podia ir embora ou podia continuar.',
+          mood: 'mysterious', sound: null, visual: '🤔',
+          interaction: {
+            type: 'choice',
+            prompt: 'A Mafalda está cansada. O que achas que ela deve fazer?',
+            options: [
+              { text: 'Continuar com calma', emoji: '🧘', response: 'A Mafalda respirou fundo e pegou no pincel. Com calma, sem pressa.' },
+              { text: 'Ir embora e voltar outro dia', emoji: '🏠', response: 'Descansar também é importante. Mas a Mafalda decidiu tentar mais um bocadinho.' },
+              { text: 'Cavar mais rápido', emoji: '⛏️', response: 'Hmm... a pressa pode estragar o que está escondido. A avó dizia: "com calma." A Mafalda decidiu abrandar.' },
+            ],
+          },
+        },
+        { text: 'A Mafalda pegou num pincel pequeno e começou a limpar a terra com cuidado. Grão por grão. De repente, o pincel bateu em algo duro. Não era uma pedra.', mood: 'mysterious', sound: null, visual: '🪥' },
+        { text: 'Com muito cuidado, a Mafalda limpou à volta. Apareceu uma forma curva, castanha, lisa. Um osso! Um osso verdadeiro, antigo, de milhões de anos!', mood: 'triumphant', sound: null, visual: '🦴' },
+        {
+          text: 'A Mafalda ficou a olhar para o osso com os olhos a brilhar. Tocou-lhe com a ponta dos dedos, como se fosse o objeto mais precioso do mundo.',
+          mood: 'joyful', sound: 'birds', visual: '✨',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Mafalda encontrou o osso de dinossauro. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Admiração e ligação à avó', emoji: '🥹', response: 'Sim! A Mafalda sente que a avó lhe deixou algo mais do que um osso — deixou-lhe uma lição.' },
+              { text: 'Vontade de vender o osso', emoji: '💰', response: 'Não. Para a Mafalda, este osso vale mais do que dinheiro. É a ligação com a avó.' },
+              { text: 'Alívio por ter acabado', emoji: '😮‍💨', response: 'Alívio sim, mas muito mais do que isso. A Mafalda sente admiração e ligação com a avó.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O pai tirou uma fotografia da Mafalda com o osso. Tinha exactamente o mesmo sorriso da avó. "Ela estaria orgulhosa de ti", disse.', mood: 'warm', sound: null, visual: '📸' },
+        { text: 'No caminho de volta, a Mafalda segurava a caixa da avó contra o peito. Lá dentro, ao lado do mapa, pôs o pincel. Porque aprendeu que as coisas mais bonitas da vida não se encontram à pressa. Encontram-se grão a grão.', mood: 'warm', sound: null, visual: '💛', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // ESPAÇO (Nível 3) — A Mensagem do Outro Lado
+  // Tema: comunicação, empatia, entender o diferente
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'message-beyond',
+    level: 3,
+    universes: {
+      space: { title: 'A Mensagem do Outro Lado', coverEmoji: '📡' },
+    },
+    scenes: {
+      space: [
+        { text: 'Na estação espacial Horizonte, a astronauta Vera trabalhava sozinha. Monitorizava sinais do espaço profundo. A maioria era ruído — o murmúrio do universo.', mood: 'dreamy', sound: null, visual: '🛸' },
+        { text: 'Mas uma noite, um sinal diferente apareceu no ecrã. Não era ruído. Tinha um padrão. Repetia-se: três pulsos, pausa, três pulsos, pausa.', mood: 'mysterious', sound: null, visual: '📡' },
+        { text: 'Vera sentou-se direita na cadeira. O coração batia depressa. Alguém — ou algo — estava a enviar uma mensagem.', mood: 'tense', sound: null, visual: '💓' },
+        {
+          text: 'Vera olhou para o botão de resposta. Devia responder? E se fosse perigoso? E se fosse algo maravilhoso?',
+          mood: 'mysterious', sound: null, visual: '🤔',
+          interaction: {
+            type: 'choice',
+            prompt: 'Vera recebeu um sinal misterioso do espaço. O que achas que ela deve fazer?',
+            options: [
+              { text: 'Responder com o mesmo padrão', emoji: '📡', response: 'Vera repetiu o padrão: três pulsos, pausa. Uma forma de dizer "Estou aqui. Ouvi-te."' },
+              { text: 'Ignorar e avisar a Terra', emoji: '🌍', response: 'Prudente, mas Vera sentiu que devia responder primeiro. Repetiu o padrão: "Ouvi-te."' },
+              { text: 'Esperar para ver se se repete', emoji: '⏳', response: 'Vera esperou um pouco. O sinal repetiu-se. Então respondeu com o mesmo padrão.' },
+            ],
+          },
+        },
+        { text: 'Vera enviou a resposta. Depois esperou. Minutos passaram. De repente, um novo padrão: cinco pulsos, pausa, dois pulsos. Diferente. A mensagem estava a mudar.', mood: 'mysterious', sound: null, visual: '✨' },
+        { text: 'Durante dias, Vera e o sinal trocaram padrões. Primeiro números simples. Depois formas. Depois algo que parecia... emoções. Pulsos rápidos para excitação. Pulsos lentos para calma.', mood: 'warm', sound: null, visual: '💫' },
+        {
+          text: 'Vera apercebeu-se de algo extraordinário: não estava a comunicar com uma máquina. Estava a comunicar com alguém que sentia. Alguém tão diferente dela que não tinha palavras — mas que sentia as mesmas coisas.',
+          mood: 'joyful', sound: null, visual: '💛',
+          interaction: {
+            type: 'emotion',
+            prompt: 'Vera percebeu que está a comunicar com um ser que sente emoções. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Maravilhada e emocionada', emoji: '🤩', response: 'Sim! Descobrir que não estamos sozinhos — que alguém sente como nós, mesmo sendo tão diferente — é extraordinário.' },
+              { text: 'Assustada', emoji: '😨', response: 'Talvez um pouco, mas o maravilhamento é mais forte. Alguém sente como ela, mesmo do outro lado do universo.' },
+              { text: 'Confusa', emoji: '🤔', response: 'É confuso sim, mas acima de tudo é maravilhoso. Não estamos sozinhos.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Um dia, o sinal ficou mais fraco. Os pulsos abrandaram. Como alguém a despedir-se.', mood: 'sad', sound: null, visual: '😢' },
+        {
+          text: 'Vera enviou os pulsos mais gentis que conseguiu. Lentos, regulares, como um abraço feito de luz.',
+          mood: 'warm', sound: null, visual: '🫂',
+          interaction: {
+            type: 'emotion',
+            prompt: 'O sinal está a desaparecer. Vera está a despedir-se. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Triste mas grata', emoji: '🥹', response: 'Sim. Despedidas são tristes, mas Vera sabe que viveu algo que ninguém mais viveu. E isso é um presente.' },
+              { text: 'Desesperada', emoji: '😭', response: 'É triste, mas Vera aprendeu algo precioso: a ligação que tiveram vai ficar com ela para sempre.' },
+              { text: 'Aliviada', emoji: '😮‍💨', response: 'Não. Vera está triste por perder este amigo. Mas está grata por tudo o que partilharam.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'O último pulso chegou. Depois, silêncio. Vera ficou sentada no escuro, a ouvir o murmúrio do universo. Mas agora, o murmúrio já não era ruído. Era música.', mood: 'dreamy', sound: null, visual: '🌌' },
+        { text: 'Vera nunca contou a ninguém. Não porque fosse segredo, mas porque algumas experiências vivem melhor no coração. Aprendeu que para comunicar de verdade, não precisamos da mesma língua. Precisamos de querer ouvir.', mood: 'warm', sound: null, visual: '💫', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // ANIMAIS (Nível 3) — A Baleia que Cantava Diferente
+  // Tema: solidão, encontrar a sua comunidade, ser ouvido
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'whale-song',
+    level: 3,
+    universes: {
+      animals: { title: 'A Baleia que Cantava Diferente', coverEmoji: '🐋' },
+    },
+    scenes: {
+      animals: [
+        { text: 'No fundo do oceano, vivia uma baleia chamada Ondina. Tinha o corpo azul-escuro, olhos gentis, e uma cauda enorme. Mas Ondina tinha um problema.', mood: 'warm', sound: 'sea', visual: '🐋' },
+        { text: 'Quando cantava, a sua voz saía num tom diferente de todas as outras baleias. As outras cantavam grave e lento. A Ondina cantava agudo e rápido.', mood: 'sad', sound: null, visual: '🎵' },
+        { text: 'As outras baleias não a ouviam. Passavam por ela sem parar. A Ondina cantava e cantava, mas ninguém respondia. Era como falar para o vazio.', mood: 'sad', sound: null, visual: '😢' },
+        {
+          text: 'Ondina começou a nadar sozinha, em silêncio. Pensava: "Se ninguém me ouve, para que é que eu canto?"',
+          mood: 'sad', sound: 'sea', visual: '🌊',
+          interaction: {
+            type: 'emotion',
+            prompt: 'Ninguém ouve o canto da Ondina. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Solidão profunda', emoji: '😢', response: 'Sim. A Ondina sente uma solidão imensa. Quer ser ouvida, mas a sua voz é diferente.' },
+              { text: 'Raiva das outras baleias', emoji: '😡', response: 'Talvez um pouco, mas mais do que raiva, a Ondina sente solidão. Quer pertencer.' },
+              { text: 'Indiferença', emoji: '😐', response: 'A Ondina importa-se, e muito. Sente solidão porque o que mais quer é ser ouvida.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Um dia, enquanto nadava perto da superfície, Ondina ouviu algo. Não era uma baleia. Era um som estranho, metálico, vindo de um barco. Um som repetitivo, como um chamamento.', mood: 'mysterious', sound: null, visual: '🚢' },
+        { text: 'Era uma cientista chamada Clara, que estudava sons do oceano. O microfone dela captou o canto da Ondina. Clara ficou espantada: "Esta baleia canta num tom que nunca ouvi!"', mood: 'joyful', sound: null, visual: '🎧' },
+        {
+          text: 'Clara transmitiu o canto da Ondina pelo altifalante, para o oceano. E algo incrível aconteceu. De muito longe, veio uma resposta. Outra voz, no mesmo tom da Ondina.',
+          mood: 'triumphant', sound: 'sea', visual: '✨',
+          interaction: {
+            type: 'emotion',
+            prompt: 'Ondina ouviu alguém a responder-lhe pela primeira vez. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Alegria e esperança', emoji: '🤩', response: 'Sim! Pela primeira vez, alguém respondeu. Ondina não é a única. Há mais alguém como ela!' },
+              { text: 'Desconfiança', emoji: '🤔', response: 'Talvez um instante de dúvida, mas a alegria é mais forte. Alguém a ouviu!' },
+              { text: 'Medo', emoji: '😨', response: 'Não. A Ondina sente o contrário do medo. Sente esperança e alegria.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Ondina nadou na direcção da voz. Nadou durante dias. E ao terceiro dia, encontrou outra baleia. Uma baleia cinzenta, mais pequena, com olhos brilhantes. Cantava no mesmo tom.', mood: 'joyful', sound: 'sea', visual: '🐋' },
+        {
+          text: 'As duas baleias cantaram juntas. O som ecoou pelo oceano inteiro. Não era o canto mais bonito do mar. Mas era o mais verdadeiro.',
+          mood: 'warm', sound: null, visual: '🎶',
+          interaction: {
+            type: 'choice',
+            prompt: 'Ondina encontrou outra baleia que canta como ela. O que achas que aprendemos com isto?',
+            options: [
+              { text: 'Há sempre alguém que nos entende', emoji: '💛', response: 'Exactamente. Mesmo quando nos sentimos sozinhos, há alguém no mundo que fala a nossa língua.' },
+              { text: 'Devemos mudar para ser iguais', emoji: '🔄', response: 'Não! A Ondina não mudou. Continuou a cantar à sua maneira e encontrou quem a entende.' },
+              { text: 'É melhor ficar sozinho', emoji: '🏝️', response: 'Não. A Ondina estava triste sozinha. Encontrar alguém que nos entende faz toda a diferença.' },
+            ],
+          },
+        },
+        { text: 'E a Ondina nunca mais nadou em silêncio. Cantava todos os dias, alto e claro, no seu tom especial. Porque aprendeu que não precisamos de ser ouvidos por todos. Basta ser ouvido por alguém.', mood: 'warm', sound: 'sea', visual: '🐋', isEnding: true },
+      ],
+    },
+  },
+
+  // ═════════════════════════════════════════════════════════
+  // MÚSICA (Nível 3) — A Orquestra dos Diferentes
+  // Tema: inclusão, cada contribuição importa
+  // ═════════════════════════════════════════════════════════
+  {
+    id: 'different-orchestra',
+    level: 3,
+    universes: {
+      music: { title: 'A Orquestra dos Diferentes', coverEmoji: '🎻' },
+    },
+    scenes: {
+      music: [
+        { text: 'Na escola de música da vila, todos os alunos tocavam instrumentos normais: piano, violino, flauta. Mas a nova professora, Dona Melodia, tinha ideias diferentes.', mood: 'warm', sound: null, visual: '🎵' },
+        { text: '"Esta semana vamos criar uma orquestra", disse ela. "Mas não podem usar instrumentos normais. Têm de encontrar os vossos próprios sons."', mood: 'joyful', sound: null, visual: '👩‍🏫' },
+        { text: 'Os alunos ficaram confusos. O André trouxe dois paus. A Sofia trouxe um balde velho. O Tomé trouxe folhas secas. A Lia trouxe... nada. Tinha as mãos vazias.', mood: 'mysterious', sound: null, visual: '🤷' },
+        {
+          text: '"Eu não encontrei nenhum som", disse a Lia, envergonhada. "Tentei, mas nada soava bem."',
+          mood: 'sad', sound: null, visual: '😞',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Lia não encontrou um instrumento e sente-se envergonhada. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Vergonha e medo de não pertencer', emoji: '😳', response: 'Sim. A Lia quer participar, mas tem medo de não ter nada para oferecer.' },
+              { text: 'Preguiça', emoji: '😴', response: 'Não é preguiça! A Lia tentou. Às vezes é difícil encontrar o nosso lugar.' },
+              { text: 'Indiferença', emoji: '😐', response: 'A Lia importa-se muito. Está envergonhada porque quer participar mas não sabe como.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'Dona Melodia sorriu. "Lia, o teu corpo é um instrumento. Podes bater palmas, estalar os dedos, bater os pés no chão, ou até fazer sons com a boca."', mood: 'warm', sound: null, visual: '👏' },
+        { text: 'Começaram a ensaiar. O André batia os paus: tac-tac-tac! A Sofia tamboritava no balde: bum-bum! O Tomé amachucava folhas: crush-crush! E a Lia? Batia palmas no ritmo.', mood: 'joyful', sound: null, visual: '🎶' },
+        {
+          text: 'Mas os sons não combinavam. Cada um tocava no seu ritmo. Era uma confusão. O André ficou frustrado. "Isto não funciona! Cada um faz uma coisa diferente!"',
+          mood: 'tense', sound: null, visual: '😤',
+          interaction: {
+            type: 'choice',
+            prompt: 'Os sons não combinam e o André está frustrado. O que achas que devem fazer?',
+            options: [
+              { text: 'Ouvir uns aos outros antes de tocar', emoji: '👂', response: 'Exactamente! A chave é ouvir. Quando cada um ouve os outros, os sons começam a encaixar.' },
+              { text: 'Desistir porque não funciona', emoji: '🙅', response: 'Hmm... coisas novas demoram a funcionar. A solução é ouvirem-se uns aos outros.' },
+              { text: 'Que só um toque de cada vez', emoji: '☝️', response: 'Isso é um começo! Mas o objectivo é tocarem juntos. A chave é ouvirem-se uns aos outros.' },
+            ],
+          },
+        },
+        { text: 'Dona Melodia pediu silêncio. "Agora, a Lia vai bater palmas. Só a Lia. Ouçam." Plap... plap... plap. Um ritmo simples e constante, como um coração.', mood: 'warm', sound: null, visual: '💓' },
+        { text: '"André, junta os teus paus ao ritmo da Lia." Tac-tac... tac-tac. "Sofia, agora tu." Bum... bum. Um a um, cada som encontrou o seu lugar.', mood: 'joyful', sound: null, visual: '🎵' },
+        {
+          text: 'E de repente, a sala encheu-se de música. Não era perfeita, mas era real. Era deles. A Lia, que pensava que não tinha nada para oferecer, era o coração de tudo.',
+          mood: 'triumphant', sound: null, visual: '✨',
+          interaction: {
+            type: 'emotion',
+            prompt: 'A Lia, que veio de mãos vazias, tornou-se o coração da orquestra. O que achas que ela está a sentir?',
+            options: [
+              { text: 'Orgulho e pertença', emoji: '🥹', response: 'Sim! A Lia descobriu que tinha algo valioso para dar. Às vezes o mais simples é o mais importante.' },
+              { text: 'Surpresa', emoji: '😮', response: 'Surpresa sim, mas também orgulho. A Lia encontrou o seu lugar.' },
+              { text: 'Nada de especial', emoji: '😐', response: 'A Lia sente muito! Descobriu que tinha algo para oferecer, mesmo de mãos vazias.' },
+            ],
+            bestIndex: 0,
+          },
+        },
+        { text: 'No concerto da escola, a orquestra dos diferentes tocou. Ninguém tinha ouvido nada assim. Era estranho, era novo, era lindo. E a Lia batia palmas no centro de tudo.', mood: 'joyful', sound: null, visual: '👏' },
+        { text: 'Naquela noite, o André disse à Lia: "Sabes, tu eras a peça que faltava." A Lia sorriu. Porque aprendeu que não precisamos de ser extraordinários para fazer parte de algo extraordinário. Basta estarmos presentes.', mood: 'warm', sound: null, visual: '💛', isEnding: true },
+      ],
+    },
+  },
 ]
 
 /**
