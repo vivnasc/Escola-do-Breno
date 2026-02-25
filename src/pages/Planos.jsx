@@ -12,10 +12,27 @@ export default function Planos({ currentTier, onSubscribed }) {
   const navigate = useNavigate()
   const tierId = currentTier || 'free'
   const [expandedTier, setExpandedTier] = useState(null)
+  const [accessCode, setAccessCode] = useState('')
+  const [codeMsg, setCodeMsg] = useState(null)
 
   const handleSubscribed = (data) => {
     onSubscribed?.(data)
     setExpandedTier(null)
+  }
+
+  const handleAccessCode = () => {
+    const code = accessCode.trim().toUpperCase()
+    if (code === 'FUNDADOR') {
+      onSubscribed?.({
+        tierId: 'family',
+        subscriptionId: 'founder-access',
+        activatedAt: new Date().toISOString(),
+      })
+      setCodeMsg({ ok: true, text: 'Acesso activado!' })
+      setAccessCode('')
+    } else {
+      setCodeMsg({ ok: false, text: 'Código inválido' })
+    }
   }
 
   return (
@@ -110,6 +127,32 @@ export default function Planos({ currentTier, onSubscribed }) {
           )
         })}
       </div>
+
+      <section style={styles.accessCodeSection}>
+        <h3 style={styles.accessCodeTitle}>Tens um código de acesso?</h3>
+        <div style={styles.accessCodeRow}>
+          <input
+            type="text"
+            value={accessCode}
+            onChange={(e) => { setAccessCode(e.target.value); setCodeMsg(null) }}
+            onKeyDown={(e) => e.key === 'Enter' && handleAccessCode()}
+            placeholder="Introduz o código"
+            style={styles.accessCodeInput}
+          />
+          <button
+            style={styles.accessCodeBtn}
+            onClick={handleAccessCode}
+            disabled={!accessCode.trim()}
+          >
+            Activar
+          </button>
+        </div>
+        {codeMsg && (
+          <p style={{ ...styles.accessCodeMsg, color: codeMsg.ok ? '#4CAF50' : '#E53935' }}>
+            {codeMsg.text}
+          </p>
+        )}
+      </section>
 
       <section style={styles.faq}>
         <h2 style={styles.faqTitle}>Perguntas Frequentes</h2>
@@ -355,6 +398,53 @@ const styles = {
     fontWeight: 500,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-sm)',
+  },
+  accessCodeSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 'var(--space-sm)',
+    padding: 'var(--space-lg)',
+    backgroundColor: 'var(--color-surface)',
+    borderRadius: 'var(--radius-lg)',
+    border: '1px solid var(--color-border)',
+  },
+  accessCodeTitle: {
+    fontSize: 'var(--font-size-base)',
+    fontWeight: 600,
+    color: 'var(--color-text)',
+  },
+  accessCodeRow: {
+    display: 'flex',
+    gap: 'var(--space-sm)',
+    width: '100%',
+    maxWidth: '320px',
+  },
+  accessCodeInput: {
+    flex: 1,
+    padding: 'var(--space-sm) var(--space-md)',
+    border: '2px solid var(--color-border)',
+    borderRadius: 'var(--radius-md)',
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-base)',
+    textAlign: 'center',
+    letterSpacing: '2px',
+    textTransform: 'uppercase',
+  },
+  accessCodeBtn: {
+    padding: 'var(--space-sm) var(--space-md)',
+    backgroundColor: 'var(--color-primary)',
+    color: 'white',
+    border: 'none',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
+    fontWeight: 700,
+    fontFamily: 'inherit',
+    fontSize: 'var(--font-size-sm)',
+  },
+  accessCodeMsg: {
+    fontSize: 'var(--font-size-sm)',
+    fontWeight: 600,
   },
   backBtn: {
     alignSelf: 'center',
