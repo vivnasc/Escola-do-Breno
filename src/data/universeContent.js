@@ -231,14 +231,14 @@ const CONTENT = {
     division: [
       { total: 12, groups: 2, context: '12 jogadores divididos em 2 equipas iguais.' },
       { total: 10, groups: 5, context: '10 bolas para 5 jogadores.' },
-      { total: 15, groups: 3, context: '15 bidoes de agua para 3 equipas.' },
+      { total: 15, groups: 3, context: '15 bidões de água para 3 equipas.' },
       { total: 8, groups: 2, context: '8 coletes para 2 grupos de treino.' },
       { total: 20, groups: 4, context: '20 medalhas para 4 equipas vencedoras.' },
       { total: 6, groups: 3, context: '6 pares de luvas para 3 guarda-redes.' },
       { total: 16, groups: 4, context: '16 cones para marcar 4 zonas do campo.' },
       { total: 9, groups: 3, context: '9 jogadores divididos em 3 mini-equipas.' },
-      { total: 18, groups: 6, context: '18 garrafas de agua para 6 jogadores.' },
-      { total: 24, groups: 4, context: '24 chuteiras para 4 bancadas do balneario.' },
+      { total: 18, groups: 6, context: '18 garrafas de água para 6 jogadores.' },
+      { total: 24, groups: 4, context: '24 chuteiras para 4 bancadas do balneário.' },
       { total: 14, groups: 7, context: '14 caneleiras para 7 jogadores.' },
       { total: 21, groups: 3, context: '21 camisolas para 3 equipas do torneio.' },
     ],
@@ -249,9 +249,9 @@ const CONTENT = {
         { name: 'Bilhete', emoji: '🎫', price: 50 },
         { name: 'Cachecol', emoji: '🧣', price: 30 },
         { name: 'Camisola', emoji: '👕', price: 100 },
-        { name: 'Agua', emoji: '💧', price: 10 },
+        { name: 'Água', emoji: '💧', price: 10 },
         { name: 'Pipocas', emoji: '🍿', price: 20 },
-        { name: 'Chapeu', emoji: '🧢', price: 40 },
+        { name: 'Chapéu', emoji: '🧢', price: 40 },
         { name: 'Apito', emoji: '🔔', price: 15 },
         { name: 'Bola', emoji: '🏐', price: 75 },
         { name: 'Poster', emoji: '⚽', price: 25 },
@@ -278,19 +278,19 @@ const CONTENT = {
         { name: 'Bayern Munich', detail: 'Alemanha', colors: ['red', 'white'] },
         { name: 'Brasil', detail: 'Seleção', colors: ['yellow', 'green'] },
         { name: 'Argentina', detail: 'Seleção', colors: ['white', 'blue'] },
-        { name: 'Juventus', detail: 'Italia', colors: ['black', 'white'] },
-        { name: 'PSG', detail: 'Franca', colors: ['blue', 'red'] },
+        { name: 'Juventus', detail: 'Itália', colors: ['black', 'white'] },
+        { name: 'PSG', detail: 'França', colors: ['blue', 'red'] },
         { name: 'Benfica', detail: 'Portugal', colors: ['red', 'white'] },
         { name: 'Manchester City', detail: 'Inglaterra', colors: ['blue', 'white'] },
         { name: 'Borussia Dortmund', detail: 'Alemanha', colors: ['yellow', 'black'] },
-        { name: 'AC Milan', detail: 'Italia', colors: ['red', 'black'] },
+        { name: 'AC Milan', detail: 'Itália', colors: ['red', 'black'] },
         { name: 'Santos', detail: 'Brasil', colors: ['white', 'black'] },
         { name: 'Seleção', detail: 'Moçambique', colors: ['green', 'red'] },
       ],
     },
 
     read: {
-      title: 'Le o Resultado',
+      title: 'Lê o Resultado',
       completeText: 'Leste todos os resultados!',
       boardColor: '#1B5E20',
       items: [
@@ -337,7 +337,7 @@ const CONTENT = {
           { name: 'Feliz', emoji: '😊', correct: false },
           { name: 'Com sono', emoji: '😴', correct: false },
         ],
-        strategy: 'Respira fundo. Explica com calma o que aconteceu. Pede a alguem que confirme.',
+        strategy: 'Respira fundo. Explica com calma o que aconteceu. Pede a alguém que confirme.',
       },
       {
         situation: 'Descobres um fóssil raro durante uma escavação!',
@@ -380,7 +380,7 @@ const CONTENT = {
         strategy: 'É normal ficar triste. Podes continuar a ser amigo! Combina encontros para explorar juntos.',
       },
       {
-        situation: 'Ganhas o premio de melhor explorador do campo de ferias.',
+        situation: 'Ganhas o prémio de melhor explorador do campo de férias.',
         emoji: '🏆',
         emotions: [
           { name: 'Orgulhoso', emoji: '🥹', correct: true },
@@ -427,7 +427,7 @@ const CONTENT = {
           { name: 'Zangado', emoji: '😠', correct: false },
           { name: 'Aborrecido', emoji: '😐', correct: false },
         ],
-        strategy: 'Que privilegio! Aproveita cada momento e tira notas sobre o que viste.',
+        strategy: 'Que privilégio! Aproveita cada momento e tira notas sobre o que viste.',
       },
     ],
 
@@ -460,7 +460,7 @@ const CONTENT = {
           { text: 'Ignoro-o', correct: false },
           { text: 'Gozar porque não sabe nada', correct: false },
         ],
-        lesson: 'Ajudar os novos colegas e a marca de um grande explorador!',
+        lesson: 'Ajudar os novos colegas é a marca de um grande explorador!',
       },
       {
         situation: 'O teu grupo descobre o melhor fóssil. Como celebras?',
@@ -510,7 +510,7 @@ const CONTENT = {
           { text: 'Recuso e digo que sou mais experiente', correct: false },
           { text: 'Fico zangado e vou embora', correct: false },
         ],
-        lesson: 'Dar a vez aos mais novos mostra maturidade. Um dia também te ajudaram a comecar!',
+        lesson: 'Dar a vez aos mais novos mostra maturidade. Um dia também te ajudaram a começar!',
       },
       {
         situation: 'Um colega estraga a tua escavação sem querer. O que fazes?',
@@ -537,7 +537,7 @@ const CONTENT = {
     division: [
       { total: 12, groups: 2, context: '12 exploradores divididos em 2 grupos de escavação.' },
       { total: 10, groups: 5, context: '10 pincéis para 5 escavadores.' },
-      { total: 15, groups: 3, context: '15 garrafas de agua para 3 grupos.' },
+      { total: 15, groups: 3, context: '15 garrafas de água para 3 grupos.' },
       { total: 8, groups: 2, context: '8 capacetes para 2 equipas de escavação.' },
       { total: 20, groups: 4, context: '20 amostras de rocha para 4 caixas.' },
       { total: 6, groups: 3, context: '6 lupas para 3 pares de exploradores.' },
@@ -555,9 +555,9 @@ const CONTENT = {
         { name: 'Bilhete', emoji: '🎫', price: 50 },
         { name: 'Miniatura T-Rex', emoji: '🦕', price: 30 },
         { name: 'Livro de Fósseis', emoji: '📖', price: 100 },
-        { name: 'Agua', emoji: '💧', price: 10 },
+        { name: 'Água', emoji: '💧', price: 10 },
         { name: 'Kit Escavação', emoji: '🔨', price: 20 },
-        { name: 'Chapeu Explorador', emoji: '🧢', price: 40 },
+        { name: 'Chapéu Explorador', emoji: '🧢', price: 40 },
         { name: 'Poster', emoji: '🦕', price: 25 },
         { name: 'Lupa', emoji: '🔍', price: 15 },
         { name: 'Caderno', emoji: '📓', price: 35 },
@@ -617,7 +617,7 @@ const CONTENT = {
 
     routine: {
       title: 'Rotina do Explorador',
-      step8: { text: 'Aulas da tarde / Clube de Ciencias', emoji: '🔬' },
+      step8: { text: 'Aulas da tarde / Clube de Ciências', emoji: '🔬' },
     },
   },
 
@@ -646,7 +646,7 @@ const CONTENT = {
         strategy: 'Respira fundo. Todos os astronautas esperam a sua vez. Aproveita para estudar os mapas!',
       },
       {
-        situation: 'Aterras num planeta novo e descobres agua!',
+        situation: 'Aterras num planeta novo e descobres água!',
         emoji: '💧',
         emotions: [
           { name: 'Alegre', emoji: '😄', correct: true },
@@ -726,7 +726,7 @@ const CONTENT = {
         strategy: 'Não fiques triste. Todos os cientistas erram. Tenta outra vez e aprende com os erros!',
       },
       {
-        situation: 'Depois de meses no espaço, finalmente ves a Terra pela janela ao regressar!',
+        situation: 'Depois de meses no espaço, finalmente vês a Terra pela janela ao regressar!',
         emoji: '🌍',
         emotions: [
           { name: 'Aliviado', emoji: '😮‍💨', correct: true },
@@ -809,7 +809,7 @@ const CONTENT = {
         lesson: 'Corrigir erros em privado mostra respeito. No espaço, um pequeno erro pode ser muito grave!',
       },
       {
-        situation: 'Ha só um lugar para ver a chuva de meteoritos pela janela da estação. O que fazes?',
+        situation: 'Há só um lugar para ver a chuva de meteoritos pela janela da estação. O que fazes?',
         emoji: '☄️',
         options: [
           { text: 'Revezamo-nos para todos verem', correct: true },
@@ -847,7 +847,7 @@ const CONTENT = {
       { total: 8, groups: 2, context: '8 fatos espaciais para 2 equipas.' },
       { total: 20, groups: 4, context: '20 amostras de rocha lunar para 4 laboratórios.' },
       { total: 6, groups: 3, context: '6 tablets para 3 pares de astronautas.' },
-      { total: 16, groups: 4, context: '16 sensores para 4 estáções de monitorização.' },
+      { total: 16, groups: 4, context: '16 sensores para 4 estações de monitorização.' },
       { total: 9, groups: 3, context: '9 astronautas divididos em 3 mini-equipas.' },
       { total: 18, groups: 6, context: '18 painéis solares para 6 módulos da estação.' },
       { total: 24, groups: 4, context: '24 rações espaciais para 4 semanas de missão.' },
@@ -859,13 +859,13 @@ const CONTENT = {
       title: 'Loja da Estação',
       items: [
         { name: 'Bilhete Espacial', emoji: '🎫', price: 50 },
-        { name: 'Miniatura Foguetao', emoji: '🚀', price: 30 },
+        { name: 'Miniatura Foguetão', emoji: '🚀', price: 30 },
         { name: 'Fato Astronauta', emoji: '🧑‍🚀', price: 100 },
-        { name: 'Agua Espacial', emoji: '💧', price: 10 },
+        { name: 'Água Espacial', emoji: '💧', price: 10 },
         { name: 'Mapa Estelar', emoji: '🗺️', price: 20 },
         { name: 'Capacete Espacial', emoji: '⛑️', price: 40 },
         { name: 'Poster', emoji: '🌌', price: 25 },
-        { name: 'Telescopio Mini', emoji: '🔭', price: 75 },
+        { name: 'Telescópio Mini', emoji: '🔭', price: 75 },
         { name: 'Caderno', emoji: '📓', price: 35 },
         { name: 'Globo', emoji: '🌍', price: 15 },
       ],
@@ -887,13 +887,13 @@ const CONTENT = {
         { name: 'Terra', detail: 'Sistema Solar', colors: ['blue', 'green'] },
         { name: 'Marte', detail: 'Sistema Solar', colors: ['red', 'orange'] },
         { name: 'Saturno', detail: 'Sistema Solar', colors: ['yellow', 'orange'] },
-        { name: 'Jupiter', detail: 'Sistema Solar', colors: ['orange', 'white'] },
+        { name: 'Júpiter', detail: 'Sistema Solar', colors: ['orange', 'white'] },
         { name: 'Neptuno', detail: 'Sistema Solar', colors: ['blue', 'white'] },
         { name: 'Sol', detail: 'Estrela', colors: ['yellow', 'red'] },
-        { name: 'Lua', detail: 'Satelite', colors: ['white', 'black'] },
-        { name: 'Venus', detail: 'Sistema Solar', colors: ['yellow', 'white'] },
+        { name: 'Lua', detail: 'Satélite', colors: ['white', 'black'] },
+        { name: 'Vénus', detail: 'Sistema Solar', colors: ['yellow', 'white'] },
         { name: 'Urano', detail: 'Sistema Solar', colors: ['blue', 'green'] },
-        { name: 'Mercurio', detail: 'Sistema Solar', colors: ['orange', 'brown'] },
+        { name: 'Mercúrio', detail: 'Sistema Solar', colors: ['orange', 'brown'] },
         { name: 'Cometa Halley', detail: 'Espaço', colors: ['white', 'blue'] },
         { name: 'Estação Espacial', detail: 'Órbita', colors: ['white', 'black'] },
         { name: 'Estrela Cadente', detail: 'Espaço', colors: ['yellow', 'white'] },
@@ -942,7 +942,7 @@ const CONTENT = {
 
     emotions: [
       {
-        situation: 'Alguem maltrata um animal a tua frente.',
+        situation: 'Alguém maltrata um animal a tua frente.',
         emoji: '🐕',
         emotions: [
           { name: 'Zangado', emoji: '😠', correct: true },
@@ -952,7 +952,7 @@ const CONTENT = {
         strategy: 'Respira fundo. Conta a um adulto o que viste. Nunca devemos maltratar animais.',
       },
       {
-        situation: 'Um animal bebe nasce na reserva!',
+        situation: 'Um animal bebé nasce na reserva!',
         emoji: '🐣',
         emotions: [
           { name: 'Alegre', emoji: '😄', correct: true },
@@ -1022,7 +1022,7 @@ const CONTENT = {
         strategy: 'Todos os animais são importantes, até os mais pequenos! Não tenhas vergonha do que gostas.',
       },
       {
-        situation: 'O passaro que cuidaste desde bebe finalmente aprende a voar!',
+        situation: 'O pássaro que cuidaste desde bebé finalmente aprende a voar!',
         emoji: '🕊️',
         emotions: [
           { name: 'Entusiasmado', emoji: '🤩', correct: true },
@@ -1142,7 +1142,7 @@ const CONTENT = {
           { text: 'Digo que o concurso não foi justo', correct: false },
           { text: 'Fico zangado e não falo com ninguém', correct: false },
         ],
-        lesson: 'Saber perder com elegância é aprender com os outros faz-nos crescer. Da próxima vez, será melhor!',
+        lesson: 'Saber perder com elegância e aprender com os outros faz-nos crescer. Da próxima vez, será melhor!',
       },
     ],
 
@@ -1150,26 +1150,26 @@ const CONTENT = {
       { total: 12, groups: 2, context: '12 tratadores divididos em 2 equipas.' },
       { total: 10, groups: 5, context: '10 tigelas de comida para 5 animais.' },
       { total: 15, groups: 3, context: '15 litros de leite para 3 crias.' },
-      { total: 8, groups: 2, context: '8 coleiras para 2 grupos de caes.' },
+      { total: 8, groups: 2, context: '8 coleiras para 2 grupos de cães.' },
       { total: 20, groups: 4, context: '20 biscoitos para 4 animais.' },
       { total: 6, groups: 3, context: '6 escovas para 3 pares de tratadores.' },
       { total: 16, groups: 4, context: '16 brinquedos para 4 grupos de animais.' },
       { total: 9, groups: 3, context: '9 tratadores divididos em 3 mini-equipas.' },
       { total: 18, groups: 6, context: '18 cenouras para 6 coelhos da reserva.' },
-      { total: 24, groups: 4, context: '24 peixes para 4 golfinhos do aquario.' },
+      { total: 24, groups: 4, context: '24 peixes para 4 golfinhos do aquário.' },
       { total: 14, groups: 7, context: '14 ninhos para 7 pares de pássaros.' },
-      { total: 21, groups: 3, context: '21 maças para 3 grupos de elefantes.' },
+      { total: 21, groups: 3, context: '21 maçãs para 3 grupos de elefantes.' },
     ],
 
     shop: {
       title: 'Loja da Reserva',
       items: [
         { name: 'Bilhete Zoo', emoji: '🎫', price: 50 },
-        { name: 'Peluche Leao', emoji: '🦁', price: 30 },
+        { name: 'Peluche Leão', emoji: '🦁', price: 30 },
         { name: 'Livro Animais', emoji: '📖', price: 100 },
-        { name: 'Agua', emoji: '💧', price: 10 },
-        { name: 'Binoculos', emoji: '🔭', price: 20 },
-        { name: 'Chapeu Safari', emoji: '🧢', price: 40 },
+        { name: 'Água', emoji: '💧', price: 10 },
+        { name: 'Binóculos', emoji: '🔭', price: 20 },
+        { name: 'Chapéu Safari', emoji: '🧢', price: 40 },
         { name: 'Poster', emoji: '🐾', price: 25 },
         { name: 'Caderno', emoji: '📓', price: 35 },
         { name: 'Puzzle', emoji: '🧩', price: 75 },
@@ -1190,25 +1190,25 @@ const CONTENT = {
       completeText: 'Pintaste todos os animais!',
       instruction: (name, colors) => `Pinta o ${name}. Escolhe as cores: ${colors}.`,
       items: [
-        { name: 'Tigre', detail: 'Asia', colors: ['orange', 'black'] },
-        { name: 'Zebra', detail: 'Africa', colors: ['black', 'white'] },
+        { name: 'Tigre', detail: 'Ásia', colors: ['orange', 'black'] },
+        { name: 'Zebra', detail: 'África', colors: ['black', 'white'] },
         { name: 'Papagaio', detail: 'Brasil', colors: ['red', 'green'] },
-        { name: 'Flamingo', detail: 'Africa', colors: ['red', 'white'] },
-        { name: 'Sapo', detail: 'Amazonia', colors: ['green', 'yellow'] },
+        { name: 'Flamingo', detail: 'África', colors: ['red', 'white'] },
+        { name: 'Sapo', detail: 'Amazónia', colors: ['green', 'yellow'] },
         { name: 'Panda', detail: 'China', colors: ['black', 'white'] },
         { name: 'Tucano', detail: 'Brasil', colors: ['yellow', 'orange'] },
         { name: 'Golfinho', detail: 'Oceano', colors: ['blue', 'white'] },
         { name: 'Coruja', detail: 'Europa', colors: ['brown', 'white'] },
-        { name: 'Canguru', detail: 'Australia', colors: ['brown', 'orange'] },
-        { name: 'Urso Polar', detail: 'Artico', colors: ['white', 'black'] },
-        { name: 'Camaleao', detail: 'Africa', colors: ['green', 'yellow'] },
+        { name: 'Canguru', detail: 'Austrália', colors: ['brown', 'orange'] },
+        { name: 'Urso Polar', detail: 'Ártico', colors: ['white', 'black'] },
+        { name: 'Camaleão', detail: 'África', colors: ['green', 'yellow'] },
         { name: 'Polvo', detail: 'Oceano', colors: ['purple', 'pink'] },
         { name: 'Abelha', detail: 'Jardim', colors: ['yellow', 'black'] },
       ],
     },
 
     read: {
-      title: 'Le o Censo',
+      title: 'Lê o Censo',
       completeText: 'Leste todas as contagens!',
       boardColor: '#E65100',
       items: [
@@ -1239,11 +1239,11 @@ const CONTENT = {
       title: 'Ritmo e Contas',
       icon: '🎵',
       addContext: (a, b) =>
-        `A banda tocou ${a} musicas na primeira parte e ${b} na segunda.`,
+        `A banda tocou ${a} músicas na primeira parte e ${b} na segunda.`,
       subContext: (a, b) =>
-        `O concerto tinha ${a} espectadores e ${b} sairam no intervalo. Quantos ficaram?`,
+        `O concerto tinha ${a} espectadores e ${b} saíram no intervalo. Quantos ficaram?`,
       mulContext: (a, b) =>
-        `São ${a} concertos e cada concerto tem ${b} musicas.`,
+        `São ${a} concertos e cada concerto tem ${b} músicas.`,
     },
 
     emotions: [
@@ -1265,7 +1265,7 @@ const CONTENT = {
           { name: 'Triste', emoji: '😢', correct: false },
           { name: 'Assustado', emoji: '😨', correct: false },
         ],
-        strategy: 'Celebra com a banda! Abracam-se todos. A música une as pessoas!',
+        strategy: 'Celebra com a banda! Abraçam-se todos. A música une as pessoas!',
       },
       {
         situation: 'Esqueces a letra no meio do concerto.',
@@ -1298,7 +1298,7 @@ const CONTENT = {
         strategy: 'Pede ajuda ao professor. Talvez alguém tenha um instrumento extra. Não te preocupes!',
       },
       {
-        situation: 'Compoes a tua primeira música e todos adoram!',
+        situation: 'Compões a tua primeira música e todos adoram!',
         emoji: '🎼',
         emotions: [
           { name: 'Orgulhoso', emoji: '🥹', correct: true },
@@ -1318,7 +1318,7 @@ const CONTENT = {
         strategy: 'É difícil não ser escolhido, mas haverá mais oportunidades. Continua a praticar e mostra o teu valor!',
       },
       {
-        situation: 'Um colega diz que o teu instrumento e estranho e ninguém gosta dele.',
+        situation: 'Um colega diz que o teu instrumento é estranho e ninguém gosta dele.',
         emoji: '😣',
         emotions: [
           { name: 'Envergonhado', emoji: '😳', correct: true },
@@ -1365,7 +1365,7 @@ const CONTENT = {
         emoji: '🎶',
         options: [
           { text: 'Toco o meu melhor e apoio a banda', correct: true },
-          { text: 'Reclamo e toco mal de proposito', correct: false },
+          { text: 'Reclamo e toco mal de propósito', correct: false },
           { text: 'Não toco nada', correct: false },
         ],
         lesson: 'Os instrumentos de fundo são essenciais! Sem eles, a música não soa bem.',
@@ -1388,7 +1388,7 @@ const CONTENT = {
           { text: 'Digo que ganhamos por minha causa', correct: false },
           { text: 'Celebro sozinho', correct: false },
         ],
-        lesson: 'A música e feita em conjunto. O sucesso pertence a toda a banda!',
+        lesson: 'A música é feita em conjunto. O sucesso pertence a toda a banda!',
       },
       {
         situation: 'Não entendes uma nota na partitura. O que fazes?',
@@ -1426,7 +1426,7 @@ const CONTENT = {
         options: [
           { text: 'Aceito a escolha do grupo e ensaio com entusiasmo', correct: true },
           { text: 'Recuso-me a tocar se não for a minha música', correct: false },
-          { text: 'Toco mal de proposito para estragar', correct: false },
+          { text: 'Toco mal de propósito para estragar', correct: false },
         ],
         lesson: 'Aceitar as decisões do grupo faz parte de tocar em banda. A tua sugestão pode ser a próxima!',
       },
@@ -1441,7 +1441,7 @@ const CONTENT = {
         lesson: 'Errar faz parte de aprender. Apoiar quem erra é o que fazem os verdadeiros músicos!',
       },
       {
-        situation: 'A banda adversaria no concurso toca muito bem. O que fazes?',
+        situation: 'A banda adversária no concurso toca muito bem. O que fazes?',
         emoji: '👏',
         options: [
           { text: 'Aplaudo e reconheço que tocaram muito bem', correct: true },
@@ -1473,9 +1473,9 @@ const CONTENT = {
         { name: 'Bilhete', emoji: '🎫', price: 50 },
         { name: 'T-shirt Banda', emoji: '👕', price: 30 },
         { name: 'Guitarra Mini', emoji: '🎸', price: 100 },
-        { name: 'Agua', emoji: '💧', price: 10 },
+        { name: 'Água', emoji: '💧', price: 10 },
         { name: 'CD Música', emoji: '💿', price: 20 },
-        { name: 'Chapeu Artista', emoji: '🧢', price: 40 },
+        { name: 'Chapéu Artista', emoji: '🧢', price: 40 },
         { name: 'Poster', emoji: '🎵', price: 25 },
         { name: 'Afinador', emoji: '🎼', price: 15 },
         { name: 'Caderno', emoji: '📓', price: 35 },
