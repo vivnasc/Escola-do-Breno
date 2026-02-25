@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation, useParams } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation, useParams, useNavigate } from 'react-router-dom'
 import { useState, useCallback, useEffect, useRef } from 'react'
 import Layout from './components/Layout'
 import Home from './pages/Home'
@@ -70,8 +70,10 @@ import { usePlanner } from './hooks/usePlanner'
 import { useAuth } from './hooks/useAuth'
 import { useSync } from './hooks/useSync'
 import { useSubscription } from './hooks/useSubscription'
+import { isActivityAvailable } from './data/tiers'
 import { useProfileSharing } from './hooks/useProfileSharing'
 import { setTTSMode } from './hooks/useTTS'
+import UpgradePrompt from './components/UpgradePrompt'
 
 // Public routes accessible without a profile
 const PUBLIC_PATHS = ['/landing', '/faq', '/suporte', '/planos']
@@ -85,6 +87,44 @@ function SharedProfileRoute({ sharing }) {
       onRefresh={() => sharing?.refreshSharedProfiles?.()}
     />
   )
+}
+
+/**
+ * Route-level subscription guard.
+ * Prevents free-tier users from accessing locked activities via direct URL.
+ */
+function LockedRoute({ activityId, campoId, subscription, children }) {
+  const navigate = useNavigate()
+  const [showUpgrade, setShowUpgrade] = useState(false)
+  const tierId = subscription?.tierId || 'free'
+  const locked = !isActivityAvailable(activityId, campoId, tierId)
+
+  if (locked) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '48px 24px', textAlign: 'center' }}>
+        <span style={{ fontSize: '4rem' }}>🔒</span>
+        <h2 style={{ fontSize: '1.2rem', fontWeight: 700 }}>Actividade bloqueada</h2>
+        <p style={{ color: '#757575', fontSize: '0.9rem', maxWidth: '320px', lineHeight: 1.5 }}>
+          Esta actividade faz parte do plano pago. Faz upgrade para desbloquear todas as actividades!
+        </p>
+        <button
+          onClick={() => setShowUpgrade(true)}
+          style={{ padding: '12px 24px', backgroundColor: 'var(--color-primary)', color: 'white', border: 'none', borderRadius: '10px', fontWeight: 700, fontFamily: 'inherit', fontSize: '1rem', cursor: 'pointer' }}
+        >
+          Ver Planos
+        </button>
+        <button
+          onClick={() => navigate(-1)}
+          style={{ padding: '8px 16px', backgroundColor: 'transparent', border: '1px solid var(--color-border)', borderRadius: '8px', cursor: 'pointer', fontFamily: 'inherit', color: 'var(--color-text-secondary)' }}
+        >
+          ← Voltar
+        </button>
+        {showUpgrade && <UpgradePrompt onClose={() => setShowUpgrade(false)} />}
+      </div>
+    )
+  }
+
+  return children
 }
 
 function AccountNudge({ auth, onLoginSync, onDismiss }) {
@@ -508,53 +548,53 @@ function AppContent() {
           } />
 
           {/* Campo 1 activities */}
-          <Route path="/campo/1/vocab-match" element={<VocabularyMatch {...activityProps} />} />
-          <Route path="/campo/1/dress-player" element={<DressThePlayer {...activityProps} />} />
-          <Route path="/campo/1/color-kit" element={<ColorKit {...activityProps} />} />
-          <Route path="/campo/1/read-score" element={<ReadScore {...activityProps} />} />
-          <Route path="/campo/1/phonics" element={<Phonics {...activityProps} />} />
+          <Route path="/campo/1/vocab-match" element={<LockedRoute activityId="vocab-match" campoId="campo1" subscription={subscription}><VocabularyMatch {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/1/dress-player" element={<LockedRoute activityId="dress-player" campoId="campo1" subscription={subscription}><DressThePlayer {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/1/color-kit" element={<LockedRoute activityId="color-kit" campoId="campo1" subscription={subscription}><ColorKit {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/1/read-score" element={<LockedRoute activityId="read-score" campoId="campo1" subscription={subscription}><ReadScore {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/1/phonics" element={<LockedRoute activityId="phonics" campoId="campo1" subscription={subscription}><Phonics {...activityProps} /></LockedRoute>} />
 
           {/* Campo 2 activities */}
-          <Route path="/campo/2/goal-math" element={<GoalMath {...activityProps} />} />
-          <Route path="/campo/2/clock-reader" element={<ClockReader {...activityProps} />} />
-          <Route path="/campo/2/team-division" element={<TeamDivision {...activityProps} />} />
-          <Route path="/campo/2/ticket-shop" element={<TicketShop {...activityProps} />} />
-          <Route path="/campo/2/patterns" element={<Patterns {...activityProps} />} />
+          <Route path="/campo/2/goal-math" element={<LockedRoute activityId="goal-math" campoId="campo2" subscription={subscription}><GoalMath {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/2/clock-reader" element={<LockedRoute activityId="clock-reader" campoId="campo2" subscription={subscription}><ClockReader {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/2/team-division" element={<LockedRoute activityId="team-division" campoId="campo2" subscription={subscription}><TeamDivision {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/2/ticket-shop" element={<LockedRoute activityId="ticket-shop" campoId="campo2" subscription={subscription}><TicketShop {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/2/patterns" element={<LockedRoute activityId="patterns" campoId="campo2" subscription={subscription}><Patterns {...activityProps} /></LockedRoute>} />
 
           {/* Campo 3 activities */}
-          <Route path="/campo/3/flag-match" element={<FlagMatch {...activityProps} />} />
-          <Route path="/campo/3/world-explorer" element={<WorldExplorer {...activityProps} />} />
-          <Route path="/campo/3/body-science" element={<BodyScience {...activityProps} />} />
-          <Route path="/campo/3/weather-match" element={<WeatherMatch {...activityProps} />} />
-          <Route path="/campo/3/nature-lab" element={<NatureLab {...activityProps} />} />
+          <Route path="/campo/3/flag-match" element={<LockedRoute activityId="flag-match" campoId="campo3" subscription={subscription}><FlagMatch {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/3/world-explorer" element={<LockedRoute activityId="world-explorer" campoId="campo3" subscription={subscription}><WorldExplorer {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/3/body-science" element={<LockedRoute activityId="body-science" campoId="campo3" subscription={subscription}><BodyScience {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/3/weather-match" element={<LockedRoute activityId="weather-match" campoId="campo3" subscription={subscription}><WeatherMatch {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/3/nature-lab" element={<LockedRoute activityId="nature-lab" campoId="campo3" subscription={subscription}><NatureLab {...activityProps} /></LockedRoute>} />
 
           {/* Campo 4 activities */}
-          <Route path="/campo/4/daily-routine" element={<DailyRoutine {...activityProps} />} />
-          <Route path="/campo/4/real-world" element={<RealWorld {...activityProps} />} />
-          <Route path="/campo/4/problem-solving" element={<ProblemSolving {...activityProps} />} />
-          <Route path="/campo/4/healthy-choices" element={<HealthyChoices {...activityProps} />} />
-          <Route path="/campo/4/time-planner" element={<TimePlanner {...activityProps} />} />
+          <Route path="/campo/4/daily-routine" element={<LockedRoute activityId="daily-routine" campoId="campo4" subscription={subscription}><DailyRoutine {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/4/real-world" element={<LockedRoute activityId="real-world" campoId="campo4" subscription={subscription}><RealWorld {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/4/problem-solving" element={<LockedRoute activityId="problem-solving" campoId="campo4" subscription={subscription}><ProblemSolving {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/4/healthy-choices" element={<LockedRoute activityId="healthy-choices" campoId="campo4" subscription={subscription}><HealthyChoices {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/4/time-planner" element={<LockedRoute activityId="time-planner" campoId="campo4" subscription={subscription}><TimePlanner {...activityProps} /></LockedRoute>} />
 
           {/* Campo 5 activities */}
-          <Route path="/campo/5/story-builder" element={<StoryBuilder {...activityProps} />} />
-          <Route path="/campo/5/music-maker" element={<MusicMaker {...activityProps} />} />
-          <Route path="/campo/5/color-canvas" element={<ColorCanvas {...activityProps} />} />
-          <Route path="/campo/5/pattern-art" element={<PatternArt {...activityProps} />} />
-          <Route path="/campo/5/sound-story" element={<SoundStory {...activityProps} />} />
+          <Route path="/campo/5/story-builder" element={<LockedRoute activityId="story-builder" campoId="campo5" subscription={subscription}><StoryBuilder {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/5/music-maker" element={<LockedRoute activityId="music-maker" campoId="campo5" subscription={subscription}><MusicMaker {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/5/color-canvas" element={<LockedRoute activityId="color-canvas" campoId="campo5" subscription={subscription}><ColorCanvas {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/5/pattern-art" element={<LockedRoute activityId="pattern-art" campoId="campo5" subscription={subscription}><PatternArt {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/5/sound-story" element={<LockedRoute activityId="sound-story" campoId="campo5" subscription={subscription}><SoundStory {...activityProps} /></LockedRoute>} />
 
           {/* Campo 6 activities */}
-          <Route path="/campo/6/emotion-cards" element={<EmotionCards {...activityProps} />} />
-          <Route path="/campo/6/fair-play" element={<FairPlay {...activityProps} />} />
-          <Route path="/campo/6/social-detective" element={<SocialDetective {...activityProps} />} />
-          <Route path="/campo/6/turn-talk" element={<TurnTalk {...activityProps} />} />
-          <Route path="/campo/6/calm-toolkit" element={<CalmToolkit {...activityProps} />} />
+          <Route path="/campo/6/emotion-cards" element={<LockedRoute activityId="emotion-cards" campoId="campo6" subscription={subscription}><EmotionCards {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/6/fair-play" element={<LockedRoute activityId="fair-play" campoId="campo6" subscription={subscription}><FairPlay {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/6/social-detective" element={<LockedRoute activityId="social-detective" campoId="campo6" subscription={subscription}><SocialDetective {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/6/turn-talk" element={<LockedRoute activityId="turn-talk" campoId="campo6" subscription={subscription}><TurnTalk {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/6/calm-toolkit" element={<LockedRoute activityId="calm-toolkit" campoId="campo6" subscription={subscription}><CalmToolkit {...activityProps} /></LockedRoute>} />
 
           {/* Campo 7 activities */}
-          <Route path="/campo/7/contos-vivos" element={<ContoVivo {...activityProps} />} />
-          <Route path="/campo/7/poesia-sonora" element={<PoesiaSonora {...activityProps} />} />
-          <Route path="/campo/7/teatro-vozes" element={<TeatroVozes {...activityProps} />} />
-          <Route path="/campo/7/fabulas-mundo" element={<FabulasMundo {...activityProps} />} />
-          <Route path="/campo/7/meu-conto" element={<MeuConto {...activityProps} />} />
+          <Route path="/campo/7/contos-vivos" element={<LockedRoute activityId="contos-vivos" campoId="campo7" subscription={subscription}><ContoVivo {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/7/poesia-sonora" element={<LockedRoute activityId="poesia-sonora" campoId="campo7" subscription={subscription}><PoesiaSonora {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/7/teatro-vozes" element={<LockedRoute activityId="teatro-vozes" campoId="campo7" subscription={subscription}><TeatroVozes {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/7/fabulas-mundo" element={<LockedRoute activityId="fabulas-mundo" campoId="campo7" subscription={subscription}><FabulasMundo {...activityProps} /></LockedRoute>} />
+          <Route path="/campo/7/meu-conto" element={<LockedRoute activityId="meu-conto" campoId="campo7" subscription={subscription}><MeuConto {...activityProps} /></LockedRoute>} />
         </Route>
       </Routes>
     </>

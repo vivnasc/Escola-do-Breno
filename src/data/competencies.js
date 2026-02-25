@@ -741,39 +741,39 @@ export function calculateStartingLevels(diagnosticResults, profileInfo) {
     const mid = answers[1] === true
     const high = answers[2] === true
 
-    // Base level from diagnostic answers
+    // Base level from diagnostic answers — conservative placement.
+    // The intake has only 3 simple questions per campo, so we place LOW
+    // and let the child prove mastery through actual activities.
+    // 3 easy questions cannot justify levels 7-10.
     let base
     if (high && mid && low) {
-      base = 8    // Got all 3 right — high level
+      base = 4    // Got all 3 right — place mid, still needs to prove in activities
     } else if (mid && low) {
-      base = 6    // Got low + mid right
+      base = 3    // Got low + mid right — emerging skills
     } else if (low && high) {
-      base = 5    // Got low + high but missed mid (inconsistent, place mid)
+      base = 3    // Inconsistent — place cautiously
     } else if (low) {
-      base = 3    // Only got the easy one
+      base = 2    // Only got the easy one — still building foundations
     } else if (mid) {
-      base = 4    // Got mid but not low (guessing? place cautiously)
+      base = 2    // Got mid but not low — guessing? place low
     } else if (high) {
-      base = 5    // Only got hard one (lucky guess? place mid)
+      base = 2    // Only got hard one — lucky guess, place low
     } else {
       base = 1    // Got nothing right or skipped all
     }
 
-    // Age modifier: older children who score low may still be higher than young ones
-    // This is subtle — just a nudge, not a jump
-    const ageMod = age >= 12 ? 1 : age >= 10 ? 0.5 : 0
-
-    // Support level modifier
+    // No age modifier — competence, not age (principle #1)
+    // Support level: minor adjustment only
     const supportMod = support === 'full' ? -0.5 : support === 'independent' ? 0.5 : 0
 
     // Reading level affects campo1 specifically
     let readingMod = 0
     if (campoId === 'campo1') {
-      if (profileInfo.readingLevel === 'pre-reader') readingMod = -1
-      else if (profileInfo.readingLevel === 'fluent') readingMod = 1
+      if (profileInfo.readingLevel === 'pre-reader') readingMod = -0.5
+      else if (profileInfo.readingLevel === 'fluent') readingMod = 0.5
     }
 
-    const final = Math.max(1, Math.min(10, Math.round(base + ageMod + supportMod + readingMod)))
+    const final = Math.max(1, Math.min(5, Math.round(base + supportMod + readingMod)))
     levels[campoId] = final
   }
 

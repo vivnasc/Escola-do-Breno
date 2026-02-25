@@ -75,6 +75,7 @@ function getDefaultPlanner() {
 
 /**
  * Generates a daily plan based on profile needs, progress, and rotation.
+ * Distributes activities evenly across campos (round-robin).
  */
 function generateDailyPlan(prioritisedCampos, progress, preferences, weekHistory) {
   const count = preferences.activitiesPerDay || 3
@@ -82,54 +83,70 @@ function generateDailyPlan(prioritisedCampos, progress, preferences, weekHistory
     ? preferences.focusCampos
     : prioritisedCampos
 
-  // Score each activity
-  const scored = ALL_ACTIVITIES.map((act) => {
-    let score = 0
+  // Group activities by campo
+  const byCampo = {}
+  for (const act of ALL_ACTIVITIES) {
+    if (!byCampo[act.campo]) byCampo[act.campo] = []
+    byCampo[act.campo].push(act)
+  }
 
-    // Priority campo bonus
-    if (focus.includes(act.campo)) score += 10
-
-    // Not yet completed = higher priority
-    const stars = progress?.activitiesCompleted?.[act.id] || 0
-    if (stars === 0) score += 5
-    else if (stars < 3) score += 2
-
-    // Avoid activities done recently this week
-    const recentDays = Object.values(weekHistory || {})
-    const doneRecently = recentDays.some(
-      (day) => day.activities?.some((a) => a.activityId === act.id && a.completed)
-    )
-    if (doneRecently) score -= 3
-
-    // Variety: spread across campos
-    return { ...act, score }
-  })
-
-  // Sort by score (desc), then shuffle within same score for variety
-  scored.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score
-    return Math.random() - 0.5
-  })
-
-  // Pick activities, ensuring campo variety
-  const picked = []
-  const campoCount = {}
-
-  for (const act of scored) {
-    if (picked.length >= count) break
-    const cc = campoCount[act.campo] || 0
-    // Max 2 from same campo in a day
-    if (cc >= 2) continue
-    picked.push({
-      activityId: act.id,
-      campo: act.campo,
-      path: act.path,
-      name: act.name,
-      icon: act.icon,
-      completed: false,
-      completedAt: null,
+  // Score each activity within its campo
+  for (const campo of Object.keys(byCampo)) {
+    byCampo[campo] = byCampo[campo].map((act) => {
+      let score = 0
+      if (focus.includes(act.campo)) score += 10
+      const stars = progress?.activitiesCompleted?.[act.id] || 0
+      if (stars === 0) score += 5
+      else if (stars < 3) score += 2
+      const recentDays = Object.values(weekHistory || {})
+      const doneRecently = recentDays.some(
+        (day) => day.activities?.some((a) => a.activityId === act.id && a.completed)
+      )
+      if (doneRecently) score -= 3
+      return { ...act, score }
     })
-    campoCount[act.campo] = cc + 1
+    byCampo[campo].sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score
+      return Math.random() - 0.5
+    })
+  }
+
+  // Round-robin across campos: pick 1 from each campo in rotation
+  // Priority campos come first in the rotation
+  const campoOrder = [
+    ...focus.filter((c) => byCampo[c]),
+    ...Object.keys(byCampo).filter((c) => !focus.includes(c)),
+  ]
+
+  const picked = []
+  const campoIdx = {} // track index within each campo's sorted list
+  let round = 0
+
+  while (picked.length < count) {
+    const campo = campoOrder[round % campoOrder.length]
+    const idx = campoIdx[campo] || 0
+    const candidates = byCampo[campo] || []
+
+    if (idx < candidates.length) {
+      const act = candidates[idx]
+      // Avoid duplicates
+      if (!picked.find((p) => p.activityId === act.id)) {
+        picked.push({
+          activityId: act.id,
+          campo: act.campo,
+          path: act.path,
+          name: act.name,
+          icon: act.icon,
+          completed: false,
+          completedAt: null,
+        })
+      }
+      campoIdx[campo] = idx + 1
+    }
+
+    round++
+    // Safety: if we've gone through all activities, stop
+    if (round > ALL_ACTIVITIES.length + count) break
   }
 
   return {
@@ -221,13 +238,35 @@ export function usePlanner(profileId, prioritisedCampos, progress) {
     })
   }, [])
 
-  // Update preferences
+  // Update preferences and regenerate plan if activitiesPerDay changed
   const updatePreferences = useCallback((updates) => {
-    setData((prev) => ({
-      ...prev,
-      preferences: { ...prev.preferences, ...updates },
-    }))
-  }, [])
+    setData((prev) => {
+      const newPrefs = { ...prev.preferences, ...updates }
+      const newData = { ...prev, preferences: newPrefs }
+
+      // If activitiesPerDay changed and we have a plan for today, regenerate
+      if (updates.activitiesPerDay && updates.activitiesPerDay !== prev.preferences.activitiesPerDay) {
+        const plan = generateDailyPlan(
+          prioritisedCampos || ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6'],
+          progress,
+          newPrefs,
+          prev.weekHistory,
+        )
+        const today = todayKey()
+        newData.dailyPlan = plan
+        newData.weekHistory = {
+          ...prev.weekHistory,
+          [today]: {
+            planned: plan.activities.length,
+            completed: 0,
+            activities: plan.activities,
+          },
+        }
+      }
+
+      return newData
+    })
+  }, [prioritisedCampos, progress])
 
   // Regenerate plan (e.g. parent wants different activities)
   const regeneratePlan = useCallback(() => {

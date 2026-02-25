@@ -70,42 +70,7 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </button>
       </header>
 
-      <div style={styles.statsRow}>
-        <div style={styles.stat}>
-          <span style={styles.statValue}>{totalWords}</span>
-          <span style={styles.statLabel}>palavras</span>
-        </div>
-        <div style={styles.stat}>
-          <span style={styles.statValue}>{totalStars}</span>
-          <span style={styles.statLabel}>estrelas</span>
-        </div>
-        <div style={styles.stat}>
-          <span style={styles.statValue}>{progress.trophies.length}</span>
-          <span style={styles.statLabel}>troféus</span>
-        </div>
-        <div style={styles.stat}>
-          <span style={styles.statValue}>
-            {Object.keys(progress.activitiesCompleted).length}
-          </span>
-          <span style={styles.statLabel}>feitas</span>
-        </div>
-      </div>
-
-      {/* Personalised recommendations based on needs */}
-      {hasGoals && (
-        <div style={styles.goalsCard}>
-          <span style={styles.goalsIcon}>🎯</span>
-          <div>
-            <p style={styles.goalsTitle}>Os teus objectivos</p>
-            <p style={styles.goalsText}>
-              Actividades recomendadas com base no teu perfil de aprendizagem.
-              {needsAreas.length > 0 && ` Foco: ${needsAreas.length} áreas de apoio.`}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Today's Plan */}
+      {/* Today's Plan — the main focus for the child */}
       {planner && (
         <section style={styles.todayPlan}>
           {planner.todayPlan ? (
@@ -166,26 +131,6 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </section>
       )}
 
-      {/* Quick Actions */}
-      <section style={styles.quickActions}>
-        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/fichas')}>
-          <span style={styles.quickIcon}>✏️</span>
-          <span style={styles.quickLabel}>Fichas</span>
-        </button>
-        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/noticias')}>
-          <span style={styles.quickIcon}>📰</span>
-          <span style={styles.quickLabel}>Notícias</span>
-        </button>
-        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/comunidade')}>
-          <span style={styles.quickIcon}>🏟️</span>
-          <span style={styles.quickLabel}>Comunidade</span>
-        </button>
-        <button style={styles.quickBtn} className="btn-press" onClick={() => navigate('/progresso')}>
-          <span style={styles.quickIcon}>📊</span>
-          <span style={styles.quickLabel}>Progresso</span>
-        </button>
-      </section>
-
       {/* Weekly Challenge Preview */}
       <section style={styles.challengePreview}>
         <div style={styles.challengeHeader}>
@@ -204,50 +149,21 @@ export default function Home({ progress, profile, adaptive, planner }) {
         </button>
       </section>
 
-      {/* 6 Campos — sorted by priority */}
+      {/* Campos — compact row */}
       <section style={styles.campos}>
-        <h2 style={styles.sectionTitle}>
-          {hasGoals ? 'Recomendado para ti' : 'Os 6 Campos'}
-        </h2>
-        <div style={styles.campoGrid}>
-          {sortedCampos.map((campo, idx) => {
-            const cp = progress.campoProgress[campo.id]
-            return (
-              <button
-                key={campo.id}
-                style={{
-                  ...styles.campoCard,
-                  borderLeftColor: campo.color,
-                  ...(campo.isPriority && hasGoals ? styles.campoPriority : {}),
-                }}
-                className="interactive-card"
-                onClick={() => navigate(campo.path)}
-                aria-label={`${campo.name}: ${campo.subtitle}`}
-              >
-                {campo.isPriority && hasGoals && (
-                  <span style={styles.priorityTag}>Recomendado</span>
-                )}
-                <div style={styles.campoHeader}>
-                  <span style={styles.campoIcon}>{campo.icon}</span>
-                  <div>
-                    <span style={{ ...styles.campoName, color: campo.color }}>
-                      {campo.name}
-                    </span>
-                    <span style={styles.campoTitle}>{campo.subtitle}</span>
-                  </div>
-                </div>
-                <ProgressBar
-                  value={cp.completed}
-                  max={cp.total}
-                  color={campo.color}
-                  height={6}
-                />
-                <span style={styles.campoProgress}>
-                  {cp.completed}/{cp.total}
-                </span>
-              </button>
-            )
-          })}
+        <h2 style={styles.sectionTitle}>Explorar</h2>
+        <div style={styles.campoCompactGrid}>
+          {sortedCampos.map((campo) => (
+            <button
+              key={campo.id}
+              style={{ ...styles.campoCompactBtn, borderColor: campo.color }}
+              className="btn-press"
+              onClick={() => navigate(campo.path)}
+            >
+              <span style={styles.campoCompactIcon}>{campo.icon}</span>
+              <span style={styles.campoCompactName}>{campo.name}</span>
+            </button>
+          ))}
         </div>
       </section>
     </div>
@@ -458,68 +374,30 @@ const styles = {
     fontWeight: 700,
     color: 'var(--color-text)',
   },
-  campoGrid: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 'var(--space-md)',
-  },
-  campoCard: {
-    width: '100%',
-    padding: 'var(--space-md)',
-    backgroundColor: 'var(--color-surface)',
-    border: '1px solid var(--color-border)',
-    borderLeft: '4px solid',
-    borderRadius: 'var(--radius-md)',
-    boxShadow: 'var(--shadow-sm)',
-    textAlign: 'left',
-    cursor: 'pointer',
-    display: 'flex',
-    flexDirection: 'column',
+  campoCompactGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: 'var(--space-sm)',
+  },
+  campoCompactBtn: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '4px',
+    padding: 'var(--space-sm)',
+    backgroundColor: 'var(--color-surface)',
+    border: '2px solid',
+    borderRadius: 'var(--radius-md)',
+    cursor: 'pointer',
     fontFamily: 'inherit',
-    position: 'relative',
   },
-  campoPriority: {
-    backgroundColor: '#F1F8E9',
-    borderWidth: '1px',
-    borderColor: 'var(--color-primary)',
-  },
-  priorityTag: {
-    position: 'absolute',
-    top: '-8px',
-    right: 'var(--space-sm)',
-    padding: '2px 8px',
-    backgroundColor: 'var(--color-primary)',
-    color: 'white',
-    borderRadius: 'var(--radius-sm)',
+  campoCompactIcon: { fontSize: '1.5rem' },
+  campoCompactName: {
     fontSize: '0.6rem',
     fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-  },
-  campoHeader: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: 'var(--space-sm)',
-  },
-  campoIcon: { fontSize: '2rem' },
-  campoName: {
-    fontSize: 'var(--font-size-sm)',
-    fontWeight: 700,
-    textTransform: 'uppercase',
-    letterSpacing: '1px',
-    display: 'block',
-  },
-  campoTitle: {
-    fontSize: 'var(--font-size-base)',
-    fontWeight: 600,
     color: 'var(--color-text)',
-    display: 'block',
-  },
-  campoProgress: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-    textAlign: 'right',
+    textTransform: 'uppercase',
+    textAlign: 'center',
   },
   // Today's Plan
   todayPlan: {

@@ -667,14 +667,28 @@ export function getWordContext(word, universeId) {
 }
 
 export const TEAMS = [
+  // Portugal
+  { name: 'Benfica', country: 'Portugal', colors: ['red', 'white'], mascot: 'eagle' },
+  { name: 'Sporting CP', country: 'Portugal', colors: ['green', 'white'], mascot: 'lion' },
+  { name: 'FC Porto', country: 'Portugal', colors: ['blue', 'white'], mascot: 'dragon' },
+  // Espanha
   { name: 'Barcelona', country: 'Spain', colors: ['red', 'blue'], mascot: 'lion' },
-  { name: 'Liverpool', country: 'England', colors: ['red'], mascot: 'bird' },
   { name: 'Real Madrid', country: 'Spain', colors: ['white'], mascot: 'eagle' },
+  // Inglaterra
+  { name: 'Liverpool', country: 'England', colors: ['red'], mascot: 'bird' },
+  { name: 'Manchester United', country: 'England', colors: ['red'], mascot: 'devil' },
+  { name: 'Manchester City', country: 'England', colors: ['blue'], mascot: 'eagle' },
+  // Europa
   { name: 'Bayern Munich', country: 'Germany', colors: ['red', 'white'], mascot: 'bear' },
   { name: 'PSG', country: 'France', colors: ['blue', 'red'], mascot: 'eagle' },
   { name: 'Juventus', country: 'Italy', colors: ['black', 'white'], mascot: 'zebra' },
+  { name: 'AC Milan', country: 'Italy', colors: ['red', 'black'], mascot: 'devil' },
+  { name: 'Borussia Dortmund', country: 'Germany', colors: ['yellow', 'black'], mascot: 'bee' },
+  // Selecoes
+  { name: 'Portugal', country: 'Portugal', colors: ['red', 'green'], mascot: 'eagle' },
   { name: 'Brasil', country: 'Brazil', colors: ['yellow', 'green'], mascot: 'bird' },
   { name: 'Argentina', country: 'Argentina', colors: ['white', 'blue'], mascot: 'lion' },
+  // Africa e outros
   { name: 'Al Ahly', country: 'Egypt', colors: ['red', 'white'], mascot: 'eagle' },
   { name: 'Flamengo', country: 'Brazil', colors: ['red', 'black'], mascot: 'bird' },
 ]
@@ -682,7 +696,12 @@ export const TEAMS = [
 export const PLAYERS = [
   { name: 'Messi', number: 10, team: 'Argentina', position: 'Avançado' },
   { name: 'Ronaldo', number: 7, team: 'Portugal', position: 'Avançado' },
+  { name: 'Neymar', number: 10, team: 'Brasil', position: 'Avançado' },
   { name: 'Mbappé', number: 7, team: 'França', position: 'Avançado' },
+  { name: 'Haaland', number: 9, team: 'Noruega', position: 'Avançado' },
+  { name: 'Vinícius Jr', number: 7, team: 'Brasil', position: 'Avançado' },
   { name: 'Salah', number: 11, team: 'Egipto', position: 'Avançado' },
+  { name: 'Bellingham', number: 5, team: 'Inglaterra', position: 'Médio' },
+  { name: 'Bernardo Silva', number: 20, team: 'Portugal', position: 'Médio' },
   { name: 'Eusébio', number: 10, team: 'Moçambique/Benfica', position: 'Avançado' },
 ]
