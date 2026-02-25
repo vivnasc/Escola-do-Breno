@@ -1,22 +1,9 @@
 /**
- * Breno's pre-configured profile.
- * This is the child the platform was built for.
- * His mother (Vivianne) configured these needs.
- *
- * STABLE ID: 'breno-fundador' — never changes, same across all devices.
- * This ensures cloud sync always recognises Breno's profile correctly.
- *
- * AUTO-CREATION: When VITE_FOUNDER=true is set on the deploy,
- * Breno's profile is created automatically on first visit.
- * No URL hacks, no easter eggs needed. He's a real user.
+ * Breno's pre-configured profile data.
+ * Reference for the needs/settings of the child the platform was built for.
+ * Not auto-loaded — Vivianne creates the profile through the normal Intake.
  */
-
-// Stable ID — same across all devices, survives sync/merge
-const FOUNDER_PROFILE_ID = 'breno-fundador'
-
 const BRENO_PROFILE = {
-  // Identity — stable across all devices
-  id: FOUNDER_PROFILE_ID,
   name: 'Breno',
   age: 11, // born 1 October 2014, turns 12 in Oct 2026
   avatar: 'lion',
@@ -26,8 +13,6 @@ const BRENO_PROFILE = {
 
   // Breno always has full access — built for him
   subscriptionTier: 'family',
-  isFounder: true, // protects against tier downgrade
-
   // Theme — Breno loves football
   universe: 'football',
   favoriteTeam: 'Benfica',
@@ -98,4 +83,4 @@ const BRENO_PROFILE = {
   claimedRewards: [],
 }
 
-export { BRENO_PROFILE, FOUNDER_PROFILE_ID }
+export { BRENO_PROFILE }

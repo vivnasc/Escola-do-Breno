@@ -3,7 +3,6 @@ import { AVATARS } from '../hooks/useProfile'
 import { UNIVERSES } from '../data/universes'
 import { TEAMS, PLAYERS } from '../data/vocabulary'
 import { DIAGNOSTIC_QUESTIONS, calculateStartingLevels, MASTERY_LEVELS, levelToId } from '../data/competencies'
-import { BRENO_PROFILE } from '../data/brenoProfile'
 
 const LEARNING_AREAS = [
   { id: 'reading', emoji: '📖', label: 'Leitura' },
@@ -40,8 +39,6 @@ export default function Intake({ onComplete, onCancel }) {
   const [age, setAge] = useState(null)
   const [avatar, setAvatar] = useState('star')
 
-  // Founder profile — silently pre-fill via ?fundador URL param
-  const [founderLoaded, setFounderLoaded] = useState(false)
   const [subscriptionTier, setSubscriptionTier] = useState('free')
 
   // Universe (not just football!)
@@ -80,43 +77,6 @@ export default function Intake({ onComplete, onCancel }) {
     setName(newName)
   }
 
-  const loadFounderProfile = () => {
-    const bp = BRENO_PROFILE
-    setName(bp.name)
-    setAge(bp.age)
-    setAvatar(bp.avatar)
-    setUniverse(bp.universe)
-    setTeam(bp.favoriteTeam)
-    setPlayer(bp.favoritePlayer)
-    setAreas(bp.learningNeeds.areas)
-    setReadingLevel(bp.learningNeeds.readingLevel)
-    setSupportLevel(bp.learningNeeds.supportLevel)
-    setSoundEnabled(bp.sensory.soundEnabled)
-    setSoundVolume(bp.sensory.soundVolume)
-    setAnimationLevel(bp.sensory.animationLevel)
-    setVisualContrast(bp.sensory.visualContrast)
-    setFontSize(bp.sensory.fontSize)
-    setReducedClutter(bp.sensory.reducedClutter)
-    setTimePressure(bp.sensory.timePressure)
-    setSessionLength(bp.attention.sessionLength)
-    setBreakReminder(bp.attention.breakReminder)
-    setFrustrationSensitivity(bp.attention.frustrationSensitivity)
-    setGoals(bp.goals)
-    setUsesVisualSupports(bp.communication.usesVisualSupports)
-    setPrefersSimpleLanguage(bp.communication.prefersSimpleLanguage)
-    setNeedsAudioInstructions(bp.communication.needsAudioInstructions)
-    setSubscriptionTier(bp.subscriptionTier)
-    setFounderLoaded(true)
-  }
-
-  // Auto-load founder profile when ?fundador param is present
-  useState(() => {
-    const params = new URLSearchParams(window.location.search)
-    if (params.has('fundador') && !founderLoaded) {
-      loadFounderProfile()
-      setFilledBy('parent')
-    }
-  })
 
   // Diagnostic placement test
   const [diagnosticCampo, setDiagnosticCampo] = useState(0) // 0-5 for the 6 campos
@@ -245,12 +205,6 @@ export default function Intake({ onComplete, onCancel }) {
               autoFocus
               maxLength={30}
             />
-
-            {founderLoaded && (
-              <div style={styles.founderLoaded}>
-                Perfil pré-configurado carregado — podes rever tudo nos passos seguintes.
-              </div>
-            )}
 
             <p style={styles.label}>Idade</p>
             <div style={styles.ageGrid}>
@@ -1318,16 +1272,5 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-lg)',
-  },
-  // Founder profile loaded indicator
-  founderLoaded: {
-    padding: 'var(--space-sm) var(--space-md)',
-    backgroundColor: '#E8F5E9',
-    borderRadius: 'var(--radius-md)',
-    border: '1px solid var(--color-primary)',
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-primary-dark)',
-    textAlign: 'center',
-    fontWeight: 600,
   },
 }
