@@ -97,7 +97,7 @@ export function useProfileSharing(user, profiles, progress) {
 
     const profile = profiles?.find(p => p.id === profileId)
     if (!profile) {
-      setError('Perfil nao encontrado.')
+      setError('Perfil não encontrado.')
       return null
     }
 
@@ -147,7 +147,7 @@ export function useProfileSharing(user, profiles, progress) {
             .single()
 
           if (e2) {
-            setError('Erro ao criar codigo. Tente novamente.')
+            setError('Erro ao criar código. Tente novamente.')
             setLoading(false)
             return null
           }
@@ -183,7 +183,7 @@ export function useProfileSharing(user, profiles, progress) {
 
     const normalizedCode = code.trim().toUpperCase()
     if (normalizedCode.length !== 6) {
-      setError('O codigo deve ter 6 caracteres.')
+      setError('O código deve ter 6 caracteres.')
       return null
     }
 
@@ -200,14 +200,14 @@ export function useProfileSharing(user, profiles, progress) {
         .single()
 
       if (findErr || !share) {
-        setError('Codigo invalido ou ja utilizado.')
+        setError('Código inválido ou já utilizado.')
         setLoading(false)
         return null
       }
 
       // Can't accept your own share
       if (share.owner_id === user.id) {
-        setError('Nao pode aceitar o seu proprio codigo.')
+        setError('Não pode aceitar o seu próprio código.')
         setLoading(false)
         return null
       }

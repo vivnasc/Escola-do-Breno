@@ -189,7 +189,7 @@ export const CAMPO3_ACTIVITIES = [
   },
   {
     id: 'weather-match',
-    name: 'Tempo no Estadio',
+    name: 'Tempo no Estádio',
     description: 'Lê a temperatura e veste o jogador para o clima.',
     icon: '🌤️',
     type: 'weather-match',

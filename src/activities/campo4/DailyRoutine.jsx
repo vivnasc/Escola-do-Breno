@@ -12,7 +12,7 @@ const ROUTINE_STEPS = [
   { id: 4, text: 'Tomar o pequeno-almoço', emoji: '🥣', time: '07:45' },
   { id: 5, text: 'Ir para a escola', emoji: '🎒', time: '08:00' },
   { id: 6, text: 'Aulas da manhã', emoji: '📚', time: '08:30' },
-  { id: 7, text: 'Almoco', emoji: '🍽️', time: '12:30' },
+  { id: 7, text: 'Almoço', emoji: '🍽️', time: '12:30' },
   { id: 8, text: 'Aulas da tarde / Treino', emoji: '⚽', time: '14:00' },
   { id: 9, text: 'Lanche', emoji: '🍎', time: '16:30' },
   { id: 10, text: 'Tempo livre / Brincar', emoji: '🎮', time: '17:00' },

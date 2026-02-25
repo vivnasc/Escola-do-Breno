@@ -123,7 +123,7 @@ export const UNIVERSES = [
       score: 'nota perfeita',
       event: 'concerto',
     },
-    feedbackPositive: ['Nota perfeita!', 'Grande musico!', 'Fantástico!'],
+    feedbackPositive: ['Nota perfeita!', 'Grande músico!', 'Fantástico!'],
     feedbackTryAgain: ['Quase! Afina outra vez.', 'Boa tentativa!'],
   },
 ]

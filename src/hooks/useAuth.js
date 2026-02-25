@@ -42,7 +42,7 @@ export function useAuth() {
   }, [configured])
 
   const signUp = useCallback(async (email, password) => {
-    if (!configured) return { error: 'Supabase nao configurado' }
+    if (!configured) return { error: 'Supabase não configurado' }
     setError(null)
     const { data, error: err } = await supabase.auth.signUp({ email, password })
     if (err) {
@@ -53,7 +53,7 @@ export function useAuth() {
   }, [configured])
 
   const signIn = useCallback(async (email, password) => {
-    if (!configured) return { error: 'Supabase nao configurado' }
+    if (!configured) return { error: 'Supabase não configurado' }
     setError(null)
     const { data, error: err } = await supabase.auth.signInWithPassword({ email, password })
     if (err) {
@@ -64,7 +64,7 @@ export function useAuth() {
   }, [configured])
 
   const signInWithMagicLink = useCallback(async (email) => {
-    if (!configured) return { error: 'Supabase nao configurado' }
+    if (!configured) return { error: 'Supabase não configurado' }
     setError(null)
     const { data, error: err } = await supabase.auth.signInWithOtp({ email })
     if (err) {

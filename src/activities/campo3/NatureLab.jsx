@@ -10,7 +10,7 @@ const EXPERIMENTS = [
     question: 'Onde vive o peixe?',
     emoji: '🐟',
     options: [
-      { text: 'Na agua (rio, lago ou mar)', emoji: '🌊', correct: true },
+      { text: 'Na água (rio, lago ou mar)', emoji: '🌊', correct: true },
       { text: 'Na árvore', emoji: '🌳', correct: false },
       { text: 'No deserto', emoji: '🏜️', correct: false },
     ],
@@ -21,14 +21,14 @@ const EXPERIMENTS = [
     question: 'De que é que uma planta precisa para crescer?',
     emoji: '🌱',
     options: [
-      { text: 'Agua, sol e terra', emoji: '☀️💧', correct: true },
+      { text: 'Água, sol e terra', emoji: '☀️💧', correct: true },
       { text: 'Apenas chocolate', emoji: '🍫', correct: false },
       { text: 'Frio e escuridão', emoji: '🌑', correct: false },
     ],
     fact: 'As plantas fazem fotossíntese: usam a luz do sol para transformar água e ar em comida. Sem plantas não teríamos oxigénio!',
   },
   {
-    title: 'Ciclo da Agua',
+    title: 'Ciclo da Água',
     question: 'O que acontece à água quando aquece muito?',
     emoji: '💧',
     options: [
@@ -54,7 +54,7 @@ const EXPERIMENTS = [
     question: 'O que é o Sol?',
     emoji: '☀️',
     options: [
-      { text: 'Uma estrela enorme que nos da luz e calor', emoji: '⭐', correct: true },
+      { text: 'Uma estrela enorme que nos dá luz e calor', emoji: '⭐', correct: true },
       { text: 'Um planeta como a Terra', emoji: '🌍', correct: false },
       { text: 'Uma lâmpada no céu', emoji: '💡', correct: false },
     ],
@@ -88,7 +88,7 @@ const EXPERIMENTS = [
     emoji: '🌍',
     options: [
       { text: 'Porque a Terra roda sobre si mesma', emoji: '🔄', correct: true },
-      { text: 'Porque o Sol se apaga a noite', emoji: '🌑', correct: false },
+      { text: 'Porque o Sol se apaga à noite', emoji: '🌑', correct: false },
       { text: 'Porque as estrelas tapam o Sol', emoji: '⭐', correct: false },
     ],
     fact: 'A Terra roda como um pião. Quando o nosso lado fica virado para o Sol é dia. Quando fica ao contrário é noite. Uma volta completa demora 24 horas!',
@@ -121,7 +121,7 @@ const EXPERIMENTS = [
     emoji: '🌋',
     options: [
       { text: 'Lava, cinzas e gases quentes', emoji: '🔥', correct: true },
-      { text: 'Agua e gelo', emoji: '🧊', correct: false },
+      { text: 'Água e gelo', emoji: '🧊', correct: false },
       { text: 'Areia e pedras frias', emoji: '🪨', correct: false },
     ],
     fact: 'A lava é rocha derretida que vem do interior da Terra. Pode atingir 1.200 graus! Existem cerca de 1.500 vulcões activos no mundo.',
@@ -143,7 +143,7 @@ const EXPERIMENTS = [
     emoji: '♻️',
     options: [
       { text: 'Para proteger a natureza e reutilizar materiais', emoji: '🌍', correct: true },
-      { text: 'Porque o lixo e bonito', emoji: '✨', correct: false },
+      { text: 'Porque o lixo é bonito', emoji: '✨', correct: false },
       { text: 'Não é importante', emoji: '❌', correct: false },
     ],
     fact: 'Reciclar uma lata de alumínio poupa energia suficiente para alimentar uma TV durante 3 horas! Cada pessoa pode fazer a diferença.',
@@ -221,7 +221,7 @@ const EXPERIMENTS = [
     options: [
       { text: 'A enorme variedade de seres vivos no planeta', emoji: '🌍', correct: true },
       { text: 'Um tipo de planta rara', emoji: '🌺', correct: false },
-      { text: 'Uma doenca dos animais', emoji: '🤒', correct: false },
+      { text: 'Uma doença dos animais', emoji: '🤒', correct: false },
     ],
     fact: 'Existem cerca de 8,7 milhões de espécies no planeta! A floresta amazónica sozinha tem mais de 40.000 espécies de plantas e 1.300 espécies de aves. Cada ser vivo tem um papel importante.',
   },
@@ -242,7 +242,7 @@ const EXPERIMENTS = [
     emoji: '🍂',
     options: [
       { text: 'São decompostas por fungos e bactérias e viram nutrientes', emoji: '🍄', correct: true },
-      { text: 'Ficam la para sempre', emoji: '♾️', correct: false },
+      { text: 'Ficam lá para sempre', emoji: '♾️', correct: false },
       { text: 'Evaporam com o sol', emoji: '☀️', correct: false },
     ],
     fact: 'Os decompositores como fungos, bactérias e minhocas transformam matéria morta em nutrientes para o solo. Sem eles, o mundo estaria coberto de folhas e restos de plantas há milhões de anos!',
@@ -326,7 +326,7 @@ export default function NatureLab({
 
   if (isComplete) {
     return (
-      <ActivityShell title="Laboratorio Natural" backPath="/campo/3" color="var(--color-campo3)">
+      <ActivityShell title="Laboratório Natural" backPath="/campo/3" color="var(--color-campo3)">
         <CompletionCelebration
           emoji="🔬"
           title="Descobriste factos científicos!"

@@ -125,7 +125,7 @@ export async function exportAllData() {
  */
 export async function importData(data) {
   if (!data || data.version !== 1) {
-    throw new Error('Formato de backup invalido')
+    throw new Error('Formato de backup inválido')
   }
 
   if (data.profiles) {

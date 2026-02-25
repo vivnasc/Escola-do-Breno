@@ -7,7 +7,7 @@ import { useTTS } from '../../hooks/useTTS'
 const SCENARIOS = [
   {
     title: 'Planear o Dia',
-    situation: 'Tens treino as 10h, escola as 8h e precisas de tomar banho antes. Que ordem faz sentido?',
+    situation: 'Tens treino às 10h, escola às 8h e precisas de tomar banho antes. Que ordem faz sentido?',
     emoji: '📋',
     options: [
       { text: 'Banho → Escola → Treino', correct: true },
@@ -23,9 +23,9 @@ const SCENARIOS = [
     options: [
       { text: 'Proponho jogar um primeiro e depois o outro', correct: true },
       { text: 'Ignoro os dois e jogo sozinho', correct: false },
-      { text: 'Grito ate alguem desistir', correct: false },
+      { text: 'Grito até alguém desistir', correct: false },
     ],
-    lesson: 'Negociar e encontrar compromissos e uma habilidade importante. Todos ficam felizes quando partilhamos!',
+    lesson: 'Negociar e encontrar compromissos é uma habilidade importante. Todos ficam felizes quando partilhamos!',
   },
   {
     title: 'Pedir Ajuda',
@@ -55,18 +55,18 @@ const SCENARIOS = [
     emoji: '🫣',
     options: [
       { text: 'Digo a verdade a um adulto e ajudo a limpar', correct: true },
-      { text: 'Escondo os pedacos e finjo que nao fui eu', correct: false },
+      { text: 'Escondo os pedaços e finjo que não fui eu', correct: false },
       { text: 'Culpo outra pessoa', correct: false },
     ],
     lesson: 'A honestidade cria confiança. Quando assumimos os nossos erros, as pessoas confiam mais em nós.',
   },
   {
     title: 'Trabalho em Grupo',
-    situation: 'Estas a fazer um trabalho em grupo. Um colega nao faz a parte dele. O que fazes?',
+    situation: 'Estás a fazer um trabalho em grupo. Um colega não faz a parte dele. O que fazes?',
     emoji: '👥',
     options: [
       { text: 'Falo com ele e pergunto se precisa de ajuda', correct: true },
-      { text: 'Faco tudo sozinho sem dizer nada', correct: false },
+      { text: 'Faço tudo sozinho sem dizer nada', correct: false },
       { text: 'Digo ao professor que ele é preguiçoso', correct: false },
     ],
     lesson: 'Antes de julgar, comunicar! Às vezes as pessoas não fazem a parte porque não sabem como. Ajudar é liderar.',
@@ -91,18 +91,18 @@ const SCENARIOS = [
       { text: 'Vou jogar porque é mais divertido', correct: false },
       { text: 'Não estudo e não jogo', correct: false },
     ],
-    lesson: 'Saber separar o que e urgente do que e divertido e uma habilidade para a vida toda. Primeiro o dever, depois o prazer!',
+    lesson: 'Saber separar o que é urgente do que é divertido é uma habilidade para a vida toda. Primeiro o dever, depois o prazer!',
   },
   {
-    title: 'Aceitar Criticas',
+    title: 'Aceitar Críticas',
     situation: 'O professor diz que o teu trabalho precisa de melhorar. Como reages?',
     emoji: '📝',
     options: [
       { text: 'Ouço com atenção, pergunto o que posso melhorar e tento outra vez', correct: true },
-      { text: 'Fico zangado e digo que o trabalho esta perfeito', correct: false },
+      { text: 'Fico zangado e digo que o trabalho está perfeito', correct: false },
       { text: 'Desisto e não faço mais trabalhos', correct: false },
     ],
-    lesson: 'As criticas ajudam-nos a crescer. Os maiores campeoes ouvem os treinadores e melhoram todos os dias.',
+    lesson: 'As críticas ajudam-nos a crescer. Os maiores campeões ouvem os treinadores e melhoram todos os dias.',
   },
   {
     title: 'Partilhar Recursos',
@@ -132,13 +132,13 @@ const SCENARIOS = [
     emoji: '🛝',
     options: [
       { text: 'Digo com calma que há uma fila e cada um espera a sua vez', correct: true },
-      { text: 'Empurro-a para tras', correct: false },
+      { text: 'Empurro-a para trás', correct: false },
       { text: 'Saio da fila e vou embora', correct: false },
     ],
-    lesson: 'Respeitar a fila e respeitar os outros. Quando todos esperam, tudo funciona melhor.',
+    lesson: 'Respeitar a fila é respeitar os outros. Quando todos esperam, tudo funciona melhor.',
   },
   {
-    title: 'Consequencias',
+    title: 'Consequências',
     situation: 'Queres comer todos os doces que tens de uma só vez. O que pensas antes?',
     emoji: '🍬',
     options: [
@@ -150,14 +150,14 @@ const SCENARIOS = [
   },
   {
     title: 'Pedir Desculpa',
-    situation: 'Sem querer, pisaste o pe de um colega no intervalo. O que fazes?',
+    situation: 'Sem querer, pisaste o pé de um colega no intervalo. O que fazes?',
     emoji: '😅',
     options: [
       { text: 'Peço desculpa logo e pergunto se está bem', correct: true },
-      { text: 'Finjo que nao fui eu', correct: false },
+      { text: 'Finjo que não fui eu', correct: false },
       { text: 'Rio-me e continuo a brincar', correct: false },
     ],
-    lesson: 'Pedir desculpa mostra que nos importamos com os outros. E simples mas muito poderoso!',
+    lesson: 'Pedir desculpa mostra que nos importamos com os outros. É simples mas muito poderoso!',
   },
   {
     title: 'Adaptar-se a Mudanças',
@@ -179,7 +179,7 @@ const SCENARIOS = [
       { text: 'Fico com ele e digo que perdi', correct: false },
       { text: 'Devolvo-o todo riscado', correct: false },
     ],
-    lesson: 'Cuidar das coisas dos outros mostra responsabilidade. Quando cuidamos, as pessoas confiam em nos.',
+    lesson: 'Cuidar das coisas dos outros mostra responsabilidade. Quando cuidamos, as pessoas confiam em nós.',
   },
   {
     title: 'Lidar com Injustiça',
@@ -188,7 +188,7 @@ const SCENARIOS = [
     options: [
       { text: 'Aceito que nem sempre concordo com as decisões, e foco-me no meu próprio esforço', correct: true },
       { text: 'Digo a toda a gente que foi injusto', correct: false },
-      { text: 'Deixo de me esforcar porque nao vale a pena', correct: false },
+      { text: 'Deixo de me esforçar porque não vale a pena', correct: false },
     ],
     lesson: 'Nem tudo na vida parece justo. Quando sentimos injustiça, podemos falar sobre isso com calma, mas o mais importante é não deixar de dar o nosso melhor.',
   },
@@ -197,9 +197,9 @@ const SCENARIOS = [
     situation: 'Estás a jogar há muito tempo e começas a sentir dor de cabeça e os olhos cansados. O que fazes?',
     emoji: '🧍',
     options: [
-      { text: 'Paro, bebo agua, descanso os olhos e faco uma pausa', correct: true },
+      { text: 'Paro, bebo água, descanso os olhos e faço uma pausa', correct: true },
       { text: 'Ignoro e continuo a jogar', correct: false },
-      { text: 'Tomo um medicamento sem dizer a ninguem', correct: false },
+      { text: 'Tomo um medicamento sem dizer a ninguém', correct: false },
     ],
     lesson: 'O teu corpo manda sinais: dor de cabeça, fome, cansaço, vontade de estar sozinho. Ouvir esses sinais e cuidar de ti é uma das coisas mais importantes que podes aprender.',
   },
@@ -215,13 +215,13 @@ const SCENARIOS = [
     lesson: 'Quando uma tarefa parece grande demais, divide-a em pedaços pequenos. Em vez de "arrumar o quarto", pensa: "primeiro a cama, depois a secretária, depois o chão". Passo a passo, tudo se faz!',
   },
   {
-    title: 'Dizer Nao',
+    title: 'Dizer Não',
     situation: 'Um colega insiste para que copies o teste dele. Tu sabes que isso é errado. O que fazes?',
     emoji: '✋',
     options: [
-      { text: 'Digo "nao, obrigado" com firmeza e faco o teste com o que sei', correct: true },
+      { text: 'Digo "não, obrigado" com firmeza e faço o teste com o que sei', correct: true },
       { text: 'Copio porque ele vai ficar chateado se eu recusar', correct: false },
-      { text: 'Digo que sim mas depois nao copio', correct: false },
+      { text: 'Digo que sim mas depois não copio', correct: false },
     ],
     lesson: 'Dizer "não" com respeito é uma força, não uma fraqueza. Não precisas de inventar desculpas. Um "não, obrigado" claro e honesto é suficiente. As pessoas que te respeitam vão aceitar.',
   },
@@ -231,7 +231,7 @@ const SCENARIOS = [
     emoji: '💬',
     options: [
       { text: 'Digo "eu penso diferente, mas respeito a tua opinião" e mudamos de assunto', correct: true },
-      { text: 'Insisto ate ele concordar comigo', correct: false },
+      { text: 'Insisto até ele concordar comigo', correct: false },
       { text: 'Fico zangado e deixo de falar com ele', correct: false },
     ],
     lesson: 'Pessoas diferentes pensam de formas diferentes, e isso é normal. Discordar não significa que alguém está errado. Podemos ter opiniões diferentes e continuar a ser amigos.',
@@ -252,14 +252,14 @@ const SCENARIOS = [
     situation: 'O teu amigo está triste porque perdeu o jogo da equipa dele. Tu ganhaste o teu jogo. O que fazes?',
     emoji: '💛',
     options: [
-      { text: 'Digo que percebo que esta triste e pergunto se quer falar ou se prefere ficar quieto', correct: true },
-      { text: 'Falo so do meu jogo e de como ganhei', correct: false },
-      { text: 'Digo-lhe para nao ficar triste porque e so um jogo', correct: false },
+      { text: 'Digo que percebo que está triste e pergunto se quer falar ou se prefere ficar quieto', correct: true },
+      { text: 'Falo só do meu jogo e de como ganhei', correct: false },
+      { text: 'Digo-lhe para não ficar triste porque é só um jogo', correct: false },
     ],
     lesson: 'Empatia é tentar perceber o que o outro está a sentir, mesmo que tu não sintas o mesmo. Às vezes a melhor coisa é simplesmente dizer "estou aqui" e ouvir, sem tentar resolver.',
   },
   {
-    title: 'Celebrar Pequenas Vitorias',
+    title: 'Celebrar Pequenas Vitórias',
     situation: 'Conseguiste finalmente ler um texto inteiro sem ajuda. Ninguém reparou. Como te sentes?',
     emoji: '🏆',
     options: [

@@ -149,7 +149,7 @@ export default function Loja({ profile, progress, purchaseItem, equipItem, claim
                   <span style={styles.realRewardName}>{reward.name}</span>
                   <span style={styles.realRewardCost}>⭐ {reward.starCost}</span>
                   {alreadyClaimed ? (
-                    <span style={styles.realRewardPending}>A espera...</span>
+                    <span style={styles.realRewardPending}>À espera...</span>
                   ) : (
                     <button
                       style={{

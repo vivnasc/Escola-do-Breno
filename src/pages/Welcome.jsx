@@ -231,7 +231,7 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
               <>
                 <p style={styles.authTitle}>Acesso familiar</p>
                 <p style={styles.authHint}>
-                  Entra na tua conta para que toda a familia aceda aos mesmos perfis, de qualquer dispositivo.
+                  Entra na tua conta para que toda a família aceda aos mesmos perfis, de qualquer dispositivo.
                 </p>
                 <div style={styles.authBtns}>
                   <button style={styles.authLoginBtn} onClick={() => setAuthMode('login')}>
@@ -245,11 +245,11 @@ export default function Welcome({ onNewProfile, profiles, onSwitchProfile, auth,
             ) : (
               <div style={styles.authForm}>
                 <p style={styles.authFormTitle}>
-                  {authMode === 'register' ? 'Criar conta da familia' : 'Entrar na conta'}
+                  {authMode === 'register' ? 'Criar conta da família' : 'Entrar na conta'}
                 </p>
                 <p style={styles.authFormHint}>
                   {authMode === 'register'
-                    ? 'Mae, pai e terapeuta podem usar a mesma conta para aceder aos perfis.'
+                    ? 'Mãe, pai e terapeuta podem usar a mesma conta para aceder aos perfis.'
                     : 'Entra para recuperar os perfis guardados na cloud.'}
                 </p>
                 <input

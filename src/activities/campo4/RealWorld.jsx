@@ -39,7 +39,7 @@ const CHALLENGES = [
     tip: 'Se te perderes: fica parado, procura alguém de uniforme, sabe dizer o teu nome e o contacto dos teus pais.',
   },
   {
-    title: 'Emergencia',
+    title: 'Emergência',
     situation: 'Alguém se magoa no recreio e precisa de ajuda. O que fazes?',
     emoji: '🚑',
     options: [
@@ -55,18 +55,18 @@ const CHALLENGES = [
     emoji: '🪪',
     options: [
       { text: 'Sim, adultos da escola são de confiança e preciso saber dizer os meus dados', correct: true },
-      { text: 'Nunca, a ninguem', correct: false },
+      { text: 'Nunca, a ninguém', correct: false },
       { text: 'Só digo se me derem um presente', correct: false },
     ],
-    tip: 'Sabe o teu nome completo, morada, e contacto dos pais. Partilha com adultos de confianca (escola, policia).',
+    tip: 'Sabe o teu nome completo, morada, e contacto dos pais. Partilha com adultos de confiança (escola, polícia).',
   },
   {
     title: 'Na Loja',
-    situation: 'Queres comprar agua na loja. Custa 15 e tens 20. O que fazes?',
+    situation: 'Queres comprar água na loja. Custa 15 e tens 20. O que fazes?',
     emoji: '🏪',
     options: [
       { text: 'Vou à caixa, digo que quero água, pago 20 e espero o troco de 5', correct: true },
-      { text: 'Deixo o dinheiro no balcao e saio', correct: false },
+      { text: 'Deixo o dinheiro no balcão e saio', correct: false },
       { text: 'Peço para levar de graça', correct: false },
     ],
     tip: 'Na loja: escolhe o que queres, vai à caixa, paga e confere o troco!',
@@ -91,7 +91,7 @@ const CHALLENGES = [
       { text: 'Corro a atravessar sem olhar', correct: false },
       { text: 'Fico parado para sempre', correct: false },
     ],
-    tip: 'Na rua: usa sempre a passadeira, olha para a esquerda, depois para a direita, e so atravessa quando os carros pararem.',
+    tip: 'Na rua: usa sempre a passadeira, olha para a esquerda, depois para a direita, e só atravessa quando os carros pararem.',
   },
   {
     title: 'Fazer uma Chamada',
@@ -110,7 +110,7 @@ const CHALLENGES = [
     emoji: '🏠',
     options: [
       { text: 'Cumprimento os pais dele, tiro os sapatos se pedirem, e sigo as regras da casa', correct: true },
-      { text: 'Entro sem cumprimentar ninguem e abro o frigorifico', correct: false },
+      { text: 'Entro sem cumprimentar ninguém e abro o frigorífico', correct: false },
       { text: 'Recuso-me a ir porque não conheço a casa', correct: false },
     ],
     tip: 'Em casa alheia: cumprimentar, seguir as regras da casa e agradecer ao sair são sinais de boa educação.',
@@ -121,7 +121,7 @@ const CHALLENGES = [
     emoji: '🗺️',
     options: [
       { text: 'Pergunto a alguém de confiança (polícia, empregado de loja) onde fica', correct: true },
-      { text: 'Ando sem rumo ate encontrar', correct: false },
+      { text: 'Ando sem rumo até encontrar', correct: false },
       { text: 'Desisto e volto para casa', correct: false },
     ],
     tip: 'Se não sabes o caminho: pede ajuda a um adulto de confiança (polícia, empregado). Sabe o nome do lugar que procuras!',
@@ -135,7 +135,7 @@ const CHALLENGES = [
       { text: 'Não sei contar, gasto tudo no almoço', correct: false },
       { text: 'Compro doces com todo o dinheiro', correct: false },
     ],
-    tip: 'Gerir dinheiro: primeiro paga o que precisas (comida, transporte), depois ve o que sobra para extras.',
+    tip: 'Gerir dinheiro: primeiro paga o que precisas (comida, transporte), depois vê o que sobra para extras.',
   },
   {
     title: 'No Supermercado',
@@ -144,7 +144,7 @@ const CHALLENGES = [
     options: [
       { text: 'Faço uma lista no telemóvel, procuro os corredores certos e vou à caixa pagar', correct: true },
       { text: 'Ando pelo supermercado todo sem saber o que procuro', correct: false },
-      { text: 'Compro so o que me apetece e esqueco a lista', correct: false },
+      { text: 'Compro só o que me apetece e esqueço a lista', correct: false },
     ],
     tip: 'No supermercado: faz uma lista antes de ir, procura os produtos por secção (lacticínios, padaria, ovos) e confere a lista antes de pagar.',
   },
@@ -164,7 +164,7 @@ const CHALLENGES = [
     situation: 'Tens uma consulta no dentista e dói-te um dente. Como te preparas?',
     emoji: '🦷',
     options: [
-      { text: 'Digo ao dentista qual dente doi, ha quanto tempo doi e se doi mais com frio ou quente', correct: true },
+      { text: 'Digo ao dentista qual dente dói, há quanto tempo dói e se dói mais com frio ou quente', correct: true },
       { text: 'Não abro a boca porque tenho medo', correct: false },
       { text: 'Digo que não dói nada para ir embora mais depressa', correct: false },
     ],
@@ -175,9 +175,9 @@ const CHALLENGES = [
     situation: 'Estás numa festa de aniversário e o barulho está a incomodar-te muito. O que fazes?',
     emoji: '🔊',
     options: [
-      { text: 'Digo a um adulto que preciso de uma pausa e vou a um sitio mais calmo por uns minutos', correct: true },
+      { text: 'Digo a um adulto que preciso de uma pausa e vou a um sítio mais calmo por uns minutos', correct: true },
       { text: 'Fico e aguento mesmo que me sinta muito mal', correct: false },
-      { text: 'Grito para todos fazerem silencio', correct: false },
+      { text: 'Grito para todos fazerem silêncio', correct: false },
     ],
     tip: 'Quando o barulho incomoda: não precisas de aguentar. Podes ir a um sítio mais calmo, usar proteção auditiva ou pedir uma pausa. Conhecer os teus limites e cuidar de ti é muito inteligente.',
   },
@@ -221,7 +221,7 @@ const CHALLENGES = [
     options: [
       { text: 'Verifico o horário, ponho os cadernos e materiais de cada disciplina e o equipamento de educação física', correct: true },
       { text: 'Ponho tudo o que encontro e espero que esteja certo', correct: false },
-      { text: 'Deixo para fazer de manha antes de sair', correct: false },
+      { text: 'Deixo para fazer de manhã antes de sair', correct: false },
     ],
     tip: 'Preparar a mochila na noite anterior: olha o horário, faz uma lista mental (cadernos, materiais, equipamento) e verifica tudo. Assim de manhã estás tranquilo e não te esqueces de nada!',
   },
