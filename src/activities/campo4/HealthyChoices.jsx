@@ -169,10 +169,10 @@ export default function HealthyChoices({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo4', next)
-    if (next >= SCENARIOS.length) {
+    if (next >= scenarios.length) {
       completeActivity('healthy-choices', score >= 8 ? 3 : score >= 5 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, scenarios.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 8 ? 3 : score >= 5 ? 2 : 1
 
@@ -183,7 +183,7 @@ export default function HealthyChoices({
           emoji="💪"
           title="Sabes fazer escolhas saudáveis!"
           score={score}
-          total={SCENARIOS.length}
+          total={scenarios.length}
           stars={finalStars}
           color="var(--color-campo4)"
         />
@@ -198,7 +198,7 @@ export default function HealthyChoices({
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={score}
-      total={SCENARIOS.length}
+      total={scenarios.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.scenarioCard}>

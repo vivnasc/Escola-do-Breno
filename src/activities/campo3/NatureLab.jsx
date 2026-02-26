@@ -213,6 +213,7 @@ const EXPERIMENTS = [
     title: 'Migração Animal',
     question: 'Porque é que algumas aves voam para outros países no inverno?',
     emoji: '🦅',
+    minLevel: 7,
     options: [
       { text: 'Para encontrar comida e clima mais quente', emoji: '☀️', correct: true },
       { text: 'Porque gostam de viajar', emoji: '✈️', correct: false },
@@ -224,6 +225,7 @@ const EXPERIMENTS = [
     title: 'Camuflagem',
     question: 'Porque é que alguns animais têm cores parecidas com o ambiente?',
     emoji: '🦎',
+    minLevel: 7,
     options: [
       { text: 'Para se esconderem de predadores ou de presas', emoji: '👀', correct: true },
       { text: 'Porque gostam de moda', emoji: '👗', correct: false },
@@ -235,6 +237,7 @@ const EXPERIMENTS = [
     title: 'Biodiversidade',
     question: 'O que significa biodiversidade?',
     emoji: '🌿',
+    minLevel: 8,
     options: [
       { text: 'A enorme variedade de seres vivos no planeta', emoji: '🌍', correct: true },
       { text: 'Um tipo de planta rara', emoji: '🌺', correct: false },
@@ -246,6 +249,7 @@ const EXPERIMENTS = [
     title: 'Polinização',
     question: 'Porque é que as abelhas visitam as flores?',
     emoji: '🐝',
+    minLevel: 8,
     options: [
       { text: 'Para recolher néctar e espalhar pólen entre flores', emoji: '🌸', correct: true },
       { text: 'Porque gostam de cores bonitas', emoji: '🌈', correct: false },
@@ -257,6 +261,7 @@ const EXPERIMENTS = [
     title: 'Decomposição',
     question: 'O que acontece às folhas que caem das árvores no outono?',
     emoji: '🍂',
+    minLevel: 8,
     options: [
       { text: 'São decompostas por fungos e bactérias e viram nutrientes', emoji: '🍄', correct: true },
       { text: 'Ficam lá para sempre', emoji: '♾️', correct: false },
@@ -268,6 +273,7 @@ const EXPERIMENTS = [
     title: 'Correntes Oceânicas',
     question: 'A água do oceano está sempre parada?',
     emoji: '🌊',
+    minLevel: 8,
     options: [
       { text: 'Não, existem correntes que movem a água pelo planeta inteiro', emoji: '🔄', correct: true },
       { text: 'Sim, a água fica sempre no mesmo sítio', emoji: '⏸️', correct: false },
@@ -279,6 +285,7 @@ const EXPERIMENTS = [
     title: 'Electricidade Estática',
     question: 'Porque é que às vezes levamos um choque ao tocar numa maçaneta?',
     emoji: '⚡',
+    minLevel: 8,
     options: [
       { text: 'Porque o corpo acumulou electricidade estática', emoji: '🔋', correct: true },
       { text: 'Porque a maçaneta está partida', emoji: '🔧', correct: false },
@@ -297,13 +304,18 @@ export default function NatureLab({
   adaptive,
 }) {
   const { speak } = useTTS()
+  const campoLevel = adaptive?.campoLevel?.campo3 || 1
+  const experiments = useMemo(
+    () => EXPERIMENTS.filter(e => e.minLevel <= campoLevel),
+    [campoLevel]
+  )
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showFact, setShowFact] = useState(false)
 
-  const current = EXPERIMENTS[idx]
-  const isComplete = idx >= EXPERIMENTS.length
+  const current = experiments[idx]
+  const isComplete = idx >= experiments.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -334,10 +346,10 @@ export default function NatureLab({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo3', next + 20)
-    if (next >= EXPERIMENTS.length) {
+    if (next >= experiments.length) {
       completeActivity('nature-lab', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, experiments.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
 
@@ -348,7 +360,7 @@ export default function NatureLab({
           emoji="🔬"
           title="Descobriste factos científicos!"
           score={score}
-          total={EXPERIMENTS.length}
+          total={experiments.length}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -363,7 +375,7 @@ export default function NatureLab({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={EXPERIMENTS.length}
+      total={experiments.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>

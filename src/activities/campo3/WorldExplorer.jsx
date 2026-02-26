@@ -150,30 +150,35 @@ const FACTS = [
     options: ['Camelo', 'Elefante', 'Urso', 'Golfinho'],
     correct: 'Camelo',
     fact: 'Os camelos guardam gordura nas bossas (não água!) e o seu corpo está adaptado para não perder água. Podem beber 200 litros de água de uma vez!',
+    minLevel: 7,
   },
   {
     question: 'Que animal vive no Ártico e é o maior carnívoro terrestre?',
     options: ['Urso polar', 'Pinguim', 'Foca', 'Rena'],
     correct: 'Urso polar',
     fact: 'O urso polar vive no Ártico (Polo Norte) e pode pesar até 700 kg. A sua pele é na verdade preta, mas o pelo transparente parece branco com a luz!',
+    minLevel: 7,
   },
   {
     question: 'Como se chama a montanha que pode expelir lava e cinzas?',
     options: ['Vulcão', 'Glaciar', 'Geyser', 'Cratera'],
     correct: 'Vulcão',
     fact: 'Existem cerca de 1.500 vulcões activos no mundo. O Anel de Fogo do Pacífico tem 75% de todos os vulcões da Terra!',
+    minLevel: 8,
   },
   {
     question: 'Qual é o ponto mais fundo do oceano?',
     options: ['Fossa das Marianas', 'Fossa do Atlântico', 'Mar Morto', 'Lago Baikal'],
     correct: 'Fossa das Marianas',
     fact: 'A Fossa das Marianas, no Oceano Pacífico, tem quase 11.000 metros de profundidade. Se lá colocássemos o Monte Evereste, ainda faltava mais de 2 km para chegar à superfície!',
+    minLevel: 8,
   },
   {
     question: 'Qual é o lago mais profundo do mundo?',
     options: ['Lago Baikal', 'Lago Victoria', 'Lago Superior', 'Lago Titicaca'],
     correct: 'Lago Baikal',
     fact: 'O Lago Baikal na Rússia tem 1.642 metros de profundidade e contém cerca de 20% da água doce do planeta. Tem mais de 25 milhões de anos!',
+    minLevel: 8,
   },
 ]
 
@@ -191,8 +196,14 @@ export default function WorldExplorer({
   const [feedback, setFeedback] = useState(null)
   const [showFact, setShowFact] = useState(false)
 
-  const current = FACTS[idx]
-  const isComplete = idx >= FACTS.length
+  const campoLevel = adaptive?.campoLevel?.campo3 || 1
+  const facts = useMemo(
+    () => FACTS.filter(f => f.minLevel <= campoLevel),
+    [campoLevel]
+  )
+
+  const current = facts[idx]
+  const isComplete = idx >= facts.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -223,10 +234,10 @@ export default function WorldExplorer({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo3', next + 10)
-    if (next >= FACTS.length) {
+    if (next >= facts.length) {
       completeActivity('world-explorer', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, facts, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
 
@@ -237,7 +248,7 @@ export default function WorldExplorer({
           emoji="🗺️"
           title="És um explorador do mundo!"
           score={score}
-          total={FACTS.length}
+          total={facts.length}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -252,7 +263,7 @@ export default function WorldExplorer({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={FACTS.length}
+      total={facts.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>

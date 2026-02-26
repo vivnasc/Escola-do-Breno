@@ -153,6 +153,7 @@ const CHALLENGES = [
     title: 'No Supermercado',
     situation: 'A tua mãe pediu-te para ir buscar leite, pão e ovos ao supermercado. Como te organizas?',
     emoji: '🛒',
+    minLevel: 7,
     options: [
       { text: 'Faço uma lista no telemóvel, procuro os corredores certos e vou à caixa pagar', correct: true },
       { text: 'Ando pelo supermercado todo sem saber o que procuro', correct: false },
@@ -164,6 +165,7 @@ const CHALLENGES = [
     title: 'Pedir Comida',
     situation: 'Estás num restaurante de comida rápida e queres pedir um hambúrguer. O que fazes?',
     emoji: '🍔',
+    minLevel: 7,
     options: [
       { text: 'Olho para o menu, decido o que quero, espero a minha vez e peço com clareza', correct: true },
       { text: 'Aponto para a comida sem dizer nada', correct: false },
@@ -175,6 +177,7 @@ const CHALLENGES = [
     title: 'No Dentista',
     situation: 'Tens uma consulta no dentista e dói-te um dente. Como te preparas?',
     emoji: '🦷',
+    minLevel: 8,
     options: [
       { text: 'Digo ao dentista qual dente dói, há quanto tempo dói e se dói mais com frio ou quente', correct: true },
       { text: 'Não abro a boca porque tenho medo', correct: false },
@@ -186,6 +189,7 @@ const CHALLENGES = [
     title: 'Lidar com Barulho',
     situation: 'Estás numa festa de aniversário e o barulho está a incomodar-te muito. O que fazes?',
     emoji: '🔊',
+    minLevel: 8,
     options: [
       { text: 'Digo a um adulto que preciso de uma pausa e vou a um sítio mais calmo por uns minutos', correct: true },
       { text: 'Fico e aguento mesmo que me sinta muito mal', correct: false },
@@ -197,6 +201,7 @@ const CHALLENGES = [
     title: 'Mudança de Planos',
     situation: 'Ias ao parque com o teu pai, mas começou a chover e não podem ir. Como reages?',
     emoji: '🌧️',
+    minLevel: 8,
     options: [
       { text: 'Fico desapontado mas penso numa alternativa divertida para fazer em casa', correct: true },
       { text: 'Fico muito zangado e recuso-me a fazer outra coisa', correct: false },
@@ -208,6 +213,7 @@ const CHALLENGES = [
     title: 'Conhecer Pessoas Novas',
     situation: 'Estás numa actividade nova e não conheces ninguém. Como te apresentas?',
     emoji: '👋',
+    minLevel: 9,
     options: [
       { text: 'Digo "Olá, o meu nome é..." e pergunto o nome da outra pessoa', correct: true },
       { text: 'Fico num canto sem falar com ninguém', correct: false },
@@ -219,6 +225,7 @@ const CHALLENGES = [
     title: 'Segurança na Internet',
     situation: 'Alguém que não conheces manda-te uma mensagem online a pedir a tua morada. O que fazes?',
     emoji: '🔒',
+    minLevel: 9,
     options: [
       { text: 'Não respondo, não partilho dados pessoais e conto a um adulto de confiança', correct: true },
       { text: 'Respondo porque a pessoa parece simpática', correct: false },
@@ -230,6 +237,7 @@ const CHALLENGES = [
     title: 'Preparar a Mochila',
     situation: 'Amanhã tens aulas de matemática, educação física e inglês. Como preparas a mochila à noite?',
     emoji: '🎒',
+    minLevel: 9,
     options: [
       { text: 'Verifico o horário, ponho os cadernos e materiais de cada disciplina e o equipamento de educação física', correct: true },
       { text: 'Ponho tudo o que encontro e espero que esteja certo', correct: false },
@@ -248,13 +256,18 @@ export default function RealWorld({
   adaptive,
 }) {
   const { speak } = useTTS()
+  const campoLevel = adaptive?.campoLevel?.campo4 || 1
+  const challenges = useMemo(
+    () => CHALLENGES.filter(c => c.minLevel <= campoLevel),
+    [campoLevel]
+  )
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showTip, setShowTip] = useState(false)
 
-  const current = CHALLENGES[idx]
-  const isComplete = idx >= CHALLENGES.length
+  const current = challenges[idx]
+  const isComplete = idx >= challenges.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -285,10 +298,10 @@ export default function RealWorld({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo4', next + 17)
-    if (next >= CHALLENGES.length) {
+    if (next >= challenges.length) {
       completeActivity('real-world', score >= 16 ? 3 : score >= 10 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, challenges.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 16 ? 3 : score >= 10 ? 2 : 1
 
@@ -299,7 +312,7 @@ export default function RealWorld({
           emoji="🏙️"
           title="Estás pronto para o mundo real!"
           score={score}
-          total={CHALLENGES.length}
+          total={challenges.length}
           stars={finalStars}
           color="var(--color-campo4)"
         />
@@ -314,7 +327,7 @@ export default function RealWorld({
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={score}
-      total={CHALLENGES.length}
+      total={challenges.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.challengeCard}>

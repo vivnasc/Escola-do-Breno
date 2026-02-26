@@ -173,6 +173,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O cabelo cresce cerca de 1 centímetro por mês. As unhas das mãos crescem mais rápido do que as dos pés! Ambos são feitos de queratina, a mesma proteína.',
+    minLevel: 7,
   },
   {
     question: 'Existem diferentes tipos de sangue?',
@@ -183,6 +184,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Existem 4 tipos de sangue: A, B, AB e O. O tipo O pode doar para todos e chama-se dador universal! É importante saber o teu tipo de sangue.',
+    minLevel: 8,
   },
   {
     question: 'O que nos protege de doenças como gripes e vírus?',
@@ -193,6 +195,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O sistema imunitário é como um exército dentro do corpo. Os glóbulos brancos atacam vírus e bactérias para nos manter saudáveis. A febre é uma forma de combater infecções!',
+    minLevel: 8,
   },
 ]
 
@@ -210,8 +213,14 @@ export default function BodyScience({
   const [feedback, setFeedback] = useState(null)
   const [showFact, setShowFact] = useState(false)
 
-  const current = QUESTIONS[idx]
-  const isComplete = idx >= QUESTIONS.length
+  const campoLevel = adaptive?.campoLevel?.campo3 || 1
+  const questions = useMemo(
+    () => QUESTIONS.filter(q => q.minLevel <= campoLevel),
+    [campoLevel]
+  )
+
+  const current = questions[idx]
+  const isComplete = idx >= questions.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -242,10 +251,10 @@ export default function BodyScience({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo3', next + 18)
-    if (next >= QUESTIONS.length) {
+    if (next >= questions.length) {
       completeActivity('body-science', score >= 16 ? 3 : score >= 12 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, questions.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 16 ? 3 : score >= 12 ? 2 : 1
 
@@ -256,7 +265,7 @@ export default function BodyScience({
           emoji="🫀"
           title="Aprendeste sobre o corpo humano!"
           score={score}
-          total={QUESTIONS.length}
+          total={questions.length}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -271,7 +280,7 @@ export default function BodyScience({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={QUESTIONS.length}
+      total={questions.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.questionCard}>

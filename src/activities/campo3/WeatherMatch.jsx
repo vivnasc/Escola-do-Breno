@@ -276,7 +276,7 @@ export default function WeatherMatch({
           emoji="🌤️"
           title="Sabes vestir-te para o tempo!"
           score={score}
-          total={SCENARIOS.length}
+          total={scenarios.length}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -291,7 +291,7 @@ export default function WeatherMatch({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={SCENARIOS.length}
+      total={scenarios.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.weatherCard}>
