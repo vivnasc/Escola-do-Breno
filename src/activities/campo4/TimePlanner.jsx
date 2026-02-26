@@ -9,6 +9,7 @@ const TASK_SETS = [
   {
     title: 'Dia de Escola',
     emoji: '🏫',
+    minLevel: 1,
     tasks: [
       { id: 's1', text: 'Tomar o pequeno-almoço', emoji: '🥣', order: 1 },
       { id: 's2', text: 'Vestir o uniforme', emoji: '👕', order: 2 },
@@ -20,6 +21,7 @@ const TASK_SETS = [
   {
     title: 'Manhã de Fim de Semana',
     emoji: '🌅',
+    minLevel: 3,
     tasks: [
       { id: 'w1', text: 'Acordar e esticar', emoji: '🧘', order: 1 },
       { id: 'w2', text: 'Escovar os dentes', emoji: '🪥', order: 2 },
@@ -31,6 +33,7 @@ const TASK_SETS = [
   {
     title: 'Depois da Escola',
     emoji: '🏠',
+    minLevel: 5,
     tasks: [
       { id: 'a1', text: 'Lanchar', emoji: '🍎', order: 1 },
       { id: 'a2', text: 'Fazer os TPC', emoji: '📚', order: 2 },
@@ -66,9 +69,15 @@ export default function TimePlanner({
   const [perfectSets, setPerfectSets] = useState(0)
   const [hadError, setHadError] = useState(false)
 
-  const currentSet = TASK_SETS[setIdx]
+  const campoLevel = adaptive?.campoLevel?.campo4 || 1
+  const taskSets = useMemo(
+    () => TASK_SETS.filter(ts => ts.minLevel <= campoLevel),
+    [campoLevel]
+  )
+
+  const currentSet = taskSets[setIdx]
   const isSetComplete = selected.length === currentSet.tasks.length
-  const isAllComplete = setIdx >= TASK_SETS.length
+  const isAllComplete = setIdx >= taskSets.length
 
   const nextExpectedOrder = selected.length + 1
 
@@ -110,14 +119,14 @@ export default function TimePlanner({
     setFeedback(null)
     setHadError(false)
 
-    if (next >= TASK_SETS.length) {
+    if (next >= taskSets.length) {
       const finalPerfect = perfectSets + (!hadError ? 1 : 0)
       completeActivity('time-planner', finalPerfect >= 3 ? 3 : finalPerfect >= 2 ? 2 : 1)
     } else {
       setSelected([])
-      setShuffled(shuffle(TASK_SETS[next].tasks))
+      setShuffled(shuffle(taskSets[next].tasks))
     }
-  }, [setIdx, perfectSets, hadError, completeActivity, updateCampoProgress])
+  }, [setIdx, perfectSets, hadError, completeActivity, updateCampoProgress, taskSets])
 
   const finalPerfect = perfectSets + (isSetComplete && !hadError ? 1 : 0)
   const finalStars = isAllComplete
@@ -131,7 +140,7 @@ export default function TimePlanner({
           emoji="📋"
           title="Sabes organizar o teu dia!"
           score={finalPerfect}
-          total={TASK_SETS.length}
+          total={taskSets.length}
           stars={finalStars}
           color="var(--color-campo4)"
         />
@@ -146,7 +155,7 @@ export default function TimePlanner({
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={setIdx}
-      total={TASK_SETS.length}
+      total={taskSets.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.setHeader}>
@@ -199,7 +208,7 @@ export default function TimePlanner({
               : 'Conseguiste organizar tudo! Na próxima tenta sem erros.'}
           </p>
           <button style={styles.nextBtn} onClick={handleNextSet}>
-            {setIdx + 1 < TASK_SETS.length ? 'Próximo cenário →' : 'Ver resultado →'}
+            {setIdx + 1 < taskSets.length ? 'Próximo cenário →' : 'Ver resultado →'}
           </button>
         </div>
       )}

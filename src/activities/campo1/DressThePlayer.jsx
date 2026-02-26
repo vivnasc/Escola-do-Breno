@@ -1,17 +1,28 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 import { getContent } from '../../data/universeContent'
 
+/**
+ * Clothing items tiered by vocabulary level (matches vocabulary.js WORD_LEVELS).
+ * Level field matches when this word becomes available in the vocabulary system:
+ *   L3: shirt, shorts (basic daily wear)
+ *   L4: boots, socks, hat (common items)
+ *   L5: jacket, dress (less frequent)
+ *   L7: glasses, gloves, scarf (accessories)
+ */
 const CLOTHING_ITEMS = [
-  { id: 'shirt', en: 'shirt', pt: 'camisola', emoji: '👕', zone: 'torso' },
-  { id: 'shorts', en: 'shorts', pt: 'calções', emoji: '🩳', zone: 'legs' },
-  { id: 'socks', en: 'socks', pt: 'meias', emoji: '🧦', zone: 'feet' },
-  { id: 'boots', en: 'boots', pt: 'chuteiras', emoji: '👟', zone: 'feet' },
-  { id: 'hat', en: 'hat', pt: 'chapéu', emoji: '🧢', zone: 'head' },
-  { id: 'jacket', en: 'jacket', pt: 'casaco', emoji: '🧥', zone: 'torso' },
+  { id: 'shirt', en: 'shirt', pt: 'camisola', emoji: '👕', zone: 'torso', level: 3 },
+  { id: 'shorts', en: 'shorts', pt: 'calções', emoji: '🩳', zone: 'legs', level: 3 },
+  { id: 'socks', en: 'socks', pt: 'meias', emoji: '🧦', zone: 'feet', level: 4 },
+  { id: 'boots', en: 'boots', pt: 'chuteiras', emoji: '👟', zone: 'feet', level: 4 },
+  { id: 'hat', en: 'hat', pt: 'chapéu', emoji: '🧢', zone: 'head', level: 4 },
+  { id: 'jacket', en: 'jacket', pt: 'casaco', emoji: '🧥', zone: 'torso', level: 5 },
+  { id: 'dress', en: 'dress', pt: 'vestido', emoji: '👗', zone: 'torso', level: 5 },
+  { id: 'gloves', en: 'gloves', pt: 'luvas', emoji: '🧤', zone: 'hands', level: 7 },
+  { id: 'scarf', en: 'scarf', pt: 'cachecol', emoji: '🧣', zone: 'head', level: 7 },
 ]
 
 const BODY_ZONES = [
@@ -19,7 +30,13 @@ const BODY_ZONES = [
   { id: 'torso', label: 'Tronco', y: '35%' },
   { id: 'legs', label: 'Pernas', y: '60%' },
   { id: 'feet', label: 'Pés', y: '85%' },
+  { id: 'hands', label: 'Mãos', y: '48%' },
 ]
+
+// Word ID lookup for markWordLearned
+const CLOTHING_WORD_IDS = {
+  shirt: 21, shorts: 22, boots: 23, socks: 24, hat: 25, jacket: 26, dress: 27, gloves: 162, scarf: 163,
+}
 
 export default function DressThePlayer({
   registerClick,
@@ -31,23 +48,29 @@ export default function DressThePlayer({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const dressContent = content.dress
+  const campoLevel = adaptive?.campoLevel?.campo1 || 1
+
+  // Filter clothing items to those available at the child's level
+  const items = useMemo(
+    () => CLOTHING_ITEMS.filter(c => c.level <= Math.max(3, campoLevel)),
+    [campoLevel]
+  )
 
   const [currentItem, setCurrentItem] = useState(0)
   const [dressed, setDressed] = useState([])
   const [feedback, setFeedback] = useState(null)
   const { speakEn } = useTTS()
 
-  const item = CLOTHING_ITEMS[currentItem]
-  const isComplete = currentItem >= CLOTHING_ITEMS.length
+  const item = items[currentItem]
+  const isComplete = currentItem >= items.length
 
   const handleZoneClick = useCallback(
     (zoneId) => {
       registerClick()
       if (zoneId === item.zone) {
         registerSuccess()
-        markWordLearned(
-          { shirt: 21, shorts: 22, boots: 23, socks: 24, hat: 25, jacket: 26 }[item.id]
-        )
+        const wordId = CLOTHING_WORD_IDS[item.id]
+        if (wordId) markWordLearned(wordId)
         setDressed((d) => [...d, item.id])
         setFeedback('success')
       } else {
@@ -62,10 +85,10 @@ export default function DressThePlayer({
     setFeedback(null)
     const next = currentItem + 1
     setCurrentItem(next)
-    if (next >= CLOTHING_ITEMS.length) {
+    if (next >= items.length) {
       completeActivity('dress-player', 3)
     }
-  }, [currentItem, completeActivity])
+  }, [currentItem, items.length, completeActivity])
 
   const finalStars = 3
 
@@ -75,8 +98,8 @@ export default function DressThePlayer({
         <CompletionCelebration
           emoji={dressContent.completeEmoji}
           title={dressContent.completeText}
-          score={CLOTHING_ITEMS.length}
-          total={CLOTHING_ITEMS.length}
+          score={items.length}
+          total={items.length}
           stars={finalStars}
           color="var(--color-campo1)"
         />
@@ -91,7 +114,7 @@ export default function DressThePlayer({
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={currentItem}
-      total={CLOTHING_ITEMS.length}
+      total={items.length}
       textLevel={adaptive?.textLevel}
     >
       <button
@@ -105,10 +128,15 @@ export default function DressThePlayer({
 
       <div style={styles.playerBody}>
         <div style={styles.playerFigure}>
-          <div style={styles.playerHead}>🙂</div>
+          <div style={styles.playerHead}>
+            🙂
+            {dressed.includes('hat') && <span>🧢</span>}
+            {dressed.includes('scarf') && <span>🧣</span>}
+          </div>
           <div style={styles.playerTorso}>
             {dressed.includes('shirt') && <span>👕</span>}
             {dressed.includes('jacket') && <span>🧥</span>}
+            {dressed.includes('dress') && <span>👗</span>}
           </div>
           <div style={styles.playerLegs}>
             {dressed.includes('shorts') && <span>🩳</span>}
@@ -116,6 +144,7 @@ export default function DressThePlayer({
           <div style={styles.playerFeet}>
             {dressed.includes('socks') && <span>🧦</span>}
             {dressed.includes('boots') && <span>👟</span>}
+            {dressed.includes('gloves') && <span>🧤</span>}
           </div>
         </div>
 

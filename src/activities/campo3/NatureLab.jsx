@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
@@ -9,6 +9,7 @@ const EXPERIMENTS = [
     title: 'Animais e Habitats',
     question: 'Onde vive o peixe?',
     emoji: '🐟',
+    minLevel: 1,
     options: [
       { text: 'Na água (rio, lago ou mar)', emoji: '🌊', correct: true },
       { text: 'Na árvore', emoji: '🌳', correct: false },
@@ -20,6 +21,7 @@ const EXPERIMENTS = [
     title: 'Plantas e Sol',
     question: 'De que é que uma planta precisa para crescer?',
     emoji: '🌱',
+    minLevel: 1,
     options: [
       { text: 'Água, sol e terra', emoji: '☀️💧', correct: true },
       { text: 'Apenas chocolate', emoji: '🍫', correct: false },
@@ -31,6 +33,7 @@ const EXPERIMENTS = [
     title: 'Ciclo da Água',
     question: 'O que acontece à água quando aquece muito?',
     emoji: '💧',
+    minLevel: 2,
     options: [
       { text: 'Evapora e sobe para as nuvens', emoji: '☁️', correct: true },
       { text: 'Fica congelada', emoji: '🧊', correct: false },
@@ -42,6 +45,7 @@ const EXPERIMENTS = [
     title: 'Cadeia Alimentar',
     question: 'O que come o leão?',
     emoji: '🦁',
+    minLevel: 2,
     options: [
       { text: 'Outros animais (zebras, antílopes)', emoji: '🦓', correct: true },
       { text: 'Plantas e flores', emoji: '🌸', correct: false },
@@ -53,6 +57,7 @@ const EXPERIMENTS = [
     title: 'Sistema Solar',
     question: 'O que é o Sol?',
     emoji: '☀️',
+    minLevel: 3,
     options: [
       { text: 'Uma estrela enorme que nos dá luz e calor', emoji: '⭐', correct: true },
       { text: 'Um planeta como a Terra', emoji: '🌍', correct: false },
@@ -64,6 +69,7 @@ const EXPERIMENTS = [
     title: 'Estados da Matéria',
     question: 'O gelo, a água e o vapor são a mesma coisa?',
     emoji: '🧊',
+    minLevel: 3,
     options: [
       { text: 'Sim, tudo é água em estados diferentes', emoji: '💧', correct: true },
       { text: 'Não, são coisas completamente diferentes', emoji: '❌', correct: false },
@@ -75,6 +81,7 @@ const EXPERIMENTS = [
     title: 'Sentidos Humanos',
     question: 'Quantos sentidos tem o ser humano?',
     emoji: '👁️',
+    minLevel: 3,
     options: [
       { text: '5: visão, audição, olfacto, paladar e tacto', emoji: '✋', correct: true },
       { text: '3: ver, ouvir e cheirar', emoji: '👃', correct: false },
@@ -86,6 +93,7 @@ const EXPERIMENTS = [
     title: 'Dia e Noite',
     question: 'Porque é que temos dia e noite?',
     emoji: '🌍',
+    minLevel: 4,
     options: [
       { text: 'Porque a Terra roda sobre si mesma', emoji: '🔄', correct: true },
       { text: 'Porque o Sol se apaga à noite', emoji: '🌑', correct: false },
@@ -97,6 +105,7 @@ const EXPERIMENTS = [
     title: 'Gravidade',
     question: 'Porque é que as coisas caem para o chão?',
     emoji: '🍎',
+    minLevel: 4,
     options: [
       { text: 'Porque a Terra puxa tudo para si (gravidade)', emoji: '🌍', correct: true },
       { text: 'Porque o ar empurra para baixo', emoji: '💨', correct: false },
@@ -108,6 +117,7 @@ const EXPERIMENTS = [
     title: 'Fósseis',
     question: 'O que é um fóssil?',
     emoji: '🦴',
+    minLevel: 5,
     options: [
       { text: 'Restos de seres vivos que viveram há muito tempo', emoji: '🦕', correct: true },
       { text: 'Uma pedra bonita', emoji: '💎', correct: false },
@@ -119,6 +129,7 @@ const EXPERIMENTS = [
     title: 'Vulcões',
     question: 'O que sai de um vulcão quando entra em erupção?',
     emoji: '🌋',
+    minLevel: 6,
     options: [
       { text: 'Lava, cinzas e gases quentes', emoji: '🔥', correct: true },
       { text: 'Água e gelo', emoji: '🧊', correct: false },
@@ -130,6 +141,7 @@ const EXPERIMENTS = [
     title: 'Insectos',
     question: 'Quantas patas tem um insecto?',
     emoji: '🐛',
+    minLevel: 4,
     options: [
       { text: '6 patas', emoji: '🐜', correct: true },
       { text: '4 patas', emoji: '🐕', correct: false },
@@ -141,6 +153,7 @@ const EXPERIMENTS = [
     title: 'Reciclagem',
     question: 'Porque é importante reciclar?',
     emoji: '♻️',
+    minLevel: 5,
     options: [
       { text: 'Para proteger a natureza e reutilizar materiais', emoji: '🌍', correct: true },
       { text: 'Porque o lixo é bonito', emoji: '✨', correct: false },
@@ -152,6 +165,7 @@ const EXPERIMENTS = [
     title: 'Estações do Ano',
     question: 'Porque existem estações do ano?',
     emoji: '🍂',
+    minLevel: 5,
     options: [
       { text: 'Porque a Terra é inclinada enquanto roda à volta do Sol', emoji: '🌍', correct: true },
       { text: 'Porque o Sol muda de tamanho', emoji: '☀️', correct: false },
@@ -163,6 +177,7 @@ const EXPERIMENTS = [
     title: 'Magnetismo',
     question: 'O que é que um íman atrai?',
     emoji: '🧲',
+    minLevel: 6,
     options: [
       { text: 'Objectos de ferro e aço', emoji: '🔩', correct: true },
       { text: 'Tudo o que existe', emoji: '🌍', correct: false },
@@ -174,6 +189,7 @@ const EXPERIMENTS = [
     title: 'Electricidade',
     question: 'O que faz uma lâmpada acender?',
     emoji: '💡',
+    minLevel: 6,
     options: [
       { text: 'Electricidade a passar pelo filamento', emoji: '⚡', correct: true },
       { text: 'O ar dentro da lâmpada', emoji: '💨', correct: false },
@@ -185,6 +201,7 @@ const EXPERIMENTS = [
     title: 'Ondas Sonoras',
     question: 'Como é que o som viaja até aos nossos ouvidos?',
     emoji: '🔊',
+    minLevel: 7,
     options: [
       { text: 'Através de vibrações no ar', emoji: '🌬️', correct: true },
       { text: 'Através de raios de luz', emoji: '💡', correct: false },

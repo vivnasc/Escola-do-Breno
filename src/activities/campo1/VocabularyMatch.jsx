@@ -2,7 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
-import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES, getWordContext } from '../../data/vocabulary'
+import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES, getWordContext, getWordsForLevel, getWordLevel } from '../../data/vocabulary'
 import { useTTS } from '../../hooks/useTTS'
 
 function shuffle(arr) {
@@ -25,28 +25,46 @@ export default function VocabularyMatch({
 }) {
   const universeId = adaptive?.universe?.id || 'football'
   const choiceCount = adaptive?.choiceCount || 4
+  const campoLevel = adaptive?.campoLevel?.campo1 || 1
   const [categoryIdx, setCategoryIdx] = useState(0)
   const [questionIdx, setQuestionIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [score, setScore] = useState(0)
   const { speakEn } = useTTS()
 
-  const category = VOCABULARY_CATEGORIES[categoryIdx]
+  // Filter categories that have words at this level
+  const availableCategories = useMemo(
+    () => VOCABULARY_CATEGORIES.filter(
+      (cat) => getWordsForLevel(campoLevel, cat.id).length >= 2
+    ),
+    [campoLevel]
+  )
+
+  const category = availableCategories[categoryIdx]
+
+  // Words available at the child's competency level for this category
   const words = useMemo(
-    () => VOCABULARY_WORDS.filter((w) => w.category === category.id),
-    [category.id]
+    () => category ? getWordsForLevel(campoLevel, category.id) : [],
+    [campoLevel, category]
   )
 
   const currentWord = words[questionIdx]
 
+  // Distractors from same level pool (same category first, then cross-category)
   const options = useMemo(() => {
     if (!currentWord) return []
-    const others = VOCABULARY_WORDS.filter(
-      (w) => w.id !== currentWord.id && w.category === currentWord.category
-    )
-    const distractors = shuffle(others).slice(0, choiceCount - 1)
+    // Same category distractors at this level
+    let pool = words.filter((w) => w.id !== currentWord.id)
+    // If not enough in-category, add cross-category words at same level
+    if (pool.length < choiceCount - 1) {
+      const cross = getWordsForLevel(campoLevel).filter(
+        (w) => w.id !== currentWord.id && w.category !== currentWord.category
+      )
+      pool = [...pool, ...shuffle(cross)]
+    }
+    const distractors = shuffle(pool).slice(0, choiceCount - 1)
     return shuffle([currentWord, ...distractors])
-  }, [currentWord])
+  }, [currentWord, words, choiceCount, campoLevel])
 
   const handleAnswer = useCallback(
     (word) => {
@@ -64,18 +82,25 @@ export default function VocabularyMatch({
     [currentWord, registerClick, registerSuccess, registerError, markWordLearned]
   )
 
+  const totalWords = useMemo(
+    () => availableCategories.reduce(
+      (sum, cat) => sum + getWordsForLevel(campoLevel, cat.id).length, 0
+    ),
+    [availableCategories, campoLevel]
+  )
+
   const handleNext = useCallback(() => {
     setFeedback(null)
     if (questionIdx < words.length - 1) {
       setQuestionIdx((i) => i + 1)
-    } else if (categoryIdx < VOCABULARY_CATEGORIES.length - 1) {
+    } else if (categoryIdx < availableCategories.length - 1) {
       setCategoryIdx((i) => i + 1)
       setQuestionIdx(0)
       completeActivity('vocab-match', Math.min(3, Math.ceil(score / 3)))
     } else {
       completeActivity('vocab-match', 3)
     }
-  }, [questionIdx, categoryIdx, words.length, score, completeActivity])
+  }, [questionIdx, categoryIdx, words.length, availableCategories.length, score, completeActivity])
 
   const finalStars = Math.min(3, Math.ceil(score / 3))
 
@@ -86,7 +111,7 @@ export default function VocabularyMatch({
           emoji="🏆"
           title="Completaste todas as categorias!"
           score={score}
-          total={VOCABULARY_WORDS.length}
+          total={totalWords}
           stars={finalStars}
           color="var(--color-campo1)"
         />
@@ -101,7 +126,7 @@ export default function VocabularyMatch({
       backPath="/campo/1"
       color="var(--color-campo1)"
       score={score}
-      total={VOCABULARY_WORDS.length}
+      total={totalWords}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.categoryBadge}>

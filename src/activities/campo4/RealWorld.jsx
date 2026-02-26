@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
@@ -9,6 +9,7 @@ const CHALLENGES = [
     title: 'No Restaurante',
     situation: 'Estás no restaurante com a tua família. Queres pedir frango grelhado. O que fazes?',
     emoji: '🍽️',
+    minLevel: 2,
     options: [
       { text: 'Olho para o menu, encontro "frango grelhado" e peço ao empregado', correct: true },
       { text: 'Grito "frango!" muito alto', correct: false },
@@ -20,6 +21,7 @@ const CHALLENGES = [
     title: 'No Autocarro',
     situation: 'Precisas de apanhar o autocarro para ir ao estádio. O que tens de saber?',
     emoji: '🚌',
+    minLevel: 4,
     options: [
       { text: 'O número do autocarro, a paragem e o horário', correct: true },
       { text: 'Só o nome do estádio', correct: false },
@@ -31,6 +33,7 @@ const CHALLENGES = [
     title: 'Estou Perdido',
     situation: 'Estás no centro comercial e não encontras os teus pais. O que fazes?',
     emoji: '🏬',
+    minLevel: 1,
     options: [
       { text: 'Fico no mesmo sítio, procuro um segurança e digo o meu nome e o dos meus pais', correct: true },
       { text: 'Corro para todo o lado a gritar', correct: false },
@@ -42,6 +45,7 @@ const CHALLENGES = [
     title: 'Emergência',
     situation: 'Alguém se magoa no recreio e precisa de ajuda. O que fazes?',
     emoji: '🚑',
+    minLevel: 1,
     options: [
       { text: 'Chamo um professor e fico junto da pessoa', correct: true },
       { text: 'Ignoro e continuo a brincar', correct: false },
@@ -53,6 +57,7 @@ const CHALLENGES = [
     title: 'Dados Pessoais',
     situation: 'Um adulto da escola pergunta o teu nome completo e morada. É seguro responder?',
     emoji: '🪪',
+    minLevel: 3,
     options: [
       { text: 'Sim, adultos da escola são de confiança e preciso saber dizer os meus dados', correct: true },
       { text: 'Nunca, a ninguém', correct: false },
@@ -64,6 +69,7 @@ const CHALLENGES = [
     title: 'Na Loja',
     situation: 'Queres comprar água na loja. Custa 15 e tens 20. O que fazes?',
     emoji: '🏪',
+    minLevel: 4,
     options: [
       { text: 'Vou à caixa, digo que quero água, pago 20 e espero o troco de 5', correct: true },
       { text: 'Deixo o dinheiro no balcão e saio', correct: false },
@@ -75,6 +81,7 @@ const CHALLENGES = [
     title: 'No Hospital',
     situation: 'Dói-te muito a barriga e tens de ir ao médico. Como te preparas?',
     emoji: '🏥',
+    minLevel: 5,
     options: [
       { text: 'Digo ao médico onde dói, há quanto tempo e o que comi', correct: true },
       { text: 'Não digo nada e espero que ele adivinhe', correct: false },
@@ -86,6 +93,7 @@ const CHALLENGES = [
     title: 'Atravessar a Rua',
     situation: 'Precisas de atravessar uma rua movimentada. O que fazes?',
     emoji: '🚶',
+    minLevel: 2,
     options: [
       { text: 'Procuro a passadeira, olho para os dois lados e espero que os carros parem', correct: true },
       { text: 'Corro a atravessar sem olhar', correct: false },
@@ -97,6 +105,7 @@ const CHALLENGES = [
     title: 'Fazer uma Chamada',
     situation: 'Precisas de ligar para a tua mãe para ela te vir buscar. O que fazes?',
     emoji: '📱',
+    minLevel: 3,
     options: [
       { text: 'Marco o número da mãe, espero que atenda, digo quem sou e onde estou', correct: true },
       { text: 'Envio uma mensagem sem dizer onde estou', correct: false },
@@ -108,6 +117,7 @@ const CHALLENGES = [
     title: 'Visita a Casa de um Amigo',
     situation: 'Vais a casa de um amigo pela primeira vez. Como te comportas?',
     emoji: '🏠',
+    minLevel: 5,
     options: [
       { text: 'Cumprimento os pais dele, tiro os sapatos se pedirem, e sigo as regras da casa', correct: true },
       { text: 'Entro sem cumprimentar ninguém e abro o frigorífico', correct: false },
@@ -119,6 +129,7 @@ const CHALLENGES = [
     title: 'Pedir Direcções',
     situation: 'Estás numa cidade nova e não sabes onde fica a biblioteca. O que fazes?',
     emoji: '🗺️',
+    minLevel: 6,
     options: [
       { text: 'Pergunto a alguém de confiança (polícia, empregado de loja) onde fica', correct: true },
       { text: 'Ando sem rumo até encontrar', correct: false },
@@ -130,6 +141,7 @@ const CHALLENGES = [
     title: 'Usar Dinheiro',
     situation: 'A tua mãe dá-te 100 para o dia. Tens de almoçar (60) e comprar o bilhete de autocarro (25). Quanto sobra?',
     emoji: '💵',
+    minLevel: 6,
     options: [
       { text: '15. Almoço 60, autocarro 25, total 85, sobram 15', correct: true },
       { text: 'Não sei contar, gasto tudo no almoço', correct: false },

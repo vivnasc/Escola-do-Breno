@@ -6,33 +6,46 @@ import { useTTS } from '../../hooks/useTTS'
 import { useSTT } from '../../hooks/useSTT'
 import { useSoundEffects } from '../../hooks/useSoundEffects'
 
+/**
+ * Letters ordered by phonics acquisition research:
+ * - Phase 1 (level field 1): Letters and Sounds Phase 2 — s,a,t,p,i,n + vowels o,e
+ *   These are the first sounds taught in systematic phonics (Jolly Phonics, Letters & Sounds UK).
+ *   High frequency in English, needed for first CVC words (sat, pin, tap, ten).
+ * - Phase 2 (level 2): Remaining high-frequency consonants — m,d,g,c,k,r,b,h
+ *   Completes ability to decode most simple words.
+ * - Phase 3 (level 3): All remaining letters — f,l,j,w,v,u,q,x,y,z
+ *   Less frequent letters, completes the alphabet.
+ *
+ * Research: Johnston & Watson (2005) Clackmannanshire study; Rose Review (2006);
+ * National Reading Panel (2000); Ehri et al. systematic phonics meta-analysis.
+ */
 const LETTERS = [
-  { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maçã', 'formiga'], emoji: '🍎' },
-  { letter: 'B', sound: 'buh', words: ['ball', 'bird'], wordsPt: ['bola', 'pássaro'], emoji: '⚽' },
-  { letter: 'C', sound: 'kuh', words: ['cat', 'car'], wordsPt: ['gato', 'carro'], emoji: '🐱' },
-  { letter: 'D', sound: 'duh', words: ['dog', 'door'], wordsPt: ['cão', 'porta'], emoji: '🐕' },
-  { letter: 'E', sound: 'eh', words: ['egg', 'elephant'], wordsPt: ['ovo', 'elefante'], emoji: '🥚' },
-  { letter: 'F', sound: 'fuh', words: ['fish', 'flower'], wordsPt: ['peixe', 'flor'], emoji: '🐟' },
-  { letter: 'G', sound: 'guh', words: ['goat', 'green'], wordsPt: ['cabra', 'verde'], emoji: '🐐' },
-  { letter: 'H', sound: 'huh', words: ['hat', 'house'], wordsPt: ['chapéu', 'casa'], emoji: '🏠' },
-  { letter: 'I', sound: 'ih', words: ['ice', 'insect'], wordsPt: ['gelo', 'inseto'], emoji: '🧊' },
-  { letter: 'J', sound: 'juh', words: ['jump', 'juice'], wordsPt: ['saltar', 'sumo'], emoji: '🦘' },
-  { letter: 'K', sound: 'kuh', words: ['king', 'kite'], wordsPt: ['rei', 'papagaio'], emoji: '👑' },
-  { letter: 'L', sound: 'luh', words: ['lion', 'leaf'], wordsPt: ['leão', 'folha'], emoji: '🦁' },
-  { letter: 'M', sound: 'muh', words: ['moon', 'mouse'], wordsPt: ['lua', 'rato'], emoji: '🌙' },
-  { letter: 'N', sound: 'nuh', words: ['nose', 'nest'], wordsPt: ['nariz', 'ninho'], emoji: '👃' },
-  { letter: 'O', sound: 'oh', words: ['orange', 'octopus'], wordsPt: ['laranja', 'polvo'], emoji: '🍊' },
-  { letter: 'P', sound: 'puh', words: ['pen', 'pizza'], wordsPt: ['caneta', 'pizza'], emoji: '🖊️' },
-  { letter: 'Q', sound: 'kwuh', words: ['queen', 'question'], wordsPt: ['rainha', 'pergunta'], emoji: '👸' },
-  { letter: 'R', sound: 'ruh', words: ['rain', 'rabbit'], wordsPt: ['chuva', 'coelho'], emoji: '🌧️' },
-  { letter: 'S', sound: 'sss', words: ['sun', 'star'], wordsPt: ['sol', 'estrela'], emoji: '☀️' },
-  { letter: 'T', sound: 'tuh', words: ['tree', 'train'], wordsPt: ['árvore', 'comboio'], emoji: '🌳' },
-  { letter: 'U', sound: 'uh', words: ['umbrella', 'under'], wordsPt: ['guarda-chuva', 'debaixo'], emoji: '☂️' },
-  { letter: 'V', sound: 'vuh', words: ['van', 'violin'], wordsPt: ['carrinha', 'violino'], emoji: '🎻' },
-  { letter: 'W', sound: 'wuh', words: ['water', 'window'], wordsPt: ['água', 'janela'], emoji: '💧' },
-  { letter: 'X', sound: 'ks', words: ['box', 'fox'], wordsPt: ['caixa', 'raposa'], emoji: '📦' },
-  { letter: 'Y', sound: 'yuh', words: ['yellow', 'yogurt'], wordsPt: ['amarelo', 'iogurte'], emoji: '🟡' },
-  { letter: 'Z', sound: 'zzz', words: ['zoo', 'zebra'], wordsPt: ['zoo', 'zebra'], emoji: '🦓' },
+  { letter: 'S', sound: 'sss', words: ['sun', 'star'], wordsPt: ['sol', 'estrela'], emoji: '☀️', level: 1 },
+  { letter: 'A', sound: 'ah', words: ['apple', 'ant'], wordsPt: ['maçã', 'formiga'], emoji: '🍎', level: 1 },
+  { letter: 'T', sound: 'tuh', words: ['tree', 'train'], wordsPt: ['árvore', 'comboio'], emoji: '🌳', level: 1 },
+  { letter: 'P', sound: 'puh', words: ['pen', 'pizza'], wordsPt: ['caneta', 'pizza'], emoji: '🖊️', level: 1 },
+  { letter: 'I', sound: 'ih', words: ['ice', 'insect'], wordsPt: ['gelo', 'inseto'], emoji: '🧊', level: 1 },
+  { letter: 'N', sound: 'nuh', words: ['nose', 'nest'], wordsPt: ['nariz', 'ninho'], emoji: '👃', level: 1 },
+  { letter: 'O', sound: 'oh', words: ['orange', 'octopus'], wordsPt: ['laranja', 'polvo'], emoji: '🍊', level: 1 },
+  { letter: 'E', sound: 'eh', words: ['egg', 'elephant'], wordsPt: ['ovo', 'elefante'], emoji: '🥚', level: 1 },
+  { letter: 'M', sound: 'muh', words: ['moon', 'mouse'], wordsPt: ['lua', 'rato'], emoji: '🌙', level: 2 },
+  { letter: 'D', sound: 'duh', words: ['dog', 'door'], wordsPt: ['cão', 'porta'], emoji: '🐕', level: 2 },
+  { letter: 'G', sound: 'guh', words: ['goat', 'green'], wordsPt: ['cabra', 'verde'], emoji: '🐐', level: 2 },
+  { letter: 'C', sound: 'kuh', words: ['cat', 'car'], wordsPt: ['gato', 'carro'], emoji: '🐱', level: 2 },
+  { letter: 'K', sound: 'kuh', words: ['king', 'kite'], wordsPt: ['rei', 'papagaio'], emoji: '👑', level: 2 },
+  { letter: 'R', sound: 'ruh', words: ['rain', 'rabbit'], wordsPt: ['chuva', 'coelho'], emoji: '🌧️', level: 2 },
+  { letter: 'B', sound: 'buh', words: ['ball', 'bird'], wordsPt: ['bola', 'pássaro'], emoji: '⚽', level: 2 },
+  { letter: 'H', sound: 'huh', words: ['hat', 'house'], wordsPt: ['chapéu', 'casa'], emoji: '🏠', level: 2 },
+  { letter: 'F', sound: 'fuh', words: ['fish', 'flower'], wordsPt: ['peixe', 'flor'], emoji: '🐟', level: 3 },
+  { letter: 'L', sound: 'luh', words: ['lion', 'leaf'], wordsPt: ['leão', 'folha'], emoji: '🦁', level: 3 },
+  { letter: 'J', sound: 'juh', words: ['jump', 'juice'], wordsPt: ['saltar', 'sumo'], emoji: '🦘', level: 3 },
+  { letter: 'W', sound: 'wuh', words: ['water', 'window'], wordsPt: ['água', 'janela'], emoji: '💧', level: 3 },
+  { letter: 'V', sound: 'vuh', words: ['van', 'violin'], wordsPt: ['carrinha', 'violino'], emoji: '🎻', level: 3 },
+  { letter: 'U', sound: 'uh', words: ['umbrella', 'under'], wordsPt: ['guarda-chuva', 'debaixo'], emoji: '☂️', level: 3 },
+  { letter: 'Q', sound: 'kwuh', words: ['queen', 'question'], wordsPt: ['rainha', 'pergunta'], emoji: '👸', level: 3 },
+  { letter: 'X', sound: 'ks', words: ['box', 'fox'], wordsPt: ['caixa', 'raposa'], emoji: '📦', level: 3 },
+  { letter: 'Y', sound: 'yuh', words: ['yellow', 'yogurt'], wordsPt: ['amarelo', 'iogurte'], emoji: '🟡', level: 3 },
+  { letter: 'Z', sound: 'zzz', words: ['zoo', 'zebra'], wordsPt: ['zoo', 'zebra'], emoji: '🦓', level: 3 },
 ]
 
 function shuffle(arr) {
@@ -57,8 +70,23 @@ export default function Phonics({
   const stt = useSTT('en-GB')
   const sfx = useSoundEffects(soundEnabled)
   const choiceCount = adaptive?.choiceCount || 3
-  const rounds = adaptive?.difficulty === 1 ? 6 : adaptive?.difficulty === 3 ? 12 : 8
-  const items = useMemo(() => shuffle(LETTERS).slice(0, rounds), [rounds])
+  const campoLevel = adaptive?.campoLevel?.campo1 || 1
+
+  // Filter letters by competency level (systematic phonics progression)
+  // L1-2: phase 1 letters (s,a,t,p,i,n,o,e) — 8 letters
+  // L3-4: + phase 2 (m,d,g,c,k,r,b,h) — 16 letters
+  // L5+:  + phase 3 (all 26) — full alphabet
+  const availableLetters = useMemo(() => {
+    let maxLetterLevel
+    if (campoLevel <= 2) maxLetterLevel = 1
+    else if (campoLevel <= 4) maxLetterLevel = 2
+    else maxLetterLevel = 3
+    return LETTERS.filter(l => l.level <= maxLetterLevel)
+  }, [campoLevel])
+
+  // Rounds scale with level: fewer letters = fewer rounds, more letters = more practice
+  const rounds = Math.min(availableLetters.length, campoLevel <= 2 ? 6 : campoLevel <= 5 ? 8 : 12)
+  const items = useMemo(() => shuffle(availableLetters).slice(0, rounds), [availableLetters, rounds])
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
@@ -82,14 +110,14 @@ export default function Phonics({
 
   const soundOptions = useMemo(() => {
     if (!current || phase !== 'sound') return []
-    const others = LETTERS.filter((l) => l.letter !== current.letter)
+    const others = availableLetters.filter((l) => l.letter !== current.letter)
     const distractors = shuffle(others).slice(0, choiceCount - 1)
     return shuffle([current, ...distractors])
-  }, [current, phase, choiceCount])
+  }, [current, phase, choiceCount, availableLetters])
 
   const wordOptions = useMemo(() => {
     if (!current || phase !== 'word') return []
-    const others = LETTERS.filter((l) => l.letter !== current.letter)
+    const others = availableLetters.filter((l) => l.letter !== current.letter)
     const distractors = shuffle(others)
       .slice(0, choiceCount - 1)
       .map((l) => ({ word: l.words[0], wordPt: l.wordsPt[0], emoji: l.emoji, letter: l.letter }))
@@ -97,7 +125,7 @@ export default function Phonics({
       { word: current.words[0], wordPt: current.wordsPt[0], emoji: current.emoji, letter: current.letter },
       ...distractors,
     ])
-  }, [current, phase, choiceCount])
+  }, [current, phase, choiceCount, availableLetters])
 
   const handleSoundAnswer = useCallback(
     (letter) => {

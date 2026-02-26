@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
@@ -14,12 +14,14 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O coração de um jogador de futebol pode bater até 180 vezes por minuto durante um jogo!',
+    minLevel: 4,
   },
   {
     question: 'Que nutriente dá energia rápida antes de um jogo?',
     options: ['Hidratos de carbono (massa, arroz)', 'Sal', 'Água'],
     correct: 0,
     fact: 'Os jogadores comem massa ou arroz 3 horas antes do jogo para ter energia!',
+    minLevel: 4,
   },
   {
     question: 'Porque é que os jogadores bebem água durante o jogo?',
@@ -30,6 +32,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Um jogador pode perder até 2 litros de água em suor durante um jogo!',
+    minLevel: 4,
   },
   {
     question: 'O que acontece aos músculos quando fazemos alongamentos?',
@@ -40,6 +43,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Os alongamentos antes e depois do treino ajudam a prevenir lesões!',
+    minLevel: 5,
   },
   {
     question: 'Porque dormem os jogadores 8-10 horas por noite?',
@@ -50,6 +54,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Durante o sono, o corpo liberta hormonas que reparam os músculos!',
+    minLevel: 5,
   },
   {
     question: 'Porque é que a bola curva quando a chutamos de lado?',
@@ -60,18 +65,21 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Quando a bola roda, o ar move-se mais rápido de um lado, criando o efeito Magnus!',
+    minLevel: 7,
   },
   {
     question: 'Quantos ossos tem o corpo humano adulto?',
     options: ['Cerca de 206', 'Cerca de 50', 'Cerca de 500'],
     correct: 0,
     fact: 'Bebés nascem com cerca de 270 ossos. Alguns fundem-se à medida que crescemos!',
+    minLevel: 2,
   },
   {
     question: 'Que órgão controla todo o corpo?',
     options: ['O cérebro', 'O estômago', 'O coração'],
     correct: 0,
     fact: 'O cérebro envia milhões de sinais eléctricos por segundo para controlar tudo no corpo!',
+    minLevel: 1,
   },
   {
     question: 'Porque espiramos?',
@@ -82,12 +90,14 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Um espirro pode atingir 160 km/h! O corpo expulsa partículas como pó e bactérias.',
+    minLevel: 3,
   },
   {
     question: 'Que líquido vermelho circula no nosso corpo?',
     options: ['Sangue', 'Sumo de tomate', 'Água vermelha'],
     correct: 0,
     fact: 'O sangue transporta oxigénio a todas as células. Um adulto tem cerca de 5 litros!',
+    minLevel: 1,
   },
   {
     question: 'Porque suamos quando fazemos exercício?',
@@ -98,12 +108,14 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O suor evapora na pele e ajuda a baixar a temperatura do corpo. É um ar condicionado natural!',
+    minLevel: 5,
   },
   {
     question: 'Que parte do olho muda de tamanho com a luz?',
     options: ['A pupila', 'A pestana', 'A sobrancelha'],
     correct: 0,
     fact: 'A pupila dilata no escuro para captar mais luz e contrai no claro para proteger a retina!',
+    minLevel: 3,
   },
   {
     question: 'Qual é o músculo mais forte do corpo humano?',
@@ -114,12 +126,14 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O masséter, que usamos para mastigar, pode exercer uma força de até 70 quilos! Temos mais de 600 músculos no corpo.',
+    minLevel: 6,
   },
   {
     question: 'Quantos dentes tem um adulto?',
     options: ['32 dentes', '20 dentes', '50 dentes'],
     correct: 0,
     fact: 'As crianças têm 20 dentes de leite que caem e são substituídos por 32 dentes permanentes. Os dentes mais fortes são os molares!',
+    minLevel: 2,
   },
   {
     question: 'O que fazem os pulmões?',
@@ -130,6 +144,7 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'Os pulmões enchem-se de ar como balões. Respiramos cerca de 20.000 vezes por dia! O pulmão direito é ligeiramente maior que o esquerdo.',
+    minLevel: 6,
   },
   {
     question: 'Para onde vai a comida depois de a engolirmos?',
@@ -140,12 +155,14 @@ const QUESTIONS = [
     ],
     correct: 0,
     fact: 'O estômago usa ácidos fortes para desfazer a comida. A digestão completa pode demorar até 8 horas! O intestino delgado tem cerca de 6 metros.',
+    minLevel: 6,
   },
   {
     question: 'Qual é o maior órgão do corpo humano?',
     options: ['A pele', 'O fígado', 'O cérebro'],
     correct: 0,
     fact: 'A pele é o maior órgão do corpo! Protege-nos de bactérias, regula a temperatura e permite-nos sentir o toque. Renova-se completamente a cada 3-4 semanas.',
+    minLevel: 7,
   },
   {
     question: 'Porque é que o cabelo e as unhas crescem?',

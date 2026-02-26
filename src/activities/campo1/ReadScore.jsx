@@ -15,10 +15,20 @@ function shuffle(arr) {
 }
 
 const numberToWord = (n) => {
-  const words = ['zero', 'one', 'two', 'three', 'four', 'five']
+  const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
   return words[n] || String(n)
 }
 
+/**
+ * ReadScore: Reading English number words in context (match results).
+ *
+ * Tiered by campo1 level — matches competency milestones:
+ *   L1-2: Only scores 0-2 (zero, one, two) — first number words
+ *   L3:   Scores 0-3 — expanding number recognition
+ *   L4-5: Scores 0-5 — "Reconhece 30+ palavras"
+ *   L6-7: Scores 0-7 — larger vocabulary
+ *   L8+:  Scores 0-9 — full range
+ */
 export default function ReadScore({
   registerClick,
   registerError,
@@ -28,9 +38,24 @@ export default function ReadScore({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const readContent = content.read
-  const MATCHES = useMemo(() => shuffle(readContent.items.map(m => ({
-    home: m.home, away: m.away, homeGoals: m.homeScore, awayGoals: m.awayScore
-  }))), [readContent.items])
+  const campoLevel = adaptive?.campoLevel?.campo1 || 1
+
+  // Filter matches to level-appropriate score ranges
+  const maxGoals = campoLevel <= 2 ? 2 : campoLevel <= 3 ? 3 : campoLevel <= 5 ? 5 : campoLevel <= 7 ? 7 : 9
+  const MATCHES = useMemo(() => {
+    const all = readContent.items.map(m => ({
+      home: m.home, away: m.away, homeGoals: m.homeScore, awayGoals: m.awayScore
+    }))
+    // Filter to only matches with goals within level range
+    const filtered = all.filter(m => m.homeGoals <= maxGoals && m.awayGoals <= maxGoals)
+    // If not enough matches, clamp the goals from the full set
+    if (filtered.length >= 4) return shuffle(filtered)
+    return shuffle(all.map(m => ({
+      ...m,
+      homeGoals: Math.min(m.homeGoals, maxGoals),
+      awayGoals: Math.min(m.awayGoals, maxGoals),
+    })))
+  }, [readContent.items, maxGoals])
 
   const [matchIdx, setMatchIdx] = useState(0)
   const [feedback, setFeedback] = useState(null)

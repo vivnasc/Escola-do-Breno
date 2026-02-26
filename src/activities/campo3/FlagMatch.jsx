@@ -4,36 +4,44 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
+// Each country has a minLevel — included when campoLevel >= minLevel
 const COUNTRIES = [
-  { name: 'Brasil', code: 'br', continent: 'América do Sul', capital: 'Brasília' },
-  { name: 'Espanha', code: 'es', continent: 'Europa', capital: 'Madrid' },
-  { name: 'Argentina', code: 'ar', continent: 'América do Sul', capital: 'Buenos Aires' },
-  { name: 'França', code: 'fr', continent: 'Europa', capital: 'Paris' },
-  { name: 'Japão', code: 'jp', continent: 'Ásia', capital: 'Tóquio' },
-  { name: 'Egipto', code: 'eg', continent: 'África', capital: 'Cairo' },
-  { name: 'Inglaterra', code: 'gb-eng', continent: 'Europa', capital: 'Londres' },
-  { name: 'Austrália', code: 'au', continent: 'Oceânia', capital: 'Canberra' },
-  { name: 'México', code: 'mx', continent: 'América do Norte', capital: 'Cidade do México' },
-  { name: 'África do Sul', code: 'za', continent: 'África', capital: 'Pretória' },
-  { name: 'Moçambique', code: 'mz', continent: 'África', capital: 'Maputo' },
-  { name: 'Portugal', code: 'pt', continent: 'Europa', capital: 'Lisboa' },
-  { name: 'Alemanha', code: 'de', continent: 'Europa', capital: 'Berlim' },
-  { name: 'Itália', code: 'it', continent: 'Europa', capital: 'Roma' },
-  { name: 'China', code: 'cn', continent: 'Ásia', capital: 'Pequim' },
-  { name: 'Índia', code: 'in', continent: 'Ásia', capital: 'Nova Déli' },
-  { name: 'Nigéria', code: 'ng', continent: 'África', capital: 'Abuja' },
-  { name: 'Canadá', code: 'ca', continent: 'América do Norte', capital: 'Otava' },
-  { name: 'Colômbia', code: 'co', continent: 'América do Sul', capital: 'Bogotá' },
-  { name: 'Coreia do Sul', code: 'kr', continent: 'Ásia', capital: 'Seul' },
-  { name: 'Tailândia', code: 'th', continent: 'Ásia', capital: 'Banguecoque' },
-  { name: 'Suécia', code: 'se', continent: 'Europa', capital: 'Estocolmo' },
-  { name: 'Quénia', code: 'ke', continent: 'África', capital: 'Nairobi' },
-  { name: 'Peru', code: 'pe', continent: 'América do Sul', capital: 'Lima' },
-  { name: 'Turquia', code: 'tr', continent: 'Europa/Ásia', capital: 'Ancara' },
-  { name: 'Grécia', code: 'gr', continent: 'Europa', capital: 'Atenas' },
-  { name: 'Marrocos', code: 'ma', continent: 'África', capital: 'Rabat' },
-  { name: 'Nova Zelândia', code: 'nz', continent: 'Oceânia', capital: 'Wellington' },
-  { name: 'Chile', code: 'cl', continent: 'América do Sul', capital: 'Santiago' },
+  // L1-2: Very well-known countries (basic awareness)
+  { name: 'Brasil', code: 'br', continent: 'América do Sul', capital: 'Brasília', minLevel: 1 },
+  { name: 'Portugal', code: 'pt', continent: 'Europa', capital: 'Lisboa', minLevel: 1 },
+  { name: 'Inglaterra', code: 'gb-eng', continent: 'Europa', capital: 'Londres', minLevel: 1 },
+  { name: 'França', code: 'fr', continent: 'Europa', capital: 'Paris', minLevel: 2 },
+  { name: 'Espanha', code: 'es', continent: 'Europa', capital: 'Madrid', minLevel: 2 },
+  // L3: Identifica 8-10 países e bandeiras
+  { name: 'Argentina', code: 'ar', continent: 'América do Sul', capital: 'Buenos Aires', minLevel: 3 },
+  { name: 'Alemanha', code: 'de', continent: 'Europa', capital: 'Berlim', minLevel: 3 },
+  { name: 'Itália', code: 'it', continent: 'Europa', capital: 'Roma', minLevel: 3 },
+  { name: 'México', code: 'mx', continent: 'América do Norte', capital: 'Cidade do México', minLevel: 3 },
+  { name: 'Japão', code: 'jp', continent: 'Ásia', capital: 'Tóquio', minLevel: 3 },
+  // L4: Conhece os 6 continentes — countries spread across continents
+  { name: 'Egipto', code: 'eg', continent: 'África', capital: 'Cairo', minLevel: 4 },
+  { name: 'Austrália', code: 'au', continent: 'Oceânia', capital: 'Canberra', minLevel: 4 },
+  { name: 'China', code: 'cn', continent: 'Ásia', capital: 'Pequim', minLevel: 4 },
+  { name: 'África do Sul', code: 'za', continent: 'África', capital: 'Pretória', minLevel: 4 },
+  { name: 'Índia', code: 'in', continent: 'Ásia', capital: 'Nova Déli', minLevel: 4 },
+  // L5: Localiza países nos continentes
+  { name: 'Moçambique', code: 'mz', continent: 'África', capital: 'Maputo', minLevel: 5 },
+  { name: 'Canadá', code: 'ca', continent: 'América do Norte', capital: 'Otava', minLevel: 5 },
+  { name: 'Colômbia', code: 'co', continent: 'América do Sul', capital: 'Bogotá', minLevel: 5 },
+  { name: 'Coreia do Sul', code: 'kr', continent: 'Ásia', capital: 'Seul', minLevel: 5 },
+  // L6: Relaciona clima e geografia
+  { name: 'Nigéria', code: 'ng', continent: 'África', capital: 'Abuja', minLevel: 6 },
+  { name: 'Suécia', code: 'se', continent: 'Europa', capital: 'Estocolmo', minLevel: 6 },
+  { name: 'Peru', code: 'pe', continent: 'América do Sul', capital: 'Lima', minLevel: 6 },
+  // L7: Compara culturas e costumes
+  { name: 'Tailândia', code: 'th', continent: 'Ásia', capital: 'Banguecoque', minLevel: 7 },
+  { name: 'Quénia', code: 'ke', continent: 'África', capital: 'Nairobi', minLevel: 7 },
+  { name: 'Turquia', code: 'tr', continent: 'Europa/Ásia', capital: 'Ancara', minLevel: 7 },
+  { name: 'Grécia', code: 'gr', continent: 'Europa', capital: 'Atenas', minLevel: 7 },
+  // L8+: Compreende relações entre regiões
+  { name: 'Marrocos', code: 'ma', continent: 'África', capital: 'Rabat', minLevel: 8 },
+  { name: 'Nova Zelândia', code: 'nz', continent: 'Oceânia', capital: 'Wellington', minLevel: 8 },
+  { name: 'Chile', code: 'cl', continent: 'América do Sul', capital: 'Santiago', minLevel: 8 },
 ]
 
 function getFlagUrl(code) {
@@ -59,25 +67,38 @@ export default function FlagMatch({
 }) {
   const { speak } = useTTS()
   const choiceCount = adaptive?.choiceCount || 4
+  const campoLevel = adaptive?.campoLevel?.campo3 || 1
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const country = COUNTRIES[idx]
-  const isComplete = idx >= COUNTRIES.length
+  // Filter countries by competency level — only include countries up to current level
+  const levelCountries = useMemo(() => {
+    return COUNTRIES.filter((c) => c.minLevel <= campoLevel)
+  }, [campoLevel])
+
+  const country = levelCountries[idx]
+  const isComplete = idx >= levelCountries.length
+
+  // Show continent hint at lower levels (L1-5), hide at higher levels for more challenge
+  const showContinentHint = campoLevel <= 5
 
   useEffect(() => {
-    if (!isComplete) {
-      speak(`De que país é esta bandeira? Pista: fica no continente ${country.continent}.`, { auto: true })
+    if (!isComplete && country) {
+      const hint = showContinentHint
+        ? `De que país é esta bandeira? Pista: fica no continente ${country.continent}.`
+        : `De que país é esta bandeira?`
+      speak(hint, { auto: true })
     }
-  }, [idx])
+  }, [idx, levelCountries])
 
   const options = useMemo(() => {
     if (!country) return []
-    const others = COUNTRIES.filter((c) => c.name !== country.name)
+    // Distractors come from the same level-filtered pool
+    const others = levelCountries.filter((c) => c.name !== country.name)
     const distractors = shuffle(others).slice(0, choiceCount - 1)
     return shuffle([country, ...distractors])
-  }, [country])
+  }, [country, levelCountries, choiceCount])
 
   const handleAnswer = useCallback(
     (ans) => {
@@ -94,17 +115,21 @@ export default function FlagMatch({
     [country, registerClick, registerSuccess, registerError]
   )
 
+  const total = levelCountries.length
+
   const handleNext = useCallback(() => {
     setFeedback(null)
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo3', next)
-    if (next >= COUNTRIES.length) {
-      completeActivity('flag-match', score >= 24 ? 3 : score >= 16 ? 2 : 1)
+    if (next >= total) {
+      const pct = (score + 1) / total
+      completeActivity('flag-match', pct >= 0.8 ? 3 : pct >= 0.55 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, total, completeActivity, updateCampoProgress])
 
-  const finalStars = score >= 24 ? 3 : score >= 16 ? 2 : 1
+  const pct = total > 0 ? score / total : 0
+  const finalStars = pct >= 0.8 ? 3 : pct >= 0.55 ? 2 : 1
 
   if (isComplete) {
     return (
@@ -113,7 +138,7 @@ export default function FlagMatch({
           emoji="🌍"
           title="Conheces as bandeiras do mundo!"
           score={score}
-          total={COUNTRIES.length}
+          total={total}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -128,7 +153,7 @@ export default function FlagMatch({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={COUNTRIES.length}
+      total={total}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.flagDisplay}>
@@ -139,7 +164,9 @@ export default function FlagMatch({
           width={120}
           draggable={false}
         />
-        <span style={styles.continent}>{country.continent}</span>
+        {showContinentHint && (
+          <span style={styles.continent}>{country.continent}</span>
+        )}
       </div>
 
       <div style={styles.optionsGrid}>
