@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
@@ -9,6 +9,7 @@ const SCENARIOS = [
     title: 'Planear o Dia',
     situation: 'Tens treino às 10h, escola às 8h e precisas de tomar banho antes. Que ordem faz sentido?',
     emoji: '📋',
+    minLevel: 1,
     options: [
       { text: 'Banho → Escola → Treino', correct: true },
       { text: 'Treino → Banho → Escola', correct: false },
@@ -20,6 +21,7 @@ const SCENARIOS = [
     title: 'Resolver Conflitos',
     situation: 'Dois amigos querem jogar coisas diferentes. Um quer futebol, o outro quer basquete. O que fazes?',
     emoji: '🤝',
+    minLevel: 2,
     options: [
       { text: 'Proponho jogar um primeiro e depois o outro', correct: true },
       { text: 'Ignoro os dois e jogo sozinho', correct: false },
@@ -31,6 +33,7 @@ const SCENARIOS = [
     title: 'Pedir Ajuda',
     situation: 'Não consegues fazer um exercício na escola. O que é melhor fazer?',
     emoji: '🙋',
+    minLevel: 1,
     options: [
       { text: 'Levanto a mão e peço ajuda ao professor', correct: true },
       { text: 'Copio do colega sem perguntar', correct: false },
@@ -42,6 +45,7 @@ const SCENARIOS = [
     title: 'Dinheiro Limitado',
     situation: 'Tens dinheiro para comprar UM lanche. Há bolachas, fruta e gelado. Qual é a escolha mais inteligente?',
     emoji: '💰',
+    minLevel: 3,
     options: [
       { text: 'Fruta, porque dá energia e é saudável', correct: true },
       { text: 'Gelado, porque é o mais caro', correct: false },
@@ -53,6 +57,7 @@ const SCENARIOS = [
     title: 'Algo Correu Mal',
     situation: 'Partiste acidentalmente um copo. Ninguém viu. O que fazes?',
     emoji: '🫣',
+    minLevel: 2,
     options: [
       { text: 'Digo a verdade a um adulto e ajudo a limpar', correct: true },
       { text: 'Escondo os pedaços e finjo que não fui eu', correct: false },
@@ -64,6 +69,7 @@ const SCENARIOS = [
     title: 'Trabalho em Grupo',
     situation: 'Estás a fazer um trabalho em grupo. Um colega não faz a parte dele. O que fazes?',
     emoji: '👥',
+    minLevel: 3,
     options: [
       { text: 'Falo com ele e pergunto se precisa de ajuda', correct: true },
       { text: 'Faço tudo sozinho sem dizer nada', correct: false },
@@ -75,6 +81,7 @@ const SCENARIOS = [
     title: 'Gerir a Frustração',
     situation: 'Perdeste um jogo importante. Estás muito chateado. O que ajuda?',
     emoji: '😤',
+    minLevel: 4,
     options: [
       { text: 'Respiro fundo, aceito e penso no que posso melhorar', correct: true },
       { text: 'Atiro as coisas ao chão', correct: false },
@@ -86,6 +93,7 @@ const SCENARIOS = [
     title: 'Prioridades',
     situation: 'Tens um teste amanhã mas os amigos chamam-te para jogar. O que decides?',
     emoji: '📚',
+    minLevel: 4,
     options: [
       { text: 'Estudo primeiro e jogo depois se houver tempo', correct: true },
       { text: 'Vou jogar porque é mais divertido', correct: false },
@@ -97,6 +105,7 @@ const SCENARIOS = [
     title: 'Aceitar Críticas',
     situation: 'O professor diz que o teu trabalho precisa de melhorar. Como reages?',
     emoji: '📝',
+    minLevel: 5,
     options: [
       { text: 'Ouço com atenção, pergunto o que posso melhorar e tento outra vez', correct: true },
       { text: 'Fico zangado e digo que o trabalho está perfeito', correct: false },
@@ -108,6 +117,7 @@ const SCENARIOS = [
     title: 'Partilhar Recursos',
     situation: 'Há um computador e dois colegas querem usá-lo ao mesmo tempo. O que propões?',
     emoji: '💻',
+    minLevel: 5,
     options: [
       { text: 'Dividimos o tempo: 15 minutos cada um', correct: true },
       { text: 'Digo que sou eu primeiro porque cheguei primeiro', correct: false },
@@ -119,6 +129,7 @@ const SCENARIOS = [
     title: 'Lidar com o Tédio',
     situation: 'Estás em casa, não tens nada para fazer e sentes-te aborrecido. O que fazes?',
     emoji: '😐',
+    minLevel: 6,
     options: [
       { text: 'Penso em coisas que posso fazer: ler, desenhar, ajudar em casa', correct: true },
       { text: 'Fico deitado a queixar-me o dia todo', correct: false },
@@ -130,6 +141,7 @@ const SCENARIOS = [
     title: 'Esperar a Vez',
     situation: 'Estás na fila do escorrega e uma criança tenta passar à frente. O que fazes?',
     emoji: '🛝',
+    minLevel: 6,
     options: [
       { text: 'Digo com calma que há uma fila e cada um espera a sua vez', correct: true },
       { text: 'Empurro-a para trás', correct: false },
@@ -141,6 +153,7 @@ const SCENARIOS = [
     title: 'Consequências',
     situation: 'Queres comer todos os doces que tens de uma só vez. O que pensas antes?',
     emoji: '🍬',
+    minLevel: 6,
     options: [
       { text: 'Se comer tudo agora, posso ficar com dor de barriga. Melhor comer poucos de cada vez', correct: true },
       { text: 'Como tudo de uma vez porque são meus', correct: false },
@@ -152,6 +165,7 @@ const SCENARIOS = [
     title: 'Pedir Desculpa',
     situation: 'Sem querer, pisaste o pé de um colega no intervalo. O que fazes?',
     emoji: '😅',
+    minLevel: 7,
     options: [
       { text: 'Peço desculpa logo e pergunto se está bem', correct: true },
       { text: 'Finjo que não fui eu', correct: false },
@@ -163,6 +177,7 @@ const SCENARIOS = [
     title: 'Adaptar-se a Mudanças',
     situation: 'A tua família vai mudar de casa. Tudo é novo e diferente. Como lidas com isso?',
     emoji: '🏡',
+    minLevel: 7,
     options: [
       { text: 'Exploro o bairro novo, tento fazer amigos novos, e falo sobre como me sinto', correct: true },
       { text: 'Recuso-me a sair do quarto', correct: false },
@@ -174,6 +189,7 @@ const SCENARIOS = [
     title: 'Cuidar das Coisas',
     situation: 'Pediste emprestado um livro a um amigo. O que tens de fazer?',
     emoji: '📚',
+    minLevel: 7,
     options: [
       { text: 'Cuido bem do livro e devolvo-o no prazo combinado', correct: true },
       { text: 'Fico com ele e digo que perdi', correct: false },
@@ -185,6 +201,7 @@ const SCENARIOS = [
     title: 'Lidar com Injustiça',
     situation: 'Na escola, um colega recebeu um prémio que tu achas que não merecia. Como reages?',
     emoji: '⚖️',
+    minLevel: 8,
     options: [
       { text: 'Aceito que nem sempre concordo com as decisões, e foco-me no meu próprio esforço', correct: true },
       { text: 'Digo a toda a gente que foi injusto', correct: false },
@@ -196,6 +213,7 @@ const SCENARIOS = [
     title: 'Ouvir o Corpo',
     situation: 'Estás a jogar há muito tempo e começas a sentir dor de cabeça e os olhos cansados. O que fazes?',
     emoji: '🧍',
+    minLevel: 8,
     options: [
       { text: 'Paro, bebo água, descanso os olhos e faço uma pausa', correct: true },
       { text: 'Ignoro e continuo a jogar', correct: false },
@@ -207,6 +225,7 @@ const SCENARIOS = [
     title: 'Organizar Tarefas',
     situation: 'Tens de arrumar o quarto, fazer os trabalhos de casa e tomar banho. Parece muito! Como resolves?',
     emoji: '📝',
+    minLevel: 8,
     options: [
       { text: 'Divido em passos pequenos: primeiro uma coisa, depois outra, com pausas entre elas', correct: true },
       { text: 'Tento fazer tudo ao mesmo tempo', correct: false },
@@ -218,6 +237,7 @@ const SCENARIOS = [
     title: 'Dizer Não',
     situation: 'Um colega insiste para que copies o teste dele. Tu sabes que isso é errado. O que fazes?',
     emoji: '✋',
+    minLevel: 8,
     options: [
       { text: 'Digo "não, obrigado" com firmeza e faço o teste com o que sei', correct: true },
       { text: 'Copio porque ele vai ficar chateado se eu recusar', correct: false },
@@ -229,6 +249,7 @@ const SCENARIOS = [
     title: 'Quando Não Concordo',
     situation: 'O teu amigo acha que o melhor jogador do mundo é um, e tu achas que é outro. A conversa está a ficar tensa. O que fazes?',
     emoji: '💬',
+    minLevel: 9,
     options: [
       { text: 'Digo "eu penso diferente, mas respeito a tua opinião" e mudamos de assunto', correct: true },
       { text: 'Insisto até ele concordar comigo', correct: false },
@@ -240,6 +261,7 @@ const SCENARIOS = [
     title: 'Fazer Amigos',
     situation: 'Há um colega novo na turma que está sozinho no intervalo. Gostarias de ser amigo dele. O que fazes?',
     emoji: '🤗',
+    minLevel: 9,
     options: [
       { text: 'Aproximo-me, apresento-me e convido-o para brincar ou estar comigo', correct: true },
       { text: 'Espero que ele venha falar comigo primeiro', correct: false },
@@ -251,6 +273,7 @@ const SCENARIOS = [
     title: 'Empatia',
     situation: 'O teu amigo está triste porque perdeu o jogo da equipa dele. Tu ganhaste o teu jogo. O que fazes?',
     emoji: '💛',
+    minLevel: 9,
     options: [
       { text: 'Digo que percebo que está triste e pergunto se quer falar ou se prefere ficar quieto', correct: true },
       { text: 'Falo só do meu jogo e de como ganhei', correct: false },
@@ -262,6 +285,7 @@ const SCENARIOS = [
     title: 'Celebrar Pequenas Vitórias',
     situation: 'Conseguiste finalmente ler um texto inteiro sem ajuda. Ninguém reparou. Como te sentes?',
     emoji: '🏆',
+    minLevel: 9,
     options: [
       { text: 'Fico orgulhoso de mim próprio e reconheço o meu progresso, mesmo que ninguém tenha visto', correct: true },
       { text: 'Não conta porque ninguém viu', correct: false },
@@ -280,13 +304,18 @@ export default function ProblemSolving({
   adaptive,
 }) {
   const { speak } = useTTS()
+  const campoLevel = adaptive?.campoLevel?.campo4 || 1
+  const scenarios = useMemo(
+    () => SCENARIOS.filter(s => s.minLevel <= campoLevel),
+    [campoLevel]
+  )
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showLesson, setShowLesson] = useState(false)
 
-  const current = SCENARIOS[idx]
-  const isComplete = idx >= SCENARIOS.length
+  const current = scenarios[idx]
+  const isComplete = idx >= scenarios.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -317,10 +346,10 @@ export default function ProblemSolving({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo4', next + 20)
-    if (next >= SCENARIOS.length) {
+    if (next >= scenarios.length) {
       completeActivity('problem-solving', score >= 20 ? 3 : score >= 14 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, scenarios.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 20 ? 3 : score >= 14 ? 2 : 1
 
@@ -331,7 +360,7 @@ export default function ProblemSolving({
           emoji="🧠"
           title="Resolveste problemas como um campeão!"
           score={score}
-          total={SCENARIOS.length}
+          total={scenarios.length}
           stars={finalStars}
           color="var(--color-campo4)"
         />
@@ -346,7 +375,7 @@ export default function ProblemSolving({
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={score}
-      total={SCENARIOS.length}
+      total={scenarios.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.scenarioCard}>

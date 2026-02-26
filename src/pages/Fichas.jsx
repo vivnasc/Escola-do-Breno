@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { WORKSHEET_CATEGORIES, WORKSHEETS } from '../data/worksheets'
+import { WORKSHEET_CATEGORIES, WORKSHEETS, getWorksheetsForLevel } from '../data/worksheets'
 
 export default function Fichas({ profile, progress, submitWorksheet }) {
   const navigate = useNavigate()
@@ -11,15 +11,24 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
   const [submitted, setSubmitted] = useState(false)
   const fileInputRef = useRef(null)
   const [photoPreview, setPhotoPreview] = useState(null)
+  const [showAllLevels, setShowAllLevels] = useState(false)
 
   const submissions = profile?.worksheetSubmissions || []
+  const competencyLevels = profile?.competencyLevels || { campo1: 1, campo2: 1 }
 
-  const filteredSheets = selectedCategory
-    ? WORKSHEETS.filter((ws) => ws.category === selectedCategory)
-    : WORKSHEETS
+  // Get level-appropriate worksheets
+  const availableSheets = useMemo(() => {
+    if (showAllLevels) {
+      return selectedCategory
+        ? WORKSHEETS.filter((ws) => ws.category === selectedCategory)
+        : WORKSHEETS
+    }
+    return getWorksheetsForLevel(competencyLevels, selectedCategory)
+  }, [competencyLevels, selectedCategory, showAllLevels])
 
-  const handlePrint = (ws) => {
-    setActiveWorksheet(ws)
+  const currentLevel = Math.max(competencyLevels.campo1 || 1, competencyLevels.campo2 || 1)
+
+  const handlePrint = () => {
     setTimeout(() => window.print(), 300)
   }
 
@@ -30,7 +39,6 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0]
     if (!file) return
-
     const reader = new FileReader()
     reader.onload = (ev) => {
       setPhotoPreview(ev.target.result)
@@ -40,16 +48,12 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
   }
 
   const handleSubmit = () => {
-    if (activeWorksheet) {
-      submitWorksheet?.(activeWorksheet.id, photoPreview)
-    }
+    if (activeWorksheet) submitWorksheet?.(activeWorksheet.id, photoPreview)
     setSubmitted(true)
   }
 
   const handleSubmitWithoutPhoto = () => {
-    if (activeWorksheet) {
-      submitWorksheet?.(activeWorksheet.id, null)
-    }
+    if (activeWorksheet) submitWorksheet?.(activeWorksheet.id, null)
     setSubmitted(true)
   }
 
@@ -127,7 +131,6 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           <p style={styles.desc}>
             Tira uma foto ou escolhe uma imagem da tua ficha completa.
           </p>
-
           <input
             ref={fileInputRef}
             type="file"
@@ -136,7 +139,6 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
             onChange={handleFileChange}
             style={{ display: 'none' }}
           />
-
           {photoTaken ? (
             <div style={styles.previewSection}>
               {photoPreview && (
@@ -152,12 +154,9 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           ) : (
             <>
               <button style={styles.cameraBtn} onClick={handlePhotoCapture}>
-                📷 Tirar Foto
+                Tirar Foto
               </button>
-              <button
-                style={styles.skipBtn}
-                onClick={handleSubmitWithoutPhoto}
-              >
+              <button style={styles.skipBtn} onClick={handleSubmitWithoutPhoto}>
                 Completar sem foto
               </button>
             </>
@@ -167,11 +166,12 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
     )
   }
 
-  // Worksheet print view
+  // Worksheet print view — proper A4 layout
   if (activeWorksheet) {
     const ws = activeWorksheet
     const wsSubmissions = submissions.filter((s) => s.worksheetId === ws.id)
     const hasReview = wsSubmissions.some((s) => s.status === 'reviewed')
+    const isLetter = ws.type === 'letter'
 
     return (
       <div style={styles.container} className="animate-fade-in">
@@ -179,42 +179,68 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
           <button style={styles.backBtn} onClick={handleBack}>← Voltar</button>
         </div>
 
-        <div style={styles.worksheetView} id="printable-area">
-          <div style={styles.wsHeader}>
-            <h2 style={styles.wsTitle}>{ws.title}</h2>
-            <p style={styles.wsSubtitle}>{ws.subtitle}</p>
-            <div style={styles.wsNameLine}>
-              Nome: {profile?.name || '_______________'} &nbsp; Data: ____/____/______
+        <div style={styles.printPage} id="printable-area">
+          {/* Header */}
+          <div style={styles.printHeader}>
+            <div style={styles.printTitleRow}>
+              <div>
+                <h2 style={styles.printTitle}>{ws.title}</h2>
+                <p style={styles.printSubtitle}>{ws.subtitle}</p>
+              </div>
+              <div style={styles.printLevel}>Nv. {ws.level}</div>
+            </div>
+            <div style={styles.printNameLine}>
+              Nome: _________________________________ &nbsp;&nbsp; Data: ____/____/______
             </div>
           </div>
 
-          {ws.lines.map((line, i) => (
-            <div key={i} style={styles.wsLine}>
-              <div style={styles.wsGuide}>
-                <span style={styles.wsGuideText}>{line.guide}</span>
-                <span style={styles.wsContext}>{line.context}</span>
+          {/* Letter-specific header: show the big letter */}
+          {isLetter && ws.letterData && (
+            <div style={styles.letterShowcase}>
+              <div style={styles.letterBig}>{ws.letterData.letter}</div>
+              <div style={styles.letterBigLower}>{ws.letterData.lower}</div>
+              <div style={styles.letterWords}>
+                {ws.letterData.words.map((w, i) => (
+                  <span key={i} style={styles.letterWordTag}>{w}</span>
+                ))}
               </div>
-              <div style={styles.wsWriteArea}>
-                <div style={styles.wsDottedLine} />
-                <div style={styles.wsDottedLine} />
+            </div>
+          )}
+
+          {/* Writing lines */}
+          {ws.lines.map((line, i) => (
+            <div key={i} style={styles.printLine}>
+              {line.context && (
+                <div style={styles.printContext}>{line.context}</div>
+              )}
+              {line.guide && (
+                <div style={styles.printGuide}>{line.guide}</div>
+              )}
+              {/* Ruled writing area: baseline + midline */}
+              <div style={styles.ruledArea}>
+                <div style={styles.ruledMidline} />
+                <div style={styles.ruledBaseline} />
+              </div>
+              <div style={styles.ruledArea}>
+                <div style={styles.ruledMidline} />
+                <div style={styles.ruledBaseline} />
               </div>
             </div>
           ))}
 
-          <div style={styles.wsFooter}>
+          {/* Footer */}
+          <div style={styles.printFooter}>
             PITCH — A Escola do {profile?.name || 'Aluno'}
           </div>
         </div>
 
+        {/* Actions (not printed) */}
         <div style={styles.wsActions} className="no-print">
-          <button style={styles.printBtn} onClick={() => handlePrint(ws)}>
-            🖨️ Imprimir Ficha
+          <button style={styles.printBtn} onClick={handlePrint}>
+            Imprimir Ficha
           </button>
-          <button
-            style={styles.photoBtn}
-            onClick={() => setPhotoMode(true)}
-          >
-            📸 Já completei! Enviar para avaliação
+          <button style={styles.photoBtn} onClick={() => setPhotoMode(true)}>
+            Já completei! Enviar para avaliação
           </button>
         </div>
 
@@ -250,11 +276,13 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
       <header style={styles.headerRow}>
         <div>
           <h1 style={styles.pageTitle}>Fichas de Escrita</h1>
-          <p style={styles.pageDesc}>Imprime, escreve e envia para avaliação!</p>
+          <p style={styles.pageDesc}>
+            Fichas para o teu nível ({currentLevel}) — imprime, escreve e envia!
+          </p>
         </div>
-        <span style={styles.headerEmoji}>✏️</span>
       </header>
 
+      {/* Category pills */}
       <div style={styles.catRow}>
         <button
           style={{
@@ -279,49 +307,62 @@ export default function Fichas({ profile, progress, submitWorksheet }) {
         ))}
       </div>
 
-      <div style={styles.sheetList}>
-        {filteredSheets.map((ws) => {
-          const cat = WORKSHEET_CATEGORIES.find((c) => c.id === ws.category)
-          const wsSubmissions = submissions.filter((s) => s.worksheetId === ws.id)
-          const pendingCount = wsSubmissions.filter((s) => s.status === 'pending').length
-          const reviewedCount = wsSubmissions.filter((s) => s.status === 'reviewed').length
+      {/* Show all levels toggle */}
+      <button
+        style={styles.toggleAll}
+        onClick={() => setShowAllLevels(!showAllLevels)}
+      >
+        {showAllLevels ? 'Mostrar apenas o meu nível' : 'Mostrar todos os níveis'}
+      </button>
 
-          return (
-            <button
-              key={ws.id}
-              style={{ ...styles.sheetCard, borderLeftColor: cat?.color || '#666' }}
-              onClick={() => setActiveWorksheet(ws)}
-            >
-              <div style={styles.sheetTop}>
-                <span style={styles.sheetIcon}>{cat?.icon}</span>
-                <div style={{ flex: 1 }}>
-                  <span style={styles.sheetTitle}>{ws.title}</span>
-                  <span style={styles.sheetSubtitle}>{ws.subtitle}</span>
-                </div>
-                <div style={styles.statusCol}>
-                  {reviewedCount > 0 && (
-                    <span style={styles.statusReviewed}>⭐ {reviewedCount}x</span>
-                  )}
-                  {pendingCount > 0 && (
-                    <span style={styles.statusPending}>📬 {pendingCount}</span>
-                  )}
-                  <div style={styles.difficultyDots}>
-                    {[1, 2, 3].map((d) => (
-                      <span
-                        key={d}
-                        style={{
-                          ...styles.diffDot,
-                          backgroundColor: d <= ws.difficulty ? cat?.color || '#666' : '#E0E0E0',
-                        }}
-                      />
-                    ))}
+      {/* Worksheets grouped by level */}
+      {availableSheets.length === 0 ? (
+        <div style={styles.emptyState}>
+          <p>Nenhuma ficha disponível para esta categoria no teu nível.</p>
+          <button style={styles.toggleAll} onClick={() => setShowAllLevels(true)}>
+            Ver fichas de todos os níveis
+          </button>
+        </div>
+      ) : (
+        <div style={styles.sheetList}>
+          {availableSheets.map((ws) => {
+            const cat = WORKSHEET_CATEGORIES.find((c) => c.id === ws.category)
+            const wsSubmissions = submissions.filter((s) => s.worksheetId === ws.id)
+            const pendingCount = wsSubmissions.filter((s) => s.status === 'pending').length
+            const reviewedCount = wsSubmissions.filter((s) => s.status === 'reviewed').length
+            const isCurrentLevel = ws.level === currentLevel
+
+            return (
+              <button
+                key={ws.id}
+                style={{
+                  ...styles.sheetCard,
+                  borderLeftColor: cat?.color || '#666',
+                  ...(isCurrentLevel ? styles.sheetCardHighlight : {}),
+                }}
+                onClick={() => setActiveWorksheet(ws)}
+              >
+                <div style={styles.sheetTop}>
+                  <span style={styles.sheetIcon}>{cat?.icon}</span>
+                  <div style={{ flex: 1 }}>
+                    <span style={styles.sheetTitle}>{ws.title}</span>
+                    <span style={styles.sheetSubtitle}>{ws.subtitle}</span>
+                  </div>
+                  <div style={styles.statusCol}>
+                    <span style={styles.levelBadge}>Nv. {ws.level}</span>
+                    {reviewedCount > 0 && (
+                      <span style={styles.statusReviewed}>⭐ {reviewedCount}x</span>
+                    )}
+                    {pendingCount > 0 && (
+                      <span style={styles.statusPending}>📬 {pendingCount}</span>
+                    )}
                   </div>
                 </div>
-              </div>
-            </button>
-          )
-        })}
-      </div>
+              </button>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }
@@ -356,9 +397,7 @@ const styles = {
   pageDesc: {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
-  },
-  headerEmoji: {
-    fontSize: '2.5rem',
+    marginTop: '4px',
   },
   catRow: {
     display: 'flex',
@@ -383,6 +422,23 @@ const styles = {
     color: 'white',
     borderColor: 'var(--color-primary)',
   },
+  toggleAll: {
+    alignSelf: 'flex-end',
+    padding: 'var(--space-xs) var(--space-sm)',
+    fontSize: 'var(--font-size-sm)',
+    color: 'var(--color-primary)',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontWeight: 600,
+    textDecoration: 'underline',
+  },
+  emptyState: {
+    textAlign: 'center',
+    padding: 'var(--space-xl)',
+    color: 'var(--color-text-secondary)',
+  },
   sheetList: {
     display: 'flex',
     flexDirection: 'column',
@@ -400,6 +456,9 @@ const styles = {
     textAlign: 'left',
     fontFamily: 'inherit',
     transition: 'box-shadow 0.2s',
+  },
+  sheetCardHighlight: {
+    boxShadow: '0 0 0 2px var(--color-primary)',
   },
   sheetTop: {
     display: 'flex',
@@ -425,6 +484,14 @@ const styles = {
     alignItems: 'flex-end',
     gap: '4px',
   },
+  levelBadge: {
+    padding: '2px 8px',
+    borderRadius: '10px',
+    backgroundColor: '#E8EAF6',
+    color: '#3949AB',
+    fontSize: '0.7rem',
+    fontWeight: 700,
+  },
   statusPending: {
     fontSize: 'var(--font-size-sm)',
     color: '#E65100',
@@ -435,80 +502,138 @@ const styles = {
     color: 'var(--color-primary)',
     fontWeight: 600,
   },
-  difficultyDots: {
-    display: 'flex',
-    gap: '3px',
-  },
-  diffDot: {
-    width: '8px',
-    height: '8px',
-    borderRadius: '50%',
-  },
-  // Worksheet view
-  worksheetView: {
+
+  /* ===== Print-optimized worksheet view ===== */
+  printPage: {
     backgroundColor: 'white',
-    padding: 'var(--space-lg)',
+    padding: '24px',
     borderRadius: 'var(--radius-md)',
     border: '2px solid var(--color-border)',
+    maxWidth: '210mm',
+    margin: '0 auto',
+    fontFamily: "'Quicksand', sans-serif",
   },
-  wsHeader: {
-    textAlign: 'center',
-    marginBottom: 'var(--space-lg)',
-    paddingBottom: 'var(--space-md)',
-    borderBottom: '2px solid var(--color-text)',
+  printHeader: {
+    marginBottom: '16px',
+    paddingBottom: '12px',
+    borderBottom: '2px solid #333',
   },
-  wsTitle: {
-    fontSize: 'var(--font-size-xl)',
-    fontWeight: 700,
-  },
-  wsSubtitle: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-    marginTop: '4px',
-  },
-  wsNameLine: {
-    marginTop: 'var(--space-md)',
-    fontSize: 'var(--font-size-base)',
-    textAlign: 'left',
-    fontWeight: 500,
-  },
-  wsLine: {
-    marginBottom: 'var(--space-lg)',
-  },
-  wsGuide: {
+  printTitleRow: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
-    marginBottom: 'var(--space-sm)',
+    alignItems: 'flex-start',
   },
-  wsGuideText: {
-    fontSize: 'var(--font-size-xl)',
+  printTitle: {
+    fontSize: '1.3rem',
     fontWeight: 700,
-    color: '#B0B0B0',
-    letterSpacing: '4px',
+    margin: 0,
   },
-  wsContext: {
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
-    fontStyle: 'italic',
+  printSubtitle: {
+    fontSize: '0.85rem',
+    color: '#666',
+    margin: '2px 0 0 0',
   },
-  wsWriteArea: {
+  printLevel: {
+    padding: '4px 12px',
+    borderRadius: '12px',
+    backgroundColor: '#E8EAF6',
+    color: '#3949AB',
+    fontSize: '0.8rem',
+    fontWeight: 700,
+    whiteSpace: 'nowrap',
+  },
+  printNameLine: {
+    marginTop: '10px',
+    fontSize: '0.85rem',
+    fontWeight: 500,
+  },
+
+  /* Letter showcase for single-letter worksheets */
+  letterShowcase: {
     display: 'flex',
-    flexDirection: 'column',
-    gap: 'var(--space-lg)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '16px',
+    padding: '12px',
+    margin: '0 0 16px 0',
+    backgroundColor: '#F5F5F5',
+    borderRadius: '8px',
+    flexWrap: 'wrap',
   },
-  wsDottedLine: {
-    borderBottom: '2px dashed #BDBDBD',
-    height: '30px',
+  letterBig: {
+    fontSize: '4rem',
+    fontWeight: 700,
+    color: '#1565C0',
+    lineHeight: 1,
   },
-  wsFooter: {
+  letterBigLower: {
+    fontSize: '4rem',
+    fontWeight: 400,
+    color: '#42A5F5',
+    lineHeight: 1,
+  },
+  letterWords: {
+    display: 'flex',
+    gap: '6px',
+    flexWrap: 'wrap',
+  },
+  letterWordTag: {
+    padding: '3px 8px',
+    backgroundColor: '#E3F2FD',
+    borderRadius: '6px',
+    fontSize: '0.75rem',
+    fontWeight: 600,
+    color: '#1565C0',
+  },
+
+  /* Writing lines — ruled like real school paper */
+  printLine: {
+    marginBottom: '12px',
+    pageBreakInside: 'avoid',
+  },
+  printContext: {
+    fontSize: '0.75rem',
+    color: '#888',
+    fontStyle: 'italic',
+    marginBottom: '2px',
+  },
+  printGuide: {
+    fontSize: '1.4rem',
+    fontWeight: 700,
+    color: '#BDBDBD',
+    letterSpacing: '6px',
+    marginBottom: '4px',
+    fontFamily: "'Quicksand', sans-serif",
+  },
+  ruledArea: {
+    position: 'relative',
+    height: '36px',
+    marginBottom: '4px',
+  },
+  ruledMidline: {
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    right: 0,
+    borderBottom: '1px dashed #E0E0E0',
+  },
+  ruledBaseline: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    borderBottom: '2px solid #BDBDBD',
+  },
+
+  printFooter: {
     textAlign: 'center',
-    marginTop: 'var(--space-xl)',
-    paddingTop: 'var(--space-md)',
-    borderTop: '1px solid var(--color-border)',
-    fontSize: 'var(--font-size-sm)',
-    color: 'var(--color-text-secondary)',
+    marginTop: '16px',
+    paddingTop: '8px',
+    borderTop: '1px solid #E0E0E0',
+    fontSize: '0.7rem',
+    color: '#999',
   },
+
   wsActions: {
     display: 'flex',
     flexDirection: 'column',
@@ -536,7 +661,8 @@ const styles = {
     fontFamily: 'inherit',
     fontSize: 'var(--font-size-base)',
   },
-  // Photo section
+
+  /* Photo section */
   photoSection: {
     display: 'flex',
     flexDirection: 'column',
@@ -606,7 +732,8 @@ const styles = {
     fontSize: 'var(--font-size-sm)',
     color: 'var(--color-text-secondary)',
   },
-  // Results
+
+  /* Results */
   resultBox: {
     display: 'flex',
     flexDirection: 'column',

@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
@@ -9,6 +9,7 @@ const SCENARIOS = [
   {
     situation: 'É hora do lanche. O que escolhes?',
     emoji: '🍎',
+    minLevel: 2,
     options: [
       { text: 'Fruta fresca', correct: true },
       { text: 'Doces e chocolates', correct: false },
@@ -19,6 +20,7 @@ const SCENARIOS = [
   {
     situation: 'Acabaste de brincar no parque. O que fazes?',
     emoji: '🧼',
+    minLevel: 1,
     options: [
       { text: 'Lavo as mãos antes de comer', correct: true },
       { text: 'Como logo sem lavar', correct: false },
@@ -29,6 +31,7 @@ const SCENARIOS = [
   {
     situation: 'Estás com sede. O que bebes?',
     emoji: '💧',
+    minLevel: 2,
     options: [
       { text: 'Água', correct: true },
       { text: 'Refrigerante', correct: false },
@@ -39,6 +42,7 @@ const SCENARIOS = [
   {
     situation: 'É hora de dormir mas queres ver TV. O que fazes?',
     emoji: '🌙',
+    minLevel: 3,
     options: [
       { text: 'Vou dormir porque o corpo precisa de descanso', correct: true },
       { text: 'Fico a ver TV até tarde', correct: false },
@@ -49,6 +53,7 @@ const SCENARIOS = [
   {
     situation: 'Um amigo oferece-te um cigarro. O que dizes?',
     emoji: '🚭',
+    minLevel: 5,
     options: [
       { text: 'Não obrigado, faz mal à saúde', correct: true },
       { text: 'Experimento só um', correct: false },
@@ -59,6 +64,7 @@ const SCENARIOS = [
   {
     situation: 'Não dormiste bem e estás cansado. O que fazes?',
     emoji: '😴',
+    minLevel: 5,
     options: [
       { text: 'Descanso um pouco e durmo mais cedo hoje', correct: true },
       { text: 'Bebo café', correct: false },
@@ -69,6 +75,7 @@ const SCENARIOS = [
   {
     situation: 'Tens de escolher o almoço. O que escolhes?',
     emoji: '🍽️',
+    minLevel: 3,
     options: [
       { text: 'Arroz, frango grelhado e salada', correct: true },
       { text: 'Batatas fritas e gelado', correct: false },
@@ -79,6 +86,7 @@ const SCENARIOS = [
   {
     situation: 'É manhã. O que fazes primeiro?',
     emoji: '🌅',
+    minLevel: 1,
     options: [
       { text: 'Escovo os dentes e lavo a cara', correct: true },
       { text: 'Vou jogar', correct: false },
@@ -89,6 +97,7 @@ const SCENARIOS = [
   {
     situation: 'Estás ao sol há muito tempo. O que fazes?',
     emoji: '☀️',
+    minLevel: 4,
     options: [
       { text: 'Ponho protetor solar e bebo água', correct: true },
       { text: 'Continuo ao sol', correct: false },
@@ -99,6 +108,7 @@ const SCENARIOS = [
   {
     situation: 'Sentes-te mal. O que fazes?',
     emoji: '🤒',
+    minLevel: 4,
     options: [
       { text: 'Digo a um adulto como me sinto', correct: true },
       { text: 'Não digo nada', correct: false },
@@ -117,13 +127,18 @@ export default function HealthyChoices({
   adaptive,
 }) {
   const { speak } = useTTS()
+  const campoLevel = adaptive?.campoLevel?.campo4 || 1
+  const scenarios = useMemo(
+    () => SCENARIOS.filter(s => s.minLevel <= campoLevel),
+    [campoLevel]
+  )
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
   const [showExplanation, setShowExplanation] = useState(false)
 
-  const current = SCENARIOS[idx]
-  const isComplete = idx >= SCENARIOS.length
+  const current = scenarios[idx]
+  const isComplete = idx >= scenarios.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -154,10 +169,10 @@ export default function HealthyChoices({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo4', next)
-    if (next >= SCENARIOS.length) {
+    if (next >= scenarios.length) {
       completeActivity('healthy-choices', score >= 8 ? 3 : score >= 5 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, scenarios.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 8 ? 3 : score >= 5 ? 2 : 1
 
@@ -168,7 +183,7 @@ export default function HealthyChoices({
           emoji="💪"
           title="Sabes fazer escolhas saudáveis!"
           score={score}
-          total={SCENARIOS.length}
+          total={scenarios.length}
           stars={finalStars}
           color="var(--color-campo4)"
         />
@@ -183,7 +198,7 @@ export default function HealthyChoices({
       backPath="/campo/4"
       color="var(--color-campo4)"
       score={score}
-      total={SCENARIOS.length}
+      total={scenarios.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.scenarioCard}>

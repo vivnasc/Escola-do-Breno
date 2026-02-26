@@ -95,7 +95,7 @@ export function useAdaptive(profile) {
     return 1
   }, [profile?.competencyLevels])
 
-  // Per-campo difficulty (1-3) derived from competency levels
+  // Per-campo difficulty (1-3) derived from competency levels (legacy, used by some activities)
   const campoDifficulty = useMemo(() => {
     const levels = profile?.competencyLevels || {}
     const result = {}
@@ -103,6 +103,17 @@ export function useAdaptive(profile) {
       if (level >= 7) result[campo] = 3
       else if (level >= 4) result[campo] = 2
       else result[campo] = 1
+    }
+    return result
+  }, [profile?.competencyLevels])
+
+  // Per-campo competency level (1-10) — the REAL level for content filtering.
+  // Activities should use this to select age-appropriate content, not just option counts.
+  const campoLevel = useMemo(() => {
+    const levels = profile?.competencyLevels || {}
+    const result = {}
+    for (const [campo, level] of Object.entries(levels)) {
+      result[campo] = Math.max(1, Math.min(10, Math.round(level)))
     }
     return result
   }, [profile?.competencyLevels])
@@ -185,6 +196,7 @@ export function useAdaptive(profile) {
     cssAdaptations,
     difficulty,
     campoDifficulty,
+    campoLevel,
     choiceCount,
     frustrationConfig,
     showTimers,

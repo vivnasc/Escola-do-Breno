@@ -6,19 +6,32 @@ import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
 const ROUTINE_STEPS = [
-  { id: 1, text: 'Acordar às 7h', emoji: '⏰', time: '07:00' },
-  { id: 2, text: 'Tomar banho e escovar os dentes', emoji: '🪥', time: '07:15' },
-  { id: 3, text: 'Vestir-se', emoji: '👕', time: '07:30' },
-  { id: 4, text: 'Tomar o pequeno-almoço', emoji: '🥣', time: '07:45' },
-  { id: 5, text: 'Ir para a escola', emoji: '🎒', time: '08:00' },
-  { id: 6, text: 'Aulas da manhã', emoji: '📚', time: '08:30' },
-  { id: 7, text: 'Almoço', emoji: '🍽️', time: '12:30' },
-  { id: 8, text: 'Aulas da tarde / Treino', emoji: '⚽', time: '14:00' },
-  { id: 9, text: 'Lanche', emoji: '🍎', time: '16:30' },
-  { id: 10, text: 'Tempo livre / Brincar', emoji: '🎮', time: '17:00' },
-  { id: 11, text: 'Jantar', emoji: '🍲', time: '19:00' },
-  { id: 12, text: 'Preparar para dormir', emoji: '🌙', time: '20:30' },
+  { id: 1, text: 'Acordar às 7h', emoji: '⏰', time: '07:00', minLevel: 1 },
+  { id: 2, text: 'Tomar banho e escovar os dentes', emoji: '🪥', time: '07:15', minLevel: 1 },
+  { id: 3, text: 'Vestir-se', emoji: '👕', time: '07:30', minLevel: 2 },
+  { id: 4, text: 'Tomar o pequeno-almoço', emoji: '🥣', time: '07:45', minLevel: 1 },
+  { id: 5, text: 'Ir para a escola', emoji: '🎒', time: '08:00', minLevel: 2 },
+  { id: 6, text: 'Aulas da manhã', emoji: '📚', time: '08:30', minLevel: 3 },
+  { id: 7, text: 'Almoço', emoji: '🍽️', time: '12:30', minLevel: 3 },
+  { id: 8, text: 'Aulas da tarde / Treino', emoji: '⚽', time: '14:00', minLevel: 4 },
+  { id: 9, text: 'Lanche', emoji: '🍎', time: '16:30', minLevel: 5 },
+  { id: 10, text: 'Tempo livre / Brincar', emoji: '🎮', time: '17:00', minLevel: 5 },
+  { id: 11, text: 'Jantar', emoji: '🍲', time: '19:00', minLevel: 6 },
+  { id: 12, text: 'Preparar para dormir', emoji: '🌙', time: '20:30', minLevel: 6 },
 ]
+
+/**
+ * Filter routine steps based on competency level.
+ * L1: 3 core steps (wake, hygiene, breakfast)
+ * L2: 5 steps (+ dress, school)
+ * L3: 7 steps (+ morning lessons, lunch)
+ * L4: 8 steps (+ afternoon activity)
+ * L5: 10 steps (+ snack, free time)
+ * L6+: all 12 steps (+ dinner, bedtime)
+ */
+function getStepsForLevel(allSteps, level) {
+  return allSteps.filter(s => s.minLevel <= level)
+}
 
 function shuffle(arr) {
   const a = [...arr]
@@ -39,10 +52,17 @@ export default function DailyRoutine({
 }) {
   const content = getContent(adaptive?.universe?.id)
   const routineContent = content.routine
+  const campoLevel = adaptive?.campoLevel?.campo4 || 1
 
-  const STEPS = useMemo(() => ROUTINE_STEPS.map(s =>
+  const ALL_STEPS = useMemo(() => ROUTINE_STEPS.map(s =>
     s.id === 8 ? { ...s, text: routineContent.step8.text, emoji: routineContent.step8.emoji } : s
   ), [routineContent])
+
+  // Filter steps by competency level
+  const STEPS = useMemo(
+    () => getStepsForLevel(ALL_STEPS, campoLevel),
+    [ALL_STEPS, campoLevel]
+  )
 
   const { speak } = useTTS()
   const [ordered, setOrdered] = useState([])

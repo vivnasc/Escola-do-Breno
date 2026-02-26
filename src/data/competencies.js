@@ -490,291 +490,168 @@ export const COMPETENCY_AREAS = {
 }
 
 /**
- * Diagnostic questions for the intake placement test.
- * 3 questions per campo, at tiers low (1-3), mid (4-6), high (7-10).
- * Used to detect starting competency level per campo.
+ * PROGRESSIVE ADAPTIVE DIAGNOSTIC
+ *
+ * Each campo has 8+ questions ordered by difficulty (level 1→10).
+ * The test climbs until the child fails 2 in a row, then stops for that campo.
+ * Level = highest question answered correctly.
+ *
+ * This detects REAL skill level. A child who counts to 40 but can't subtract
+ * gets placed at level 4-5, not level 1 or level 9.
+ *
+ * Can be answered by the child, parent, or therapist.
  */
 export const DIAGNOSTIC_QUESTIONS = {
-  campo1: [
-    {
-      tier: 'low',
-      question: 'O que é isto em inglês?',
-      emoji: '🐕',
-      hint: 'Dog / Cat / Fish',
-      options: [
-        { text: 'Dog', correct: true },
-        { text: 'Table', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'Completa: "The ball is ___"',
-      emoji: '⚽',
-      hint: 'red / big / on the table',
-      options: [
-        { text: 'red', correct: true },
-        { text: 'eat', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'O que significa "She is running to the park"?',
-      emoji: '🏃‍♀️',
-      options: [
-        { text: 'Ela está a correr para o parque', correct: true },
-        { text: 'Ela está a dormir', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-  ],
+  // ─── MATEMÁTICA — from counting objects to multi-step problems ───
   campo2: [
-    {
-      tier: 'low',
-      question: 'Quanto é 3 + 2?',
-      emoji: '🔢',
-      options: [
-        { text: '5', correct: true },
-        { text: '4', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'Quanto é 15 - 8?',
-      emoji: '🔢',
-      options: [
-        { text: '7', correct: true },
-        { text: '6', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Se 4 equipas têm 6 jogadores cada, quantos jogadores há?',
-      emoji: '⚽',
-      options: [
-        { text: '24', correct: true },
-        { text: '10', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'Conta estes objectos:', visual: '🟢🟢🟢', hint: 'Quantos círculos verdes vês?',
+      options: [{ text: '3', correct: true }, { text: '5', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 2, question: 'Que número vem a seguir? 1, 2, 3, 4, 5, ...', hint: 'Continua a contar',
+      options: [{ text: '6', correct: true }, { text: '7', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'Conta de 10 em 10: 10, 20, 30, ...', hint: 'Qual é o próximo?',
+      options: [{ text: '40', correct: true }, { text: '35', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 4, question: 'Quanto é 5 + 3?', visual: '🟢🟢🟢🟢🟢 + 🟢🟢🟢',
+      options: [{ text: '8', correct: true }, { text: '7', correct: false }, { text: '9', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Quanto é 12 + 9?',
+      options: [{ text: '21', correct: true }, { text: '19', correct: false }, { text: '20', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 6, question: 'Quanto é 13 - 7?',
+      options: [{ text: '6', correct: true }, { text: '7', correct: false }, { text: '5', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 7, question: 'Quanto é 4 x 3?', hint: '4 grupos de 3',
+      options: [{ text: '12', correct: true }, { text: '7', correct: false }, { text: '10', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 8, question: '24 jogadores divididos em 6 equipas. Quantos em cada equipa?',
+      options: [{ text: '4', correct: true }, { text: '3', correct: false }, { text: '6', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 9, question: 'Um jogo tem 3 partes de 15 minutos e 2 intervalos de 5 minutos. Quanto tempo dura?',
+      options: [{ text: '55 minutos', correct: true }, { text: '45 minutos', correct: false }, { text: '50 minutos', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
+  // ─── LINGUAGEM — from letter recognition to reading comprehension ───
+  campo1: [
+    { level: 1, question: 'Que letra é esta?', visual: 'A', visualStyle: 'bigLetter',
+      options: [{ text: 'A', correct: true }, { text: 'B', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 2, question: 'Que som faz a letra B?', visual: 'B', visualStyle: 'bigLetter', hint: 'B de...',
+      options: [{ text: 'Bola, bota, banana', correct: true }, { text: 'Rato, rio, roda', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'O que é isto em inglês?', visual: '🐕', hint: 'É um animal de estimação',
+      options: [{ text: 'Dog', correct: true }, { text: 'Table', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 4, question: 'Qual destas é a palavra "cat" (gato)?',
+      options: [{ text: 'CAT', correct: true }, { text: 'CUT', correct: false }, { text: 'COT', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Completa: "The ball is ___"', hint: 'A bola é...',
+      options: [{ text: 'round (redonda)', correct: true }, { text: 'eat (comer)', correct: false }, { text: 'run (correr)', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 6, question: 'Lê esta frase. O que significa?', visual: 'The dog is big.', visualStyle: 'sentence',
+      options: [{ text: 'O cão é grande.', correct: true }, { text: 'O gato é pequeno.', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 7, question: 'O que significa "She is running to the park"?',
+      options: [{ text: 'Ela está a correr para o parque', correct: true }, { text: 'Ela está a dormir no parque', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 8, question: 'Completa a frase: "Yesterday, I ___ to school."',
+      options: [{ text: 'went', correct: true }, { text: 'go', correct: false }, { text: 'going', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+  ],
+  // ─── DESCOBERTA — from basic observation to scientific reasoning ───
   campo3: [
-    {
-      tier: 'low',
-      question: 'De que país é esta bandeira? 🇧🇷',
-      emoji: '🏴',
-      options: [
-        { text: 'Brasil', correct: true },
-        { text: 'Japão', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'De que precisam as plantas para crescer?',
-      emoji: '🌱',
-      options: [
-        { text: 'Água, sol e terra', correct: true },
-        { text: 'Apenas chocolate', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Porque temos dia e noite?',
-      emoji: '🌍',
-      options: [
-        { text: 'Porque a Terra gira', correct: true },
-        { text: 'Porque o Sol se apaga', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'Que animal é maior?', visual: '🐘 ou 🐁?',
+      options: [{ text: 'Elefante', correct: true }, { text: 'Rato', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 2, question: 'Que estação do ano tem neve?',
+      options: [{ text: 'Inverno', correct: true }, { text: 'Verão', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'De que país é esta bandeira?', flagCode: 'BR', hint: 'Verde e amarela',
+      options: [{ text: 'Brasil', correct: true }, { text: 'Japão', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 4, question: 'De que precisam as plantas para crescer?',
+      options: [{ text: 'Água, sol e terra', correct: true }, { text: 'Apenas chocolate', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Em que continente fica Portugal?',
+      options: [{ text: 'Europa', correct: true }, { text: 'África', correct: false }, { text: 'Ásia', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 6, question: 'Porque temos dia e noite?',
+      options: [{ text: 'Porque a Terra gira sobre si mesma', correct: true }, { text: 'Porque o Sol se apaga', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 7, question: 'O que acontece à água quando ferve?',
+      options: [{ text: 'Transforma-se em vapor (gás)', correct: true }, { text: 'Fica mais fria', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 8, question: 'Porque é que os ursos polares são brancos?',
+      options: [{ text: 'Para se camuflarem na neve', correct: true }, { text: 'Porque gostam de branco', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
+  // ─── AUTONOMIA — from basic routines to decision-making ───
   campo4: [
-    {
-      tier: 'low',
-      question: 'O que fazes quando acordas de manhã?',
-      emoji: '⏰',
-      options: [
-        { text: 'Lavo os dentes e tomo o pequeno-almoço', correct: true },
-        { text: 'Vou logo brincar', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'Tens teste amanhã e os amigos chamam para jogar. O que decides?',
-      emoji: '📚',
-      options: [
-        { text: 'Estudo primeiro, jogo depois', correct: true },
-        { text: 'Vou jogar, não estudo', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Tens 3 tarefas para fazer e pouco tempo. O que fazes?',
-      emoji: '📋',
-      options: [
-        { text: 'Organizo por prioridade e começo pela mais importante', correct: true },
-        { text: 'Faço a mais fácil e deixo o resto', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'O que fazes quando acordas?',
+      options: [{ text: 'Lavo os dentes e tomo o pequeno-almoço', correct: true }, { text: 'Vou logo brincar', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 2, question: 'Antes de comer, o que fazes?',
+      options: [{ text: 'Lavo as mãos', correct: true }, { text: 'Nada', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'Está a chover. O que levas quando sais?',
+      options: [{ text: 'Guarda-chuva ou impermeável', correct: true }, { text: 'Óculos de sol', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 4, question: 'Encontras uma nota de 5€ no chão da escola. O que fazes?',
+      options: [{ text: 'Entrego ao professor', correct: true }, { text: 'Guardo para mim', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Tens teste amanhã e os amigos chamam para jogar. O que decides?',
+      options: [{ text: 'Estudo primeiro, jogo depois', correct: true }, { text: 'Vou jogar, o teste é amanhã', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 6, question: 'Queres comprar um brinquedo de 15€ e tens 10€. O que fazes?',
+      options: [{ text: 'Poupo mais 5€ primeiro', correct: true }, { text: 'Peço emprestado', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 7, question: 'Tens 3 tarefas para fazer e pouco tempo. O que fazes?',
+      options: [{ text: 'Organizo por prioridade e começo pela mais importante', correct: true }, { text: 'Faço a mais fácil e deixo o resto', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 8, question: 'Um colega está a ser gozado por outros. O que fazes?',
+      options: [{ text: 'Apoio o colega e falo com um adulto', correct: true }, { text: 'Não me meto', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
+  // ─── CRIATIVIDADE ───
   campo5: [
-    {
-      tier: 'low',
-      question: 'Que cor gostas mais de usar para desenhar?',
-      emoji: '🎨',
-      options: [
-        { text: 'Gosto de muitas cores!', correct: true },
-        { text: 'Não gosto de desenhar', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'Se pudesses inventar uma história, teria...',
-      emoji: '📖',
-      options: [
-        { text: 'Um herói, um problema e um final feliz', correct: true },
-        { text: 'Nada, não sei inventar histórias', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Qual destas sequências completa o padrão? 🔴🔵🔴🔵...',
-      emoji: '🔷',
-      options: [
-        { text: '🔴🔵', correct: true },
-        { text: '🔵🔵', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'Que cor gostas mais de usar para desenhar?',
+      options: [{ text: 'Gosto de muitas cores!', correct: true }, { text: 'Não gosto de desenhar', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'Se pudesses inventar uma história, teria...',
+      options: [{ text: 'Um herói, um problema e um final feliz', correct: true }, { text: 'Nada, não sei inventar histórias', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Qual destas sequências completa o padrão? 🔴🔵🔴🔵...',
+      options: [{ text: '🔴🔵', correct: true }, { text: '🔵🔵', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
+  // ─── SOCIAL E EMOCIONAL ───
   campo6: [
-    {
-      tier: 'low',
-      question: 'Como se chama esta emoção? 😢',
-      emoji: '🎭',
-      options: [
-        { text: 'Triste', correct: true },
-        { text: 'Feliz', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'Um amigo está triste. O que fazes?',
-      emoji: '🤝',
-      options: [
-        { text: 'Pergunto se está bem e se posso ajudar', correct: true },
-        { text: 'Ignoro', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Alguém está a falar e tu queres dizer algo. O que fazes?',
-      emoji: '💬',
-      options: [
-        { text: 'Espero que acabe de falar e depois digo', correct: true },
-        { text: 'Interrompo logo', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'Como se chama esta emoção? 😢',
+      options: [{ text: 'Triste', correct: true }, { text: 'Feliz', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'Um amigo está triste. O que fazes?',
+      options: [{ text: 'Pergunto se está bem e se posso ajudar', correct: true }, { text: 'Ignoro', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: 'Estás chateado(a) com um amigo. O que fazes?',
+      options: [{ text: 'Explico como me sinto com calma', correct: true }, { text: 'Grito e vou-me embora', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 7, question: 'Alguém está a falar e tu queres dizer algo. O que fazes?',
+      options: [{ text: 'Espero que acabe e depois digo', correct: true }, { text: 'Interrompo', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
+  // ─── LITERATURA ───
   campo7: [
-    {
-      tier: 'low',
-      question: 'O lobo soprou e a casa caiu. Como se sentiu o porquinho?',
-      emoji: '🐷',
-      options: [
-        { text: 'Assustado', correct: true },
-        { text: 'Contente', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'mid',
-      question: 'O Capuchinho Vermelho foi avisar a avó. Porque achas que foi?',
-      emoji: '🧒',
-      options: [
-        { text: 'Porque se preocupava com ela', correct: true },
-        { text: 'Porque queria brincar', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
-    {
-      tier: 'high',
-      question: 'Numa história, a personagem diz "o meu coração ficou pequenino". O que significa?',
-      emoji: '💔',
-      options: [
-        { text: 'Ficou muito triste', correct: true },
-        { text: 'O coração encolheu de verdade', correct: false },
-        { text: 'Não sei', correct: false, skip: true },
-      ],
-    },
+    { level: 1, question: 'O lobo soprou e a casa caiu. Como se sentiu o porquinho?',
+      options: [{ text: 'Assustado', correct: true }, { text: 'Contente', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 3, question: 'O Capuchinho Vermelho foi avisar a avó. Porque achas que foi?',
+      options: [{ text: 'Porque se preocupava com ela', correct: true }, { text: 'Porque queria brincar', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
+    { level: 5, question: '"O meu coração ficou pequenino." O que significa?',
+      options: [{ text: 'Ficou muito triste', correct: true }, { text: 'O coração encolheu de verdade', correct: false }, { text: 'Não sei', correct: false, skip: true }] },
   ],
 }
 
 /**
- * Calculate starting competency level (1-10) from diagnostic results + profile info.
+ * Calculate starting competency level from the ADAPTIVE diagnostic.
  *
- * @param {Object} diagnosticResults - { campo1: [true/false, ...], campo2: [...], ... }
+ * New format: diagnosticResults[campo] = array of { level, correct } entries.
+ * The child's level = highest level they answered correctly.
+ * Falls back to old format (array of booleans) for backward compatibility.
+ *
+ * @param {Object} diagnosticResults - { campo1: [{level, correct}, ...], ... }
  * @param {Object} profileInfo - { age, readingLevel, supportLevel }
- * @returns {Object} - { campo1: number, campo2: number, campo3: number, campo4: number }
+ * @returns {Object} - { campo1: number, campo2: number, ... }
  */
 export function calculateStartingLevels(diagnosticResults, profileInfo) {
   const levels = {}
-  const age = profileInfo.age || 8
-  const support = profileInfo.supportLevel || 'some'
 
   for (const campoId of ['campo1', 'campo2', 'campo3', 'campo4', 'campo5', 'campo6', 'campo7']) {
-    const answers = diagnosticResults[campoId] || [false, false, false]
-    const low = answers[0] === true
-    const mid = answers[1] === true
-    const high = answers[2] === true
+    const answers = diagnosticResults[campoId]
+    if (!answers || answers.length === 0) {
+      levels[campoId] = 1
+      continue
+    }
 
-    // Base level from diagnostic answers
-    let base
-    if (high && mid && low) {
-      base = 8    // Got all 3 right — high level
-    } else if (mid && low) {
-      base = 6    // Got low + mid right
-    } else if (low && high) {
-      base = 5    // Got low + high but missed mid (inconsistent, place mid)
-    } else if (low) {
-      base = 3    // Only got the easy one
-    } else if (mid) {
-      base = 4    // Got mid but not low (guessing? place cautiously)
-    } else if (high) {
-      base = 5    // Only got hard one (lucky guess? place mid)
+    // New format: [{level, correct}, ...]
+    if (typeof answers[0] === 'object' && answers[0] !== null && 'level' in answers[0]) {
+      let highestCorrect = 0
+      for (const a of answers) {
+        if (a.correct && a.level > highestCorrect) {
+          highestCorrect = a.level
+        }
+      }
+      levels[campoId] = Math.max(1, highestCorrect)
     } else {
-      base = 1    // Got nothing right or skipped all
+      // Old format fallback: [true/false, true/false, true/false]
+      const low = answers[0] === true
+      const mid = answers[1] === true
+      const high = answers[2] === true
+      let base = 1
+      if (high && mid && low) base = 4
+      else if (mid && low) base = 3
+      else if (low) base = 2
+      levels[campoId] = base
     }
-
-    // Age modifier: older children who score low may still be higher than young ones
-    // This is subtle — just a nudge, not a jump
-    const ageMod = age >= 12 ? 1 : age >= 10 ? 0.5 : 0
-
-    // Support level modifier
-    const supportMod = support === 'full' ? -0.5 : support === 'independent' ? 0.5 : 0
-
-    // Reading level affects campo1 specifically
-    let readingMod = 0
-    if (campoId === 'campo1') {
-      if (profileInfo.readingLevel === 'pre-reader') readingMod = -1
-      else if (profileInfo.readingLevel === 'fluent') readingMod = 1
-    }
-
-    const final = Math.max(1, Math.min(10, Math.round(base + ageMod + supportMod + readingMod)))
-    levels[campoId] = final
   }
 
   return levels

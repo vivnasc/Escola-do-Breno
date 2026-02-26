@@ -11,6 +11,7 @@ const SCENARIOS = [
     weather: 'Sol',
     weatherEmoji: '☀️',
     correctKit: 'leve',
+    minLevel: 1,
     options: [
       { id: 'leve', label: 'Equipamento leve + água extra', emoji: '👕💧' },
       { id: 'pesado', label: 'Casaco grosso + gorro', emoji: '🧥🧢' },
@@ -23,6 +24,7 @@ const SCENARIOS = [
     weather: 'Chuva',
     weatherEmoji: '🌧️',
     correctKit: 'chuva',
+    minLevel: 2,
     options: [
       { id: 'leve', label: 'T-shirt e calções', emoji: '👕🩳' },
       { id: 'chuva', label: 'Casaco impermeável + luvas', emoji: '🧥🧤' },
@@ -35,6 +37,7 @@ const SCENARIOS = [
     weather: 'Neve',
     weatherEmoji: '❄️',
     correctKit: 'pesado',
+    minLevel: 1,
     options: [
       { id: 'leve', label: 'T-shirt e chinelos', emoji: '👕🩴' },
       { id: 'pesado', label: 'Casaco quente, gorro, luvas, cachecol', emoji: '🧥🧤🧣' },
@@ -47,6 +50,7 @@ const SCENARIOS = [
     weather: 'Sol com nuvens',
     weatherEmoji: '⛅',
     correctKit: 'leve',
+    minLevel: 2,
     options: [
       { id: 'leve', label: 'Roupa leve e protector solar', emoji: '👕🧴' },
       { id: 'pesado', label: 'Casaco de inverno', emoji: '🧥' },
@@ -59,6 +63,7 @@ const SCENARIOS = [
     weather: 'Muito quente',
     weatherEmoji: '🔥',
     correctKit: 'extra-leve',
+    minLevel: 3,
     options: [
       { id: 'extra-leve', label: 'Roupa muito leve + muita água + chapéu', emoji: '👕💧🧢' },
       { id: 'pesado', label: 'Casaco e calças compridas', emoji: '🧥👖' },
@@ -71,6 +76,7 @@ const SCENARIOS = [
     weather: 'Fresco e nublado',
     weatherEmoji: '🌥️',
     correctKit: 'normal',
+    minLevel: 3,
     options: [
       { id: 'normal', label: 'Camisola manga comprida e calças', emoji: '👔👖' },
       { id: 'pesado', label: 'Casaco de inverno e gorro', emoji: '🧥🧢' },
@@ -83,6 +89,7 @@ const SCENARIOS = [
     weather: 'Quente e seco',
     weatherEmoji: '🌞',
     correctKit: 'deserto',
+    minLevel: 4,
     options: [
       { id: 'deserto', label: 'Roupa leve, chapéu e muita água', emoji: '👕🧢💧' },
       { id: 'chuva', label: 'Casaco impermeável', emoji: '🧥' },
@@ -95,6 +102,7 @@ const SCENARIOS = [
     weather: 'Quente e húmido',
     weatherEmoji: '🌤️',
     correctKit: 'tropical',
+    minLevel: 4,
     options: [
       { id: 'tropical', label: 'Roupa leve de algodão e água', emoji: '👕💧' },
       { id: 'neve', label: 'Roupa para neve', emoji: '⛷️' },
@@ -107,6 +115,7 @@ const SCENARIOS = [
     weather: 'Frio e vento',
     weatherEmoji: '🌬️',
     correctKit: 'vento',
+    minLevel: 5,
     options: [
       { id: 'vento', label: 'Casaco corta-vento, gorro e luvas', emoji: '🧥🧤🧢' },
       { id: 'leve', label: 'T-shirt e chinelos', emoji: '👕🩴' },
@@ -119,6 +128,7 @@ const SCENARIOS = [
     weather: 'Chuva de monção',
     weatherEmoji: '⛈️',
     correctKit: 'moncao',
+    minLevel: 6,
     options: [
       { id: 'moncao', label: 'Impermeável e sandália resistente a água', emoji: '🧥🩴' },
       { id: 'neve', label: 'Roupa para neve', emoji: '⛷️' },
@@ -131,6 +141,7 @@ const SCENARIOS = [
     weather: 'Sol e brisa marítima',
     weatherEmoji: '🌊',
     correctKit: 'praia',
+    minLevel: 5,
     options: [
       { id: 'praia', label: 'Roupa leve, protector solar e óculos de sol', emoji: '👕🧴🕶️' },
       { id: 'pesado', label: 'Casaco grosso e cachecol', emoji: '🧥🧣' },
@@ -143,6 +154,7 @@ const SCENARIOS = [
     weather: 'Quente e muito húmido',
     weatherEmoji: '🌡️',
     correctKit: 'tropical',
+    minLevel: 6,
     options: [
       { id: 'tropical', label: 'Roupa muito leve e garrafa de água', emoji: '👕💧' },
       { id: 'pesado', label: 'Casaco de lã e botas', emoji: '🧥🥾' },
@@ -155,6 +167,7 @@ const SCENARIOS = [
     weather: 'Ameno e soalheiro',
     weatherEmoji: '🌤️',
     correctKit: 'ameno',
+    minLevel: 7,
     options: [
       { id: 'ameno', label: 'Camisola leve e calças confortáveis', emoji: '👕👖' },
       { id: 'pesado', label: 'Casaco de inverno e gorro', emoji: '🧥🧢' },
@@ -167,6 +180,7 @@ const SCENARIOS = [
     weather: 'Nublado e fresco',
     weatherEmoji: '🌫️',
     correctKit: 'fresco',
+    minLevel: 7,
     options: [
       { id: 'fresco', label: 'Camisola manga comprida e casaco leve', emoji: '👔🧥' },
       { id: 'leve', label: 'T-shirt e calções', emoji: '👕🩳' },
@@ -179,6 +193,7 @@ const SCENARIOS = [
     weather: 'Muito frio e neve',
     weatherEmoji: '🥶',
     correctKit: 'artico',
+    minLevel: 8,
     options: [
       { id: 'artico', label: 'Várias camadas, casaco grosso, gorro e luvas', emoji: '🧥🧤🧣🧢' },
       { id: 'leve', label: 'T-shirt e sandália', emoji: '👕🩴' },
@@ -191,6 +206,7 @@ const SCENARIOS = [
     weather: 'Quente com trovoada',
     weatherEmoji: '⛈️',
     correctKit: 'chuva-quente',
+    minLevel: 8,
     options: [
       { id: 'chuva-quente', label: 'Roupa leve e impermeável compacto', emoji: '👕🧥' },
       { id: 'neve', label: 'Roupa para neve e botas', emoji: '⛷️🥾' },
@@ -208,12 +224,17 @@ export default function WeatherMatch({
   adaptive,
 }) {
   const { speak } = useTTS()
+  const campoLevel = adaptive?.campoLevel?.campo3 || 1
+  const scenarios = useMemo(
+    () => SCENARIOS.filter(s => s.minLevel <= campoLevel),
+    [campoLevel]
+  )
   const [idx, setIdx] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const scenario = SCENARIOS[idx]
-  const isComplete = idx >= SCENARIOS.length
+  const scenario = scenarios[idx]
+  const isComplete = idx >= scenarios.length
 
   useEffect(() => {
     if (!isComplete) {
@@ -241,10 +262,10 @@ export default function WeatherMatch({
     const next = idx + 1
     setIdx(next)
     updateCampoProgress('campo3', next + 14)
-    if (next >= SCENARIOS.length) {
+    if (next >= scenarios.length) {
       completeActivity('weather-match', score >= 13 ? 3 : score >= 8 ? 2 : 1)
     }
-  }, [idx, score, completeActivity, updateCampoProgress])
+  }, [idx, score, scenarios.length, completeActivity, updateCampoProgress])
 
   const finalStars = score >= 13 ? 3 : score >= 8 ? 2 : 1
 
@@ -255,7 +276,7 @@ export default function WeatherMatch({
           emoji="🌤️"
           title="Sabes vestir-te para o tempo!"
           score={score}
-          total={SCENARIOS.length}
+          total={scenarios.length}
           stars={finalStars}
           color="var(--color-campo3)"
         />
@@ -270,7 +291,7 @@ export default function WeatherMatch({
       backPath="/campo/3"
       color="var(--color-campo3)"
       score={score}
-      total={SCENARIOS.length}
+      total={scenarios.length}
       textLevel={adaptive?.textLevel}
     >
       <div style={styles.weatherCard}>

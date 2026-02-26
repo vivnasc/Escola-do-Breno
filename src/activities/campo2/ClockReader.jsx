@@ -4,9 +4,39 @@ import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
-function generateClockProblem() {
+/**
+ * Generate clock problems tiered by competency level.
+ *
+ * Based on competencies.js milestones for c2-time (Tempo e Medida):
+ *   L1-2: Distingue dia e noite / Conhece as partes do dia → full hours only
+ *   L3:   Lê horas exactas → full hours (3:00, 7:00)
+ *   L4:   Lê meias horas → full + half hours (3:30)
+ *   L5:   Lê quartos de hora → + quarter hours (3:15, 3:45)
+ *   L6+:  Lê qualquer hora no relógio → 5-min intervals (3:05, 3:10...)
+ *   L8+:  Any minute (3:07, 3:23)
+ *
+ * Research: Kamii & Russell (2012) — children learn clock reading in this exact
+ * progression. Full hours are grasped ~age 6, half hours ~age 7, quarters ~age 8.
+ */
+function generateClockProblem(campoLevel) {
   const hours = Math.floor(Math.random() * 12) + 1
-  const minutes = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
+  let minutes
+  if (campoLevel <= 3) {
+    // Full hours only
+    minutes = 0
+  } else if (campoLevel <= 4) {
+    // Full + half hours
+    minutes = [0, 30][Math.floor(Math.random() * 2)]
+  } else if (campoLevel <= 5) {
+    // + quarter hours
+    minutes = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
+  } else if (campoLevel <= 7) {
+    // 5-minute intervals
+    minutes = Math.floor(Math.random() * 12) * 5
+  } else {
+    // Any minute
+    minutes = Math.floor(Math.random() * 60)
+  }
   const display = `${hours}:${minutes.toString().padStart(2, '0')}`
   const context = [
     `O jogo começa às ${display}. Que horas são?`,
@@ -53,8 +83,6 @@ function ClockFace({ hours, minutes }) {
   )
 }
 
-const TOTAL = 6
-
 export default function ClockReader({
   registerClick,
   registerError,
@@ -65,11 +93,15 @@ export default function ClockReader({
 }) {
   const { speak } = useTTS()
   const choiceCount = adaptive?.choiceCount || 4
+  const campoLevel = adaptive?.campoLevel?.campo2 || 1
   const [round, setRound] = useState(0)
   const [score, setScore] = useState(0)
   const [feedback, setFeedback] = useState(null)
 
-  const problem = useMemo(() => generateClockProblem(), [round])
+  // More rounds at higher levels (more minute variations to practice)
+  const TOTAL = campoLevel <= 3 ? 5 : campoLevel <= 5 ? 6 : 8
+
+  const problem = useMemo(() => generateClockProblem(campoLevel), [round, campoLevel])
   const isComplete = round >= TOTAL
 
   useEffect(() => {
@@ -78,12 +110,18 @@ export default function ClockReader({
     }
   }, [round])
 
+  // Generate distractors at the same minute-granularity as the problem
   const options = useMemo(() => {
     const correct = problem.display
     const wrongs = new Set()
     while (wrongs.size < choiceCount - 1) {
       const h = Math.floor(Math.random() * 12) + 1
-      const m = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
+      let m
+      if (campoLevel <= 3) m = 0
+      else if (campoLevel <= 4) m = [0, 30][Math.floor(Math.random() * 2)]
+      else if (campoLevel <= 5) m = [0, 15, 30, 45][Math.floor(Math.random() * 4)]
+      else if (campoLevel <= 7) m = Math.floor(Math.random() * 12) * 5
+      else m = Math.floor(Math.random() * 60)
       const d = `${h}:${m.toString().padStart(2, '0')}`
       if (d !== correct) wrongs.add(d)
     }
@@ -93,7 +131,7 @@ export default function ClockReader({
       ;[all[i], all[j]] = [all[j], all[i]]
     }
     return all
-  }, [problem])
+  }, [problem, choiceCount, campoLevel])
 
   const handleAnswer = useCallback(
     (ans) => {

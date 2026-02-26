@@ -666,15 +666,144 @@ export function getWordContext(word, universeId) {
   return word.contexts?.[universeId] || word.contexts?.football || ''
 }
 
+/**
+ * COMPETENCY-BASED WORD LEVELS (1-8)
+ *
+ * Maps each word ID to the competency level at which it becomes available.
+ * A child at level N sees all words with level <= N.
+ *
+ * Research basis:
+ * - Cambridge YLE progression (Starters → Movers → Flyers word lists)
+ * - Kuperman et al. (2012) Age-of-Acquisition norms
+ * - Brysbaert et al. (2014) Concreteness ratings — concrete before abstract
+ * - Nation (2001) word frequency bands — high-frequency first
+ * - Clark (1973) first-words research — body, family, animals, colors
+ *
+ * Criteria applied per level:
+ *   L1 (Semente): Survival vocab — domestic animals, primary colors, 1-2,
+ *                  mother/father, yes/no. First words any child produces.
+ *   L2 (Raiz):    Face/body, basic food/drink, 3-5, basic greetings,
+ *                  big/small. Highest-frequency concrete nouns.
+ *   L3 (Broto):   Expanding core — common animals, all basic body, clothes
+ *                  basics, home basics, school basics, eat/drink/sleep,
+ *                  sun/rain, house/school, politeness words.
+ *   L4 (Caule):   Structured knowledge — zoo animals, more clothes, furniture,
+ *                  transport basics, read/write, happy/sad, basic feelings.
+ *   L5 (Folha):   Contextual use — weather, places, more actions, adjective
+ *                  pairs (hot/cold), days, feelings (hungry/brave/kind).
+ *   L6 (Botão):   Ready to bloom — geography (river/sea/mountain), abstract
+ *                  adjectives (fast/slow/new/old), complex feelings (worried/
+ *                  proud), technology, secondary colors, teens numbers.
+ *   L7 (Flor):    Fluent use — specific body (knee/shoulder), exotic animals,
+ *                  community places, all days of week, mental verbs (think/
+ *                  talk), subtle feelings (calm/shy/lonely).
+ *   L8 (Fruto+):  Advanced — abstract verbs (want/know/try/learn), large
+ *                  numbers (20/100), cultural words (eagle/dragon), school
+ *                  meta-language (homework/classroom).
+ *
+ * Levels 9-10 would require A1/A2 content beyond this Pre-A1 dataset.
+ * At levels 9-10, all 280 words are available (full Pre-A1 mastery).
+ *
+ * Cumulative word counts: L1=12, L2=33, L3=71, L4=106, L5=156,
+ *                         L6=204, L7=256, L8=280
+ *
+ * Matches competency milestones in competencies.js:
+ *   L2 "Reconhece 5-10 palavras" → 33 available to practise
+ *   L5 "Usa 40+ palavras em contexto" → 156 available
+ *   L7 "Usa 60+ palavras e forma frases" → 256 available
+ */
+const WORDS_BY_LEVEL = {
+  1: [5, 6, 11, 13, 28, 29, 45, 151, 71, 72, 207, 208],
+  2: [7, 8, 12, 16, 18, 19, 30, 31, 35, 40, 41, 75, 79, 80, 116, 117, 152, 153, 154, 202, 203],
+  3: [2, 9, 10, 14, 15, 17, 20, 21, 22, 32, 33, 36, 39, 43, 47, 50, 54, 55, 56, 65, 66, 69, 73, 74, 81, 82, 91, 92, 101, 102, 103, 128, 129, 138, 204, 205, 206, 209],
+  4: [23, 24, 25, 34, 37, 38, 42, 44, 46, 49, 51, 52, 53, 57, 58, 59, 60, 63, 67, 78, 86, 87, 93, 104, 105, 118, 119, 139, 182, 183, 186, 187, 188, 189, 230],
+  5: [26, 27, 61, 62, 64, 68, 70, 76, 77, 83, 84, 85, 95, 96, 98, 106, 107, 108, 109, 110, 120, 121, 126, 130, 131, 132, 140, 157, 159, 160, 164, 166, 174, 185, 190, 191, 192, 193, 194, 210, 211, 214, 215, 216, 217, 222, 223, 238, 239, 279],
+  6: [48, 88, 89, 90, 94, 97, 99, 100, 111, 112, 113, 114, 115, 122, 123, 124, 125, 127, 133, 134, 136, 137, 141, 142, 144, 150, 156, 158, 165, 167, 168, 169, 171, 172, 178, 179, 180, 181, 184, 195, 196, 197, 198, 225, 228, 235, 236, 240],
+  7: [135, 143, 145, 146, 147, 161, 162, 163, 170, 173, 175, 176, 177, 199, 200, 201, 212, 218, 219, 220, 221, 224, 226, 227, 229, 231, 232, 233, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 280],
+  8: [1, 3, 4, 148, 149, 155, 213, 234, 237, 241, 242, 253, 254, 255, 256, 257, 258, 259, 260, 274, 275, 276, 277, 278],
+}
+
+// Build reverse lookup: word ID → level
+const _wordLevelMap = {}
+for (const [lvl, ids] of Object.entries(WORDS_BY_LEVEL)) {
+  for (const id of ids) {
+    _wordLevelMap[id] = Number(lvl)
+  }
+}
+
+/**
+ * Get the competency level at which a word becomes available.
+ * Returns 1 for unknown IDs (safe fallback).
+ */
+export function getWordLevel(wordId) {
+  return _wordLevelMap[wordId] || 1
+}
+
+/**
+ * Get all words available at a given competency level.
+ * A child at level N sees all words with getWordLevel(id) <= N.
+ *
+ * @param {number} level - Competency level 1-10
+ * @param {string} [categoryId] - Optional category filter
+ * @returns {Array} Filtered vocabulary words
+ */
+export function getWordsForLevel(level, categoryId) {
+  const maxLevel = Math.max(1, Math.min(10, level))
+  return VOCABULARY_WORDS.filter(w => {
+    if (categoryId && w.category !== categoryId) return false
+    return getWordLevel(w.id) <= maxLevel
+  })
+}
+
+/**
+ * Get words near the child's current level (for focused practice).
+ * Returns words from (level-1) to (level+1), prioritising current level.
+ * Falls back to all available words if too few in the focused range.
+ *
+ * @param {number} level - Competency level 1-10
+ * @param {string} [categoryId] - Optional category filter
+ * @param {number} [minWords=4] - Minimum words needed (falls back to wider range)
+ * @returns {Array} Filtered vocabulary words
+ */
+export function getWordsNearLevel(level, categoryId, minWords = 4) {
+  const clamped = Math.max(1, Math.min(10, level))
+  const lo = Math.max(1, clamped - 1)
+  const hi = Math.min(8, clamped + 1)
+  let words = VOCABULARY_WORDS.filter(w => {
+    if (categoryId && w.category !== categoryId) return false
+    const wl = getWordLevel(w.id)
+    return wl >= lo && wl <= hi
+  })
+  // If not enough words in the focused range, widen to all available
+  if (words.length < minWords) {
+    words = getWordsForLevel(clamped, categoryId)
+  }
+  return words
+}
+
 export const TEAMS = [
+  // Portugal
+  { name: 'Benfica', country: 'Portugal', colors: ['red', 'white'], mascot: 'eagle' },
+  { name: 'Sporting CP', country: 'Portugal', colors: ['green', 'white'], mascot: 'lion' },
+  { name: 'FC Porto', country: 'Portugal', colors: ['blue', 'white'], mascot: 'dragon' },
+  // Espanha
   { name: 'Barcelona', country: 'Spain', colors: ['red', 'blue'], mascot: 'lion' },
-  { name: 'Liverpool', country: 'England', colors: ['red'], mascot: 'bird' },
   { name: 'Real Madrid', country: 'Spain', colors: ['white'], mascot: 'eagle' },
+  // Inglaterra
+  { name: 'Liverpool', country: 'England', colors: ['red'], mascot: 'bird' },
+  { name: 'Manchester United', country: 'England', colors: ['red'], mascot: 'devil' },
+  { name: 'Manchester City', country: 'England', colors: ['blue'], mascot: 'eagle' },
+  // Europa
   { name: 'Bayern Munich', country: 'Germany', colors: ['red', 'white'], mascot: 'bear' },
   { name: 'PSG', country: 'France', colors: ['blue', 'red'], mascot: 'eagle' },
   { name: 'Juventus', country: 'Italy', colors: ['black', 'white'], mascot: 'zebra' },
+  { name: 'AC Milan', country: 'Italy', colors: ['red', 'black'], mascot: 'devil' },
+  { name: 'Borussia Dortmund', country: 'Germany', colors: ['yellow', 'black'], mascot: 'bee' },
+  // Selecoes
+  { name: 'Portugal', country: 'Portugal', colors: ['red', 'green'], mascot: 'eagle' },
   { name: 'Brasil', country: 'Brazil', colors: ['yellow', 'green'], mascot: 'bird' },
   { name: 'Argentina', country: 'Argentina', colors: ['white', 'blue'], mascot: 'lion' },
+  // Africa e outros
   { name: 'Al Ahly', country: 'Egypt', colors: ['red', 'white'], mascot: 'eagle' },
   { name: 'Flamengo', country: 'Brazil', colors: ['red', 'black'], mascot: 'bird' },
 ]
@@ -682,7 +811,12 @@ export const TEAMS = [
 export const PLAYERS = [
   { name: 'Messi', number: 10, team: 'Argentina', position: 'Avançado' },
   { name: 'Ronaldo', number: 7, team: 'Portugal', position: 'Avançado' },
+  { name: 'Neymar', number: 10, team: 'Brasil', position: 'Avançado' },
   { name: 'Mbappé', number: 7, team: 'França', position: 'Avançado' },
+  { name: 'Haaland', number: 9, team: 'Noruega', position: 'Avançado' },
+  { name: 'Vinícius Jr', number: 7, team: 'Brasil', position: 'Avançado' },
   { name: 'Salah', number: 11, team: 'Egipto', position: 'Avançado' },
+  { name: 'Bellingham', number: 5, team: 'Inglaterra', position: 'Médio' },
+  { name: 'Bernardo Silva', number: 20, team: 'Portugal', position: 'Médio' },
   { name: 'Eusébio', number: 10, team: 'Moçambique/Benfica', position: 'Avançado' },
 ]
