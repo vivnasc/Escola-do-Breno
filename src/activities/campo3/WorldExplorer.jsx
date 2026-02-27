@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { useTTS } from '../../hooks/useTTS'
 
 const FACTS = [
@@ -336,15 +337,18 @@ export default function WorldExplorer({
 
       <div style={styles.optionsList}>
         {current.options.map((opt) => (
-          <button
+          <OptionCard
             key={opt}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo3)"
+            state={
+              feedback === 'success' && opt === current.correct ? 'correct' : null
+            }
+            style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 'var(--space-md)', textAlign: 'left', fontWeight: 600, fontSize: 'var(--font-size-base)' }}
           >
             {opt}
-          </button>
+          </OptionCard>
         ))}
       </div>
 

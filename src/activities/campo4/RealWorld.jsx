@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { useTTS } from '../../hooks/useTTS'
 
 const CHALLENGES = [
@@ -422,15 +423,18 @@ export default function RealWorld({
 
       <div style={styles.optionsList}>
         {current.options.map((opt, i) => (
-          <button
+          <OptionCard
             key={i}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo4)"
+            state={
+              feedback === 'success' && opt.correct ? 'correct' : null
+            }
+            style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 'var(--space-md)', textAlign: 'left', fontWeight: 600, fontSize: 'var(--font-size-base)' }}
           >
             {opt.text}
-          </button>
+          </OptionCard>
         ))}
       </div>
 

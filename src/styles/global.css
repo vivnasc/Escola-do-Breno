@@ -116,6 +116,34 @@ a {
   min-width: 44px;
 }
 
+/* Remove tap highlight on mobile for custom touch feedback */
+button,
+[role="button"],
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Prevent text selection on interactive elements during touch */
+button,
+[role="button"] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth momentum scrolling on iOS */
+.scroll-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Touch action for interactive cards — prevent scroll jank */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
 /* Selection */
 ::selection {
   background: var(--color-primary-light);
@@ -126,6 +154,37 @@ a {
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .safe-area-bottom {
     padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile-first responsive adjustments */
+@media (max-width: 480px) {
+  html {
+    font-size: 15px;
+  }
+
+  /* Larger touch targets on small screens */
+  button,
+  [role="button"],
+  a {
+    min-height: 48px;
+    min-width: 48px;
+  }
+}
+
+/* Tablet layout */
+@media (min-width: 481px) and (max-width: 1024px) {
+  /* Optimal reading width */
+  .activity-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+}
+
+/* Landscape phone — compact layout */
+@media (max-height: 500px) and (orientation: landscape) {
+  .activity-header {
+    padding: var(--space-xs) var(--space-sm);
   }
 }
 

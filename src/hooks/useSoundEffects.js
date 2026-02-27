@@ -80,5 +80,22 @@ export function useSoundEffects(enabled = true) {
     playTone(1047, 0.5, 'triangle', 0.15, 0.35)
   }, [playTone])
 
-  return { success, error, click, celebrate, levelUp }
+  const whoosh = useCallback(() => {
+    // Quick filtered sweep — transition sound
+    const ctx = getCtx()
+    if (!ctx || !enabled) return
+    const osc = ctx.createOscillator()
+    const gain = ctx.createGain()
+    osc.type = 'sine'
+    osc.frequency.setValueAtTime(400, ctx.currentTime)
+    osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.15)
+    gain.gain.setValueAtTime(0.08, ctx.currentTime)
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2)
+    osc.connect(gain)
+    gain.connect(ctx.destination)
+    osc.start(ctx.currentTime)
+    osc.stop(ctx.currentTime + 0.2)
+  }, [getCtx, enabled])
+
+  return { success, error, click, celebrate, levelUp, whoosh }
 }

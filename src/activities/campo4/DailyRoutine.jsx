@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -143,16 +144,16 @@ export default function DailyRoutine({
 
       <div style={styles.optionsList}>
         {remaining.slice(0, adaptive?.choiceCount || 4).map((step) => (
-          <button
+          <OptionCard
             key={step.id}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleSelect(step)}
             disabled={feedback !== null}
+            color="var(--color-campo4)"
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left', fontWeight: 600, fontSize: 'var(--font-size-base)' }}
           >
             <span style={styles.optionEmoji}>{step.emoji}</span>
             <span>{step.text}</span>
-          </button>
+          </OptionCard>
         ))}
       </div>
 

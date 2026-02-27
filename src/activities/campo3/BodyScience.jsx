@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { useTTS } from '../../hooks/useTTS'
 
 const QUESTIONS = [
@@ -400,15 +401,18 @@ export default function BodyScience({
 
       <div style={styles.optionsList}>
         {current.options.map((opt, i) => (
-          <button
+          <OptionCard
             key={i}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(i)}
             disabled={feedback !== null}
+            color="var(--color-campo3)"
+            state={
+              feedback === 'success' && i === current.correct ? 'correct' : null
+            }
+            style={{ flexDirection: 'row', justifyContent: 'flex-start', padding: 'var(--space-md)', textAlign: 'left', fontWeight: 600, fontSize: 'var(--font-size-base)' }}
           >
             {opt}
-          </button>
+          </OptionCard>
         ))}
       </div>
 

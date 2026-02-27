@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { getContent } from '../../data/universeContent'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -150,16 +151,18 @@ export default function GoalMath({
 
       <div style={styles.optionsGrid}>
         {options.map((opt) => (
-          <button
+          <OptionCard
             key={opt}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo2)"
+            state={
+              feedback === 'success' && opt === problem.answer ? 'correct' : null
+            }
           >
             <span style={styles.optionBall}>{mathContent.icon}</span>
             <span style={styles.optionNumber}>{opt}</span>
-          </button>
+          </OptionCard>
         ))}
       </div>
 
