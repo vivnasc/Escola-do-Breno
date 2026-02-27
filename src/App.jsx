@@ -127,6 +127,72 @@ function LockedRoute({ activityId, campoId, subscription, children }) {
   return children
 }
 
+function PlansPreview({ onViewPlans, onContinue, profileName }) {
+  const previewStyles = {
+    overlay: { position: 'fixed', inset: 0, zIndex: 1000, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' },
+    card: { backgroundColor: 'white', borderRadius: '16px', padding: '24px', maxWidth: '420px', width: '100%', display: 'flex', flexDirection: 'column', gap: '16px', textAlign: 'center', maxHeight: '90vh', overflowY: 'auto' },
+    title: { fontSize: '1.3rem', fontWeight: 700, color: '#1B5E20' },
+    desc: { fontSize: '0.9rem', color: '#616161', lineHeight: 1.6 },
+    tierRow: { display: 'flex', gap: '8px' },
+    tierCard: { flex: 1, padding: '12px', borderRadius: '12px', border: '2px solid', display: 'flex', flexDirection: 'column', gap: '4px', alignItems: 'center' },
+    tierFree: { borderColor: '#A5D6A7', backgroundColor: '#E8F5E9' },
+    tierPaid: { borderColor: '#FFD54F', backgroundColor: '#FFF8E1' },
+    tierEmoji: { fontSize: '1.5rem' },
+    tierName: { fontWeight: 700, fontSize: '0.85rem' },
+    tierPrice: { fontSize: '0.75rem', color: '#757575' },
+    tierDetail: { fontSize: '0.7rem', color: '#9E9E9E', lineHeight: 1.3 },
+    currentBadge: { fontSize: '0.65rem', fontWeight: 700, color: '#2E7D32', backgroundColor: '#C8E6C9', padding: '2px 8px', borderRadius: '8px' },
+    highlight: { fontSize: '0.85rem', color: '#424242', lineHeight: 1.5, padding: '12px', backgroundColor: '#F5F5F5', borderRadius: '8px' },
+    primaryBtn: { padding: '14px', backgroundColor: '#2E7D32', color: 'white', border: 'none', borderRadius: '12px', fontWeight: 700, fontFamily: 'inherit', fontSize: '1rem', cursor: 'pointer', minHeight: '48px' },
+    secondaryBtn: { padding: '10px', backgroundColor: 'transparent', border: 'none', color: '#757575', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.9rem', textDecoration: 'underline', minHeight: '44px' },
+  }
+
+  return (
+    <div style={previewStyles.overlay}>
+      <div style={previewStyles.card}>
+        <span style={{ fontSize: '2.5rem' }}>🎉</span>
+        <p style={previewStyles.title}>Perfil criado com sucesso!</p>
+        <p style={previewStyles.desc}>
+          {profileName ? `A Escola do ${profileName} está pronta.` : 'A escola está pronta.'} Antes de começar, conhece os nossos planos:
+        </p>
+
+        <div style={previewStyles.tierRow}>
+          <div style={{ ...previewStyles.tierCard, ...previewStyles.tierFree }}>
+            <span style={previewStyles.tierEmoji}>🌱</span>
+            <span style={previewStyles.tierName}>Semente</span>
+            <span style={previewStyles.tierPrice}>Grátis</span>
+            <span style={previewStyles.currentBadge}>Plano actual</span>
+            <span style={previewStyles.tierDetail}>7 actividades (1 por campo) com 10 níveis completos</span>
+          </div>
+          <div style={{ ...previewStyles.tierCard, ...previewStyles.tierPaid }}>
+            <span style={previewStyles.tierEmoji}>🌸</span>
+            <span style={previewStyles.tierName}>Flor</span>
+            <span style={previewStyles.tierPrice}>5,99 / mês</span>
+            <span style={previewStyles.tierDetail}>35 actividades, 5 universos, até 5 perfis</span>
+          </div>
+          <div style={{ ...previewStyles.tierCard, ...previewStyles.tierPaid }}>
+            <span style={previewStyles.tierEmoji}>🌲</span>
+            <span style={previewStyles.tierName}>Floresta</span>
+            <span style={previewStyles.tierPrice}>14,99 / mês</span>
+            <span style={previewStyles.tierDetail}>Tudo + dashboard terapeuta + 20 perfis</span>
+          </div>
+        </div>
+
+        <p style={previewStyles.highlight}>
+          O plano grátis funciona de verdade — 7 actividades completas com todos os 10 níveis, TTS, acessibilidade e Banco da Calma incluídos.
+        </p>
+
+        <button style={previewStyles.primaryBtn} onClick={onViewPlans}>
+          Ver Planos em Detalhe
+        </button>
+        <button style={previewStyles.secondaryBtn} onClick={onContinue}>
+          Começar com o plano grátis
+        </button>
+      </div>
+    </div>
+  )
+}
+
 function AccountNudge({ auth, onLoginSync, onDismiss }) {
   const [mode, setMode] = useState(null) // null | 'register' | 'login'
   const [email, setEmail] = useState('')
@@ -242,6 +308,7 @@ function AccountNudge({ auth, onLoginSync, onDismiss }) {
 
 function AppContent() {
   const location = useLocation()
+  const navigate = useNavigate()
   const [showCalma, setShowCalma] = useState(false)
   const [showIntake, setShowIntake] = useState(false)
   const progressData = useProgress()
@@ -331,16 +398,21 @@ function AppContent() {
     profileData.switchProfile(id)
   }, [profileData])
 
-  // Post-onboarding nudge for account creation
+  // Post-onboarding nudge for account creation and plans preview
   const [showAccountNudge, setShowAccountNudge] = useState(false)
+  const [showPlansPreview, setShowPlansPreview] = useState(false)
+  const [newProfileName, setNewProfileName] = useState(null)
 
   const handleOnboardingComplete = useCallback((data) => {
     profileData.completeOnboarding(data)
     setShowIntake(false)
     setShowCalma(false)
     calmDown()
-    // If Supabase is configured but user isn't logged in, nudge to create account
-    if (auth.configured && !auth.user) {
+    // Show plans preview for free-tier users
+    if (!data.subscriptionTier || data.subscriptionTier === 'free') {
+      setNewProfileName(data.name || null)
+      setShowPlansPreview(true)
+    } else if (auth.configured && !auth.user) {
       setShowAccountNudge(true)
     }
   }, [profileData, calmDown, auth.configured, auth.user])
@@ -437,6 +509,22 @@ function AppContent() {
   return (
     <>
       {showCalma && <BancoDaCalma onClose={handleCloseCalma} />}
+      {showPlansPreview && (
+        <PlansPreview
+          profileName={newProfileName}
+          onViewPlans={() => {
+            setShowPlansPreview(false)
+            navigate('/planos')
+          }}
+          onContinue={() => {
+            setShowPlansPreview(false)
+            // After plans preview, offer account creation if Supabase is configured
+            if (auth.configured && !auth.user) {
+              setShowAccountNudge(true)
+            }
+          }}
+        />
+      )}
       {showAccountNudge && (
         <AccountNudge
           auth={auth}

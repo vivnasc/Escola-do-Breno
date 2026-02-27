@@ -293,6 +293,90 @@ const SCENARIOS = [
     ],
     lesson: 'As grandes conquistas são feitas de muitas pequenas vitórias. Cada passo conta, mesmo os que ninguém vê. Ser capaz de reconhecer o teu próprio progresso é uma força enorme.',
   },
+  {
+    title: 'Escolher entre Dois Amigos',
+    situation: 'Dois amigos diferentes convidam-te para actividades no mesmo dia. Não podes ir às duas. O que fazes?',
+    emoji: '🤔',
+    minLevel: 6,
+    options: [
+      { text: 'Escolho uma, explico honestamente ao outro e proponho marcar para outro dia', correct: true },
+      { text: 'Digo que sim aos dois e depois invento uma desculpa para um', correct: false },
+      { text: 'Não vou a nenhuma para não chatear ninguém', correct: false },
+    ],
+    lesson: 'Às vezes é preciso escolher. Ser honesto sobre as nossas escolhas é melhor do que inventar desculpas. Os verdadeiros amigos compreendem!',
+  },
+  {
+    title: 'Objectivo Difícil',
+    situation: 'Queres muito aprender a andar de bicicleta mas tens caído muitas vezes. O que pensas?',
+    emoji: '🚴',
+    minLevel: 3,
+    options: [
+      { text: 'Cada vez que caio, aprendo alguma coisa. Vou continuar a tentar!', correct: true },
+      { text: 'Não nasci para andar de bicicleta. Desisto.', correct: false },
+      { text: 'Só tento mais se alguém prometer que não vou cair', correct: false },
+    ],
+    lesson: 'Aprender coisas novas envolve errar muitas vezes. Cada tentativa, mesmo as falhadas, ensina algo. Os cientistas chamam a isto "aprender por tentativa e erro" — é assim que o cérebro aprende melhor!',
+  },
+  {
+    title: 'Gestão do Tempo de Ecrã',
+    situation: 'Estás a ver um vídeo no tablet há 2 horas e os teus pais pedem para parares. Como reages?',
+    emoji: '📱',
+    minLevel: 5,
+    options: [
+      { text: 'Paro depois de acabar o que estou a ver e vou fazer outra coisa', correct: true },
+      { text: 'Fico muito zangado e recuso-me a parar', correct: false },
+      { text: 'Finjo que não ouvi e continuo', correct: false },
+    ],
+    lesson: 'O tempo de ecrã é divertido mas precisa de limites. Quando paramos a tempo, temos energia para outras coisas boas: brincar, estar com a família, fazer desporto. Equilibrar é a chave!',
+  },
+  {
+    title: 'Respeitar Diferenças',
+    situation: 'Um colega novo na turma tem uma deficiência e alguns colegas riem-se dele. O que fazes?',
+    emoji: '🫂',
+    minLevel: 7,
+    options: [
+      { text: 'Defendo o colega, digo que rir não é fixe, e convido-o para brincar comigo', correct: true },
+      { text: 'Rio-me também para não ficar de fora', correct: false },
+      { text: 'Ignoro a situação porque não é problema meu', correct: false },
+    ],
+    lesson: 'Cada pessoa é diferente e merece respeito. Defenderes alguém que está a ser tratado mal é corajoso e mostra o tipo de pessoa que queres ser. Pequenos gestos de bondade fazem grande diferença.',
+  },
+  {
+    title: 'Quando Alguém Copia',
+    situation: 'Fizeste um desenho bonito e um colega copia-o e diz que foi ele que fez. O que fazes?',
+    emoji: '🎨',
+    minLevel: 6,
+    options: [
+      { text: 'Falo com o colega primeiro, e se não resolver, falo com o professor', correct: true },
+      { text: 'Grito para toda a turma ouvir que ele copiou', correct: false },
+      { text: 'Nunca mais faço desenhos bonitos para ninguém copiar', correct: false },
+    ],
+    lesson: 'Quando alguém copia o nosso trabalho, é normal ficar chateado. A melhor abordagem é falar primeiro com a pessoa, de forma calma. Se não resolver, pede ajuda a um adulto.',
+  },
+  {
+    title: 'Ajudar em Casa',
+    situation: 'A tua mãe está muito cansada depois do trabalho e a cozinha está desarrumada. O que fazes?',
+    emoji: '🏡',
+    minLevel: 4,
+    options: [
+      { text: 'Ofereço-me para ajudar a arrumar mesmo sem me pedirem', correct: true },
+      { text: 'Vou para o quarto brincar sem dizer nada', correct: false },
+      { text: 'Peço-lhe para fazer o jantar na mesma', correct: false },
+    ],
+    lesson: 'Ajudar sem que ninguém nos peça é uma forma de mostrar amor e responsabilidade. Quando vemos que alguém precisa de ajuda, agir é sempre a escolha certa.',
+  },
+  {
+    title: 'Promessa Difícil',
+    situation: 'Prometeste a um amigo que ias ao aniversário dele mas estás com dor de barriga. O que fazes?',
+    emoji: '🤝',
+    minLevel: 7,
+    options: [
+      { text: 'Ligo ao amigo a explicar que estou doente, peço desculpa e proponho celebrar noutro dia', correct: true },
+      { text: 'Vou na mesma mesmo doente porque prometi', correct: false },
+      { text: 'Não apareço e não digo nada', correct: false },
+    ],
+    lesson: 'Cumprir promessas é importante, mas a saúde vem primeiro. Quando não podemos cumprir, o mais importante é avisar e explicar. Uma comunicação honesta preserva a amizade.',
+  },
 ]
 
 export default function ProblemSolving({

@@ -5,23 +5,65 @@ import CompletionCelebration from '../../components/CompletionCelebration'
 import { useTTS } from '../../hooks/useTTS'
 
 const PATTERN_SETS = [
-  // Level 1: Simple AB patterns
+  // Level 1: Simple AB patterns (8 patterns)
   { sequence: ['⚽', '🏀', '⚽', '🏀', '⚽'], answer: '🏀', options: ['🏀', '⚽', '🎾'], level: 1 },
   { sequence: ['🔴', '🔵', '🔴', '🔵', '🔴'], answer: '🔵', options: ['🔵', '🔴', '🟢'], level: 1 },
   { sequence: ['🌙', '⭐', '🌙', '⭐', '🌙'], answer: '⭐', options: ['⭐', '🌙', '☀️'], level: 1 },
-  // Level 2: ABC patterns
+  { sequence: ['🍎', '🍌', '🍎', '🍌', '🍎'], answer: '🍌', options: ['🍌', '🍎', '🍊'], level: 1 },
+  { sequence: ['🐶', '🐱', '🐶', '🐱', '🐶'], answer: '🐱', options: ['🐱', '🐶', '🐰'], level: 1 },
+  { sequence: ['🔵', '🟡', '🔵', '🟡', '🔵'], answer: '🟡', options: ['🟡', '🔵', '🔴'], level: 1 },
+  { sequence: ['🌸', '🌼', '🌸', '🌼', '🌸'], answer: '🌼', options: ['🌼', '🌸', '🌻'], level: 1 },
+  { sequence: ['🚗', '🚌', '🚗', '🚌', '🚗'], answer: '🚌', options: ['🚌', '🚗', '🚁'], level: 1 },
+  // Level 2: ABC patterns (8 patterns)
   { sequence: ['🐕', '🐱', '🐦', '🐕', '🐱'], answer: '🐦', options: ['🐦', '🐕', '🐱', '🐟'], level: 2 },
   { sequence: ['1', '2', '3', '1', '2'], answer: '3', options: ['3', '1', '4', '2'], level: 2 },
   { sequence: ['🔺', '🟦', '⭕', '🔺', '🟦'], answer: '⭕', options: ['⭕', '🔺', '🟦', '🟨'], level: 2 },
-  // Level 2: AAB patterns
+  { sequence: ['🍎', '🍌', '🍇', '🍎', '🍌'], answer: '🍇', options: ['🍇', '🍎', '🍌', '🍊'], level: 2 },
+  { sequence: ['🌍', '🌙', '⭐', '🌍', '🌙'], answer: '⭐', options: ['⭐', '🌍', '🌙', '☀️'], level: 2 },
+  { sequence: ['🔴', '🟢', '🔵', '🔴', '🟢'], answer: '🔵', options: ['🔵', '🔴', '🟢', '🟡'], level: 2 },
+  { sequence: ['🐸', '🐝', '🦋', '🐸', '🐝'], answer: '🦋', options: ['🦋', '🐸', '🐝', '🐛'], level: 2 },
+  { sequence: ['🎵', '🎶', '🎸', '🎵', '🎶'], answer: '🎸', options: ['🎸', '🎵', '🎶', '🥁'], level: 2 },
+  // Level 2: AAB patterns (6 patterns)
   { sequence: ['⚽', '⚽', '🏀', '⚽', '⚽'], answer: '🏀', options: ['🏀', '⚽', '🎾'], level: 2 },
   { sequence: ['👏', '👏', '🦶', '👏', '👏'], answer: '🦶', options: ['🦶', '👏', '✋'], level: 2 },
-  // Level 3: Number sequences
+  { sequence: ['🔴', '🔴', '🔵', '🔴', '🔴'], answer: '🔵', options: ['🔵', '🔴', '🟢'], level: 2 },
+  { sequence: ['🌙', '🌙', '☀️', '🌙', '🌙'], answer: '☀️', options: ['☀️', '🌙', '⭐'], level: 2 },
+  { sequence: ['🐱', '🐱', '🐕', '🐱', '🐱'], answer: '🐕', options: ['🐕', '🐱', '🐰'], level: 2 },
+  { sequence: ['🎵', '🎵', '🥁', '🎵', '🎵'], answer: '🥁', options: ['🥁', '🎵', '🎸'], level: 2 },
+  // Level 3: Number sequences (10 patterns)
   { sequence: ['2', '4', '6', '8'], answer: '10', options: ['10', '9', '12', '7'], level: 3 },
   { sequence: ['5', '10', '15', '20'], answer: '25', options: ['25', '30', '22', '21'], level: 3 },
   { sequence: ['1', '3', '5', '7'], answer: '9', options: ['9', '8', '10', '11'], level: 3 },
-  // Level 3: Growing patterns
+  { sequence: ['3', '6', '9', '12'], answer: '15', options: ['15', '14', '13', '18'], level: 3 },
+  { sequence: ['10', '20', '30', '40'], answer: '50', options: ['50', '45', '60', '100'], level: 3 },
+  { sequence: ['1', '4', '7', '10'], answer: '13', options: ['13', '12', '14', '11'], level: 3 },
+  { sequence: ['2', '5', '8', '11'], answer: '14', options: ['14', '13', '15', '12'], level: 3 },
+  { sequence: ['4', '8', '12', '16'], answer: '20', options: ['20', '18', '24', '22'], level: 3 },
+  { sequence: ['100', '90', '80', '70'], answer: '60', options: ['60', '50', '65', '75'], level: 3 },
+  { sequence: ['1', '2', '4', '8'], answer: '16', options: ['16', '12', '10', '32'], level: 3 },
+  // Level 3: Growing/cycle patterns (6 patterns)
   { sequence: ['🌱', '🌿', '🌸', '🍎'], answer: '🌱', options: ['🌱', '🍎', '🌸', '🌿'], level: 3, note: 'O ciclo recomeça!' },
+  { sequence: ['🥚', '🐣', '🐥', '🐔'], answer: '🥚', options: ['🥚', '🐔', '🐣', '🐥'], level: 3, note: 'O ciclo da vida recomeça!' },
+  { sequence: ['🌑', '🌓', '🌕', '🌗'], answer: '🌑', options: ['🌑', '🌕', '🌓', '🌗'], level: 3, note: 'As fases da Lua repetem-se!' },
+  { sequence: ['❄️', '🌸', '☀️', '🍂'], answer: '❄️', options: ['❄️', '🍂', '☀️', '🌸'], level: 3, note: 'As estações do ano repetem-se!' },
+  { sequence: ['🔴', '🟠', '🟡', '🟢', '🔵'], answer: '🟣', options: ['🟣', '🔴', '🟡', '🔵'], level: 3, note: 'As cores do arco-íris!' },
+  { sequence: ['1', '1', '2', '3', '5'], answer: '8', options: ['8', '7', '6', '10'], level: 3, note: 'Cada número é a soma dos dois anteriores (Fibonacci)!' },
+  // Level 4: ABBA and complex patterns (8 patterns)
+  { sequence: ['🔴', '🔵', '🔵', '🔴', '🔴'], answer: '🔵', options: ['🔵', '🔴', '🟢', '🟡'], level: 4 },
+  { sequence: ['🐱', '🐕', '🐕', '🐱', '🐱'], answer: '🐕', options: ['🐕', '🐱', '🐰', '🐦'], level: 4 },
+  { sequence: ['⚽', '🏀', '🎾', '⚽', '🏀', '🎾', '⚽'], answer: '🏀', options: ['🏀', '⚽', '🎾', '🏐'], level: 4 },
+  { sequence: ['🌙', '⭐', '⭐', '🌙', '⭐', '⭐', '🌙'], answer: '⭐', options: ['⭐', '🌙', '☀️', '🌍'], level: 4 },
+  { sequence: ['A', 'B', 'C', 'D', 'E', 'F'], answer: 'G', options: ['G', 'H', 'F', 'A'], level: 4 },
+  { sequence: ['Z', 'Y', 'X', 'W'], answer: 'V', options: ['V', 'U', 'T', 'S'], level: 4 },
+  { sequence: ['50', '45', '40', '35'], answer: '30', options: ['30', '25', '35', '20'], level: 4 },
+  { sequence: ['1', '3', '9', '27'], answer: '81', options: ['81', '54', '36', '30'], level: 4, note: 'Cada número é o triplo do anterior!' },
+  // Level 5: Advanced mixed patterns (6 patterns)
+  { sequence: ['1', '4', '9', '16'], answer: '25', options: ['25', '20', '24', '36'], level: 5, note: 'São quadrados perfeitos: 1x1, 2x2, 3x3, 4x4, 5x5!' },
+  { sequence: ['🔴', '🔴', '🔵', '🔵', '🔵', '🔴', '🔴', '🔴'], answer: '🔵', options: ['🔵', '🔴', '🟢', '🟡'], level: 5, note: 'O número de cada cor cresce!' },
+  { sequence: ['2', '6', '12', '20'], answer: '30', options: ['30', '28', '24', '32'], level: 5, note: 'A diferença entre números cresce: +4, +6, +8, +10!' },
+  { sequence: ['🌱', '🌱', '🌿', '🌿', '🌿', '🌸', '🌸', '🌸', '🌸'], answer: '🍎', options: ['🍎', '🌸', '🌿', '🌱'], level: 5, note: 'Cada símbolo aparece uma vez mais!' },
+  { sequence: ['1', '2', '4', '7', '11'], answer: '16', options: ['16', '15', '14', '17'], level: 5, note: 'A diferença entre números cresce: +1, +2, +3, +4, +5!' },
+  { sequence: ['3', '5', '9', '17'], answer: '33', options: ['33', '25', '34', '31'], level: 5, note: 'Cada número é o dobro do anterior menos 1!' },
 ]
 
 function shuffle(arr) {
@@ -43,7 +85,8 @@ export default function Patterns({
 }) {
   const { speak } = useTTS()
   const difficulty = adaptive?.difficulty || 1
-  const maxLevel = difficulty === 1 ? 1 : difficulty === 2 ? 2 : 3
+  const campoLevel = adaptive?.campoLevel?.campo2 || 1
+  const maxLevel = campoLevel <= 2 ? 1 : campoLevel <= 4 ? 2 : campoLevel <= 6 ? 3 : campoLevel <= 8 ? 4 : 5
 
   const items = useMemo(
     () => shuffle(PATTERN_SETS.filter((p) => p.level <= maxLevel)).slice(0, 8),

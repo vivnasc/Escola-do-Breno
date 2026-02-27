@@ -245,6 +245,90 @@ const CHALLENGES = [
     ],
     tip: 'Preparar a mochila na noite anterior: olha o horário, faz uma lista mental (cadernos, materiais, equipamento) e verifica tudo. Assim de manhã estás tranquilo e não te esqueces de nada!',
   },
+  {
+    title: 'Na Farmácia',
+    situation: 'A tua mãe pediu-te para ir buscar pensos rápidos à farmácia. O que fazes?',
+    emoji: '💊',
+    minLevel: 7,
+    options: [
+      { text: 'Entro, peço pensos rápidos ao farmacêutico, pago e trago o troco', correct: true },
+      { text: 'Procuro sozinho pelas prateleiras sem pedir ajuda', correct: false },
+      { text: 'Compro pastilhas em vez dos pensos', correct: false },
+    ],
+    tip: 'Na farmácia: o farmacêutico está lá para ajudar. Diz o que precisas com clareza. Se não souberes o nome exacto, descreve o que é.',
+  },
+  {
+    title: 'Encontrar o Caminho',
+    situation: 'Estás a voltar da escola por um caminho novo e ficas confuso. O que fazes?',
+    emoji: '🗺️',
+    minLevel: 6,
+    options: [
+      { text: 'Paro, olho à volta à procura de algo que conheça, e se não encontrar peço ajuda a um adulto', correct: true },
+      { text: 'Corro em qualquer direcção até encontrar algo familiar', correct: false },
+      { text: 'Sento-me no chão e choro', correct: false },
+    ],
+    tip: 'Se te perderes: pára, respira, olha à volta. Procura referências que conheças (lojas, parques). Se não encontrares, pede ajuda a um adulto de confiança.',
+  },
+  {
+    title: 'Receber Visitas',
+    situation: 'Um amigo dos teus pais vem jantar a tua casa. Como te comportas?',
+    emoji: '🏠',
+    minLevel: 5,
+    options: [
+      { text: 'Cumprimento, digo "boa noite" e ofereço-me para ajudar a pôr a mesa', correct: true },
+      { text: 'Vou para o quarto e fecho a porta', correct: false },
+      { text: 'Falo sem parar sobre o meu jogo preferido', correct: false },
+    ],
+    tip: 'Quando recebemos visitas: cumprimentar, ser simpático, ajudar e saber quando dar espaço aos adultos para conversarem.',
+  },
+  {
+    title: 'No Correio',
+    situation: 'Precisas de enviar uma carta para a avó. O que fazes nos correios?',
+    emoji: '📮',
+    minLevel: 8,
+    options: [
+      { text: 'Vou ao balcão, peço um selo, colo-o no envelope com a morada da avó e ponho no correio', correct: true },
+      { text: 'Ponho a carta sem selo numa caixa qualquer', correct: false },
+      { text: 'Espero que alguém a leve por mim', correct: false },
+    ],
+    tip: 'Para enviar uma carta: escreve a morada completa (nome, rua, código postal, cidade), compra um selo nos correios e deposita no marco do correio.',
+  },
+  {
+    title: 'Cuidar de um Animal',
+    situation: 'Vais cuidar do cão de um vizinho durante o fim de semana. O que é essencial?',
+    emoji: '🐕',
+    minLevel: 7,
+    options: [
+      { text: 'Dar comida e água fresca, levá-lo a passear e dar-lhe carinho', correct: true },
+      { text: 'Dar-lhe comida uma vez e deixá-lo fechado o fim de semana todo', correct: false },
+      { text: 'Brincar com ele o dia todo sem parar', correct: false },
+    ],
+    tip: 'Cuidar de um animal: água fresca sempre disponível, comida nos horários certos, passeios para exercício e necessidades, e carinho. Pergunta ao dono as rotinas específicas!',
+  },
+  {
+    title: 'Esperar Pacientemente',
+    situation: 'Estás na sala de espera do médico e a consulta está atrasada 30 minutos. O que fazes?',
+    emoji: '⏰',
+    minLevel: 6,
+    options: [
+      { text: 'Espero com calma, leio um livro ou desenho enquanto espero', correct: true },
+      { text: 'Vou-me embora porque está a demorar muito', correct: false },
+      { text: 'Reclamo em voz alta para toda a gente ouvir', correct: false },
+    ],
+    tip: 'Esperar faz parte da vida. Ter algo para fazer enquanto esperas (livro, desenho, jogo calmo) torna a espera mais fácil. Lembra-te que o atraso pode ser porque alguém precisou de mais ajuda.',
+  },
+  {
+    title: 'Lidar com Chuva Inesperada',
+    situation: 'Estás a caminho da escola e começa a chover muito. Não trouxeste guarda-chuva. O que fazes?',
+    emoji: '🌧️',
+    minLevel: 3,
+    options: [
+      { text: 'Procuro abrigo (telheiro, loja), espero passar a chuva forte ou peço ajuda a alguém', correct: true },
+      { text: 'Corro o mais rápido possível sem olhar para os carros', correct: false },
+      { text: 'Volto para casa e falto à escola', correct: false },
+    ],
+    tip: 'Na chuva inesperada: procura abrigo seguro, espera passar o pior e depois continua com cuidado. Se tens telemóvel, liga aos teus pais.',
+  },
 ]
 
 export default function RealWorld({
