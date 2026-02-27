@@ -19,6 +19,18 @@ const TASK_SETS = [
     ],
   },
   {
+    title: 'Preparar para Sair',
+    emoji: '🚪',
+    minLevel: 2,
+    tasks: [
+      { id: 'p1', text: 'Escovar os dentes', emoji: '🪥', order: 1 },
+      { id: 'p2', text: 'Vestir-se', emoji: '👕', order: 2 },
+      { id: 'p3', text: 'Calçar os sapatos', emoji: '👟', order: 3 },
+      { id: 'p4', text: 'Pegar na mochila', emoji: '🎒', order: 4 },
+      { id: 'p5', text: 'Sair de casa', emoji: '🚪', order: 5 },
+    ],
+  },
+  {
     title: 'Manhã de Fim de Semana',
     emoji: '🌅',
     minLevel: 3,
@@ -31,6 +43,18 @@ const TASK_SETS = [
     ],
   },
   {
+    title: 'Dia de Praia',
+    emoji: '🏖️',
+    minLevel: 4,
+    tasks: [
+      { id: 'b1', text: 'Vestir o fato de banho', emoji: '🩱', order: 1 },
+      { id: 'b2', text: 'Pôr protector solar', emoji: '🧴', order: 2 },
+      { id: 'b3', text: 'Levar toalha e água', emoji: '🧳', order: 3 },
+      { id: 'b4', text: 'Brincar na praia', emoji: '🏖️', order: 4 },
+      { id: 'b5', text: 'Tomar banho para tirar a areia', emoji: '🚿', order: 5 },
+    ],
+  },
+  {
     title: 'Depois da Escola',
     emoji: '🏠',
     minLevel: 5,
@@ -40,6 +64,42 @@ const TASK_SETS = [
       { id: 'a3', text: 'Tomar banho', emoji: '🚿', order: 3 },
       { id: 'a4', text: 'Jantar com a família', emoji: '🍽️', order: 4 },
       { id: 'a5', text: 'Preparar para dormir', emoji: '🌙', order: 5 },
+    ],
+  },
+  {
+    title: 'Festa de Aniversário',
+    emoji: '🎂',
+    minLevel: 6,
+    tasks: [
+      { id: 'f1', text: 'Vestir roupa bonita', emoji: '👔', order: 1 },
+      { id: 'f2', text: 'Embrulhar o presente', emoji: '🎁', order: 2 },
+      { id: 'f3', text: 'Ir para a festa', emoji: '🎈', order: 3 },
+      { id: 'f4', text: 'Cantar os parabéns e comer bolo', emoji: '🎂', order: 4 },
+      { id: 'f5', text: 'Agradecer e despedir-se', emoji: '👋', order: 5 },
+    ],
+  },
+  {
+    title: 'Viagem de Carro',
+    emoji: '🚗',
+    minLevel: 7,
+    tasks: [
+      { id: 'v1', text: 'Preparar a mochila com snacks e água', emoji: '🎒', order: 1 },
+      { id: 'v2', text: 'Ir à casa de banho antes de sair', emoji: '🚻', order: 2 },
+      { id: 'v3', text: 'Pôr o cinto de segurança', emoji: '🚗', order: 3 },
+      { id: 'v4', text: 'Fazer uma pausa a meio da viagem', emoji: '☕', order: 4 },
+      { id: 'v5', text: 'Chegar ao destino e arrumar as coisas', emoji: '🏠', order: 5 },
+    ],
+  },
+  {
+    title: 'Cozinhar com a Família',
+    emoji: '👨‍🍳',
+    minLevel: 8,
+    tasks: [
+      { id: 'c1', text: 'Lavar as mãos', emoji: '🧼', order: 1 },
+      { id: 'c2', text: 'Ler a receita e juntar os ingredientes', emoji: '📋', order: 2 },
+      { id: 'c3', text: 'Preparar e cozinhar a comida', emoji: '🍳', order: 3 },
+      { id: 'c4', text: 'Pôr a mesa', emoji: '🍽️', order: 4 },
+      { id: 'c5', text: 'Comer e lavar a loiça', emoji: '🫧', order: 5 },
     ],
   },
 ]

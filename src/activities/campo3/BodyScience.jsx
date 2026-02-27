@@ -197,6 +197,116 @@ const QUESTIONS = [
     fact: 'O sistema imunitário é como um exército dentro do corpo. Os glóbulos brancos atacam vírus e bactérias para nos manter saudáveis. A febre é uma forma de combater infecções!',
     minLevel: 8,
   },
+  {
+    question: 'Porque temos dois olhos e não um?',
+    options: [
+      'Para ver em profundidade e calcular distâncias',
+      'Para ver duas coisas ao mesmo tempo',
+      'Porque um é suplente do outro',
+    ],
+    correct: 0,
+    fact: 'Dois olhos dão-nos visão binocular: o cérebro junta as duas imagens para calcular distâncias. É por isso que consegues agarrar uma bola!',
+    minLevel: 5,
+  },
+  {
+    question: 'O que acontece quando temos fome?',
+    options: [
+      'O estômago contrai-se e envia sinais ao cérebro',
+      'Os ossos ficam mais finos',
+      'Os olhos ficam vermelhos',
+    ],
+    correct: 0,
+    fact: 'Quando o estômago está vazio, contrai-se e produz sons (o "roncar" da barriga). O cérebro recebe sinais hormonais de que é hora de comer!',
+    minLevel: 3,
+  },
+  {
+    question: 'Porque bocejamos?',
+    options: [
+      'Para levar mais oxigénio ao cérebro quando estamos cansados',
+      'Porque estamos tristes',
+      'Porque a boca está seca',
+    ],
+    correct: 0,
+    fact: 'O bocejo traz uma grande quantidade de ar fresco ao cérebro. E é contagioso — quando vês alguém bocejar, provavelmente também vais bocejar!',
+    minLevel: 4,
+  },
+  {
+    question: 'O que faz o fígado?',
+    options: [
+      'Limpa o sangue e ajuda na digestão',
+      'Faz o coração bater',
+      'Produz os ossos',
+    ],
+    correct: 0,
+    fact: 'O fígado é a maior fábrica química do corpo! Filtra o sangue, armazena vitaminas e produz bílis para digerir gorduras. É o único órgão que se pode regenerar!',
+    minLevel: 7,
+  },
+  {
+    question: 'Porque sentimos cócegas?',
+    options: [
+      'Porque a pele tem terminações nervosas muito sensíveis',
+      'Porque os músculos contraem sozinhos',
+      'Porque os ossos vibram',
+    ],
+    correct: 0,
+    fact: 'As cócegas são uma resposta do sistema nervoso ao toque leve. Curiosamente, não conseguimos fazer cócegas a nós próprios porque o cérebro prevê o toque!',
+    minLevel: 6,
+  },
+  {
+    question: 'Quantos litros de ar respiramos por dia?',
+    options: [
+      'Cerca de 11.000 litros',
+      'Cerca de 100 litros',
+      'Cerca de 1 milhão de litros',
+    ],
+    correct: 0,
+    fact: 'Respiramos cerca de 11.000 litros de ar por dia! O ar contém oxigénio (21%) que o corpo precisa para transformar comida em energia.',
+    minLevel: 8,
+  },
+  {
+    question: 'O que são as impressões digitais?',
+    options: [
+      'Padrões únicos na ponta dos dedos que ninguém mais tem',
+      'Marcas que aparecem quando ficamos velhos',
+      'Cicatrizes dos dedos',
+    ],
+    correct: 0,
+    fact: 'Cada pessoa no mundo tem impressões digitais únicas — até gémeos idênticos! Formam-se antes de nascermos e nunca mudam ao longo da vida.',
+    minLevel: 5,
+  },
+  {
+    question: 'Porque ficamos com a pele "de galinha" quando temos frio?',
+    options: [
+      'Porque os músculos minúsculos puxam os pelos para cima para manter o calor',
+      'Porque a pele está a crescer',
+      'Porque os ossos tremem',
+    ],
+    correct: 0,
+    fact: 'A "pele de galinha" é uma resposta automática: os músculos junto aos pelos contraem-se para os levantar, criando uma camada de ar quente. Nos animais com pelo grosso funciona muito bem!',
+    minLevel: 7,
+  },
+  {
+    question: 'Que parte do corpo produz a voz?',
+    options: [
+      'As cordas vocais na laringe',
+      'A língua',
+      'Os pulmões',
+    ],
+    correct: 0,
+    fact: 'A voz é produzida quando o ar dos pulmões passa pelas cordas vocais e as faz vibrar. A língua, os lábios e os dentes ajudam a formar as palavras!',
+    minLevel: 4,
+  },
+  {
+    question: 'Porque é que temos sobrancelhas?',
+    options: [
+      'Para impedir que o suor e a chuva entrem nos olhos',
+      'Apenas para decoração',
+      'Para nos fazer parecer zangados',
+    ],
+    correct: 0,
+    fact: 'As sobrancelhas são como pequenos telhados para os olhos! Desviam o suor e a água da chuva para os lados, protegendo a nossa visão.',
+    minLevel: 3,
+  },
 ]
 
 export default function BodyScience({
