@@ -2,6 +2,7 @@ import { useState, useCallback, useMemo, useEffect } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { useTTS } from '../../hooks/useTTS'
 
 // Each country has a minLevel — included when campoLevel >= minLevel
@@ -171,15 +172,18 @@ export default function FlagMatch({
 
       <div style={styles.optionsGrid}>
         {options.map((opt) => (
-          <button
+          <OptionCard
             key={opt.name}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo3)"
+            state={
+              feedback === 'success' && opt.name === country.name ? 'correct' : null
+            }
+            style={{ padding: 'var(--space-lg)', fontSize: 'var(--font-size-base)', fontWeight: 700, textAlign: 'center' }}
           >
             {opt.name}
-          </button>
+          </OptionCard>
         ))}
       </div>
 

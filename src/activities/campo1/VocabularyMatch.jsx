@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { VOCABULARY_WORDS, VOCABULARY_CATEGORIES, getWordContext, getWordsForLevel, getWordLevel } from '../../data/vocabulary'
 import { useTTS } from '../../hooks/useTTS'
 
@@ -146,16 +147,20 @@ export default function VocabularyMatch({
 
       <div style={styles.optionsGrid}>
         {options.map((opt) => (
-          <button
+          <OptionCard
             key={opt.id}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo1)"
+            state={
+              feedback === 'success' && opt.id === currentWord.id ? 'correct'
+              : feedback === 'tryAgain' && opt.id !== currentWord.id ? null
+              : null
+            }
           >
             <span style={styles.optionEmoji}>{opt.emoji}</span>
             <span style={styles.optionPt}>{opt.pt}</span>
-          </button>
+          </OptionCard>
         ))}
       </div>
 

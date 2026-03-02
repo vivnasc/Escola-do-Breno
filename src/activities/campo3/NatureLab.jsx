@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import ActivityShell from '../../components/ActivityShell'
 import FeedbackMessage from '../../components/FeedbackMessage'
 import CompletionCelebration from '../../components/CompletionCelebration'
+import OptionCard from '../../components/OptionCard'
 import { useTTS } from '../../hooks/useTTS'
 
 const EXPERIMENTS = [
@@ -506,16 +507,19 @@ export default function NatureLab({
 
       <div style={styles.optionsList}>
         {current.options.map((opt, i) => (
-          <button
+          <OptionCard
             key={i}
-            className="btn-press"
-            style={styles.optionBtn}
             onClick={() => handleAnswer(opt)}
             disabled={feedback !== null}
+            color="var(--color-campo3)"
+            state={
+              feedback === 'success' && opt.correct ? 'correct' : null
+            }
+            style={{ flexDirection: 'row', alignItems: 'center', gap: 'var(--space-md)', padding: 'var(--space-md)', textAlign: 'left', fontWeight: 600, fontSize: 'var(--font-size-base)' }}
           >
             <span style={styles.optionEmoji}>{opt.emoji}</span>
             <span>{opt.text}</span>
-          </button>
+          </OptionCard>
         ))}
       </div>
 

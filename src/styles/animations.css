@@ -232,3 +232,238 @@
 .progress-animated {
   animation: progressFill var(--transition-slow) ease-out;
 }
+
+/* === Enhanced Mobile UX Animations === */
+
+/* Gentle shake for wrong answers — not aggressive, just a nudge */
+@keyframes gentleShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.animate-shake {
+  animation: gentleShake 0.4s ease-out;
+}
+
+/* Slide in from bottom — for feedback messages and modals */
+@keyframes slideUpBounce {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.95);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-slide-up-bounce {
+  animation: slideUpBounce 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Slide out down — for dismissing feedback */
+@keyframes slideOutDown {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+  }
+}
+
+.animate-slide-out-down {
+  animation: slideOutDown 0.3s ease-in forwards;
+}
+
+/* Ripple effect for touch feedback */
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Pulse glow — draws attention to tappable elements */
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(46, 125, 50, 0);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* Float up and fade — for success particles */
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.5);
+  }
+}
+
+/* Enhanced confetti with rotation and drift */
+@keyframes confettiDrift {
+  0% {
+    opacity: 1;
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  25% {
+    transform: translateY(40px) translateX(15px) rotate(180deg) scale(0.9);
+  }
+  50% {
+    transform: translateY(90px) translateX(-10px) rotate(360deg) scale(0.8);
+  }
+  75% {
+    opacity: 0.6;
+    transform: translateY(140px) translateX(20px) rotate(540deg) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(200px) translateX(-5px) rotate(720deg) scale(0.3);
+  }
+}
+
+/* Firework burst — particles fly outward from center */
+@keyframes fireworkBurst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(var(--burst-x, 30px), var(--burst-y, -30px)) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--burst-x, 30px) * 1.5), calc(var(--burst-y, -30px) * 1.5 + 20px)) scale(0);
+  }
+}
+
+/* Star spin — stars rotate and grow */
+@keyframes starSpin {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* TTS speaking indicator — pulsing dots */
+@keyframes speakingDot {
+  0%, 100% {
+    transform: scaleY(0.4);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* Swipe hint — shows users they can swipe */
+@keyframes swipeHint {
+  0%, 100% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  15% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(-20px);
+  }
+  85% {
+    opacity: 0;
+  }
+}
+
+.animate-swipe-hint {
+  animation: swipeHint 2s ease-in-out 1s 2;
+}
+
+/* Option card press — deeper press with spring back */
+.option-card {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+}
+
+.option-card:active {
+  transform: scale(0.95);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+/* Success border flash */
+.option-card-correct {
+  border-color: var(--color-success) !important;
+  background-color: #E8F5E9 !important;
+  animation: successPulse 0.4s ease-out;
+}
+
+/* Error gentle shake */
+.option-card-wrong {
+  animation: gentleShake 0.4s ease-out;
+}
+
+/* Score counter pop */
+@keyframes scorePop {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.35); }
+  60% { transform: scale(0.95); }
+  100% { transform: scale(1); }
+}
+
+.animate-score-pop {
+  animation: scorePop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Progress bar smooth fill with glow */
+.progress-bar-fill {
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4));
+  border-radius: inherit;
+}
